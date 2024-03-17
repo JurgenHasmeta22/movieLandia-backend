@@ -205,7 +205,7 @@ export const options = {
                         duration: '148 minutes',
                     },
                 },
-                UserMovie: {
+                UserFavoriteMovie: {
                     type: 'object',
                     properties: {
                         id: {
@@ -526,7 +526,7 @@ export const options = {
                         duration: '60 minutes',
                     },
                 },
-                UserGenre: {
+                UserFavoriteGenre: {
                     type: 'object',
                     properties: {
                         id: {
@@ -553,7 +553,7 @@ export const options = {
                         },
                     },
                 },
-                UserSerie: {
+                UserFavoriteSerie: {
                     type: 'object',
                     properties: {
                         id: {
@@ -580,7 +580,7 @@ export const options = {
                         },
                     },
                 },
-                UserEpisode: {
+                UserFavoriteEpisode: {
                     type: 'object',
                     properties: {
                         id: {
@@ -663,7 +663,7 @@ export const options = {
             },
         ],
         paths: {
-            '/movies': {
+            '/getMovies': {
                 get: {
                     summary: 'Returns the list of all the movies',
                     tags: ['Movies'],
@@ -755,42 +755,8 @@ export const options = {
                         },
                     },
                 },
-                post: {
-                    summary: 'Create a new movie',
-                    tags: ['Movies'],
-                    security: [
-                        {
-                            bearerAuth: [],
-                        },
-                    ],
-                    requestBody: {
-                        required: true,
-                        content: {
-                            'application/json': {
-                                schema: {
-                                    $ref: '#/components/schemas/MoviePost',
-                                },
-                            },
-                        },
-                    },
-                    responses: {
-                        '200': {
-                            description: 'The movie was successfully created',
-                            content: {
-                                'application/json': {
-                                    schema: {
-                                        $ref: '#/components/schemas/MoviePost',
-                                    },
-                                },
-                            },
-                        },
-                        '500': {
-                            description: 'Some server error',
-                        },
-                    },
-                },
             },
-            '/movies/{id}': {
+            '/getMovieById/{id}': {
                 get: {
                     summary: 'Get the movie by id',
                     tags: ['Movies'],
@@ -826,34 +792,8 @@ export const options = {
                         },
                     },
                 },
-                delete: {
-                    summary: 'Remove the movie by id',
-                    tags: ['Movies'],
-                    security: [
-                        {
-                            bearerAuth: [],
-                        },
-                    ],
-                    parameters: [
-                        {
-                            in: 'path',
-                            name: 'id',
-                            schema: {
-                                type: 'number',
-                            },
-                            required: true,
-                            description: 'The movie id',
-                        },
-                    ],
-                    responses: {
-                        '200': {
-                            description: 'The movie was deleted',
-                        },
-                        '404': {
-                            description: 'The movie was not found',
-                        },
-                    },
-                },
+            },
+            '/updateMovieById/{id}': {
                 patch: {
                     summary: 'Update the movie by the id',
                     tags: ['Movies'],
@@ -951,7 +891,73 @@ export const options = {
                     },
                 },
             },
-            '/movies/{title}': {
+            'deleteMovieById/{id}': {
+                delete: {
+                    summary: 'Remove the movie by id',
+                    tags: ['Movies'],
+                    security: [
+                        {
+                            bearerAuth: [],
+                        },
+                    ],
+                    parameters: [
+                        {
+                            in: 'path',
+                            name: 'id',
+                            schema: {
+                                type: 'number',
+                            },
+                            required: true,
+                            description: 'The movie id',
+                        },
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'The movie was deleted',
+                        },
+                        '404': {
+                            description: 'The movie was not found',
+                        },
+                    },
+                },
+            },
+            addMovie: {
+                post: {
+                    summary: 'Create a new movie',
+                    tags: ['Movies'],
+                    security: [
+                        {
+                            bearerAuth: [],
+                        },
+                    ],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    $ref: '#/components/schemas/MoviePost',
+                                },
+                            },
+                        },
+                    },
+                    responses: {
+                        '200': {
+                            description: 'The movie was successfully created',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        $ref: '#/components/schemas/MoviePost',
+                                    },
+                                },
+                            },
+                        },
+                        '500': {
+                            description: 'Some server error',
+                        },
+                    },
+                },
+            },
+            '/getMovieByTitle/{title}': {
                 get: {
                     summary: 'Get the movie by title',
                     tags: ['Movies'],
@@ -1115,7 +1121,7 @@ export const options = {
                     },
                 },
             },
-            '/genres': {
+            '/getGenres': {
                 get: {
                     summary: 'Get all genres',
                     tags: ['Genres'],
@@ -1149,6 +1155,8 @@ export const options = {
                         },
                     },
                 },
+            },
+            addGenre: {
                 post: {
                     summary: 'Create a new genre',
                     tags: ['Genres'],
@@ -1180,68 +1188,7 @@ export const options = {
                     },
                 },
             },
-            '/genres/{id}': {
-                get: {
-                    summary: 'Get a genre by ID',
-                    tags: ['Genres'],
-                    security: [{ bearerAuth: [] }],
-                    parameters: [
-                        {
-                            in: 'path',
-                            name: 'id',
-                            schema: {
-                                type: 'number',
-                            },
-                            required: true,
-                            description: 'ID of the genre to retrieve',
-                        },
-                    ],
-                    responses: {
-                        '200': {
-                            description: 'Genre found',
-                            content: {
-                                'application/json': {
-                                    schema: {
-                                        $ref: '#/components/schemas/Genre',
-                                    },
-                                },
-                            },
-                        },
-                        '404': {
-                            description: 'Genre not found',
-                        },
-                        '500': {
-                            description: 'Internal Server Error',
-                        },
-                    },
-                },
-                delete: {
-                    summary: 'Delete a genre by ID',
-                    tags: ['Genres'],
-                    security: [{ bearerAuth: [] }],
-                    parameters: [
-                        {
-                            in: 'path',
-                            name: 'id',
-                            schema: {
-                                type: 'number',
-                            },
-                            required: true,
-                            description: 'ID of the genre to delete',
-                        },
-                    ],
-                    responses: {
-                        '200': {
-                            description: 'Genre deleted',
-                        },
-                        '404': {
-                            description: 'Genre not found',
-                        },
-                        '500': {
-                            description: 'Internal Server Error',
-                        },
-                    },
-                },
+            'updateGenreById/{id}': {
                 put: {
                     summary: 'Update a genre by ID',
                     tags: ['Genres'],
@@ -1331,7 +1278,72 @@ export const options = {
                     },
                 },
             },
-            '/genres/{name}': {
+            'deleteGenreById/{id}': {
+                delete: {
+                    summary: 'Delete a genre by ID',
+                    tags: ['Genres'],
+                    security: [{ bearerAuth: [] }],
+                    parameters: [
+                        {
+                            in: 'path',
+                            name: 'id',
+                            schema: {
+                                type: 'number',
+                            },
+                            required: true,
+                            description: 'ID of the genre to delete',
+                        },
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'Genre deleted',
+                        },
+                        '404': {
+                            description: 'Genre not found',
+                        },
+                        '500': {
+                            description: 'Internal Server Error',
+                        },
+                    },
+                },
+            },
+            '/getGenresById/{id}': {
+                get: {
+                    summary: 'Get a genre by ID',
+                    tags: ['Genres'],
+                    security: [{ bearerAuth: [] }],
+                    parameters: [
+                        {
+                            in: 'path',
+                            name: 'id',
+                            schema: {
+                                type: 'number',
+                            },
+                            required: true,
+                            description: 'ID of the genre to retrieve',
+                        },
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'Genre found',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        $ref: '#/components/schemas/Genre',
+                                    },
+                                },
+                            },
+                        },
+                        '404': {
+                            description: 'Genre not found',
+                        },
+                        '500': {
+                            description: 'Internal Server Error',
+                        },
+                    },
+                },
+            },
+            '/getGenresByName/{name}': {
                 get: {
                     summary: 'Get a genre by name',
                     tags: ['Genres'],
@@ -1402,7 +1414,7 @@ export const options = {
                     },
                 },
             },
-            '/series': {
+            '/getSeries': {
                 get: {
                     summary: 'Get all series',
                     tags: ['Series'],
@@ -1499,41 +1511,8 @@ export const options = {
                         },
                     },
                 },
-                post: {
-                    summary: 'Create a new series',
-                    tags: ['Series'],
-                    security: [{ bearerAuth: [] }],
-                    requestBody: {
-                        required: true,
-                        content: {
-                            'application/json': {
-                                schema: {
-                                    $ref: '#/components/schemas/Serie',
-                                },
-                            },
-                        },
-                    },
-                    responses: {
-                        '201': {
-                            description: 'Series created',
-                            content: {
-                                'application/json': {
-                                    schema: {
-                                        $ref: '#/components/schemas/Serie',
-                                    },
-                                },
-                            },
-                        },
-                        '400': {
-                            description: 'Bad request',
-                        },
-                        '500': {
-                            description: 'Internal Server Error',
-                        },
-                    },
-                },
             },
-            '/series/{id}': {
+            '/getSerieById/{id}': {
                 get: {
                     summary: 'Get a series by ID',
                     tags: ['Series'],
@@ -1568,6 +1547,79 @@ export const options = {
                         },
                     },
                 },
+            },
+            '/getSerieByTitle/{title}': {
+                get: {
+                    summary: 'Get a series by title',
+                    tags: ['Series'],
+                    security: [{ bearerAuth: [] }],
+                    parameters: [
+                        {
+                            in: 'path',
+                            name: 'title',
+                            schema: {
+                                type: 'string',
+                            },
+                            required: true,
+                            description: 'Title of the series to retrieve',
+                        },
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'Series found',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        $ref: '#/components/schemas/Serie',
+                                    },
+                                },
+                            },
+                        },
+                        '404': {
+                            description: 'Series not found',
+                        },
+                        '500': {
+                            description: 'Internal Server Error',
+                        },
+                    },
+                },
+            },
+            addSerie: {
+                post: {
+                    summary: 'Create a new series',
+                    tags: ['Series'],
+                    security: [{ bearerAuth: [] }],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    $ref: '#/components/schemas/Serie',
+                                },
+                            },
+                        },
+                    },
+                    responses: {
+                        '201': {
+                            description: 'Series created',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        $ref: '#/components/schemas/Serie',
+                                    },
+                                },
+                            },
+                        },
+                        '400': {
+                            description: 'Bad request',
+                        },
+                        '500': {
+                            description: 'Internal Server Error',
+                        },
+                    },
+                },
+            },
+            'deleteSerieById/{id}': {
                 delete: {
                     summary: 'Delete a series by ID',
                     tags: ['Series'],
@@ -1595,6 +1647,8 @@ export const options = {
                         },
                     },
                 },
+            },
+            'updateSerieById/{id}': {
                 patch: {
                     summary: 'Update a series partially by ID',
                     tags: ['Series'],
@@ -1667,42 +1721,6 @@ export const options = {
                     responses: {
                         '200': {
                             description: 'Series replaced',
-                            content: {
-                                'application/json': {
-                                    schema: {
-                                        $ref: '#/components/schemas/Serie',
-                                    },
-                                },
-                            },
-                        },
-                        '404': {
-                            description: 'Series not found',
-                        },
-                        '500': {
-                            description: 'Internal Server Error',
-                        },
-                    },
-                },
-            },
-            '/series/{title}': {
-                get: {
-                    summary: 'Get a series by title',
-                    tags: ['Series'],
-                    security: [{ bearerAuth: [] }],
-                    parameters: [
-                        {
-                            in: 'path',
-                            name: 'title',
-                            schema: {
-                                type: 'string',
-                            },
-                            required: true,
-                            description: 'Title of the series to retrieve',
-                        },
-                    ],
-                    responses: {
-                        '200': {
-                            description: 'Series found',
                             content: {
                                 'application/json': {
                                     schema: {
@@ -1840,7 +1858,7 @@ export const options = {
                     },
                 },
             },
-            '/users': {
+            '/getUsers': {
                 get: {
                     summary: 'Get all users',
                     tags: ['Users'],
@@ -1877,38 +1895,8 @@ export const options = {
                         },
                     },
                 },
-                post: {
-                    summary: 'Create a new user',
-                    tags: ['Users'],
-                    security: [{ bearerAuth: [] }],
-                    requestBody: {
-                        required: true,
-                        content: {
-                            'application/json': {
-                                schema: {
-                                    $ref: '#/components/schemas/User',
-                                },
-                            },
-                        },
-                    },
-                    responses: {
-                        '201': {
-                            description: 'User created',
-                            content: {
-                                'application/json': {
-                                    schema: {
-                                        $ref: '#/components/schemas/User',
-                                    },
-                                },
-                            },
-                        },
-                        '500': {
-                            description: 'Internal Server Error',
-                        },
-                    },
-                },
             },
-            '/users/{id}': {
+            '/getUserById/{id}': {
                 get: {
                     summary: 'Get a user by ID',
                     tags: ['Users'],
@@ -1943,24 +1931,33 @@ export const options = {
                         },
                     },
                 },
-                delete: {
-                    summary: 'Delete a user by ID',
+            },
+            '/getUserByTitle/{title}': {
+                get: {
+                    summary: 'Get a user by username',
                     tags: ['Users'],
                     security: [{ bearerAuth: [] }],
                     parameters: [
                         {
                             in: 'path',
-                            name: 'id',
+                            name: 'title',
                             schema: {
-                                type: 'number',
+                                type: 'string',
                             },
                             required: true,
-                            description: 'ID of the user to delete',
+                            description: 'Username of the user to retrieve',
                         },
                     ],
                     responses: {
                         '200': {
-                            description: 'User deleted',
+                            description: 'User found',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        $ref: '#/components/schemas/User',
+                                    },
+                                },
+                            },
                         },
                         '404': {
                             description: 'User not found',
@@ -1970,6 +1967,40 @@ export const options = {
                         },
                     },
                 },
+            },
+            addUser: {
+                post: {
+                    summary: 'Create a new user',
+                    tags: ['Users'],
+                    security: [{ bearerAuth: [] }],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    $ref: '#/components/schemas/User',
+                                },
+                            },
+                        },
+                    },
+                    responses: {
+                        '201': {
+                            description: 'User created',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        $ref: '#/components/schemas/User',
+                                    },
+                                },
+                            },
+                        },
+                        '500': {
+                            description: 'Internal Server Error',
+                        },
+                    },
+                },
+            },
+            'updateUserById/{id}': {
                 patch: {
                     summary: 'Update a user by ID',
                     tags: ['Users'],
@@ -2059,32 +2090,25 @@ export const options = {
                     },
                 },
             },
-            '/users/{title}': {
-                get: {
-                    summary: 'Get a user by username',
+            'deleteUserById/{id}': {
+                delete: {
+                    summary: 'Delete a user by ID',
                     tags: ['Users'],
                     security: [{ bearerAuth: [] }],
                     parameters: [
                         {
                             in: 'path',
-                            name: 'title',
+                            name: 'id',
                             schema: {
-                                type: 'string',
+                                type: 'number',
                             },
                             required: true,
-                            description: 'Username of the user to retrieve',
+                            description: 'ID of the user to delete',
                         },
                     ],
                     responses: {
                         '200': {
-                            description: 'User found',
-                            content: {
-                                'application/json': {
-                                    schema: {
-                                        $ref: '#/components/schemas/User',
-                                    },
-                                },
-                            },
+                            description: 'User deleted',
                         },
                         '404': {
                             description: 'User not found',
@@ -2095,7 +2119,7 @@ export const options = {
                     },
                 },
             },
-            '/addSeasonToUser': {
+            '/bookmarkSeason': {
                 post: {
                     summary: 'Add a season to user',
                     tags: ['Users'],
@@ -2140,7 +2164,7 @@ export const options = {
                     },
                 },
             },
-            '/addSerieToUser': {
+            '/bookmarkSerie': {
                 post: {
                     summary: 'Add a serie to user',
                     tags: ['Users'],
@@ -2185,7 +2209,7 @@ export const options = {
                     },
                 },
             },
-            '/addEpisodeToUser': {
+            '/bookmarkEpisode': {
                 post: {
                     summary: 'Add an episode to user',
                     tags: ['Users'],
@@ -2230,7 +2254,7 @@ export const options = {
                     },
                 },
             },
-            '/addGenreToUser': {
+            '/bookmarkGenre': {
                 post: {
                     summary: 'Add a genre to user',
                     tags: ['Users'],
@@ -2275,7 +2299,7 @@ export const options = {
                     },
                 },
             },
-            '/addMovieToUser': {
+            '/bookmarkMovie': {
                 post: {
                     summary: 'Add a movie to user',
                     tags: ['Users'],
@@ -2320,7 +2344,7 @@ export const options = {
                     },
                 },
             },
-            '/episodes': {
+            '/getEpisodes': {
                 get: {
                     summary: 'Get all episodes',
                     tags: ['Episodes'],
@@ -2347,38 +2371,8 @@ export const options = {
                         },
                     },
                 },
-                post: {
-                    summary: 'Add a new episode',
-                    tags: ['Episodes'],
-                    security: [{ bearerAuth: [] }],
-                    requestBody: {
-                        required: true,
-                        content: {
-                            'application/json': {
-                                schema: {
-                                    $ref: '#/components/schemas/Episode',
-                                },
-                            },
-                        },
-                    },
-                    responses: {
-                        '200': {
-                            description: 'Successful response',
-                            content: {
-                                'application/json': {
-                                    schema: {
-                                        $ref: '#/components/schemas/Episode',
-                                    },
-                                },
-                            },
-                        },
-                        '400': {
-                            description: 'Bad request',
-                        },
-                    },
-                },
             },
-            '/episodes/{id}': {
+            '/getEpisodeById/{id}': {
                 get: {
                     summary: 'Get episode by ID',
                     tags: ['Episodes'],
@@ -2414,6 +2408,76 @@ export const options = {
                         },
                     },
                 },
+            },
+            '/getEpisodeByTitle/{title}': {
+                get: {
+                    summary: 'Get episode by title',
+                    tags: ['Episodes'],
+                    security: [{ bearerAuth: [] }],
+                    parameters: [
+                        {
+                            name: 'title',
+                            in: 'path',
+                            required: true,
+                            description: 'Title of the episode to retrieve',
+                            schema: {
+                                type: 'string',
+                            },
+                        },
+                    ],
+                    responses: {
+                        '200': {
+                            description: 'Successful response',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        $ref: '#/components/schemas/Episode',
+                                    },
+                                },
+                            },
+                        },
+                        '404': {
+                            description: 'Episode not found',
+                        },
+                        '400': {
+                            description: 'Bad request',
+                        },
+                    },
+                },
+            },
+            addEpisode: {
+                post: {
+                    summary: 'Add a new episode',
+                    tags: ['Episodes'],
+                    security: [{ bearerAuth: [] }],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    $ref: '#/components/schemas/Episode',
+                                },
+                            },
+                        },
+                    },
+                    responses: {
+                        '200': {
+                            description: 'Successful response',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        $ref: '#/components/schemas/Episode',
+                                    },
+                                },
+                            },
+                        },
+                        '400': {
+                            description: 'Bad request',
+                        },
+                    },
+                },
+            },
+            'updateEpisodeById/{id}': {
                 patch: {
                     summary: 'Update episode by ID',
                     tags: ['Episodes'],
@@ -2504,6 +2568,8 @@ export const options = {
                         },
                     },
                 },
+            },
+            'deleteEpisodeById/{id}': {
                 delete: {
                     summary: 'Delete episode by ID',
                     tags: ['Episodes'],
@@ -2535,42 +2601,6 @@ export const options = {
                                     },
                                 },
                             },
-                        },
-                        '400': {
-                            description: 'Bad request',
-                        },
-                    },
-                },
-            },
-            '/episodes/{title}': {
-                get: {
-                    summary: 'Get episode by title',
-                    tags: ['Episodes'],
-                    security: [{ bearerAuth: [] }],
-                    parameters: [
-                        {
-                            name: 'title',
-                            in: 'path',
-                            required: true,
-                            description: 'Title of the episode to retrieve',
-                            schema: {
-                                type: 'string',
-                            },
-                        },
-                    ],
-                    responses: {
-                        '200': {
-                            description: 'Successful response',
-                            content: {
-                                'application/json': {
-                                    schema: {
-                                        $ref: '#/components/schemas/Episode',
-                                    },
-                                },
-                            },
-                        },
-                        '404': {
-                            description: 'Episode not found',
                         },
                         '400': {
                             description: 'Bad request',
