@@ -607,7 +607,7 @@ export const options = {
                         },
                     },
                 },
-                UserSeason: {
+                userSeasonFavorite: {
                     type: 'object',
                     properties: {
                         id: {
