@@ -14,14 +14,14 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-router.get('/movies', movieQuerySchema, validateMiddleware, movieController.getMovies);
+router.get('/getMovies', movieQuerySchema, validateMiddleware, movieController.getMovies);
 router.get('/getMovieById/:id', movieIdParamSchema, validateMiddleware, movieController.getMovieById);
 router.get('/getMovieByTitle/:title', movieTitleParamSchema, validateMiddleware, movieController.getMovieByTitle);
-router.delete('/movies/:id', movieIdParamSchema, validateMiddleware, movieController.deleteMovieById);
-router.patch('/movies/:id', movieIdParamSchema, movieSchemaUpdate, validateMiddleware, movieController.updateMovieById);
-router.put('/movies/:id', movieIdParamSchema, movieSchemaPost, validateMiddleware, movieController.updateMovieById);
-router.post('/movies', movieSchemaPost, validateMiddleware, movieController.addMovie);
-router.get('/searchMovies', movieController.searchMoviesByTitle);
-router.get('/latestMovies', movieController.getLatestMovies);
+router.delete('/deleteMovieById/:id', movieIdParamSchema, validateMiddleware, movieController.deleteMovieById);
+router.patch('/updateMovieById/:id', movieIdParamSchema, movieSchemaUpdate, validateMiddleware, movieController.updateMovieById);
+router.put('/updateMovieById/:id', movieIdParamSchema, movieSchemaPost, validateMiddleware, movieController.updateMovieById);
+router.post('/addMovie', movieSchemaPost, validateMiddleware, movieController.addMovie);
+router.get('/searchMoviesByTitle', movieController.searchMoviesByTitle);
+router.get('/getLatestMovies', movieController.getLatestMovies);
 
 export default router;
