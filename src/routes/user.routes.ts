@@ -9,10 +9,10 @@ import {
     userUserNameParamSchema,
 } from '../schemas/user.schema';
 import { authMiddleware } from '../middlewares/auth.middleware';
-import { userSeasonSchema } from '../schemas/userSeason.schema';
-import { userMovieSchema } from '../schemas/userMovie.schema';
-import { userEpisodeSchema } from '../schemas/userEpisode.schema';
-import { userGenreSchema } from '../schemas/userGenre.schema';
+import { userSeasonFavoriteSchema } from '../schemas/userSeasonFavorite.schema';
+import { userMovieFavoriteSchema } from '../schemas/userMovieFavorite.schema';
+import { userEpisodeFavoriteSchema } from '../schemas/userEpisodeFavorite.schema';
+import { userGenreFavoriteSchema } from '../schemas/userGenreFavorite.schema';
 
 const router = express.Router();
 
@@ -25,10 +25,10 @@ router.delete('/users/:id', userIdParamSchema, validateMiddleware, userControlle
 router.patch('/users/:id', userIdParamSchema, userSchemaUpdate, validateMiddleware, userController.updateUserById);
 router.put('/users/:id', userIdParamSchema, userSchemaPost, validateMiddleware, userController.updateUserById);
 router.get('/searchUsers', userController.searchUsersByTitle);
-router.post('/addSeasonToUser', userSeasonSchema, validateMiddleware, userController.addSeasonToUser);
-router.post('/addMovieToUser', userMovieSchema, userController.addMovieToUser);
-router.post('/addSerieToUser', userEpisodeSchema, validateMiddleware, userController.addSerieToUser);
-router.post('/addEpisodeToUser', userSeasonSchema, validateMiddleware, userController.addEpisodeToUser);
-router.post('/addGenreToUser', userGenreSchema, validateMiddleware, userController.addGenreToUser);
+router.post('/addSeasonToUser', userSeasonFavoriteSchema, validateMiddleware, userController.addSeasonToUser);
+router.post('/addMovieToUser', userMovieFavoriteSchema, userController.addMovieToUser);
+router.post('/addSerieToUser', userEpisodeFavoriteSchema, validateMiddleware, userController.addSerieToUser);
+router.post('/addEpisodeToUser', userSeasonFavoriteSchema, validateMiddleware, userController.addEpisodeToUser);
+router.post('/addGenreToUser', userGenreFavoriteSchema, validateMiddleware, userController.addGenreToUser);
 
 export default router;

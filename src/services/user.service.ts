@@ -207,7 +207,7 @@ const userService = {
         });
 
         if (season) {
-            await prisma.userSeason.update({
+            await prisma.userSeasonFavorite.update({
                 where: { id: Number(seasonId) },
                 data: { user: { connect: { id: userId } } },
             });
@@ -248,7 +248,7 @@ const userService = {
         });
 
         if (serie) {
-            await prisma.userSerie.update({
+            await prisma.userSerieFavorite.update({
                 where: { id: Number(serieId) },
                 data: { user: { connect: { id: userId } } },
             });
@@ -289,7 +289,7 @@ const userService = {
         });
 
         if (genre) {
-            await prisma.userGenre.update({
+            await prisma.userGenreFavorite.update({
                 where: { id: Number(genreId) },
                 data: { user: { connect: { id: userId } } },
             });
@@ -330,7 +330,7 @@ const userService = {
         });
 
         if (episode) {
-            await prisma.userEpisode.update({
+            await prisma.userEpisodeFavorite.update({
                 where: { id: Number(episodeId) },
                 data: { user: { connect: { id: userId } } },
             });
@@ -366,7 +366,7 @@ const userService = {
         }
     },
     async addMovieToUser(userId: number, movieId: number): Promise<User | null> {
-        await prisma.userMovie.create({
+        await prisma.userMovieFavorite.create({
             data: { userId, movieId },
         });
 
