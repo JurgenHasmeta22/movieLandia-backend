@@ -108,11 +108,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addSeasonToUser(req: Request, res: Response) {
+    async bookmarkSeason(req: Request, res: Response) {
         const { userId, seasonId } = req.body;
 
         try {
-            const updatedUser = await userService.addSeasonToUser(userId, seasonId);
+            const updatedUser = await userService.addFavoriteSeasonToUser(userId, seasonId);
 
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
@@ -123,11 +123,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addSerieToUser(req: Request, res: Response) {
+    async bookmarkSerie(req: Request, res: Response) {
         const { userId, serieId } = req.body;
 
         try {
-            const updatedUser = await userService.addSerieToUser(userId, serieId);
+            const updatedUser = await userService.addFavoriteSerieToUser(userId, serieId);
 
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
@@ -138,11 +138,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addEpisodeToUser(req: Request, res: Response) {
+    async bookmarkEpisode(req: Request, res: Response) {
         const { userId, episodeId } = req.body;
 
         try {
-            const updatedUser = await userService.addEpisodeToUser(userId, episodeId);
+            const updatedUser = await userService.addFavoriteEpisodeToUser(userId, episodeId);
 
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
@@ -153,11 +153,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addGenreToUser(req: Request, res: Response) {
+    async bookmarkGenre(req: Request, res: Response) {
         const { userId, genreId } = req.body;
 
         try {
-            const updatedUser = await userService.addGenreToUser(userId, genreId);
+            const updatedUser = await userService.addFavoriteGenreToUser(userId, genreId);
 
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
@@ -168,11 +168,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addMovieToUser(req: Request, res: Response) {
+    async bookmarkMovie(req: Request, res: Response) {
         const { movieId, userId } = req.body;
 
         try {
-            const updatedUser = await userService.addMovieToUser(userId, movieId);
+            const updatedUser = await userService.addFavoriteMovieToUser(userId, movieId);
 
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
