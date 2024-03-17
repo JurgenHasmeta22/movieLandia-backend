@@ -42,7 +42,7 @@ const serieService = {
 
         const series = await prisma.serie.findMany({
             where: filters,
-            include: { seasons: { include: { episodes: true } } },
+            include: { seasons: true },
             orderBy: orderByObject,
             skip,
             take,
@@ -57,7 +57,7 @@ const serieService = {
     async getSerieById(serieId: number): Promise<Serie | null> {
         const result = await prisma.serie.findFirst({
             where: { id: serieId },
-            include: { seasons: { include: { episodes: true } } },
+            include: { seasons: true },
         });
 
         if (result) {
@@ -69,7 +69,7 @@ const serieService = {
     async getSerieByTitle(title: string): Promise<Serie | null> {
         const result = await prisma.serie.findFirst({
             where: { title },
-            include: { seasons: { include: { episodes: true } } },
+            include: { seasons: true },
         });
 
         if (result) {
@@ -84,7 +84,7 @@ const serieService = {
                 id: 'desc',
             },
             take: 20,
-            include: { seasons: { include: { episodes: true } } },
+            include: { seasons: true },
         });
 
         if (result) {
@@ -102,7 +102,7 @@ const serieService = {
             const serieUpdated = await prisma.serie.update({
                 where: { id: Number(id) },
                 data: serieParam,
-                include: { seasons: { include: { episodes: true } } },
+                include: { seasons: true },
             });
 
             if (serieUpdated) {
@@ -117,7 +117,7 @@ const serieService = {
     async addSerie(serieParam: Prisma.SerieCreateInput): Promise<Serie | null> {
         const serieCreated = await prisma.serie.create({
             data: serieParam,
-            include: { seasons: { include: { episodes: true } } },
+            include: { seasons: true },
         });
 
         if (serieCreated) {
@@ -150,7 +150,7 @@ const serieService = {
             where: {
                 title: { contains: title },
             },
-            include: { seasons: { include: { episodes: true } } },
+            include: { seasons: true },
             skip: page ? (page - 1) * 20 : 0,
             take: 20,
         };
@@ -176,7 +176,7 @@ const serieService = {
 
             const serie = await prisma.serie.findUnique({
                 where: { id: serieId },
-                include: { seasons: { include: { episodes: true } }, usersWhoBookmarkedIt: { select: { user: true } } },
+                include: { seasons: true },
             });
 
             if (serie) {

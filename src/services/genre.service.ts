@@ -42,7 +42,6 @@ const genreService = {
 
         const genres = await prisma.genre.findMany({
             where: filters,
-            include: { movies: { select: { movie: true } } },
             orderBy: orderByObject,
             skip,
             take,
@@ -65,6 +64,7 @@ const genreService = {
                         movie: true,
                     },
                 },
+                comments: true,
             },
         });
 
@@ -85,6 +85,7 @@ const genreService = {
                         movie: true,
                     },
                 },
+                comments: true,
             },
         });
 
@@ -103,6 +104,7 @@ const genreService = {
                         movie: true,
                     },
                 },
+                comments: true,
             },
         });
 
@@ -124,6 +126,7 @@ const genreService = {
                         movie: true,
                     },
                 },
+                comments: true,
             },
         });
 
@@ -164,13 +167,6 @@ const genreService = {
             },
             skip,
             take: perPage,
-            include: {
-                movies: {
-                    select: {
-                        movie: true,
-                    },
-                },
-            },
         });
 
         if (genres) {
