@@ -30,24 +30,7 @@ export async function getUserFromToken(token: string) {
 
         if (data) {
             const user: User | null = await prisma.user.findUnique({
-                where: { id: (data as JwtPayload).id },
-                include: {
-                    favMovies: {
-                        select: {
-                            movie: {
-                                include: {
-                                    genres: {
-                                        select: { genre: true },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    favSeries: { select: { serie: true } },
-                    favEpisodes: { select: { episode: true } },
-                    favSeasons: { select: { season: true } },
-                    favGenres: { select: { genre: true } },
-                },
+                where: { id: (data as JwtPayload).id }
             });
 
             if (user) {
@@ -59,10 +42,10 @@ export async function getUserFromToken(token: string) {
         }
     } catch (error) {
         if (error instanceof jwt.JsonWebTokenError) {
-            console.error('JWT Error:', error.message);
+            // console.error('JWT Error:', error.message);
             return null;
         } else {
-            console.error('Failed to retrieve user from token:', error);
+            // console.error('Failed to retrieve user from token:', error);
             throw error;
         }
     }

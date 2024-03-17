@@ -45,23 +45,6 @@ const userService = {
             orderBy: orderByObject,
             skip,
             take,
-            include: {
-                favMovies: {
-                    select: {
-                        movie: {
-                            include: {
-                                genres: {
-                                    select: { genre: true },
-                                },
-                            },
-                        },
-                    },
-                },
-                favSeries: { select: { serie: true } },
-                favEpisodes: { select: { episode: true } },
-                favSeasons: { select: { season: true } },
-                favGenres: { select: { genre: true } },
-            },
         });
 
         if (users) {
@@ -73,23 +56,6 @@ const userService = {
     async getUserById(userId: number): Promise<User | null> {
         const result = await prisma.user.findUnique({
             where: { id: userId },
-            include: {
-                favMovies: {
-                    select: {
-                        movie: {
-                            include: {
-                                genres: {
-                                    select: { genre: true },
-                                },
-                            },
-                        },
-                    },
-                },
-                favSeries: { select: { serie: true } },
-                favEpisodes: { select: { episode: true } },
-                favSeasons: { select: { season: true } },
-                favGenres: { select: { genre: true } },
-            },
         });
 
         if (result) {
@@ -101,23 +67,6 @@ const userService = {
     async getUserByUsername(username: string): Promise<User | null> {
         const result = await prisma.user.findFirst({
             where: { userName: username },
-            include: {
-                favMovies: {
-                    select: {
-                        movie: {
-                            include: {
-                                genres: {
-                                    select: { genre: true },
-                                },
-                            },
-                        },
-                    },
-                },
-                favSeries: { select: { serie: true } },
-                favEpisodes: { select: { episode: true } },
-                favSeasons: { select: { season: true } },
-                favGenres: { select: { genre: true } },
-            },
         });
 
         if (result) {
@@ -130,23 +79,6 @@ const userService = {
         const result = await prisma.user.update({
             where: { id: Number(id) },
             data: userParam,
-            include: {
-                favMovies: {
-                    select: {
-                        movie: {
-                            include: {
-                                genres: {
-                                    select: { genre: true },
-                                },
-                            },
-                        },
-                    },
-                },
-                favSeries: { select: { serie: true } },
-                favEpisodes: { select: { episode: true } },
-                favSeasons: { select: { season: true } },
-                favGenres: { select: { genre: true } },
-            },
         });
 
         if (result) {
@@ -174,23 +106,6 @@ const userService = {
             where: {
                 userName: { contains: username },
             },
-            include: {
-                favMovies: {
-                    select: {
-                        movie: {
-                            include: {
-                                genres: {
-                                    select: { genre: true },
-                                },
-                            },
-                        },
-                    },
-                },
-                favSeries: { select: { serie: true } },
-                favEpisodes: { select: { episode: true } },
-                favSeasons: { select: { season: true } },
-                favGenres: { select: { genre: true } },
-            },
             skip: page ? (page - 1) * 20 : 0,
             take: 20,
         });
@@ -201,7 +116,7 @@ const userService = {
             return null;
         }
     },
-    async addSeasonToUser(userId: number, seasonId: number): Promise<User | null> {
+    async addFavoriteSeasonToUser(userId: number, seasonId: number): Promise<User | null> {
         const season: Season | null = await prisma.season.findUnique({
             where: { id: Number(seasonId) },
         });
@@ -214,23 +129,6 @@ const userService = {
 
             const user = await prisma.user.findUnique({
                 where: { id: userId },
-                include: {
-                    favMovies: {
-                        select: {
-                            movie: {
-                                include: {
-                                    genres: {
-                                        select: { genre: true },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    favSeries: { select: { serie: true } },
-                    favEpisodes: { select: { episode: true } },
-                    favSeasons: { select: { season: true } },
-                    favGenres: { select: { genre: true } },
-                },
             });
 
             if (user) {
@@ -242,7 +140,7 @@ const userService = {
             return null;
         }
     },
-    async addSerieToUser(userId: number, serieId: number): Promise<User | null> {
+    async addFavoriteSerieToUser(userId: number, serieId: number): Promise<User | null> {
         const serie: Season | null = await prisma.season.findUnique({
             where: { id: Number(serieId) },
         });
@@ -255,23 +153,6 @@ const userService = {
 
             const user = await prisma.user.findUnique({
                 where: { id: userId },
-                include: {
-                    favMovies: {
-                        select: {
-                            movie: {
-                                include: {
-                                    genres: {
-                                        select: { genre: true },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    favSeries: { select: { serie: true } },
-                    favEpisodes: { select: { episode: true } },
-                    favSeasons: { select: { season: true } },
-                    favGenres: { select: { genre: true } },
-                },
             });
 
             if (user) {
@@ -283,7 +164,7 @@ const userService = {
             return null;
         }
     },
-    async addGenreToUser(userId: number, genreId: number): Promise<User | null> {
+    async addFavoriteGenreToUser(userId: number, genreId: number): Promise<User | null> {
         const genre: Genre | null = await prisma.genre.findUnique({
             where: { id: Number(genreId) },
         });
@@ -296,23 +177,6 @@ const userService = {
 
             const user = await prisma.user.findUnique({
                 where: { id: userId },
-                include: {
-                    favMovies: {
-                        select: {
-                            movie: {
-                                include: {
-                                    genres: {
-                                        select: { genre: true },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    favSeries: { select: { serie: true } },
-                    favEpisodes: { select: { episode: true } },
-                    favSeasons: { select: { season: true } },
-                    favGenres: { select: { genre: true } },
-                },
             });
 
             if (user) {
@@ -324,7 +188,7 @@ const userService = {
             return null;
         }
     },
-    async addEpisodeToUser(userId: number, episodeId: number): Promise<User | null> {
+    async addFavoriteEpisodeToUser(userId: number, episodeId: number): Promise<User | null> {
         const episode: Episode | null = await prisma.episode.findUnique({
             where: { id: Number(episodeId) },
         });
@@ -337,23 +201,6 @@ const userService = {
 
             const user = await prisma.user.findUnique({
                 where: { id: userId },
-                include: {
-                    favMovies: {
-                        select: {
-                            movie: {
-                                include: {
-                                    genres: {
-                                        select: { genre: true },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    favSeries: { select: { serie: true } },
-                    favEpisodes: { select: { episode: true } },
-                    favSeasons: { select: { season: true } },
-                    favGenres: { select: { genre: true } },
-                },
             });
 
             if (user) {
@@ -365,30 +212,13 @@ const userService = {
             return null;
         }
     },
-    async addMovieToUser(userId: number, movieId: number): Promise<User | null> {
+    async addFavoriteMovieToUser(userId: number, movieId: number): Promise<User | null> {
         await prisma.userMovieFavorite.create({
             data: { userId, movieId },
         });
 
         const user: User | null = await prisma.user.findUnique({
             where: { id: userId },
-            include: {
-                favMovies: {
-                    select: {
-                        movie: {
-                            include: {
-                                genres: {
-                                    select: { genre: true },
-                                },
-                            },
-                        },
-                    },
-                },
-                favSeries: { select: { serie: true } },
-                favEpisodes: { select: { episode: true } },
-                favSeasons: { select: { season: true } },
-                favGenres: { select: { genre: true } },
-            },
         });
 
         if (user) {

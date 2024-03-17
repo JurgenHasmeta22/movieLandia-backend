@@ -6,33 +6,6 @@ const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
 });
 
-const users = [
-    {
-        id: 1,
-        userName: 'avenger22',
-        email: 'jurgen@email.com',
-        password: bcrypt.hashSync('jurgen123', 8),
-    },
-    {
-        id: 2,
-        userName: 'geri12',
-        email: 'geri@email.com',
-        password: bcrypt.hashSync('geri123', 8),
-    },
-    {
-        id: 3,
-        userName: 'visard12',
-        email: 'andrea@email.com',
-        password: bcrypt.hashSync('visard123', 8),
-    },
-    {
-        id: 4,
-        userName: 'marsel12',
-        email: 'marsel@email.com',
-        password: bcrypt.hashSync('marsel123', 8),
-    },
-];
-
 async function createStuff() {
     // await prisma.serie.deleteMany();
 
@@ -64,13 +37,13 @@ async function createStuff() {
     //   await prisma.genre.create({ data: genre });
     // }
 
-    await prisma.movie.deleteMany();
+    // await prisma.movie.deleteMany();
 
-    for (const movie of movies) {
-        await prisma.movie.create({
-            data: movie,
-        });
-    }
+    // for (const movie of movies) {
+    //     await prisma.movie.create({
+    //         data: movie,
+    //     });
+    // }
 
     // await prisma.movieGenre.deleteMany();
 
