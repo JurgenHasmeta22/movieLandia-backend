@@ -22,7 +22,7 @@ const movieService = {
         filterValue,
         filterNameString,
         filterOperatorString,
-    }: MovieServiceParams): Promise<Movie[] | null> {
+    }: MovieServiceParams): Promise<any | null> {
         const filters: any = {};
         const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 20 : 0;
         const take = perPage || 20;
@@ -49,7 +49,7 @@ const movieService = {
         });
 
         if (movies) {
-            return movies;
+            return { movies, count: movies.length };
         } else {
             return null;
         }
