@@ -12,7 +12,7 @@ import { authMiddleware } from '../middlewares/auth.middleware';
 
 const router = express.Router();
 
-router.use(authMiddleware);
+// router.use(authMiddleware);
 
 router.get('/getGenres', genreQuerySchema, validateMiddleware, genreController.getGenres);
 router.get('/getGenreById/:id', genreIdParamSchema, validateMiddleware, genreController.getGenreById);
