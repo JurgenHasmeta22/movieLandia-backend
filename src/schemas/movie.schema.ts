@@ -42,8 +42,8 @@ const movieIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid m
 const movieTitleParamSchema = [
     param('title')
         .isString()
-        .trim()
-        .matches(/^[a-zA-Z\s]+$/)
+        // .trim()
+        // .matches(/^[a-zA-Z\s]+$/)
         .withMessage('Invalid movie title format'),
 ];
 
