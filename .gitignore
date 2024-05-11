@@ -3,3 +3,7 @@ node_modules
 .env
 *.db
 /prisma/data.db-journal
+/prisma/movies.ts
+/prisma/seed.ts
+/prisma/ERD.svg
+/prisma/dbml
