@@ -48,6 +48,7 @@ const movieController = {
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
+            
         try {
             const movie = await movieService.getMovieByTitle(title);
 
