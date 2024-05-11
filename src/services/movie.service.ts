@@ -24,8 +24,8 @@ const movieService = {
         filterOperatorString,
     }: MovieServiceParams): Promise<any | null> {
         const filters: any = {};
-        const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 20 : 0;
-        const take = perPage || 20;
+        const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 10 : 0;
+        const take = perPage || 10;
 
         if (title) filters.title = { contains: title };
 
@@ -83,7 +83,7 @@ const movieService = {
             orderBy: {
                 id: 'desc',
             },
-            take: 20,
+            take: 10,
             include: { genres: { select: { genre: true } } },
         });
 
