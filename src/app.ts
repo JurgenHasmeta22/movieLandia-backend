@@ -15,7 +15,9 @@ import 'dotenv/config';
 export const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
 });
+
 const specs = swaggerJsDoc(options);
+
 export const app = express();
 
 app.use(cors());
@@ -33,6 +35,7 @@ app.use(userRoutes);
 app.get('/', async (req, res) => {
     res.send('Server Up and Running');
 });
+
 app.listen(4000, () => {
     console.log(`Server up: http://localhost:4000`);
 });
