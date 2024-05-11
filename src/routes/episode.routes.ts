@@ -8,11 +8,11 @@ import {
     episodeIdParamSchema,
     episodeTitleParamSchema,
 } from '../schemas/episode.schema';
-import { authMiddleware } from '../middlewares/auth.middleware';
 
 const router = express.Router();
 
-router.use(authMiddleware);
+// router.use(authMiddleware);
+
 router.get('/getEpisodes', episodeQuerySchema, validateMiddleware, episodeController.getEpisodes);
 router.get('/getEpisodeById/:id', episodeIdParamSchema, validateMiddleware, episodeController.getEpisodeById);
 router.get('/getEpisodeByTitle/:title', episodeTitleParamSchema, validateMiddleware, episodeController.getEpisodeByTitle);

@@ -8,7 +8,6 @@ import {
     genreIdParamSchema,
     genreNameParamSchema,
 } from '../schemas/genre.schema';
-import { authMiddleware } from '../middlewares/auth.middleware';
 
 const router = express.Router();
 
