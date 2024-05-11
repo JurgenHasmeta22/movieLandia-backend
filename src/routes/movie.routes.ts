@@ -8,11 +8,8 @@ import {
     movieIdParamSchema,
     movieTitleParamSchema,
 } from '../schemas/movie.schema';
-import { authMiddleware } from '../middlewares/auth.middleware';
 
 const router = express.Router();
-
-// router.use(authMiddleware);
 
 router.get('/getMovies', movieQuerySchema, validateMiddleware, movieController.getMovies);
 router.get('/getMovieById/:id', movieIdParamSchema, validateMiddleware, movieController.getMovieById);
