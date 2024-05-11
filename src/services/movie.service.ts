@@ -48,8 +48,10 @@ const movieService = {
             take,
         });
 
+        const moviesCount = await prisma.movie.count();
+
         if (movies) {
-            return { movies, count: movies.length };
+            return { movies, count: moviesCount };
         } else {
             return null;
         }

@@ -11,7 +11,7 @@ const movieController = {
             const movies = await movieService.getMovies({
                 sortBy: sortBy as string,
                 ascOrDesc: ascOrDesc as 'asc' | 'desc',
-                perPage: pageSize ? Number(pageSize) : 20,
+                perPage: pageSize ? Number(pageSize) : 10,
                 page: Number(page),
                 title: title as string,
                 filterValue: filterValue ? Number(filterValue) : undefined,
