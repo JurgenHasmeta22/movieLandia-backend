@@ -12,8 +12,6 @@ import { seasonSerieSchema } from '../schemas/seasonSerie.schema';
 
 const router = express.Router();
 
-// router.use(authMiddleware);
-
 router.get('/getSeries', serieQuerySchema, validateMiddleware, serieController.getSeries);
 router.get('/getSerieById/:id', serieIdParamSchema, validateMiddleware, serieController.getSerieById);
 router.get('/getSerieByTitle/:title', serieTitleParamSchema, validateMiddleware, serieController.getSerieByTitle);
