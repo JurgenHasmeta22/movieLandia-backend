@@ -22,7 +22,7 @@ const userService = {
         filterValue,
         filterNameString,
         filterOperatorString,
-    }: UserServiceParams): Promise<User[] | null> {
+    }: UserServiceParams): Promise<any | null> {
         const filters: Prisma.UserWhereInput = {};
         const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 20 : 0;
         const take = perPage || 20;
@@ -47,8 +47,10 @@ const userService = {
             take,
         });
 
+        const count = await prisma.user.count();
+
         if (users) {
-            return users;
+            return { rows: users, count };
         } else {
             return null;
         }
