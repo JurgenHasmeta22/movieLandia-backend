@@ -22,7 +22,7 @@ const serieService = {
         filterValue,
         filterNameString,
         filterOperatorString,
-    }: SerieServiceParams): Promise<Serie[] | null> {
+    }: SerieServiceParams): Promise<any | null> {
         const filters: any = {};
         const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 20 : 0;
         const take = perPage || 20;
@@ -48,8 +48,10 @@ const serieService = {
             take,
         });
 
+        const count = await prisma.serie.count();
+
         if (series) {
-            return series;
+            return { rows: series, count };
         } else {
             return null;
         }
