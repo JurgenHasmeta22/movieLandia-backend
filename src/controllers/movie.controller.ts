@@ -131,7 +131,7 @@ const movieController = {
             if (movies) {
                 res.status(HttpStatusCode.OK).send(movies);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movie not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Movies not found' });
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
