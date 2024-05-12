@@ -22,7 +22,7 @@ const genreService = {
         filterValue,
         filterNameString,
         filterOperatorString,
-    }: GetGenresParams): Promise<Genre[] | null> {
+    }: GetGenresParams): Promise<any | null> {
         const filters: any = {};
         const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 20 : 0;
         const take = perPage || 20;
@@ -47,8 +47,10 @@ const genreService = {
             take,
         });
 
+        const count = await prisma.genre.count();
+
         if (genres) {
-            return genres;
+            return { rows: genres, count };
         } else {
             return null;
         }

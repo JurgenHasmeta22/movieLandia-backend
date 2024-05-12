@@ -8,7 +8,7 @@ import {
     userIdParamSchema,
     userUserNameParamSchema,
 } from '../schemas/user.schema';
-import { authMiddleware } from '../middlewares/auth.middleware';
+// import { authMiddleware } from '../middlewares/auth.middleware';
 import { userSeasonFavoriteSchema } from '../schemas/userSeasonFavorite.schema';
 import { userMovieFavoriteSchema } from '../schemas/userMovieFavorite.schema';
 import { userEpisodeFavoriteSchema } from '../schemas/userEpisodeFavorite.schema';
@@ -17,7 +17,7 @@ import { userSerieFavoriteSchema } from '../schemas/userSerie.schema';
 
 const router = express.Router();
 
-router.use(authMiddleware);
+// router.use(authMiddleware);
 
 router.get('/getUsers', userQuerySchema, validateMiddleware, userController.getUsers);
 router.get('/getUserById/:id', userIdParamSchema, validateMiddleware, userController.getUserById);

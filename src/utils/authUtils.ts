@@ -30,7 +30,8 @@ export async function getUserFromToken(token: string) {
 
         if (data) {
             const user: User | null = await prisma.user.findUnique({
-                where: { id: (data as JwtPayload).id }
+                where: { id: (data as JwtPayload).id },
+                include: { favMovies: { include: { movie: true } } },
             });
 
             if (user) {
