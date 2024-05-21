@@ -76,23 +76,65 @@ const genreService = {
             return null;
         }
     },
-    async getGenreByName(name: string): Promise<Genre | null> {
-        const result = await prisma.genre.findFirst({
+    async getGenreByName(
+        nameGenre: string,
+        {
+            sortBy,
+            ascOrDesc,
+            perPage,
+            page,
+            name,
+            filterValue,
+            filterNameString,
+            filterOperatorString,
+        }: GetGenresParams,
+    ): Promise<any | null> {
+        const filters: any = {};
+        const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 20 : 0;
+        const take = perPage || 20;
+
+        if (name) filters.name = { contains: name };
+
+        if (filterValue !== undefined && filterNameString && filterOperatorString) {
+            const operator = filterOperatorString === '>' ? 'gt' : filterOperatorString === '<' ? 'lt' : 'equals';
+            filters[filterNameString] = { [operator]: filterValue };
+        }
+
+        const orderByObject: any = {};
+
+        if (sortBy && ascOrDesc) {
+            orderByObject[sortBy] = ascOrDesc;
+        }
+
+        const genre = await prisma.genre.findFirst({
             where: {
-                name,
+                name: nameGenre,
             },
-            include: {
-                movies: {
-                    select: {
-                        movie: true,
-                    },
-                },
-                comments: true,
+        });
+
+        const result = await prisma.movieGenre.findMany({
+            where: {
+                genreId: genre?.id,
+            },
+            orderBy: {
+                movie: orderByObject,
+            },
+            skip,
+            take,
+            select: {
+                movie: true,
+            },
+        });
+
+        const count = await prisma.movieGenre.count({
+            where: {
+                genreId: genre?.id,
             },
         });
 
         if (result) {
-            return result;
+            const formattedMovies = result.map((item) => item.movie);
+            return { movies: formattedMovies, count };
         } else {
             return null;
         }
