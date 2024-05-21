@@ -44,13 +44,24 @@ const genreController = {
         }
     },
     async getGenreByName(req: Request, res: Response) {
-        const name = req.params.name
+        const nameGenre = req.params.name
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
 
+        const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
+
         try {
-            const genre = await genreService.getGenreByName(name);
+            const genre = await genreService.getGenreByName(nameGenre, {
+                sortBy: sortBy! as string,
+                ascOrDesc: ascOrDesc! as 'asc' | 'desc',
+                perPage: pageSize ? Number(pageSize) : 20,
+                page: Number(page!),
+                name: name! as string,
+                filterValue: filterValue ? Number(filterValue) : undefined,
+                filterNameString: filterName! as string,
+                filterOperatorString: filterOperator! as '>' | '=' | '<',
+            });
 
             if (genre) {
                 res.status(HttpStatusCode.OK).send(genre);
