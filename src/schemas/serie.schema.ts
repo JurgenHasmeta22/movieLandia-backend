@@ -31,8 +31,8 @@ const serieIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid s
 const serieTitleParamSchema = [
     param('title')
         .isString()
-        .trim()
-        .matches(/^[a-zA-Z\s]+$/)
+        // .trim()
+        // .matches(/^[a-zA-Z\s]+$/)
         .withMessage('Invalid serie title format'),
 ];
 
