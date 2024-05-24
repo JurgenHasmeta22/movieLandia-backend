@@ -40,12 +40,18 @@ const movieService = {
             orderByObject[sortBy] = ascOrDesc;
         }
 
-        const movies = await prisma.movie.findMany({
+        const moviesWithGenres = await prisma.movie.findMany({
             where: filters,
             include: { genres: { select: { genre: true } } },
             orderBy: orderByObject,
             skip,
             take,
+        });
+
+        const movies = moviesWithGenres.map((movie) => {
+            const { genres, ...properties } = movie;
+            const simplifiedGenres = genres.map((genre) => genre.genre);
+            return { ...properties, genres: simplifiedGenres };
         });
 
         const moviesCount = await prisma.movie.count();
