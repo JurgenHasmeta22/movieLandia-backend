@@ -135,9 +135,11 @@ model Genre {
 }
 
 model Serie {
-  id                   Int                 @id @default(autoincrement())
-  title                String              @default("")
-  photoSrc             String              @default("")
+  id          Int    @id @default(autoincrement())
+  title       String @default("")
+  photoSrc    String @default("")
+  trailerSrc  String @default("")
+  description String @default("")
   releaseYear          Int                 @default(2020)
   ratingImdb           Float               @default(5.0)
   cast                 CastSerie[]
