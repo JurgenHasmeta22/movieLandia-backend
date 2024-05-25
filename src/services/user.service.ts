@@ -215,12 +215,25 @@ const userService = {
         }
     },
     async addFavoriteMovieToUser(userId: number, movieId: number): Promise<User | null> {
+        const existingFavorite = await prisma.userMovieFavorite.findFirst({
+            where: {
+                AND: [{ userId: userId }, { movieId: movieId }],
+            },
+        });
+
+        if (existingFavorite) {
+            return null;
+        }
+
         await prisma.userMovieFavorite.create({
             data: { userId, movieId },
         });
 
         const user: User | null = await prisma.user.findUnique({
             where: { id: userId },
+            include: {
+                favMovies: { include: { movie: true } },
+            },
         });
 
         if (user) {
