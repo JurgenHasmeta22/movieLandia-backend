@@ -33,7 +33,7 @@ router.patch(
 router.put('/updateUserById/:id', userIdParamSchema, userSchemaPost, validateMiddleware, userController.updateUserById);
 router.get('/searchUsersByTitle', userController.searchUsersByTitle);
 router.post('/bookmarkSeason', userSeasonFavoriteSchema, validateMiddleware, userController.bookmarkSeason);
-router.post('/bookmarkMovie', userMovieFavoriteSchema, userController.bookmarkSerie);
+router.post('/bookmarkMovie', userMovieFavoriteSchema, userController.bookmarkMovie);
 router.post('/bookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.bookmarkSerie);
 router.post('/bookmarkEpisode', userEpisodeFavoriteSchema, validateMiddleware, userController.bookmarkEpisode);
 router.post('/bookmarkGenre', userGenreFavoriteSchema, validateMiddleware, userController.bookmarkGenre);
