@@ -143,6 +143,16 @@ const userService = {
         }
     },
     async addFavoriteSerieToUser(userId: number, serieId: number): Promise<User | null> {
+        const existingFavorite = await prisma.userSerieFavorite.findFirst({
+            where: {
+                AND: [{ userId: userId }, { serieId: serieId }],
+            },
+        });
+
+        if (existingFavorite) {
+            return null;
+        }
+
         const serie: Season | null = await prisma.season.findUnique({
             where: { id: Number(serieId) },
         });
