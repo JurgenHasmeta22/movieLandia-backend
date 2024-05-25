@@ -1,4 +1,4 @@
-import { Episode, Genre, Prisma, Season, User } from '@prisma/client';
+import { Episode, Genre, Prisma, Season, Serie, User } from '@prisma/client';
 import { prisma } from '../app';
 
 interface UserServiceParams {
@@ -153,25 +153,20 @@ const userService = {
             return null;
         }
 
-        const serie: Season | null = await prisma.season.findUnique({
-            where: { id: Number(serieId) },
+        await prisma.userSerieFavorite.create({
+            data: { userId, serieId },
         });
 
-        if (serie) {
-            await prisma.userSerieFavorite.update({
-                where: { id: Number(serieId) },
-                data: { user: { connect: { id: userId } } },
-            });
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                favMovies: { include: { movie: true } },
+                favSeries: { include: { serie: true } },
+            },
+        });
 
-            const user = await prisma.user.findUnique({
-                where: { id: userId },
-            });
-
-            if (user) {
-                return user;
-            } else {
-                return null;
-            }
+        if (user) {
+            return user;
         } else {
             return null;
         }
@@ -243,6 +238,7 @@ const userService = {
             where: { id: userId },
             include: {
                 favMovies: { include: { movie: true } },
+                favSeries: { include: { serie: true } },
             },
         });
 
