@@ -132,7 +132,7 @@ const userController = {
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'User with new serie not updated' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'User with new serie not added' });
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
@@ -177,7 +177,67 @@ const userController = {
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Favorites movies not updated' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Favorite movie not added' });
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async unBookmarkMovie(req: Request, res: Response) {
+        const { movieId, userId } = req.body;
+
+        try {
+            const updatedUser = await userService.removeFavoriteMovieToUser(userId, movieId);
+
+            if (updatedUser) {
+                res.status(HttpStatusCode.OK).send(updatedUser);
+            } else {
+                res.status(HttpStatusCode.Conflict).send({ error: 'Favorite movie not deleted' });
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async unBookmarkSerie(req: Request, res: Response) {
+        const { serieId, userId } = req.body;
+
+        try {
+            const updatedUser = await userService.removeFavoriteSerieToUser(userId, serieId);
+
+            if (updatedUser) {
+                res.status(HttpStatusCode.OK).send(updatedUser);
+            } else {
+                res.status(HttpStatusCode.Conflict).send({ error: 'Favorite serie not deleted' });
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async isSerieBookmarked(req: Request, res: Response) {
+        const { serieId, userId } = req.body;
+
+        try {
+            const result = await userService.isSerieBookmarked(userId, serieId);
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send({ isBookmarked: true });
+            } else {
+                res.status(HttpStatusCode.OK).send({ isBookmarked: false });
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async isMovieBookmarked(req: Request, res: Response) {
+        const { movieId, userId } = req.body;
+
+        try {
+            const result = await userService.isMovieBookmarked(userId, movieId);
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send({ isBookmarked: true });
+            } else {
+                res.status(HttpStatusCode.OK).send({ isBookmarked: false });
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });

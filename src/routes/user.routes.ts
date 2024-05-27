@@ -9,6 +9,7 @@ import {
     userUserNameParamSchema,
 } from '../schemas/user.schema';
 // import { authMiddleware } from '../middlewares/auth.middleware';
+
 import { userSeasonFavoriteSchema } from '../schemas/userSeasonFavorite.schema';
 import { userMovieFavoriteSchema } from '../schemas/userMovieFavorite.schema';
 import { userEpisodeFavoriteSchema } from '../schemas/userEpisodeFavorite.schema';
@@ -37,5 +38,9 @@ router.post('/bookmarkMovie', userMovieFavoriteSchema, userController.bookmarkMo
 router.post('/bookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.bookmarkSerie);
 router.post('/bookmarkEpisode', userEpisodeFavoriteSchema, validateMiddleware, userController.bookmarkEpisode);
 router.post('/bookmarkGenre', userGenreFavoriteSchema, validateMiddleware, userController.bookmarkGenre);
+router.post('/unBookmarkMovie', userMovieFavoriteSchema, validateMiddleware, userController.unBookmarkMovie);
+router.post('/unBookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.unBookmarkSerie);
+router.post('/isSerieBookmarked', validateMiddleware, userController.isSerieBookmarked);
+router.post('/isMovieBookmarked', validateMiddleware, userController.isMovieBookmarked);
 
 export default router;
