@@ -306,30 +306,52 @@ const userService = {
             return null;
         }
     },
-    async isMovieBookmarked(userId: number, movieId: number): Promise<any> {
-        const existingFavorite = await prisma.userMovieFavorite.findFirst({
+    async isMovieBookmarked(userId: number, movieTitle: string): Promise<any> {
+        const movie = await prisma.movie.findFirst({
             where: {
-                AND: [{ userId }, { movieId }],
+                title: movieTitle,
             },
         });
 
-        if (existingFavorite) {
-            return true;
+        if (movie) {
+            const existingFavorite = await prisma.userMovieFavorite.findFirst({
+                where: {
+                    AND: [{ userId }, { movieId: movie.id }],
+                },
+            });
+
+            console.log(movie);
+
+            if (existingFavorite) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            return null;
         }
     },
-    async isSerieBookmarked(userId: number, serieId: number): Promise<any> {
-        const existingFavorite = await prisma.userSerieFavorite.findFirst({
+    async isSerieBookmarked(userId: number, serieTitle: string): Promise<any> {
+        const serie = await prisma.serie.findFirst({
             where: {
-                AND: [{ userId }, { serieId }],
+                title: serieTitle,
             },
         });
 
-        if (existingFavorite) {
-            return true;
+        if (serie) {
+            const existingFavorite = await prisma.userSerieFavorite.findFirst({
+                where: {
+                    AND: [{ userId }, { serieId: serie.id }],
+                },
+            });
+
+            if (existingFavorite) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            return null;
         }
     },
 };

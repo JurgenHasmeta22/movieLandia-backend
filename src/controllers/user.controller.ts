@@ -214,10 +214,14 @@ const userController = {
         }
     },
     async isSerieBookmarked(req: Request, res: Response) {
-        const { serieId, userId } = req.body;
+        const { serieTitle, userId } = req.body;
+        const title = serieTitle
+            .split('')
+            .map((char: string) => (char === '-' ? ' ' : char))
+            .join('');
 
         try {
-            const result = await userService.isSerieBookmarked(userId, serieId);
+            const result = await userService.isSerieBookmarked(userId, title);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send({ isBookmarked: true });
@@ -229,10 +233,14 @@ const userController = {
         }
     },
     async isMovieBookmarked(req: Request, res: Response) {
-        const { movieId, userId } = req.body;
+        const { movieTitle, userId } = req.body;
+        const title = movieTitle
+            .split('')
+            .map((char: string) => (char === '-' ? ' ' : char))
+            .join('');
 
         try {
-            const result = await userService.isMovieBookmarked(userId, movieId);
+            const result = await userService.isMovieBookmarked(userId, title);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send({ isBookmarked: true });
