@@ -108,33 +108,39 @@ const genreService = {
 
         const genre = await prisma.genre.findFirst({
             where: {
-                name: nameGenre,
+                name: {
+                    equals: nameGenre,
+                },
             },
         });
 
-        const result = await prisma.movieGenre.findMany({
-            where: {
-                genreId: genre?.id,
-            },
-            orderBy: {
-                movie: orderByObject,
-            },
-            skip,
-            take,
-            select: {
-                movie: true,
-            },
-        });
+        if (genre) {
+            const result = await prisma.movieGenre.findMany({
+                where: {
+                    genreId: genre?.id,
+                },
+                orderBy: {
+                    movie: orderByObject,
+                },
+                skip,
+                take,
+                select: {
+                    movie: true,
+                },
+            });
 
-        const count = await prisma.movieGenre.count({
-            where: {
-                genreId: genre?.id,
-            },
-        });
+            const count = await prisma.movieGenre.count({
+                where: {
+                    genreId: genre?.id,
+                },
+            });
 
-        if (result) {
-            const formattedMovies = result.map((item) => item.movie);
-            return { movies: formattedMovies, count };
+            if (result) {
+                const formattedMovies = result.map((item) => item.movie);
+                return { movies: formattedMovies, count };
+            } else {
+                return null;
+            }
         } else {
             return null;
         }
