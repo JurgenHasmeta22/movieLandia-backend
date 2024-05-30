@@ -57,7 +57,7 @@ const episodeService = {
     async getEpisodeById(episodeId: number): Promise<Episode | null> {
         const result = await prisma.episode.findFirst({
             where: { id: episodeId },
-            include: { season: true, reviews: true },
+            include: { season: true },
         });
 
         if (result) {
@@ -69,7 +69,7 @@ const episodeService = {
     async getEpisodeByTitle(title: string): Promise<Episode | null> {
         const result = await prisma.episode.findFirst({
             where: { title },
-            include: { season: true, reviews: true },
+            include: { season: true },
         });
 
         if (result) {
@@ -87,7 +87,7 @@ const episodeService = {
             const episodeUpdated = await prisma.episode.update({
                 where: { id: Number(id) },
                 data: episodeParam,
-                include: { season: true, reviews: true },
+                include: { season: true },
             });
 
             if (episodeUpdated) {
@@ -110,7 +110,7 @@ const episodeService = {
                     ...episodeParam,
                     season: { connect: { id: existingSeason.id } },
                 } as Prisma.EpisodeCreateInput,
-                include: { season: true, reviews: true },
+                include: { season: true },
             });
 
             if (episodeCreated) {
