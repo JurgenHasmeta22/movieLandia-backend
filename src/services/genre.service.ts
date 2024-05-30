@@ -67,7 +67,6 @@ const genreService = {
                         movie: true,
                     },
                 },
-                reviews: true,
             },
         });
 
@@ -183,7 +182,6 @@ const genreService = {
                         movie: true,
                     },
                 },
-                reviews: true,
             },
         });
 
@@ -205,7 +203,6 @@ const genreService = {
                         movie: true,
                     },
                 },
-                reviews: true,
             },
         });
 

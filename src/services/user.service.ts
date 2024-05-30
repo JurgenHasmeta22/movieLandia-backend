@@ -359,14 +359,14 @@ const userService = {
 
     // #region "Reviews"
     async addReviewMovie({ content, createdAt, userId, movieId }: any): Promise<any> {
-        const existingReview = await prisma.review.findFirst({
+        const existingReview = await prisma.movieReview.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
             },
         });
 
         if (!existingReview) {
-            const reviewAdded = await prisma.review.create({
+            const reviewAdded = await prisma.movieReview.create({
                 data: {
                     content,
                     createdAt,
@@ -385,14 +385,14 @@ const userService = {
         }
     },
     async addReviewSerie({ content, createdAt, userId, serieId }: any): Promise<any> {
-        const existingReview = await prisma.review.findFirst({
+        const existingReview = await prisma.serieReview.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
             },
         });
 
         if (!existingReview) {
-            const reviewAdded = await prisma.review.create({
+            const reviewAdded = await prisma.serieReview.create({
                 data: {
                     content,
                     createdAt,
@@ -411,14 +411,14 @@ const userService = {
         }
     },
     async removeReviewMovie({ userId, movieId }: any): Promise<any> {
-        const existingReview = await prisma.review.findFirst({
+        const existingReview = await prisma.movieReview.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
             },
         });
 
         if (existingReview) {
-            await prisma.review.delete({
+            await prisma.movieReview.delete({
                 where: { id: existingReview.id },
             });
 
@@ -427,7 +427,8 @@ const userService = {
                 include: {
                     favMovies: { include: { movie: true } },
                     favSeries: { include: { serie: true } },
-                    reviews: { include: { movie: true, serie: true } },
+                    movieReviews: { include: { movie: true } },
+                    serieReviews: { include: { serie: true } },
                 },
             });
 
@@ -441,14 +442,14 @@ const userService = {
         }
     },
     async removeReviewSerie({ userId, serieId }: any): Promise<any> {
-        const existingReview = await prisma.review.findFirst({
+        const existingReview = await prisma.serieReview.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
             },
         });
 
         if (existingReview) {
-            await prisma.review.delete({
+            await prisma.serieReview.delete({
                 where: { id: existingReview.id },
             });
 
@@ -457,7 +458,8 @@ const userService = {
                 include: {
                     favMovies: { include: { movie: true } },
                     favSeries: { include: { serie: true } },
-                    reviews: { include: { movie: true, serie: true } },
+                    movieReviews: { include: { movie: true } },
+                    serieReviews: { include: { serie: true } },
                 },
             });
 
