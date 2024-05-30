@@ -19,10 +19,6 @@ export function createToken(id: number) {
     }
 }
 
-function logAudit(activity: string, userId: number, action: string) {
-    console.log(`Activity: ${activity} - User ID: ${userId} - Action: ${action}`);
-}
-
 export async function getUserFromToken(token: string) {
     try {
         const secret: Secret = process.env.MY_SECRET || 'defaultSecret';
@@ -35,7 +31,6 @@ export async function getUserFromToken(token: string) {
             });
 
             if (user) {
-                logAudit('UserRetrieval', user.id, 'getUserFromToken');
                 return user;
             } else {
                 return null;
@@ -43,10 +38,8 @@ export async function getUserFromToken(token: string) {
         }
     } catch (error) {
         if (error instanceof jwt.JsonWebTokenError) {
-            // console.error('JWT Error:', error.message);
             return null;
         } else {
-            // console.error('Failed to retrieve user from token:', error);
             throw error;
         }
     }
