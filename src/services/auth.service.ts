@@ -16,6 +16,7 @@ const authService = {
             const hash = bcrypt.hashSync(password);
             const user: User | null = await prisma.user.create({
                 data: { email, password: hash, userName },
+                include: { favMovies: { include: { movie: true } }, favSeries: { include: { serie: true } } },
             });
 
             if (user) {
@@ -29,6 +30,7 @@ const authService = {
     async login(email: string, password: string): Promise<User | null> {
         const user: User | null = await prisma.user.findUnique({
             where: { email },
+            include: { favMovies: { include: { movie: true } }, favSeries: { include: { serie: true } } },
         });
 
         if (user) {
