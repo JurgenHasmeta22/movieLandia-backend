@@ -40,12 +40,18 @@ const serieService = {
             orderByObject[sortBy] = ascOrDesc;
         }
 
-        const series = await prisma.serie.findMany({
+        const seriesWithGenres = await prisma.serie.findMany({
             where: filters,
-            include: { seasons: true },
+            include: { genres: { select: { genre: true } } },
             orderBy: orderByObject,
             skip,
             take,
+        });
+
+        const series = seriesWithGenres.map((serie) => {
+            const { genres, ...properties } = serie;
+            const simplifiedGenres = genres.map((genre) => genre.genre);
+            return { ...properties, genres: simplifiedGenres };
         });
 
         const count = await prisma.serie.count();
@@ -59,7 +65,7 @@ const serieService = {
     async getSerieById(serieId: number): Promise<Serie | null> {
         const result = await prisma.serie.findFirst({
             where: { id: serieId },
-            include: { seasons: true },
+            include: { genres: { select: { genre: true } } },
         });
 
         if (result) {
@@ -71,7 +77,7 @@ const serieService = {
     async getSerieByTitle(title: string): Promise<Serie | null> {
         const result = await prisma.serie.findFirst({
             where: { title },
-            include: { seasons: true },
+            include: { genres: { select: { genre: true } } },
         });
 
         if (result) {
@@ -86,7 +92,7 @@ const serieService = {
                 id: 'desc',
             },
             take: 20,
-            include: { seasons: true },
+            include: { genres: { select: { genre: true } } },
         });
 
         if (result) {
@@ -104,7 +110,7 @@ const serieService = {
             const serieUpdated = await prisma.serie.update({
                 where: { id: Number(id) },
                 data: serieParam,
-                include: { seasons: true },
+                include: { genres: { select: { genre: true } } },
             });
 
             if (serieUpdated) {
@@ -119,7 +125,7 @@ const serieService = {
     async addSerie(serieParam: Prisma.SerieCreateInput): Promise<Serie | null> {
         const serieCreated = await prisma.serie.create({
             data: serieParam,
-            include: { seasons: true },
+            include: { genres: { select: { genre: true } } },
         });
 
         if (serieCreated) {
@@ -152,7 +158,7 @@ const serieService = {
             where: {
                 title: { contains: title },
             },
-            include: { seasons: true },
+            include: { genres: { select: { genre: true } } },
             skip: page ? (page - 1) * 20 : 0,
             take: 20,
         };
@@ -178,7 +184,7 @@ const serieService = {
 
             const serie = await prisma.serie.findUnique({
                 where: { id: serieId },
-                include: { seasons: true },
+                include: { genres: { select: { genre: true } } },
             });
 
             if (serie) {

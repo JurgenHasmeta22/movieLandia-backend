@@ -125,26 +125,36 @@ model MovieGenre {
   genre   Genre @relation(fields: [genreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
+model SerieGenre {
+  id      Int   @id @default(autoincrement())
+  serieId Int
+  genreId Int
+  serie   Serie @relation(fields: [serieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  genre   Genre @relation(fields: [genreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
 model Genre {
   id                   Int                 @id @default(autoincrement())
   name                 String              @default("")
   movies               MovieGenre[]
+  series               SerieGenre[]
   comments             Comment[]
   usersWhoBookmarkedIt UserGenreFavorite[]
   usersWhoRatedIt      UserGenreRating[]
 }
 
 model Serie {
-  id          Int    @id @default(autoincrement())
-  title       String @default("")
-  photoSrc    String @default("")
-  trailerSrc  String @default("")
-  description String @default("")
+  id                   Int                 @id @default(autoincrement())
+  title                String              @default("")
+  photoSrc             String              @default("")
+  trailerSrc           String              @default("")
+  description          String              @default("")
   releaseYear          Int                 @default(2020)
   ratingImdb           Float               @default(5.0)
   cast                 CastSerie[]
   seasons              Season[]
   comments             Comment[]
+  genres               SerieGenre[]
   usersWhoBookmarkedIt UserSerieFavorite[]
   usersWhoRatedIt      UserSerieRating[]
 }
