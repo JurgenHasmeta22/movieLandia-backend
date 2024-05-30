@@ -295,5 +295,4 @@ model Episode {
   usersWhoBookmarkedIt UserEpisodeFavorite[]
   usersWhoRatedIt      UserEpisodeRating[]
 }
-
 // #endregion
