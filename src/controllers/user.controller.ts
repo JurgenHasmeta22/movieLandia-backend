@@ -108,6 +108,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+    // #region "Bookmarks"
     async bookmarkSeason(req: Request, res: Response) {
         const { userId, seasonId } = req.body;
 
@@ -251,6 +252,86 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+    // #endregion
+
+    // #region "Reviews"
+    async addReviewMovie(req: Request, res: Response) {
+        const { content, createdAt, userId, movieId } = req.body;
+
+        try {
+            const result = await userService.addReviewMovie({
+                content,
+                createdAt,
+                userId,
+                movieId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async addReviewSerie(req: Request, res: Response) {
+        const { content, createdAt, userId, serieId } = req.body;
+
+        try {
+            const result = await userService.addReviewSerie({
+                content,
+                createdAt,
+                userId,
+                serieId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async removeReviewMovie(req: Request, res: Response) {
+        const { userId, movieId } = req.body;
+
+        try {
+            const result = await userService.removeReviewMovie({
+                userId,
+                movieId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async removeReviewSerie(req: Request, res: Response) {
+        const { userId, serieId } = req.body;
+
+        try {
+            const result = await userService.removeReviewSerie({
+                userId,
+                serieId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    // #endregion
 };
 
 export default userController;
