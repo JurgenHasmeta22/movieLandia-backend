@@ -7,6 +7,7 @@ interface GetGenresParams {
     perPage: number;
     page: number;
     name: string;
+    type?: string;
     filterValue?: number;
     filterNameString: string;
     filterOperatorString: '>' | '=' | '<';
@@ -84,6 +85,7 @@ const genreService = {
             perPage,
             page,
             name,
+            type,
             filterValue,
             filterNameString,
             filterOperatorString,
@@ -115,29 +117,56 @@ const genreService = {
         });
 
         if (genre) {
-            const result = await prisma.movieGenre.findMany({
-                where: {
-                    genreId: genre?.id,
-                },
-                orderBy: {
-                    movie: orderByObject,
-                },
-                skip,
-                take,
-                select: {
-                    movie: true,
-                },
-            });
+            if (type === 'movie') {
+                const result = await prisma.movieGenre.findMany({
+                    where: {
+                        genreId: genre?.id,
+                    },
+                    orderBy: {
+                        movie: orderByObject,
+                    },
+                    skip,
+                    take,
+                    select: {
+                        movie: true,
+                    },
+                });
 
-            const count = await prisma.movieGenre.count({
-                where: {
-                    genreId: genre?.id,
-                },
-            });
+                const count = await prisma.movieGenre.count({
+                    where: {
+                        genreId: genre?.id,
+                    },
+                });
 
-            if (result) {
-                const formattedMovies = result.map((item) => item.movie);
-                return { movies: formattedMovies, count };
+                if (result) {
+                    const formattedMovies = result.map((item) => item.movie);
+                    return { movies: formattedMovies, count };
+                }
+            } else if (type === 'serie') {
+                const result = await prisma.serieGenre.findMany({
+                    where: {
+                        genreId: genre?.id,
+                    },
+                    orderBy: {
+                        serie: orderByObject,
+                    },
+                    skip,
+                    take,
+                    select: {
+                        serie: true,
+                    },
+                });
+
+                const count = await prisma.serieGenre.count({
+                    where: {
+                        genreId: genre?.id,
+                    },
+                });
+
+                if (result) {
+                    const formattedSeries = result.map((item) => item.serie);
+                    return { series: formattedSeries, count };
+                }
             } else {
                 return null;
             }

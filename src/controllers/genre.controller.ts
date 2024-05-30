@@ -49,7 +49,7 @@ const genreController = {
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
 
-        const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
+        const { sortBy, ascOrDesc, page, pageSize, type, name, filterValue, filterName, filterOperator } = req.query;
 
         try {
             const genre = await genreService.getGenreByName(nameGenre, {
@@ -58,6 +58,7 @@ const genreController = {
                 perPage: pageSize ? Number(pageSize) : 20,
                 page: Number(page!),
                 name: name! as string,
+                type: type as string,
                 filterValue: filterValue ? Number(filterValue) : undefined,
                 filterNameString: filterName! as string,
                 filterOperatorString: filterOperator! as '>' | '=' | '<',
