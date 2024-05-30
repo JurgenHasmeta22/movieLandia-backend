@@ -118,6 +118,7 @@ const userService = {
             return null;
         }
     },
+    // #region "Bookmarks"
     async addFavoriteSeasonToUser(userId: number, seasonId: number): Promise<User | null> {
         const season: Season | null = await prisma.season.findUnique({
             where: { id: Number(seasonId) },
@@ -354,6 +355,122 @@ const userService = {
             return null;
         }
     },
+    // #endregion
+
+    // #region "Reviews"
+    async addReviewMovie({ content, createdAt, userId, movieId }: any): Promise<any> {
+        const existingReview = await prisma.review.findFirst({
+            where: {
+                AND: [{ userId }, { movieId }],
+            },
+        });
+
+        if (existingReview) {
+            const reviewAdded = await prisma.review.create({
+                data: {
+                    content,
+                    createdAt,
+                    userId,
+                    movieId,
+                },
+            });
+
+            if (reviewAdded) {
+                return reviewAdded;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    },
+    async addReviewSerie({ content, createdAt, userId, serieId }: any): Promise<any> {
+        const existingReview = await prisma.review.findFirst({
+            where: {
+                AND: [{ userId }, { serieId }],
+            },
+        });
+
+        if (existingReview) {
+            const reviewAdded = await prisma.review.create({
+                data: {
+                    content,
+                    createdAt,
+                    userId,
+                    serieId,
+                },
+            });
+
+            if (reviewAdded) {
+                return reviewAdded;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    },
+    async removeReviewMovie({ userId, movieId }: any): Promise<any> {
+        const existingReview = await prisma.review.findFirst({
+            where: {
+                AND: [{ userId }, { movieId }],
+            },
+        });
+
+        if (existingReview) {
+            await prisma.review.delete({
+                where: { id: existingReview.id },
+            });
+
+            const user = await prisma.user.findUnique({
+                where: { id: userId },
+                include: {
+                    favMovies: { include: { movie: true } },
+                    favSeries: { include: { serie: true } },
+                    reviews: { include: { movie: true, serie: true } },
+                },
+            });
+
+            if (user) {
+                return user;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    },
+    async removeReviewSerie({ userId, serieId }: any): Promise<any> {
+        const existingReview = await prisma.review.findFirst({
+            where: {
+                AND: [{ userId }, { serieId }],
+            },
+        });
+
+        if (existingReview) {
+            await prisma.review.delete({
+                where: { id: existingReview.id },
+            });
+
+            const user = await prisma.user.findUnique({
+                where: { id: userId },
+                include: {
+                    favMovies: { include: { movie: true } },
+                    favSeries: { include: { serie: true } },
+                    reviews: { include: { movie: true, serie: true } },
+                },
+            });
+
+            if (user) {
+                return user;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    },
+    // #endregion
 };
 
 export default userService;

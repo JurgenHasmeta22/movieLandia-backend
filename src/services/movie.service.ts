@@ -65,7 +65,7 @@ const movieService = {
     async getMovieById(movieId: number): Promise<Movie | null> {
         const result = await prisma.movie.findFirst({
             where: { id: movieId },
-            include: { genres: { select: { genre: true } }, comments: true, cast: { select: { actor: true } } },
+            include: { genres: { select: { genre: true } }, reviews: true, cast: { select: { actor: true } } },
         });
 
         if (result) {
@@ -77,7 +77,7 @@ const movieService = {
     async getMovieByTitle(title: string): Promise<Movie | null> {
         const result = await prisma.movie.findFirst({
             where: { title },
-            include: { genres: { select: { genre: true } }, comments: true, cast: { select: { actor: true } } },
+            include: { genres: { select: { genre: true } }, reviews: true, cast: { select: { actor: true } } },
         });
 
         if (result) {
@@ -110,7 +110,7 @@ const movieService = {
             const movieUpdated = await prisma.movie.update({
                 where: { id: Number(id) },
                 data: movieParam,
-                include: { genres: { select: { genre: true } }, comments: true, cast: { select: { actor: true } } },
+                include: { genres: { select: { genre: true } }, reviews: true, cast: { select: { actor: true } } },
             });
 
             if (movieUpdated) {
@@ -125,7 +125,7 @@ const movieService = {
     async addMovie(movieParam: Prisma.MovieCreateInput): Promise<Movie | null> {
         const movieCreated = await prisma.movie.create({
             data: movieParam,
-            include: { genres: { select: { genre: true } }, comments: true, cast: { select: { actor: true } } },
+            include: { genres: { select: { genre: true } }, reviews: true, cast: { select: { actor: true } } },
         });
 
         if (movieCreated) {

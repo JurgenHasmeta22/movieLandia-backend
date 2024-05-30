@@ -8,6 +8,7 @@ import {
     userIdParamSchema,
     userUserNameParamSchema,
 } from '../schemas/user.schema';
+
 // import { authMiddleware } from '../middlewares/auth.middleware';
 
 import { userSeasonFavoriteSchema } from '../schemas/userSeasonFavorite.schema';
@@ -33,6 +34,8 @@ router.patch(
 );
 router.put('/updateUserById/:id', userIdParamSchema, userSchemaPost, validateMiddleware, userController.updateUserById);
 router.get('/searchUsersByTitle', userController.searchUsersByTitle);
+
+// #region "Bookmark routes"
 router.post('/bookmarkSeason', userSeasonFavoriteSchema, validateMiddleware, userController.bookmarkSeason);
 router.post('/bookmarkMovie', userMovieFavoriteSchema, userController.bookmarkMovie);
 router.post('/bookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.bookmarkSerie);
@@ -42,5 +45,13 @@ router.post('/unBookmarkMovie', userMovieFavoriteSchema, validateMiddleware, use
 router.post('/unBookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.unBookmarkSerie);
 router.post('/isSerieBookmarked', validateMiddleware, userController.isSerieBookmarked);
 router.post('/isMovieBookmarked', validateMiddleware, userController.isMovieBookmarked);
+// #endregion
+
+// #region "Reviews Routes"
+router.post('/addReviewMovie', validateMiddleware, userController.addReviewMovie);
+router.post('/addReviewSerie', validateMiddleware, userController.addReviewSerie);
+router.post('/removeReviewMovie', validateMiddleware, userController.removeReviewMovie);
+router.post('/removeReviewSerie', validateMiddleware, userController.removeReviewSerie);
+// #endregion
 
 export default router;
