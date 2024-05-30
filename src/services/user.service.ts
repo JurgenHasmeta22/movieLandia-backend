@@ -118,6 +118,7 @@ const userService = {
             return null;
         }
     },
+
     // #region "Bookmarks"
     async addFavoriteSeasonToUser(userId: number, seasonId: number): Promise<User | null> {
         const season: Season | null = await prisma.season.findUnique({
@@ -146,7 +147,7 @@ const userService = {
     async addFavoriteSerieToUser(userId: number, serieId: number): Promise<User | null> {
         const existingFavorite = await prisma.userSerieFavorite.findFirst({
             where: {
-                AND: [{ userId: userId }, { serieId: serieId }],
+                AND: [{ userId }, { serieId }],
             },
         });
 
@@ -163,6 +164,8 @@ const userService = {
             include: {
                 favMovies: { include: { movie: true } },
                 favSeries: { include: { serie: true } },
+                movieReviews: { include: { movie: true } },
+                serieReviews: { include: { serie: true } },
             },
         });
 
@@ -223,7 +226,7 @@ const userService = {
     async addFavoriteMovieToUser(userId: number, movieId: number): Promise<User | null> {
         const existingFavorite = await prisma.userMovieFavorite.findFirst({
             where: {
-                AND: [{ userId: userId }, { movieId: movieId }],
+                AND: [{ userId }, { movieId }],
             },
         });
 
@@ -240,6 +243,8 @@ const userService = {
             include: {
                 favMovies: { include: { movie: true } },
                 favSeries: { include: { serie: true } },
+                movieReviews: { include: { movie: true } },
+                serieReviews: { include: { serie: true } },
             },
         });
 
@@ -266,6 +271,8 @@ const userService = {
                 include: {
                     favMovies: { include: { movie: true } },
                     favSeries: { include: { serie: true } },
+                    movieReviews: { include: { movie: true } },
+                    serieReviews: { include: { serie: true } },
                 },
             });
 
@@ -295,6 +302,8 @@ const userService = {
                 include: {
                     favMovies: { include: { movie: true } },
                     favSeries: { include: { serie: true } },
+                    movieReviews: { include: { movie: true } },
+                    serieReviews: { include: { serie: true } },
                 },
             });
 
@@ -418,22 +427,12 @@ const userService = {
         });
 
         if (existingReview) {
-            await prisma.movieReview.delete({
+            const result = await prisma.movieReview.delete({
                 where: { id: existingReview.id },
             });
 
-            const user = await prisma.user.findUnique({
-                where: { id: userId },
-                include: {
-                    favMovies: { include: { movie: true } },
-                    favSeries: { include: { serie: true } },
-                    movieReviews: { include: { movie: true } },
-                    serieReviews: { include: { serie: true } },
-                },
-            });
-
-            if (user) {
-                return user;
+            if (result) {
+                return result;
             } else {
                 return null;
             }
@@ -449,22 +448,12 @@ const userService = {
         });
 
         if (existingReview) {
-            await prisma.serieReview.delete({
+            const result = await prisma.serieReview.delete({
                 where: { id: existingReview.id },
             });
 
-            const user = await prisma.user.findUnique({
-                where: { id: userId },
-                include: {
-                    favMovies: { include: { movie: true } },
-                    favSeries: { include: { serie: true } },
-                    movieReviews: { include: { movie: true } },
-                    serieReviews: { include: { serie: true } },
-                },
-            });
-
-            if (user) {
-                return user;
+            if (result) {
+                return result;
             } else {
                 return null;
             }
