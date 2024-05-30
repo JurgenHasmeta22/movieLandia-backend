@@ -77,7 +77,11 @@ const serieService = {
     async getSerieByTitle(title: string): Promise<Serie | null> {
         const result = await prisma.serie.findFirst({
             where: { title },
-            include: { genres: { select: { genre: true } } },
+            include: {
+                genres: { select: { genre: true } },
+                reviews: { include: { user: true } },
+                cast: { select: { actor: true } },
+            },
         });
 
         if (result) {

@@ -365,7 +365,7 @@ const userService = {
             },
         });
 
-        if (existingReview) {
+        if (!existingReview) {
             const reviewAdded = await prisma.review.create({
                 data: {
                     content,
@@ -391,7 +391,7 @@ const userService = {
             },
         });
 
-        if (existingReview) {
+        if (!existingReview) {
             const reviewAdded = await prisma.review.create({
                 data: {
                     content,

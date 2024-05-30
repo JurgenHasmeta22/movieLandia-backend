@@ -16,6 +16,8 @@ import { userMovieFavoriteSchema } from '../schemas/userMovieFavorite.schema';
 import { userEpisodeFavoriteSchema } from '../schemas/userEpisodeFavorite.schema';
 import { userGenreFavoriteSchema } from '../schemas/userGenreFavorite.schema';
 import { userSerieFavoriteSchema } from '../schemas/userSerie.schema';
+import { movieReviewSchema } from '../schemas/movieReview.schema';
+import { serieReviewSchema } from '../schemas/serieReview.schema';
 
 const router = express.Router();
 
@@ -48,10 +50,10 @@ router.post('/isMovieBookmarked', validateMiddleware, userController.isMovieBook
 // #endregion
 
 // #region "Reviews Routes"
-router.post('/addReviewMovie', validateMiddleware, userController.addReviewMovie);
-router.post('/addReviewSerie', validateMiddleware, userController.addReviewSerie);
-router.post('/removeReviewMovie', validateMiddleware, userController.removeReviewMovie);
-router.post('/removeReviewSerie', validateMiddleware, userController.removeReviewSerie);
+router.post('/addReviewMovie', movieReviewSchema, validateMiddleware, userController.addReviewMovie);
+router.post('/addReviewSerie', serieReviewSchema, validateMiddleware, userController.addReviewSerie);
+router.post('/removeReviewMovie', movieReviewSchema, validateMiddleware, userController.removeReviewMovie);
+router.post('/removeReviewSerie', serieReviewSchema, validateMiddleware, userController.removeReviewSerie);
 // #endregion
 
 export default router;

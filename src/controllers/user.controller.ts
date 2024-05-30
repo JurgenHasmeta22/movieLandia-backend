@@ -256,7 +256,8 @@ const userController = {
 
     // #region "Reviews"
     async addReviewMovie(req: Request, res: Response) {
-        const { content, createdAt, userId, movieId } = req.body;
+        const { content, userId, movieId } = req.body;
+        const createdAt =  new Date();
 
         try {
             const result = await userService.addReviewMovie({
@@ -276,7 +277,8 @@ const userController = {
         }
     },
     async addReviewSerie(req: Request, res: Response) {
-        const { content, createdAt, userId, serieId } = req.body;
+        const { content, userId, serieId } = req.body;
+        const createdAt =  new Date();
 
         try {
             const result = await userService.addReviewSerie({

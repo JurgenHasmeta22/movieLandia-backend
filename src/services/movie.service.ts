@@ -77,7 +77,11 @@ const movieService = {
     async getMovieByTitle(title: string): Promise<Movie | null> {
         const result = await prisma.movie.findFirst({
             where: { title },
-            include: { genres: { select: { genre: true } }, reviews: true, cast: { select: { actor: true } } },
+            include: {
+                genres: { select: { genre: true } },
+                reviews: { include: { user: true } },
+                cast: { select: { actor: true } },
+            },
         });
 
         if (result) {
