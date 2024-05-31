@@ -44,12 +44,14 @@ const serieController = {
         }
     },
     async getSerieByTitle(req: Request, res: Response) {
+        const { page } = req.query;
         const title = req.params.title
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
+
         try {
-            const serie = await serieService.getSerieByTitle(title);
+            const serie = await serieService.getSerieByTitle(title, Number(page));
 
             if (serie) {
                 res.status(HttpStatusCode.OK).send(serie);

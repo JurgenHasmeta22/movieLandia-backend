@@ -74,13 +74,19 @@ const serieService = {
             return null;
         }
     },
-    async getSerieByTitle(title: string): Promise<Serie | null> {
+    async getSerieByTitle(title: string, page: number): Promise<Serie | null> {
+        const skip = page ? (page - 1) * 10 : 0;
+        const take = 10;
+
         const result = await prisma.serie.findFirst({
             where: { title },
             include: {
                 genres: { select: { genre: true } },
-                reviews: { include: { user: true } },
-                cast: { select: { actor: true } },
+                reviews: {
+                    include: { user: true },
+                    skip: skip,
+                    take: take,
+                },
             },
         });
 

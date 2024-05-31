@@ -44,13 +44,14 @@ const movieController = {
         }
     },
     async getMovieByTitle(req: Request, res: Response) {
+        const { page } = req.query;
         const title = req.params.title
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
-            
+
         try {
-            const movie = await movieService.getMovieByTitle(title);
+            const movie = await movieService.getMovieByTitle(title, Number(page));
 
             if (movie) {
                 res.status(HttpStatusCode.OK).send(movie);
