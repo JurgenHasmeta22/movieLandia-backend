@@ -74,9 +74,14 @@ const movieService = {
             return null;
         }
     },
-    async getMovieByTitle(title: string, page: number): Promise<Movie | null> {
+    async getMovieByTitle(title: string, page: number, ascOrDesc?: string, sortBy?: string): Promise<Movie | null> {
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
+        const orderByObject: any = {};
+
+        if (sortBy && ascOrDesc) {
+            orderByObject[sortBy] = ascOrDesc;
+        }
 
         const result = await prisma.movie.findFirst({
             where: { title },
@@ -84,6 +89,7 @@ const movieService = {
                 genres: { select: { genre: true } },
                 reviews: {
                     include: { user: true },
+                    orderBy: orderByObject,
                     skip: skip,
                     take: take,
                 },
