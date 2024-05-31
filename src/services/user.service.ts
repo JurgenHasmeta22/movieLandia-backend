@@ -419,7 +419,7 @@ const userService = {
             return null;
         }
     },
-    async updateReviewMovie({ content, createdAt, userId, movieId }: any): Promise<any> {
+    async updateReviewMovie({ content, updatedAt, userId, movieId }: any): Promise<any> {
         const existingReview = await prisma.movieReview.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
@@ -430,7 +430,7 @@ const userService = {
             const reviewUpdated = await prisma.movieReview.update({
                 data: {
                     content,
-                    createdAt,
+                    updatedAt,
                     userId,
                     movieId,
                 },
@@ -448,7 +448,7 @@ const userService = {
             return null;
         }
     },
-    async updateReviewSerie({ content, createdAt, userId, serieId }: any): Promise<any> {
+    async updateReviewSerie({ content, updatedAt, userId, serieId }: any): Promise<any> {
         const existingReview = await prisma.serieReview.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
@@ -459,7 +459,7 @@ const userService = {
             const reviewUpdated = await prisma.serieReview.update({
                 data: {
                     content,
-                    createdAt,
+                    updatedAt,
                     userId,
                     serieId,
                 },

@@ -299,12 +299,12 @@ const userController = {
     },
     async updateReviewMovie(req: Request, res: Response) {
         const { content, userId, movieId } = req.body;
-        const createdAt = new Date();
+        const updatedAt = new Date();
 
         try {
             const result = await userService.updateReviewMovie({
                 content,
-                createdAt,
+                updatedAt,
                 userId,
                 movieId,
             });
@@ -320,12 +320,12 @@ const userController = {
     },
     async updateReviewSerie(req: Request, res: Response) {
         const { content, userId, serieId } = req.body;
-        const createdAt = new Date();
+        const updatedAt = new Date();
 
         try {
             const result = await userService.updateReviewSerie({
                 content,
-                createdAt,
+                updatedAt,
                 userId,
                 serieId,
             });
