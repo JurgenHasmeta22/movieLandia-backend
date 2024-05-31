@@ -256,13 +256,14 @@ const userController = {
 
     // #region "Reviews"
     async addReviewMovie(req: Request, res: Response) {
-        const { content, userId, movieId } = req.body;
+        const { content, rating, userId, movieId } = req.body;
         const createdAt = new Date();
 
         try {
             const result = await userService.addReviewMovie({
                 content,
                 createdAt,
+                rating,
                 userId,
                 movieId,
             });
@@ -277,13 +278,14 @@ const userController = {
         }
     },
     async addReviewSerie(req: Request, res: Response) {
-        const { content, userId, serieId } = req.body;
+        const { content, rating, userId, serieId } = req.body;
         const createdAt = new Date();
 
         try {
             const result = await userService.addReviewSerie({
                 content,
                 createdAt,
+                rating,
                 userId,
                 serieId,
             });
@@ -298,13 +300,14 @@ const userController = {
         }
     },
     async updateReviewMovie(req: Request, res: Response) {
-        const { content, userId, movieId } = req.body;
+        const { content, rating, userId, movieId } = req.body;
         const updatedAt = new Date();
 
         try {
             const result = await userService.updateReviewMovie({
                 content,
                 updatedAt,
+                rating,
                 userId,
                 movieId,
             });
@@ -319,13 +322,14 @@ const userController = {
         }
     },
     async updateReviewSerie(req: Request, res: Response) {
-        const { content, userId, serieId } = req.body;
+        const { content, rating, userId, serieId } = req.body;
         const updatedAt = new Date();
 
         try {
             const result = await userService.updateReviewSerie({
                 content,
                 updatedAt,
+                rating,
                 userId,
                 serieId,
             });

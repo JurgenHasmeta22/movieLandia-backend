@@ -367,7 +367,7 @@ const userService = {
     // #endregion
 
     // #region "Reviews"
-    async addReviewMovie({ content, createdAt, userId, movieId }: any): Promise<any> {
+    async addReviewMovie({ content, createdAt, rating, userId, movieId }: any): Promise<any> {
         const existingReview = await prisma.movieReview.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
@@ -379,6 +379,7 @@ const userService = {
                 data: {
                     content,
                     createdAt,
+                    rating,
                     userId,
                     movieId,
                 },
@@ -393,7 +394,7 @@ const userService = {
             return null;
         }
     },
-    async addReviewSerie({ content, createdAt, userId, serieId }: any): Promise<any> {
+    async addReviewSerie({ content, createdAt, rating, userId, serieId }: any): Promise<any> {
         const existingReview = await prisma.serieReview.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
@@ -405,6 +406,7 @@ const userService = {
                 data: {
                     content,
                     createdAt,
+                    rating,
                     userId,
                     serieId,
                 },
@@ -419,7 +421,7 @@ const userService = {
             return null;
         }
     },
-    async updateReviewMovie({ content, updatedAt, userId, movieId }: any): Promise<any> {
+    async updateReviewMovie({ content, updatedAt, rating, userId, movieId }: any): Promise<any> {
         const existingReview = await prisma.movieReview.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
@@ -431,6 +433,7 @@ const userService = {
                 data: {
                     content,
                     updatedAt,
+                    rating,
                     userId,
                     movieId,
                 },
@@ -448,7 +451,7 @@ const userService = {
             return null;
         }
     },
-    async updateReviewSerie({ content, updatedAt, userId, serieId }: any): Promise<any> {
+    async updateReviewSerie({ content, updatedAt, rating, userId, serieId }: any): Promise<any> {
         const existingReview = await prisma.serieReview.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
@@ -460,6 +463,7 @@ const userService = {
                 data: {
                     content,
                     updatedAt,
+                    rating,
                     userId,
                     serieId,
                 },
