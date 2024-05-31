@@ -75,8 +75,8 @@ const movieService = {
         }
     },
     async getMovieByTitle(title: string, page: number): Promise<Movie | null> {
-        const skip = page ? (page - 1) * 10 : 0;
-        const take = 10;
+        const skip = page ? (page - 1) * 5 : 0;
+        const take = 5;
 
         const result = await prisma.movie.findFirst({
             where: { title },
@@ -86,6 +86,9 @@ const movieService = {
                     include: { user: true },
                     skip: skip,
                     take: take,
+                },
+                _count: {
+                    select: { reviews: true },
                 },
             },
         });
