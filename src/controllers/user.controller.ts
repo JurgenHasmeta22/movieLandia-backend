@@ -257,7 +257,7 @@ const userController = {
     // #region "Reviews"
     async addReviewMovie(req: Request, res: Response) {
         const { content, userId, movieId } = req.body;
-        const createdAt =  new Date();
+        const createdAt = new Date();
 
         try {
             const result = await userService.addReviewMovie({
@@ -278,10 +278,52 @@ const userController = {
     },
     async addReviewSerie(req: Request, res: Response) {
         const { content, userId, serieId } = req.body;
-        const createdAt =  new Date();
+        const createdAt = new Date();
 
         try {
             const result = await userService.addReviewSerie({
+                content,
+                createdAt,
+                userId,
+                serieId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async updateReviewMovie(req: Request, res: Response) {
+        const { content, userId, movieId } = req.body;
+        const createdAt = new Date();
+
+        try {
+            const result = await userService.updateReviewMovie({
+                content,
+                createdAt,
+                userId,
+                movieId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async updateReviewSerie(req: Request, res: Response) {
+        const { content, userId, serieId } = req.body;
+        const createdAt = new Date();
+
+        try {
+            const result = await userService.updateReviewSerie({
                 content,
                 createdAt,
                 userId,
@@ -328,6 +370,44 @@ const userController = {
                 res.status(HttpStatusCode.OK).send(result);
             } else {
                 res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async isSerieReviewed(req: Request, res: Response) {
+        const { serieTitle, userId } = req.body;
+        const title = serieTitle
+            .split('')
+            .map((char: string) => (char === '-' ? ' ' : char))
+            .join('');
+
+        try {
+            const result = await userService.isSerieReviewed(userId, title);
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send({ isReviewed: true });
+            } else {
+                res.status(HttpStatusCode.OK).send({ isReviewed: false });
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async isMovieReviewed(req: Request, res: Response) {
+        const { movieTitle, userId } = req.body;
+        const title = movieTitle
+            .split('')
+            .map((char: string) => (char === '-' ? ' ' : char))
+            .join('');
+
+        try {
+            const result = await userService.isMovieReviewed(userId, title);
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send({ isReviewed: true });
+            } else {
+                res.status(HttpStatusCode.OK).send({ isReviewed: false });
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
