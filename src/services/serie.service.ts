@@ -74,9 +74,14 @@ const serieService = {
             return null;
         }
     },
-    async getSerieByTitle(title: string, page: number): Promise<Serie | null> {
+    async getSerieByTitle(title: string, page: number, ascOrDesc?: string, sortBy?: string): Promise<Serie | null> {
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
+        const orderByObject: any = {};
+
+        if (sortBy && ascOrDesc) {
+            orderByObject[sortBy] = ascOrDesc;
+        }
 
         const result = await prisma.serie.findFirst({
             where: { title },
@@ -84,6 +89,7 @@ const serieService = {
                 genres: { select: { genre: true } },
                 reviews: {
                     include: { user: true },
+                    orderBy: orderByObject,
                     skip: skip,
                     take: take,
                 },

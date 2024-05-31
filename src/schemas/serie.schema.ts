@@ -1,6 +1,7 @@
 import { body, param, query } from 'express-validator';
 
 const allowedSortByProperties = ['id', 'photoSrc', 'releaseYear', 'title', 'ratingImdb'];
+const allowedSortByPropertiesDetails = ['createdAt', 'rating'];
 
 const serieQuerySchema = [
     query('sortBy')
@@ -34,6 +35,19 @@ const serieTitleParamSchema = [
         // .trim()
         // .matches(/^[a-zA-Z\s]+$/)
         .withMessage('Invalid serie title format'),
+    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
+    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
+    query('sortBy')
+        .optional()
+        .custom((value) => {
+            if (!value) return true;
+
+            if (!allowedSortByPropertiesDetails.includes(value)) {
+                throw new Error('Invalid sortBy value');
+            }
+
+            return true;
+        }),
 ];
 
 const serieSchemaUpdate = [

@@ -11,6 +11,8 @@ const allowedSortByProperties = [
     'description',
 ];
 
+const allowedSortByPropertiesDetails = ['createdAt', 'rating'];
+
 const movieQuerySchema = [
     query('sortBy')
         .optional()
@@ -43,6 +45,19 @@ const movieTitleParamSchema = [
         // .trim()
         // .matches(/^[a-zA-Z\s]+$/)
         .withMessage('Invalid movie title format'),
+    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
+    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
+    query('sortBy')
+        .optional()
+        .custom((value) => {
+            if (!value) return true;
+
+            if (!allowedSortByPropertiesDetails.includes(value)) {
+                throw new Error('Invalid sortBy value');
+            }
+
+            return true;
+        }),
 ];
 
 const movieSchemaUpdate = [
