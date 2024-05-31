@@ -419,6 +419,64 @@ const userService = {
             return null;
         }
     },
+    async updateReviewMovie({ content, createdAt, userId, movieId }: any): Promise<any> {
+        const existingReview = await prisma.movieReview.findFirst({
+            where: {
+                AND: [{ userId }, { movieId }],
+            },
+        });
+
+        if (existingReview) {
+            const reviewUpdated = await prisma.movieReview.update({
+                data: {
+                    content,
+                    createdAt,
+                    userId,
+                    movieId,
+                },
+                where: {
+                    id: existingReview.id,
+                },
+            });
+
+            if (reviewUpdated) {
+                return reviewUpdated;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    },
+    async updateReviewSerie({ content, createdAt, userId, serieId }: any): Promise<any> {
+        const existingReview = await prisma.serieReview.findFirst({
+            where: {
+                AND: [{ userId }, { serieId }],
+            },
+        });
+
+        if (existingReview) {
+            const reviewUpdated = await prisma.serieReview.update({
+                data: {
+                    content,
+                    createdAt,
+                    userId,
+                    serieId,
+                },
+                where: {
+                    id: existingReview.id,
+                },
+            });
+
+            if (reviewUpdated) {
+                return reviewUpdated;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    },
     async removeReviewMovie({ userId, movieId }: any): Promise<any> {
         const existingReview = await prisma.movieReview.findFirst({
             where: {
@@ -456,6 +514,52 @@ const userService = {
                 return result;
             } else {
                 return null;
+            }
+        } else {
+            return null;
+        }
+    },
+    async isMovieReviewed(userId: number, movieTitle: string): Promise<any> {
+        const movie = await prisma.movie.findFirst({
+            where: {
+                title: movieTitle,
+            },
+        });
+
+        if (movie) {
+            const existingReview = await prisma.movieReview.findFirst({
+                where: {
+                    AND: [{ userId }, { movieId: movie.id }],
+                },
+            });
+
+            if (existingReview) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return null;
+        }
+    },
+    async isSerieReviewed(userId: number, serieTitle: string): Promise<any> {
+        const serie = await prisma.serie.findFirst({
+            where: {
+                title: serieTitle,
+            },
+        });
+
+        if (serie) {
+            const existingReview = await prisma.serieReview.findFirst({
+                where: {
+                    AND: [{ userId }, { serieId: serie.id }],
+                },
+            });
+
+            if (existingReview) {
+                return true;
+            } else {
+                return false;
             }
         } else {
             return null;

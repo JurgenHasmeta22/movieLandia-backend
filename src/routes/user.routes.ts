@@ -52,8 +52,12 @@ router.post('/isMovieBookmarked', validateMiddleware, userController.isMovieBook
 // #region "Reviews Routes"
 router.post('/addReviewMovie', movieReviewSchema, validateMiddleware, userController.addReviewMovie);
 router.post('/addReviewSerie', serieReviewSchema, validateMiddleware, userController.addReviewSerie);
+router.post('/updateReviewMovie', movieReviewSchema, validateMiddleware, userController.updateReviewMovie);
+router.post('/updateReviewSerie', serieReviewSchema, validateMiddleware, userController.updateReviewSerie);
 router.post('/removeReviewMovie', movieReviewSchema, validateMiddleware, userController.removeReviewMovie);
 router.post('/removeReviewSerie', serieReviewSchema, validateMiddleware, userController.removeReviewSerie);
+router.post('/isSerieReviewed', validateMiddleware, userController.isSerieReviewed);
+router.post('/isMovieReviewed', validateMiddleware, userController.isMovieReviewed);
 // #endregion
 
 export default router;
