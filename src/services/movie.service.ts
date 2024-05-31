@@ -81,6 +81,8 @@ const movieService = {
 
         if (sortBy && ascOrDesc) {
             orderByObject[sortBy] = ascOrDesc;
+        } else {
+            orderByObject['createdAt'] = 'desc';
         }
 
         const result = await prisma.movie.findFirst({
