@@ -575,6 +575,44 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+    async isSerieUpvotedOrDownvoted(req: Request, res: Response) {
+        const { serieTitle, userId, serieReviewId } = req.body;
+        const title = serieTitle
+            .split('')
+            .map((char: string) => (char === '-' ? ' ' : char))
+            .join('');
+
+        try {
+            const result = await userService.isSerieUpvotedOrDownvoted(userId, title, serieReviewId);
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send({ result });
+            } else {
+                res.status(HttpStatusCode.OK).send({ result });
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async isMovieUpvotedOrDownvoted(req: Request, res: Response) {
+        const { movieTitle, userId, movieReviewId } = req.body;
+        const title = movieTitle
+            .split('')
+            .map((char: string) => (char === '-' ? ' ' : char))
+            .join('');
+
+        try {
+            const result = await userService.isMovieUpvotedOrDownvoted(userId, title, movieReviewId);
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
     // #endregion
 };
 
