@@ -90,15 +90,25 @@ const movieService = {
             include: {
                 genres: { select: { genre: true } },
                 reviews: {
-                    include: { user: true },
+                    include: {
+                        user: true,
+                        _count: {
+                            select: {
+                                upvotes: true,
+                                downvotes: true,
+                            },
+                        },
+                    },
                     orderBy: orderByObject,
                     skip: skip,
                     take: take,
                 },
-                usersDownvotes: true,
-                usersUpvotes: true,
+                // usersUpvotes: true,
+                // usersDownvotes: true,
                 _count: {
-                    select: { reviews: true },
+                    select: {
+                        reviews: true,
+                    },
                 },
             },
         });
