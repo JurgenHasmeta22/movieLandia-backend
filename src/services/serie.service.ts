@@ -90,7 +90,7 @@ const serieService = {
             include: {
                 genres: { select: { genre: true } },
                 reviews: {
-                    include: { user: true, upvotes: true, downvotes: { select: { serieReview: true } } },
+                    include: { user: true },
                     orderBy: orderByObject,
                     skip: skip,
                     take: take,
