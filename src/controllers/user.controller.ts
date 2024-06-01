@@ -546,7 +546,7 @@ const userController = {
                 movieId,
                 movieReviewId,
             });
-
+            
             if (result) {
                 res.status(HttpStatusCode.OK).send(result);
             } else {
@@ -576,14 +576,10 @@ const userController = {
         }
     },
     async isSerieReviewUpvotedOrDownvoted(req: Request, res: Response) {
-        const { serieTitle, userId, serieReviewId } = req.body;
-        const title = serieTitle
-            .split('')
-            .map((char: string) => (char === '-' ? ' ' : char))
-            .join('');
+        const { serieId, userId, serieReviewId } = req.body;
 
         try {
-            const result = await userService.isSerieReviewUpvotedOrDownvoted(userId, title, serieReviewId);
+            const result = await userService.isSerieReviewUpvotedOrDownvoted(userId, serieId, serieReviewId);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send({ result });
@@ -595,14 +591,10 @@ const userController = {
         }
     },
     async isMovieReviewUpvotedOrDownvoted(req: Request, res: Response) {
-        const { movieTitle, userId, movieReviewId } = req.body;
-        const title = movieTitle
-            .split('')
-            .map((char: string) => (char === '-' ? ' ' : char))
-            .join('');
+        const { movieId, userId, movieReviewId } = req.body;
 
         try {
-            const result = await userService.isMovieReviewUpvotedOrDownvoted(userId, title, movieReviewId);
+            const result = await userService.isMovieReviewUpvotedOrDownvoted(userId, movieId, movieReviewId);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send(result);

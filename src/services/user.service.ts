@@ -759,10 +759,10 @@ const userService = {
             return null;
         }
     },
-    async isMovieReviewUpvotedOrDownvoted(userId: number, movieTitle: string, movieReviewId: number): Promise<any> {
+    async isMovieReviewUpvotedOrDownvoted(userId: number, movieId: number, movieReviewId: number): Promise<any> {
         const movie = await prisma.movie.findFirst({
             where: {
-                title: movieTitle,
+                id: movieId,
             },
         });
 
@@ -799,10 +799,10 @@ const userService = {
             return null;
         }
     },
-    async isSerieReviewUpvotedOrDownvoted(userId: number, serieTitle: string, serieReviewId: number): Promise<any> {
-        const serie = await prisma.movie.findFirst({
+    async isSerieReviewUpvotedOrDownvoted(userId: number, serieId: number, serieReviewId: number): Promise<any> {
+        const serie = await prisma.serie.findFirst({
             where: {
-                title: serieTitle,
+                id: serieId,
             },
         });
 
