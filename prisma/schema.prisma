@@ -169,19 +169,17 @@ model Message {
 }
 
 model SerieReview {
-  id            Int             @id @default(autoincrement())
-  content       String          @default("")
-  rating        Float?
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime?
-  userId        Int
-  serieId       Int
-  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  serie         Serie           @relation(fields: [serieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  upvotes       UpvoteMovie[]
-  downvotes     DownvoteMovie[]
-  UpvoteSerie   UpvoteSerie[]
-  DownvoteSerie DownvoteSerie[]
+  id        Int             @id @default(autoincrement())
+  content   String          @default("")
+  rating    Float?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime?
+  userId    Int
+  serieId   Int
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  serie     Serie           @relation(fields: [serieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  upvotes   UpvoteSerie[]
+  downvotes DownvoteSerie[]
 }
 
 model MovieReview {
@@ -201,37 +199,41 @@ model MovieReview {
 model UpvoteMovie {
   id            Int          @id @default(autoincrement())
   userId        Int
+  movieId       Int
+  movieReviewId Int
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  movieReviewId Int?
+  movie         Movie        @relation(fields: [movieId], references: [id], onDelete: Cascade)
   movieReview   MovieReview? @relation(fields: [movieReviewId], references: [id], onDelete: Cascade)
-  SerieReview   SerieReview? @relation(fields: [serieReviewId], references: [id])
-  serieReviewId Int?
 }
 
 model UpvoteSerie {
   id            Int          @id @default(autoincrement())
   userId        Int
+  serieId       Int
+  serieReviewId Int
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  serieReviewId Int?
+  serie         Serie        @relation(fields: [serieId], references: [id], onDelete: Cascade)
   serieReview   SerieReview? @relation(fields: [serieReviewId], references: [id], onDelete: Cascade)
 }
 
 model DownvoteMovie {
   id            Int          @id @default(autoincrement())
   userId        Int
+  movieId       Int
+  movieReviewId Int
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  movieReviewId Int?
+  movie         Movie        @relation(fields: [movieId], references: [id], onDelete: Cascade)
   movieReview   MovieReview? @relation(fields: [movieReviewId], references: [id], onDelete: Cascade)
-  SerieReview   SerieReview? @relation(fields: [serieReviewId], references: [id])
-  serieReviewId Int?
 }
 
 model DownvoteSerie {
   id            Int          @id @default(autoincrement())
   userId        Int
+  serieId       Int
+  serieReviewId Int
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serie         Serie        @relation(fields: [serieId], references: [id], onDelete: Cascade)
   serieReview   SerieReview? @relation(fields: [serieReviewId], references: [id], onDelete: Cascade)
-  serieReviewId Int?
 }
 
 // #endregion
@@ -251,6 +253,8 @@ model Movie {
   reviews              MovieReview[]
   usersWhoBookmarkedIt UserMovieFavorite[]
   usersWhoRatedIt      UserMovieRating[]
+  usersUpvotes         UpvoteMovie[]
+  usersDownvotes       DownvoteMovie[]
 }
 
 model CastMovie {
@@ -319,6 +323,8 @@ model Serie {
   genres               SerieGenre[]
   usersWhoBookmarkedIt UserSerieFavorite[]
   usersWhoRatedIt      UserSerieRating[]
+  usersUpvotes         UpvoteSerie[]
+  usersDownvotes       DownvoteSerie[]
 }
 
 model Season {

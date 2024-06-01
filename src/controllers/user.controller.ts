@@ -424,11 +424,12 @@ const userController = {
 
     // #region "upvotes, downvotes"
     async addUpvoteMovie(req: Request, res: Response) {
-        const { userId, movieReviewId } = req.body;
+        const { userId, movieId, movieReviewId } = req.body;
 
         try {
             const result = await userService.addUpvoteMovie({
                 userId,
+                movieId,
                 movieReviewId,
             });
 
@@ -442,11 +443,12 @@ const userController = {
         }
     },
     async addUpvoteSerie(req: Request, res: Response) {
-        const { userId, serieReviewId } = req.body;
+        const { userId, serieId, serieReviewId } = req.body;
 
         try {
             const result = await userService.addUpvoteSerie({
                 userId,
+                serieId,
                 serieReviewId,
             });
 
@@ -460,11 +462,12 @@ const userController = {
         }
     },
     async removeUpvoteMovie(req: Request, res: Response) {
-        const { userId, movieReviewId } = req.body;
+        const { userId, movieId, movieReviewId } = req.body;
 
         try {
             const result = await userService.removeUpvoteMovie({
                 userId,
+                movieId,
                 movieReviewId,
             });
 
@@ -478,11 +481,12 @@ const userController = {
         }
     },
     async removeUpvoteSerie(req: Request, res: Response) {
-        const { userId, serieReviewId } = req.body;
+        const { userId, serieId, serieReviewId } = req.body;
 
         try {
             const result = await userService.removeUpvoteSerie({
                 userId,
+                serieId,
                 serieReviewId,
             });
 
@@ -496,11 +500,12 @@ const userController = {
         }
     },
     async addDownvoteMovie(req: Request, res: Response) {
-        const { userId, movieReviewId } = req.body;
+        const { userId, movieId, movieReviewId } = req.body;
 
         try {
             const result = await userService.addDownvoteMovie({
                 userId,
+                movieId,
                 movieReviewId,
             });
 
@@ -514,11 +519,12 @@ const userController = {
         }
     },
     async addDownvoteSerie(req: Request, res: Response) {
-        const { userId, serieReviewId } = req.body;
+        const { userId, serieId, serieReviewId } = req.body;
 
         try {
             const result = await userService.addDownvoteSerie({
                 userId,
+                serieId,
                 serieReviewId,
             });
 
@@ -532,11 +538,12 @@ const userController = {
         }
     },
     async removeDownvoteMovie(req: Request, res: Response) {
-        const { userId, movieReviewId } = req.body;
+        const { userId, movieId, movieReviewId } = req.body;
 
         try {
             const result = await userService.removeDownvoteMovie({
                 userId,
+                movieId,
                 movieReviewId,
             });
 
@@ -550,11 +557,12 @@ const userController = {
         }
     },
     async removeDownvoteSerie(req: Request, res: Response) {
-        const { userId, serieReviewId } = req.body;
+        const { userId, serieId, serieReviewId } = req.body;
 
         try {
             const result = await userService.removeDownvoteSerie({
                 userId,
+                serieId,
                 serieReviewId,
             });
 
