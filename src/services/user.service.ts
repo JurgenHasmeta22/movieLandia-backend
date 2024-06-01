@@ -1,3 +1,4 @@
+import { userPaths } from './../utils/swaggerUserPaths';
 import { Episode, Genre, Prisma, Season, Serie, User, UserMovieFavorite } from '@prisma/client';
 import { prisma } from '../app';
 
@@ -753,6 +754,86 @@ const userService = {
                 return result;
             } else {
                 return null;
+            }
+        } else {
+            return null;
+        }
+    },
+    async isMovieUpvotedOrDownvoted(userId: number, movieTitle: string, movieReviewId: number): Promise<any> {
+        const movie = await prisma.movie.findFirst({
+            where: {
+                title: movieTitle,
+            },
+        });
+
+        if (movie) {
+            const existingUpvote = await prisma.upvoteMovie.findFirst({
+                where: {
+                    AND: [{ userId }, { movieId: movie.id }, { movieReviewId }],
+                },
+            });
+
+            const existingDownvote = await prisma.downvoteMovie.findFirst({
+                where: {
+                    AND: [{ userId }, { movieId: movie.id }, { movieReviewId }],
+                },
+            });
+
+            if (existingUpvote) {
+                return {
+                    isUpvoted: true,
+                    isDownvoted: false,
+                };
+            } else if (!existingUpvote && existingDownvote) {
+                return {
+                    isUpvoted: false,
+                    isDownvoted: true,
+                };
+            } else {
+                return {
+                    isUpvoted: false,
+                    isDownvoted: false,
+                };
+            }
+        } else {
+            return null;
+        }
+    },
+    async isSerieUpvotedOrDownvoted(userId: number, serieTitle: string, serieReviewId: number): Promise<any> {
+        const serie = await prisma.movie.findFirst({
+            where: {
+                title: serieTitle,
+            },
+        });
+
+        if (serie) {
+            const existingUpvote = await prisma.upvoteSerie.findFirst({
+                where: {
+                    AND: [{ userId }, { serieId: serie.id }, { serieReviewId }],
+                },
+            });
+
+            const existingDownvote = await prisma.downvoteSerie.findFirst({
+                where: {
+                    AND: [{ userId }, { serieId: serie.id }, { serieReviewId }],
+                },
+            });
+
+            if (existingUpvote) {
+                return {
+                    isUpvoted: true,
+                    isDownvoted: false,
+                };
+            } else if (!existingUpvote && existingDownvote) {
+                return {
+                    isUpvoted: false,
+                    isDownvoted: true,
+                };
+            } else {
+                return {
+                    isUpvoted: false,
+                    isDownvoted: false,
+                };
             }
         } else {
             return null;

@@ -75,6 +75,18 @@ router.post('/addDownvoteMovie', downvoteMovieSchema, validateMiddleware, userCo
 router.post('/addDownvoteSerie', downvoteSerieSchema, validateMiddleware, userController.addDownvoteSerie);
 router.post('/removeDownvoteMovie', downvoteMovieSchema, validateMiddleware, userController.removeDownvoteMovie);
 router.post('/removeDownvoteSerie', downvoteSerieSchema, validateMiddleware, userController.removeDownvoteSerie);
+router.post(
+    '/isMovieUpvotedOrDownvoted',
+    downvoteMovieSchema,
+    validateMiddleware,
+    userController.isMovieUpvotedOrDownvoted,
+);
+router.post(
+    '/isSerieUpvotedOrDownvoted',
+    downvoteSerieSchema,
+    validateMiddleware,
+    userController.isSerieUpvotedOrDownvoted,
+);
 // #endregion
 
 export default router;
