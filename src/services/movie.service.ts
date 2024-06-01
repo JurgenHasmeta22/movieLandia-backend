@@ -95,6 +95,8 @@ const movieService = {
                     skip: skip,
                     take: take,
                 },
+                usersDownvotes: true,
+                usersUpvotes: true,
                 _count: {
                     select: { reviews: true },
                 },
