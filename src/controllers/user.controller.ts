@@ -4,6 +4,7 @@ import { User } from '@prisma/client';
 import HttpStatusCode from '../utils/httpStatusCodes';
 
 const userController = {
+    // #region "CRUD"
     async getUsers(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, userName, filterValue, filterName, filterOperator } = req.query;
 
@@ -108,6 +109,8 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+    // #endregion
+
     // #region "Bookmarks"
     async bookmarkSeason(req: Request, res: Response) {
         const { userId, seasonId } = req.body;
@@ -412,6 +415,153 @@ const userController = {
                 res.status(HttpStatusCode.OK).send({ isReviewed: true });
             } else {
                 res.status(HttpStatusCode.OK).send({ isReviewed: false });
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    // #endregion
+
+    // #region "upvotes, downvotes"
+    async addUpvoteMovie(req: Request, res: Response) {
+        const { userId, movieReviewId } = req.body;
+
+        try {
+            const result = await userService.addUpvoteMovie({
+                userId,
+                movieReviewId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async addUpvoteSerie(req: Request, res: Response) {
+        const { userId, serieReviewId } = req.body;
+
+        try {
+            const result = await userService.addUpvoteSerie({
+                userId,
+                serieReviewId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async removeUpvoteMovie(req: Request, res: Response) {
+        const { userId, movieReviewId } = req.body;
+
+        try {
+            const result = await userService.removeUpvoteMovie({
+                userId,
+                movieReviewId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async removeUpvoteSerie(req: Request, res: Response) {
+        const { userId, serieReviewId } = req.body;
+
+        try {
+            const result = await userService.removeUpvoteSerie({
+                userId,
+                serieReviewId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async addDownvoteMovie(req: Request, res: Response) {
+        const { userId, movieReviewId } = req.body;
+
+        try {
+            const result = await userService.addDownvoteMovie({
+                userId,
+                movieReviewId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async addDownvoteSerie(req: Request, res: Response) {
+        const { userId, serieReviewId } = req.body;
+
+        try {
+            const result = await userService.addDownvoteSerie({
+                userId,
+                serieReviewId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async removeDownvoteMovie(req: Request, res: Response) {
+        const { userId, movieReviewId } = req.body;
+
+        try {
+            const result = await userService.removeDownvoteMovie({
+                userId,
+                movieReviewId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
+    async removeDownvoteSerie(req: Request, res: Response) {
+        const { userId, serieReviewId } = req.body;
+
+        try {
+            const result = await userService.removeDownvoteSerie({
+                userId,
+                serieReviewId,
+            });
+
+            if (result) {
+                res.status(HttpStatusCode.OK).send(result);
+            } else {
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
