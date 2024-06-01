@@ -67,25 +67,35 @@ router.post('/isMovieReviewed', validateMiddleware, userController.isMovieReview
 // #endregion
 
 // #region "Upvotes, Downvotes Routes"
-router.post('/addUpvoteMovie', upvoteMovieSchema, validateMiddleware, userController.addUpvoteMovie);
-router.post('/addUpvoteSerie', upvoteSerieSchema, validateMiddleware, userController.addUpvoteSerie);
-router.post('/removeUpvoteMovie', upvoteMovieSchema, validateMiddleware, userController.removeUpvoteMovie);
-router.post('/removeUpvoteSerie', upvoteSerieSchema, validateMiddleware, userController.removeUpvoteSerie);
-router.post('/addDownvoteMovie', downvoteMovieSchema, validateMiddleware, userController.addDownvoteMovie);
-router.post('/addDownvoteSerie', downvoteSerieSchema, validateMiddleware, userController.addDownvoteSerie);
-router.post('/removeDownvoteMovie', downvoteMovieSchema, validateMiddleware, userController.removeDownvoteMovie);
-router.post('/removeDownvoteSerie', downvoteSerieSchema, validateMiddleware, userController.removeDownvoteSerie);
+router.post('/addUpvoteMovieReview', upvoteMovieSchema, validateMiddleware, userController.addUpvoteMovieReview);
+router.post('/addUpvoteSerieReview', upvoteSerieSchema, validateMiddleware, userController.addUpvoteSerieReview);
+router.post('/removeUpvoteMovieReview', upvoteMovieSchema, validateMiddleware, userController.removeUpvoteMovieReview);
+router.post('/removeUpvoteSerieReview', upvoteSerieSchema, validateMiddleware, userController.removeUpvoteSerieReview);
+router.post('/addDownvoteMovieReview', downvoteMovieSchema, validateMiddleware, userController.addDownvoteMovieReview);
+router.post('/addDownvoteSerieReview', downvoteSerieSchema, validateMiddleware, userController.addDownvoteSerieReview);
 router.post(
-    '/isMovieUpvotedOrDownvoted',
+    '/removeDownvoteMovieReview',
     downvoteMovieSchema,
     validateMiddleware,
-    userController.isMovieUpvotedOrDownvoted,
+    userController.removeDownvoteMovieReview,
 );
 router.post(
-    '/isSerieUpvotedOrDownvoted',
+    '/removeDownvoteSerieReview',
     downvoteSerieSchema,
     validateMiddleware,
-    userController.isSerieUpvotedOrDownvoted,
+    userController.removeDownvoteSerieReview,
+);
+router.post(
+    '/isMovieReviewUpvotedOrDownvoted',
+    downvoteMovieSchema,
+    validateMiddleware,
+    userController.isMovieReviewUpvotedOrDownvoted,
+);
+router.post(
+    '/isSerieReviewUpvotedOrDownvoted',
+    downvoteSerieSchema,
+    validateMiddleware,
+    userController.isSerieReviewUpvotedOrDownvoted,
 );
 // #endregion
 

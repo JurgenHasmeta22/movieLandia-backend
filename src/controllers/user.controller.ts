@@ -423,11 +423,11 @@ const userController = {
     // #endregion
 
     // #region "upvotes, downvotes"
-    async addUpvoteMovie(req: Request, res: Response) {
+    async addUpvoteMovieReview(req: Request, res: Response) {
         const { userId, movieId, movieReviewId } = req.body;
 
         try {
-            const result = await userService.addUpvoteMovie({
+            const result = await userService.addUpvoteMovieReview({
                 userId,
                 movieId,
                 movieReviewId,
@@ -442,11 +442,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addUpvoteSerie(req: Request, res: Response) {
+    async addUpvoteSerieReview(req: Request, res: Response) {
         const { userId, serieId, serieReviewId } = req.body;
 
         try {
-            const result = await userService.addUpvoteSerie({
+            const result = await userService.addUpvoteSerieReview({
                 userId,
                 serieId,
                 serieReviewId,
@@ -461,11 +461,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async removeUpvoteMovie(req: Request, res: Response) {
+    async removeUpvoteMovieReview(req: Request, res: Response) {
         const { userId, movieId, movieReviewId } = req.body;
 
         try {
-            const result = await userService.removeUpvoteMovie({
+            const result = await userService.removeUpvoteMovieReview({
                 userId,
                 movieId,
                 movieReviewId,
@@ -480,11 +480,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async removeUpvoteSerie(req: Request, res: Response) {
+    async removeUpvoteSerieReview(req: Request, res: Response) {
         const { userId, serieId, serieReviewId } = req.body;
 
         try {
-            const result = await userService.removeUpvoteSerie({
+            const result = await userService.removeUpvoteSerieReview({
                 userId,
                 serieId,
                 serieReviewId,
@@ -499,11 +499,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addDownvoteMovie(req: Request, res: Response) {
+    async addDownvoteMovieReview(req: Request, res: Response) {
         const { userId, movieId, movieReviewId } = req.body;
 
         try {
-            const result = await userService.addDownvoteMovie({
+            const result = await userService.addDownvoteMovieReview({
                 userId,
                 movieId,
                 movieReviewId,
@@ -518,11 +518,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addDownvoteSerie(req: Request, res: Response) {
+    async addDownvoteSerieReview(req: Request, res: Response) {
         const { userId, serieId, serieReviewId } = req.body;
 
         try {
-            const result = await userService.addDownvoteSerie({
+            const result = await userService.addDownvoteSerieReview({
                 userId,
                 serieId,
                 serieReviewId,
@@ -537,11 +537,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async removeDownvoteMovie(req: Request, res: Response) {
+    async removeDownvoteMovieReview(req: Request, res: Response) {
         const { userId, movieId, movieReviewId } = req.body;
 
         try {
-            const result = await userService.removeDownvoteMovie({
+            const result = await userService.removeDownvoteMovieReview({
                 userId,
                 movieId,
                 movieReviewId,
@@ -556,11 +556,11 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async removeDownvoteSerie(req: Request, res: Response) {
+    async removeDownvoteSerieReview(req: Request, res: Response) {
         const { userId, serieId, serieReviewId } = req.body;
 
         try {
-            const result = await userService.removeDownvoteSerie({
+            const result = await userService.removeDownvoteSerieReview({
                 userId,
                 serieId,
                 serieReviewId,
@@ -575,7 +575,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async isSerieUpvotedOrDownvoted(req: Request, res: Response) {
+    async isSerieReviewUpvotedOrDownvoted(req: Request, res: Response) {
         const { serieTitle, userId, serieReviewId } = req.body;
         const title = serieTitle
             .split('')
@@ -583,7 +583,7 @@ const userController = {
             .join('');
 
         try {
-            const result = await userService.isSerieUpvotedOrDownvoted(userId, title, serieReviewId);
+            const result = await userService.isSerieReviewUpvotedOrDownvoted(userId, title, serieReviewId);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send({ result });
@@ -594,7 +594,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async isMovieUpvotedOrDownvoted(req: Request, res: Response) {
+    async isMovieReviewUpvotedOrDownvoted(req: Request, res: Response) {
         const { movieTitle, userId, movieReviewId } = req.body;
         const title = movieTitle
             .split('')
@@ -602,7 +602,7 @@ const userController = {
             .join('');
 
         try {
-            const result = await userService.isMovieUpvotedOrDownvoted(userId, title, movieReviewId);
+            const result = await userService.isMovieReviewUpvotedOrDownvoted(userId, title, movieReviewId);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send(result);

@@ -575,7 +575,7 @@ const userService = {
     // #endregion
 
     // #region "upvotes, downvotes"
-    async addUpvoteMovie({ userId, movieId, movieReviewId }: any): Promise<any> {
+    async addUpvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
         const existingUpvote = await prisma.upvoteMovie.findFirst({
             where: {
                 AND: [{ userId }, { movieReviewId }],
@@ -600,7 +600,7 @@ const userService = {
             return null;
         }
     },
-    async addUpvoteSerie({ userId, serieId, serieReviewId }: any): Promise<any> {
+    async addUpvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
         const existingUpvote = await prisma.upvoteSerie.findFirst({
             where: {
                 AND: [{ userId }, { serieReviewId }, { serieId }],
@@ -625,7 +625,7 @@ const userService = {
             return null;
         }
     },
-    async removeUpvoteMovie({ userId, movieId, movieReviewId }: any): Promise<any> {
+    async removeUpvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
         const existingUpvote = await prisma.upvoteMovie.findFirst({
             where: {
                 AND: [{ userId }, { movieReviewId }, { movieId }],
@@ -646,7 +646,7 @@ const userService = {
             return null;
         }
     },
-    async removeUpvoteSerie({ userId, serieId, serieReviewId }: any): Promise<any> {
+    async removeUpvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
         const existingUpvote = await prisma.upvoteSerie.findFirst({
             where: {
                 AND: [{ userId }, { serieReviewId }, { serieId }],
@@ -667,7 +667,7 @@ const userService = {
             return null;
         }
     },
-    async addDownvoteMovie({ userId, movieId, movieReviewId }: any): Promise<any> {
+    async addDownvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
         const existingDownvote = await prisma.downvoteMovie.findFirst({
             where: {
                 AND: [{ userId }, { movieReviewId }, { movieId }],
@@ -692,7 +692,7 @@ const userService = {
             return null;
         }
     },
-    async addDownvoteSerie({ userId, serieId, serieReviewId }: any): Promise<any> {
+    async addDownvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
         const existingDownvote = await prisma.downvoteSerie.findFirst({
             where: {
                 AND: [{ userId }, { serieReviewId }, { serieId }],
@@ -717,7 +717,7 @@ const userService = {
             return null;
         }
     },
-    async removeDownvoteMovie({ userId, movieId, movieReviewId }: any): Promise<any> {
+    async removeDownvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
         const existingDownvote = await prisma.downvoteMovie.findFirst({
             where: {
                 AND: [{ userId }, { movieReviewId }, { movieId }],
@@ -738,7 +738,7 @@ const userService = {
             return null;
         }
     },
-    async removeDownvoteSerie({ userId, serieId, serieReviewId }: any): Promise<any> {
+    async removeDownvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
         const existingDownvote = await prisma.downvoteSerie.findFirst({
             where: {
                 AND: [{ userId }, { serieReviewId }, { serieId }],
@@ -759,7 +759,7 @@ const userService = {
             return null;
         }
     },
-    async isMovieUpvotedOrDownvoted(userId: number, movieTitle: string, movieReviewId: number): Promise<any> {
+    async isMovieReviewUpvotedOrDownvoted(userId: number, movieTitle: string, movieReviewId: number): Promise<any> {
         const movie = await prisma.movie.findFirst({
             where: {
                 title: movieTitle,
@@ -799,7 +799,7 @@ const userService = {
             return null;
         }
     },
-    async isSerieUpvotedOrDownvoted(userId: number, serieTitle: string, serieReviewId: number): Promise<any> {
+    async isSerieReviewUpvotedOrDownvoted(userId: number, serieTitle: string, serieReviewId: number): Promise<any> {
         const serie = await prisma.movie.findFirst({
             where: {
                 title: serieTitle,

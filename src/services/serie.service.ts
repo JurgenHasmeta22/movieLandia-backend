@@ -95,6 +95,8 @@ const serieService = {
                     skip: skip,
                     take: take,
                 },
+                usersUpvotes: true,
+                usersDownvotes: true,
                 _count: {
                     select: { reviews: true },
                 },
