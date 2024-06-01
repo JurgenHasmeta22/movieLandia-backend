@@ -576,13 +576,13 @@ const userService = {
 
     // #region "upvotes, downvotes"
     async addUpvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
-        const existingUpvote = await prisma.upvoteMovie.findFirst({
+        const existingUpvoteMovieReview = await prisma.upvoteMovie.findFirst({
             where: {
-                AND: [{ userId }, { movieReviewId }],
+                AND: [{ userId }, { movieId }, { movieReviewId }],
             },
         });
 
-        if (!existingUpvote) {
+        if (!existingUpvoteMovieReview) {
             const upvoteAdded = await prisma.upvoteMovie.create({
                 data: {
                     userId,
@@ -601,13 +601,13 @@ const userService = {
         }
     },
     async addUpvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
-        const existingUpvote = await prisma.upvoteSerie.findFirst({
+        const existingUpvoteSerieReview = await prisma.upvoteSerie.findFirst({
             where: {
-                AND: [{ userId }, { serieReviewId }, { serieId }],
+                AND: [{ userId }, { serieId }, { serieReviewId }],
             },
         });
 
-        if (!existingUpvote) {
+        if (!existingUpvoteSerieReview) {
             const upvoteAdded = await prisma.upvoteSerie.create({
                 data: {
                     userId,
@@ -625,6 +625,7 @@ const userService = {
             return null;
         }
     },
+
     async removeUpvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
         const existingUpvote = await prisma.upvoteMovie.findFirst({
             where: {
@@ -667,14 +668,15 @@ const userService = {
             return null;
         }
     },
+
     async addDownvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
-        const existingDownvote = await prisma.downvoteMovie.findFirst({
+        const existingDownvoteMovieReview = await prisma.downvoteMovie.findFirst({
             where: {
-                AND: [{ userId }, { movieReviewId }, { movieId }],
+                AND: [{ userId }, { movieId }, { movieReviewId }],
             },
         });
 
-        if (!existingDownvote) {
+        if (!existingDownvoteMovieReview) {
             const downvoteAdded = await prisma.downvoteMovie.create({
                 data: {
                     userId,
@@ -693,13 +695,13 @@ const userService = {
         }
     },
     async addDownvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
-        const existingDownvote = await prisma.downvoteSerie.findFirst({
+        const existingDownvoteSerieReview = await prisma.downvoteSerie.findFirst({
             where: {
-                AND: [{ userId }, { serieReviewId }, { serieId }],
+                AND: [{ userId }, { serieId }, { serieReviewId }],
             },
         });
 
-        if (!existingDownvote) {
+        if (!existingDownvoteSerieReview) {
             const downvoteAdded = await prisma.downvoteSerie.create({
                 data: {
                     userId,
@@ -717,6 +719,7 @@ const userService = {
             return null;
         }
     },
+
     async removeDownvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
         const existingDownvote = await prisma.downvoteMovie.findFirst({
             where: {
@@ -759,6 +762,7 @@ const userService = {
             return null;
         }
     },
+
     async isMovieReviewUpvotedOrDownvoted(userId: number, movieId: number, movieReviewId: number): Promise<any> {
         const movie = await prisma.movie.findFirst({
             where: {
