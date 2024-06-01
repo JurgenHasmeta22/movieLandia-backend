@@ -1,5 +1,4 @@
-import { userPaths } from './../utils/swaggerUserPaths';
-import { Episode, Genre, Prisma, Season, Serie, User, UserMovieFavorite } from '@prisma/client';
+import { Episode, Genre, Prisma, Season, User } from '@prisma/client';
 import { prisma } from '../app';
 
 interface UserServiceParams {

@@ -92,6 +92,8 @@ const movieService = {
                 reviews: {
                     include: {
                         user: true,
+                        upvotes: { select: { user: true } },
+                        downvotes: { select: { user: true } },
                         _count: {
                             select: {
                                 upvotes: true,
