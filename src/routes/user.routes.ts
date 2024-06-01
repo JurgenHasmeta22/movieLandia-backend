@@ -93,7 +93,7 @@ router.post(
 );
 router.post(
     '/isSerieReviewUpvotedOrDownvoted',
-    downvoteSerieSchema,
+    upvoteSerieSchema,
     validateMiddleware,
     userController.isSerieReviewUpvotedOrDownvoted,
 );

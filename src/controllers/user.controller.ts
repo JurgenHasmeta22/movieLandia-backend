@@ -546,7 +546,7 @@ const userController = {
                 movieId,
                 movieReviewId,
             });
-            
+
             if (result) {
                 res.status(HttpStatusCode.OK).send(result);
             } else {
@@ -582,9 +582,9 @@ const userController = {
             const result = await userService.isSerieReviewUpvotedOrDownvoted(userId, serieId, serieReviewId);
 
             if (result) {
-                res.status(HttpStatusCode.OK).send({ result });
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(HttpStatusCode.OK).send({ result });
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });

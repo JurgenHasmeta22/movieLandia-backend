@@ -655,7 +655,7 @@ const userService = {
         });
 
         if (existingUpvote) {
-            const result = await prisma.upvoteMovie.delete({
+            const result = await prisma.upvoteSerie.delete({
                 where: { id: existingUpvote.id },
             });
 
