@@ -26,7 +26,6 @@ const authService = {
             }
         }
     },
-
     async login(email: string, password: string): Promise<User | null> {
         const user: User | null = await prisma.user.findUnique({
             where: { email },
@@ -35,6 +34,10 @@ const authService = {
                 favSeries: { include: { serie: true } },
                 movieReviews: { include: { movie: true } },
                 serieReviews: { include: { serie: true } },
+                upvotedMovies: { include: { movieReview: true, movie: true } },
+                downvotedMovies: { include: { movieReview: true, movie: true } },
+                upvotedSeries: { include: { serieReview: true, serie: true } },
+                downvotedSeries: { include: { serieReview: true, serie: true } },
             },
         });
 

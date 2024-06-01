@@ -32,6 +32,10 @@ export async function getUserFromToken(token: string) {
                     favSeries: { include: { serie: true } },
                     movieReviews: { include: { movie: true } },
                     serieReviews: { include: { serie: true } },
+                    upvotedMovies: { include: { movieReview: true, movie: true } },
+                    downvotedMovies: { include: { movieReview: true, movie: true } },
+                    upvotedSeries: { include: { serieReview: true, serie: true } },
+                    downvotedSeries: { include: { serieReview: true, serie: true } },
                 },
             });
 
