@@ -74,18 +74,23 @@ const movieService = {
             return null;
         }
     },
-    async getMovieByTitle(title: string, page: number, ascOrDesc?: string, sortBy?: string): Promise<Movie | null> {
+    async getMovieByTitle(
+        title: string,
+        page: number,
+        ascOrDesc?: string,
+        sortBy?: string
+    ): Promise<Movie | any | null> {
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
         const orderByObject: any = {};
-
+    
         if (sortBy && ascOrDesc) {
             orderByObject[sortBy] = ascOrDesc;
         } else {
             orderByObject['createdAt'] = 'desc';
         }
-
-        const result = await prisma.movie.findFirst({
+    
+        const movie = await prisma.movie.findFirst({
             where: { title },
             include: {
                 genres: { select: { genre: true } },
@@ -105,22 +110,31 @@ const movieService = {
                     skip: skip,
                     take: take,
                 },
-                // usersUpvotes: true,
-                // usersDownvotes: true,
-                _count: {
-                    select: {
-                        reviews: true,
-                    },
-                },
             },
         });
-
-        if (result) {
-            return result;
+    
+        if (movie) {
+            const totalReviews = await prisma.movieReview.count({
+                where: { movieId: movie.id },
+            });
+    
+            const ratings = await prisma.movieReview.findMany({
+                where: { movieId: movie.id },
+                select: { rating: true },
+            });
+    
+            const totalRating = ratings.reduce((sum, review) => sum + review?.rating!, 0);
+            const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+    
+            return {
+                ...movie,
+                averageRating,
+                totalReviews,
+            };
         } else {
             return null;
         }
-    },
+    },    
     async getLatestMovies(): Promise<Movie[] | null> {
         const result = await prisma.movie.findMany({
             orderBy: {
