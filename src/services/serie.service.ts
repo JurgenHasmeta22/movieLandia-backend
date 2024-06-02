@@ -74,7 +74,12 @@ const serieService = {
             return null;
         }
     },
-    async getSerieByTitle(title: string, page: number, ascOrDesc?: string, sortBy?: string): Promise<Serie | null> {
+    async getSerieByTitle(
+        title: string,
+        page: number,
+        ascOrDesc?: string,
+        sortBy?: string,
+    ): Promise<Serie | any | null> {
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
         const orderByObject: any = {};
@@ -85,7 +90,7 @@ const serieService = {
             orderByObject['createdAt'] = 'desc';
         }
 
-        const result = await prisma.serie.findFirst({
+        const serie = await prisma.serie.findFirst({
             where: { title },
             include: {
                 genres: { select: { genre: true } },
@@ -105,18 +110,27 @@ const serieService = {
                     skip: skip,
                     take: take,
                 },
-                // usersUpvotes: true,
-                // usersDownvotes: true,
-                _count: {
-                    select: {
-                        reviews: true,
-                    },
-                },
             },
         });
 
-        if (result) {
-            return result;
+        if (serie) {
+            const totalReviews = await prisma.serieReview.count({
+                where: { serieId: serie.id },
+            });
+
+            const ratings = await prisma.serieReview.findMany({
+                where: { serieId: serie.id },
+                select: { rating: true },
+            });
+
+            const totalRating = ratings.reduce((sum, review) => sum + review?.rating!, 0);
+            const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+
+            return {
+                ...serie,
+                averageRating,
+                totalReviews,
+            };
         } else {
             return null;
         }
