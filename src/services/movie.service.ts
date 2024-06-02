@@ -78,18 +78,20 @@ const movieService = {
         title: string,
         page: number,
         ascOrDesc?: string,
-        sortBy?: string
+        sortBy?: string,
+        upvotesPage: number = 1,
+        downvotesPage: number = 1,
     ): Promise<Movie | any | null> {
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
         const orderByObject: any = {};
-    
+
         if (sortBy && ascOrDesc) {
             orderByObject[sortBy] = ascOrDesc;
         } else {
             orderByObject['createdAt'] = 'desc';
         }
-    
+
         const movie = await prisma.movie.findFirst({
             where: { title },
             include: {
@@ -97,8 +99,16 @@ const movieService = {
                 reviews: {
                     include: {
                         user: true,
-                        upvotes: { select: { user: true } },
-                        downvotes: { select: { user: true } },
+                        upvotes: {
+                            skip: (upvotesPage - 1) * 5,
+                            take: 5,
+                            select: { user: true },
+                        },
+                        downvotes: {
+                            skip: (downvotesPage - 1) * 5,
+                            take: 5,
+                            select: { user: true },
+                        },
                         _count: {
                             select: {
                                 upvotes: true,
@@ -112,20 +122,20 @@ const movieService = {
                 },
             },
         });
-    
+
         if (movie) {
             const totalReviews = await prisma.movieReview.count({
                 where: { movieId: movie.id },
             });
-    
+
             const ratings = await prisma.movieReview.findMany({
                 where: { movieId: movie.id },
                 select: { rating: true },
             });
-    
+
             const totalRating = ratings.reduce((sum, review) => sum + review?.rating!, 0);
             const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
-    
+
             return {
                 ...movie,
                 averageRating,
@@ -134,7 +144,7 @@ const movieService = {
         } else {
             return null;
         }
-    },    
+    },
     async getLatestMovies(): Promise<Movie[] | null> {
         const result = await prisma.movie.findMany({
             orderBy: {
