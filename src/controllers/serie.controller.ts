@@ -50,19 +50,33 @@ const serieController = {
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
 
-        try {
-            let serie;
+        const queryParams: any = {
+            page: Number(page),
+        };
 
-            if (ascOrDesc && sortBy) {
-                serie = await serieService.getSerieByTitle(title, Number(page), String(ascOrDesc), String(sortBy), Number(upvotesPage), Number(downvotesPage));
-            } else {
-                serie = await serieService.getSerieByTitle(title, Number(page));
-            }
+        if (ascOrDesc !== undefined) {
+            queryParams.ascOrDesc = String(ascOrDesc);
+        }
+
+        if (sortBy !== undefined) {
+            queryParams.sortBy = String(sortBy);
+        }
+
+        if (upvotesPage !== undefined) {
+            queryParams.upvotesPage = Number(upvotesPage);
+        }
+
+        if (downvotesPage !== undefined) {
+            queryParams.downvotesPage = Number(downvotesPage);
+        }
+
+        try {
+            const serie = await serieService.getSerieByTitle(title, queryParams);
 
             if (serie) {
                 res.status(HttpStatusCode.OK).send(serie);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Serie not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'serie not found' });
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });

@@ -74,14 +74,8 @@ const serieService = {
             return null;
         }
     },
-    async getSerieByTitle(
-        title: string,
-        page: number,
-        ascOrDesc?: string,
-        sortBy?: string,
-        upvotesPage: number = 1,
-        downvotesPage: number = 1,
-    ): Promise<Serie | any | null> {
+    async getSerieByTitle(title: string, queryParams: any): Promise<Serie | any | null> {
+        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage } = queryParams;
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
         const orderByObject: any = {};
@@ -100,11 +94,11 @@ const serieService = {
                     include: {
                         user: true,
                         upvotes: {
-                            take: upvotesPage * 5,
+                            take: upvotesPage ? upvotesPage * 5 : 5,
                             select: { user: true },
                         },
                         downvotes: {
-                            take: downvotesPage * 5,
+                            take: downvotesPage ? downvotesPage * 5 : 5,
                             select: { user: true },
                         },
                         _count: {
