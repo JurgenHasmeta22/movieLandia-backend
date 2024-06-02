@@ -50,21 +50,28 @@ const movieController = {
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
 
-        try {
-            let movie;
+        const queryParams: any = {
+            page: Number(page),
+        };
 
-            if (ascOrDesc && sortBy) {
-                movie = await movieService.getMovieByTitle(
-                    title,
-                    Number(page),
-                    String(ascOrDesc),
-                    String(sortBy),
-                    Number(upvotesPage),
-                    Number(downvotesPage),
-                );
-            } else {
-                movie = await movieService.getMovieByTitle(title, Number(page));
-            }
+        if (ascOrDesc !== undefined) {
+            queryParams.ascOrDesc = String(ascOrDesc);
+        }
+
+        if (sortBy !== undefined) {
+            queryParams.sortBy = String(sortBy);
+        }
+
+        if (upvotesPage !== undefined) {
+            queryParams.upvotesPage = Number(upvotesPage);
+        }
+
+        if (downvotesPage !== undefined) {
+            queryParams.downvotesPage = Number(downvotesPage);
+        }
+
+        try {
+            const movie = await movieService.getMovieByTitle(title, queryParams);
 
             if (movie) {
                 res.status(HttpStatusCode.OK).send(movie);
