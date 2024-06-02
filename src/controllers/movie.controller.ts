@@ -44,7 +44,7 @@ const movieController = {
         }
     },
     async getMovieByTitle(req: Request, res: Response) {
-        const { page, ascOrDesc, sortBy } = req.query;
+        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage } = req.query;
         const title = req.params.title
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
@@ -54,7 +54,14 @@ const movieController = {
             let movie;
 
             if (ascOrDesc && sortBy) {
-                movie = await movieService.getMovieByTitle(title, Number(page), String(ascOrDesc), String(sortBy));
+                movie = await movieService.getMovieByTitle(
+                    title,
+                    Number(page),
+                    String(ascOrDesc),
+                    String(sortBy),
+                    Number(upvotesPage),
+                    Number(downvotesPage),
+                );
             } else {
                 movie = await movieService.getMovieByTitle(title, Number(page));
             }

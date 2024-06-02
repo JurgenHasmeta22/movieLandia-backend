@@ -44,7 +44,7 @@ const serieController = {
         }
     },
     async getSerieByTitle(req: Request, res: Response) {
-        const { page, ascOrDesc, sortBy } = req.query;
+        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage } = req.query;
         const title = req.params.title
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
@@ -54,7 +54,7 @@ const serieController = {
             let serie;
 
             if (ascOrDesc && sortBy) {
-                serie = await serieService.getSerieByTitle(title, Number(page), String(ascOrDesc), String(sortBy));
+                serie = await serieService.getSerieByTitle(title, Number(page), String(ascOrDesc), String(sortBy), Number(upvotesPage), Number(downvotesPage));
             } else {
                 serie = await serieService.getSerieByTitle(title, Number(page));
             }

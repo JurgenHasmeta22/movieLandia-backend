@@ -37,6 +37,8 @@ const serieTitleParamSchema = [
         .withMessage('Invalid serie title format'),
     query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
     query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
+    query('upvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid upvotesPage value'),
+    query('downvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid downvotesPage value'),
     query('sortBy')
         .optional()
         .custom((value) => {

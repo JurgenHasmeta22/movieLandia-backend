@@ -79,6 +79,8 @@ const serieService = {
         page: number,
         ascOrDesc?: string,
         sortBy?: string,
+        upvotesPage: number = 1,
+        downvotesPage: number = 1,
     ): Promise<Serie | any | null> {
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
@@ -97,8 +99,16 @@ const serieService = {
                 reviews: {
                     include: {
                         user: true,
-                        upvotes: { select: { user: true } },
-                        downvotes: { select: { user: true } },
+                        upvotes: {
+                            skip: (upvotesPage - 1) * 5,
+                            take: 5,
+                            select: { user: true },
+                        },
+                        downvotes: {
+                            skip: (downvotesPage - 1) * 5,
+                            take: 5,
+                            select: { user: true },
+                        },
                         _count: {
                             select: {
                                 upvotes: true,
