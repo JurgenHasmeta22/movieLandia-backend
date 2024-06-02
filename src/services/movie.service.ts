@@ -100,13 +100,11 @@ const movieService = {
                     include: {
                         user: true,
                         upvotes: {
-                            skip: (upvotesPage - 1) * 5,
-                            take: 5,
+                            take: upvotesPage * 5,
                             select: { user: true },
                         },
                         downvotes: {
-                            skip: (downvotesPage - 1) * 5,
-                            take: 5,
+                            take: downvotesPage * 5,
                             select: { user: true },
                         },
                         _count: {
