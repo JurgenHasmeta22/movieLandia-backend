@@ -152,7 +152,7 @@ const serieController = {
             if (series) {
                 res.status(HttpStatusCode.OK).send(series);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Serie not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
