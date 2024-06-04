@@ -204,20 +204,25 @@ const serieService = {
             return null;
         }
     },
-    async searchSeriesByTitle(title: string, page: number): Promise<Serie[] | null> {
+    async searchSeriesByTitle(title: string, page: number): Promise<any | null> {
         const query = {
             where: {
                 title: { contains: title },
             },
             include: { genres: { select: { genre: true } } },
-            skip: page ? (page - 1) * 20 : 0,
-            take: 20,
+            skip: page ? (page - 1) * 10 : 0,
+            take: 10,
         };
 
         const series = await prisma.serie.findMany(query);
+        const count = await prisma.serie.count({
+            where: {
+                title: { contains: title },
+            },
+        });
 
         if (series) {
-            return series;
+            return { series, count };
         } else {
             return null;
         }
