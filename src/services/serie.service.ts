@@ -140,9 +140,9 @@ const serieService = {
     async getLatestSeries(): Promise<Serie[] | null> {
         const result = await prisma.serie.findMany({
             orderBy: {
-                id: 'desc',
+                releaseYear: 'desc',
             },
-            take: 20,
+            take: 10,
             include: { genres: { select: { genre: true } } },
         });
 

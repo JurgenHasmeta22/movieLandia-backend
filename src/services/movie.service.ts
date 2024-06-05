@@ -140,7 +140,7 @@ const movieService = {
     async getLatestMovies(): Promise<Movie[] | null> {
         const result = await prisma.movie.findMany({
             orderBy: {
-                id: 'desc',
+                releaseYear: 'desc',
             },
             take: 10,
             include: { genres: { select: { genre: true } } },
