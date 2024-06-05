@@ -122,30 +122,6 @@ const userService = {
     // #endregion
 
     // #region "Bookmarks"
-    async addFavoriteSeasonToUser(userId: number, seasonId: number): Promise<User | null> {
-        const season: Season | null = await prisma.season.findUnique({
-            where: { id: Number(seasonId) },
-        });
-
-        if (season) {
-            await prisma.userSeasonFavorite.update({
-                where: { id: Number(seasonId) },
-                data: { user: { connect: { id: userId } } },
-            });
-
-            const user = await prisma.user.findUnique({
-                where: { id: userId },
-            });
-
-            if (user) {
-                return user;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    },
     async addFavoriteSerieToUser(userId: number, serieId: number): Promise<User | null> {
         const existingFavorite = await prisma.userSerieFavorite.findFirst({
             where: {
@@ -173,54 +149,6 @@ const userService = {
 
         if (user) {
             return user;
-        } else {
-            return null;
-        }
-    },
-    async addFavoriteGenreToUser(userId: number, genreId: number): Promise<User | null> {
-        const genre: Genre | null = await prisma.genre.findUnique({
-            where: { id: Number(genreId) },
-        });
-
-        if (genre) {
-            await prisma.userGenreFavorite.update({
-                where: { id: Number(genreId) },
-                data: { user: { connect: { id: userId } } },
-            });
-
-            const user = await prisma.user.findUnique({
-                where: { id: userId },
-            });
-
-            if (user) {
-                return user;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    },
-    async addFavoriteEpisodeToUser(userId: number, episodeId: number): Promise<User | null> {
-        const episode: Episode | null = await prisma.episode.findUnique({
-            where: { id: Number(episodeId) },
-        });
-
-        if (episode) {
-            await prisma.userEpisodeFavorite.update({
-                where: { id: Number(episodeId) },
-                data: { user: { connect: { id: userId } } },
-            });
-
-            const user = await prisma.user.findUnique({
-                where: { id: userId },
-            });
-
-            if (user) {
-                return user;
-            } else {
-                return null;
-            }
         } else {
             return null;
         }

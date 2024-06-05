@@ -112,21 +112,6 @@ const userController = {
     // #endregion
 
     // #region "Bookmarks"
-    async bookmarkSeason(req: Request, res: Response) {
-        const { userId, seasonId } = req.body;
-
-        try {
-            const updatedUser = await userService.addFavoriteSeasonToUser(userId, seasonId);
-
-            if (updatedUser) {
-                res.status(HttpStatusCode.OK).send(updatedUser);
-            } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'User with new season not updated' });
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
     async bookmarkSerie(req: Request, res: Response) {
         const { userId, serieId } = req.body;
 
@@ -137,36 +122,6 @@ const userController = {
                 res.status(HttpStatusCode.OK).send(updatedUser);
             } else {
                 res.status(HttpStatusCode.Conflict).send({ error: 'User with new serie not added' });
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
-    async bookmarkEpisode(req: Request, res: Response) {
-        const { userId, episodeId } = req.body;
-
-        try {
-            const updatedUser = await userService.addFavoriteEpisodeToUser(userId, episodeId);
-
-            if (updatedUser) {
-                res.status(HttpStatusCode.OK).send(updatedUser);
-            } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'User with new episode not updated' });
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
-    async bookmarkGenre(req: Request, res: Response) {
-        const { userId, genreId } = req.body;
-
-        try {
-            const updatedUser = await userService.addFavoriteGenreToUser(userId, genreId);
-
-            if (updatedUser) {
-                res.status(HttpStatusCode.OK).send(updatedUser);
-            } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'User with new genre not updated' });
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
@@ -187,6 +142,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async unBookmarkMovie(req: Request, res: Response) {
         const { movieId, userId } = req.body;
 
@@ -264,6 +220,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async updateReviewMovie(req: Request, res: Response) {
         const { content, rating, userId, movieId } = req.body;
         const updatedAt = new Date();
@@ -308,6 +265,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async removeReviewMovie(req: Request, res: Response) {
         const { userId, movieId } = req.body;
 
@@ -385,6 +343,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async removeUpvoteMovieReview(req: Request, res: Response) {
         const { userId, movieId, movieReviewId } = req.body;
 
@@ -423,6 +382,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async addDownvoteMovieReview(req: Request, res: Response) {
         const { userId, movieId, movieReviewId } = req.body;
 
@@ -461,6 +421,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async removeDownvoteMovieReview(req: Request, res: Response) {
         const { userId, movieId, movieReviewId } = req.body;
 
