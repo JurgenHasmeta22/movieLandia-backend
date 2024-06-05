@@ -51,8 +51,6 @@ router.post('/bookmarkEpisode', userEpisodeFavoriteSchema, validateMiddleware, u
 router.post('/bookmarkGenre', userGenreFavoriteSchema, validateMiddleware, userController.bookmarkGenre);
 router.post('/unBookmarkMovie', userMovieFavoriteSchema, validateMiddleware, userController.unBookmarkMovie);
 router.post('/unBookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.unBookmarkSerie);
-router.post('/isSerieBookmarked', validateMiddleware, userController.isSerieBookmarked);
-router.post('/isMovieBookmarked', validateMiddleware, userController.isMovieBookmarked);
 // #endregion
 
 // #region "Reviews Routes"
@@ -62,8 +60,6 @@ router.post('/updateReviewMovie', movieReviewSchema, validateMiddleware, userCon
 router.post('/updateReviewSerie', serieReviewSchema, validateMiddleware, userController.updateReviewSerie);
 router.post('/removeReviewMovie', movieReviewSchema, validateMiddleware, userController.removeReviewMovie);
 router.post('/removeReviewSerie', serieReviewSchema, validateMiddleware, userController.removeReviewSerie);
-router.post('/isSerieReviewed', validateMiddleware, userController.isSerieReviewed);
-router.post('/isMovieReviewed', validateMiddleware, userController.isMovieReviewed);
 // #endregion
 
 // #region "Upvotes, Downvotes Routes"

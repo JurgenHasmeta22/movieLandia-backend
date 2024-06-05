@@ -128,6 +128,9 @@ const serieService = {
             const totalRating = ratings.reduce((sum, review) => sum + review?.rating!, 0);
             const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
 
+            let isBookmarked = false;
+            let isReviewed = false;
+
             if (userId) {
                 for (const review of serie.reviews) {
                     const existingUpvote = await prisma.upvoteSerie.findFirst({
@@ -147,12 +150,27 @@ const serieService = {
                     // @ts-ignore
                     review.isDownvoted = !!existingDownvote;
                 }
+
+                const existingFavorite = await prisma.userSerieFavorite.findFirst({
+                    where: {
+                        AND: [{ userId }, { serieId: serie.id }],
+                    },
+                });
+                isBookmarked = !!existingFavorite;
+
+                const existingReview = await prisma.serieReview.findFirst({
+                    where: {
+                        AND: [{ userId }, { serieId: serie.id }],
+                    },
+                });
+                isReviewed = !!existingReview;
             }
 
             return {
                 ...serie,
                 averageRating,
                 totalReviews,
+                ...(userId && { isBookmarked, isReviewed }),
             };
         } else {
             return null;
