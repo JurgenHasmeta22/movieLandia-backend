@@ -144,10 +144,22 @@ const serieController = {
         }
     },
     async searchSeriesByTitle(req: Request, res: Response) {
-        const { title, page } = req.query;
+        const { page, ascOrDesc, sortBy, title } = req.query;
+
+        const queryParams: any = {
+            page: Number(page),
+        };
+
+        if (ascOrDesc !== undefined) {
+            queryParams.ascOrDesc = String(ascOrDesc);
+        }
+
+        if (sortBy !== undefined) {
+            queryParams.sortBy = String(sortBy);
+        }
 
         try {
-            const series = await serieService.searchSeriesByTitle(String(title), Number(page));
+            const series = await serieService.searchSeriesByTitle(String(title), queryParams);
 
             if (series) {
                 res.status(HttpStatusCode.OK).send(series);

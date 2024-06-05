@@ -204,12 +204,20 @@ const movieService = {
             return null;
         }
     },
-    async searchMoviesByTitle(title: string, page: number): Promise<any | null> {
+    async searchMoviesByTitle(title: string, queryParams: any): Promise<any | null> {
+        const { page, ascOrDesc, sortBy } = queryParams;
+        const orderByObject: any = {};
+
+        if (sortBy && ascOrDesc) {
+            orderByObject[sortBy] = ascOrDesc;
+        }
+
         const query = {
             where: {
                 title: { contains: title },
             },
             include: { genres: { select: { genre: true } } },
+            orderBy: orderByObject,
             skip: page ? (page - 1) * 10 : 0,
             take: 10,
         };

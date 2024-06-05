@@ -144,10 +144,22 @@ const movieController = {
         }
     },
     async searchMoviesByTitle(req: Request, res: Response) {
-        const { title, page } = req.query;
+        const { page, ascOrDesc, sortBy, title } = req.query;
+
+        const queryParams: any = {
+            page: Number(page),
+        };
+
+        if (ascOrDesc !== undefined) {
+            queryParams.ascOrDesc = String(ascOrDesc);
+        }
+
+        if (sortBy !== undefined) {
+            queryParams.sortBy = String(sortBy);
+        }
 
         try {
-            const movies = await movieService.searchMoviesByTitle(String(title), Number(page));
+            const movies = await movieService.searchMoviesByTitle(String(title), queryParams);
 
             if (movies) {
                 res.status(HttpStatusCode.OK).send(movies);
