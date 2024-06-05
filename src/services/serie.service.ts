@@ -204,12 +204,20 @@ const serieService = {
             return null;
         }
     },
-    async searchSeriesByTitle(title: string, page: number): Promise<any | null> {
+    async searchSeriesByTitle(title: string, queryParams: any): Promise<any | null> {
+        const { page, ascOrDesc, sortBy } = queryParams;
+        const orderByObject: any = {};
+
+        if (sortBy && ascOrDesc) {
+            orderByObject[sortBy] = ascOrDesc;
+        }
+
         const query = {
             where: {
                 title: { contains: title },
             },
             include: { genres: { select: { genre: true } } },
+            orderBy: orderByObject,
             skip: page ? (page - 1) * 10 : 0,
             take: 10,
         };
