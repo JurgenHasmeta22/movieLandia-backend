@@ -85,18 +85,6 @@ router.post(
     validateMiddleware,
     userController.removeDownvoteSerieReview,
 );
-router.post(
-    '/isMovieReviewUpvotedOrDownvoted',
-    downvoteMovieSchema,
-    validateMiddleware,
-    userController.isMovieReviewUpvotedOrDownvoted,
-);
-router.post(
-    '/isSerieReviewUpvotedOrDownvoted',
-    upvoteSerieSchema,
-    validateMiddleware,
-    userController.isSerieReviewUpvotedOrDownvoted,
-);
 // #endregion
 
 export default router;

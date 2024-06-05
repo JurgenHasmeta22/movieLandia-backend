@@ -75,7 +75,7 @@ const movieService = {
         }
     },
     async getMovieByTitle(title: string, queryParams: any): Promise<Movie | any | null> {
-        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage } = queryParams;
+        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = queryParams;
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
         const orderByObject: any = {};
@@ -127,6 +127,27 @@ const movieService = {
 
             const totalRating = ratings.reduce((sum, review) => sum + review?.rating!, 0);
             const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+
+            if (userId) {
+                for (const review of movie.reviews) {
+                    const existingUpvote = await prisma.upvoteMovie.findFirst({
+                        where: {
+                            AND: [{ userId }, { movieId: movie.id }, { movieReviewId: review.id }],
+                        },
+                    });
+
+                    const existingDownvote = await prisma.downvoteMovie.findFirst({
+                        where: {
+                            AND: [{ userId }, { movieId: movie.id }, { movieReviewId: review.id }],
+                        },
+                    });
+
+                    // @ts-ignore
+                    review.isUpvoted = !!existingUpvote;
+                    // @ts-ignore
+                    review.isDownvoted = !!existingDownvote;
+                }
+            }
 
             return {
                 ...movie,
