@@ -128,6 +128,9 @@ const movieService = {
             const totalRating = ratings.reduce((sum, review) => sum + review?.rating!, 0);
             const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
 
+            let isBookmarked = false;
+            let isReviewed = false;
+
             if (userId) {
                 for (const review of movie.reviews) {
                     const existingUpvote = await prisma.upvoteMovie.findFirst({
@@ -147,12 +150,27 @@ const movieService = {
                     // @ts-ignore
                     review.isDownvoted = !!existingDownvote;
                 }
+
+                const existingFavorite = await prisma.userMovieFavorite.findFirst({
+                    where: {
+                        AND: [{ userId }, { movieId: movie.id }],
+                    },
+                });
+                isBookmarked = !!existingFavorite;
+
+                const existingReview = await prisma.movieReview.findFirst({
+                    where: {
+                        AND: [{ userId }, { movieId: movie.id }],
+                    },
+                });
+                isReviewed = !!existingReview;
             }
 
             return {
                 ...movie,
                 averageRating,
                 totalReviews,
+                ...(userId && { isBookmarked, isReviewed }),
             };
         } else {
             return null;

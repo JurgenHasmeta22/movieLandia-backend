@@ -217,44 +217,6 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async isSerieBookmarked(req: Request, res: Response) {
-        const { serieTitle, userId } = req.body;
-        const title = serieTitle
-            .split('')
-            .map((char: string) => (char === '-' ? ' ' : char))
-            .join('');
-
-        try {
-            const result = await userService.isSerieBookmarked(userId, title);
-
-            if (result) {
-                res.status(HttpStatusCode.OK).send({ isBookmarked: true });
-            } else {
-                res.status(HttpStatusCode.OK).send({ isBookmarked: false });
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
-    async isMovieBookmarked(req: Request, res: Response) {
-        const { movieTitle, userId } = req.body;
-        const title = movieTitle
-            .split('')
-            .map((char: string) => (char === '-' ? ' ' : char))
-            .join('');
-
-        try {
-            const result = await userService.isMovieBookmarked(userId, title);
-
-            if (result) {
-                res.status(HttpStatusCode.OK).send({ isBookmarked: true });
-            } else {
-                res.status(HttpStatusCode.OK).send({ isBookmarked: false });
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
     // #endregion
 
     // #region "Reviews"
@@ -377,44 +339,6 @@ const userController = {
                 res.status(HttpStatusCode.OK).send(result);
             } else {
                 res.status(HttpStatusCode.OK).send(result);
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
-    async isSerieReviewed(req: Request, res: Response) {
-        const { serieTitle, userId } = req.body;
-        const title = serieTitle
-            .split('')
-            .map((char: string) => (char === '-' ? ' ' : char))
-            .join('');
-
-        try {
-            const result = await userService.isSerieReviewed(userId, title);
-
-            if (result) {
-                res.status(HttpStatusCode.OK).send({ isReviewed: true });
-            } else {
-                res.status(HttpStatusCode.OK).send({ isReviewed: false });
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
-    async isMovieReviewed(req: Request, res: Response) {
-        const { movieTitle, userId } = req.body;
-        const title = movieTitle
-            .split('')
-            .map((char: string) => (char === '-' ? ' ' : char))
-            .join('');
-
-        try {
-            const result = await userService.isMovieReviewed(userId, title);
-
-            if (result) {
-                res.status(HttpStatusCode.OK).send({ isReviewed: true });
-            } else {
-                res.status(HttpStatusCode.OK).send({ isReviewed: false });
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });

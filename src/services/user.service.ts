@@ -318,54 +318,6 @@ const userService = {
             return null;
         }
     },
-    async isMovieBookmarked(userId: number, movieTitle: string): Promise<any> {
-        const movie = await prisma.movie.findFirst({
-            where: {
-                title: movieTitle,
-            },
-        });
-
-        if (movie) {
-            const existingFavorite = await prisma.userMovieFavorite.findFirst({
-                where: {
-                    AND: [{ userId }, { movieId: movie.id }],
-                },
-            });
-
-            console.log(movie);
-
-            if (existingFavorite) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return null;
-        }
-    },
-    async isSerieBookmarked(userId: number, serieTitle: string): Promise<any> {
-        const serie = await prisma.serie.findFirst({
-            where: {
-                title: serieTitle,
-            },
-        });
-
-        if (serie) {
-            const existingFavorite = await prisma.userSerieFavorite.findFirst({
-                where: {
-                    AND: [{ userId }, { serieId: serie.id }],
-                },
-            });
-
-            if (existingFavorite) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return null;
-        }
-    },
     // #endregion
 
     // #region "Reviews"
@@ -520,52 +472,6 @@ const userService = {
                 return result;
             } else {
                 return null;
-            }
-        } else {
-            return null;
-        }
-    },
-    async isMovieReviewed(userId: number, movieTitle: string): Promise<any> {
-        const movie = await prisma.movie.findFirst({
-            where: {
-                title: movieTitle,
-            },
-        });
-
-        if (movie) {
-            const existingReview = await prisma.movieReview.findFirst({
-                where: {
-                    AND: [{ userId }, { movieId: movie.id }],
-                },
-            });
-
-            if (existingReview) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return null;
-        }
-    },
-    async isSerieReviewed(userId: number, serieTitle: string): Promise<any> {
-        const serie = await prisma.serie.findFirst({
-            where: {
-                title: serieTitle,
-            },
-        });
-
-        if (serie) {
-            const existingReview = await prisma.serieReview.findFirst({
-                where: {
-                    AND: [{ userId }, { serieId: serie.id }],
-                },
-            });
-
-            if (existingReview) {
-                return true;
-            } else {
-                return false;
             }
         } else {
             return null;
