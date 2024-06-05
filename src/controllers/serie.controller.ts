@@ -44,7 +44,7 @@ const serieController = {
         }
     },
     async getSerieByTitle(req: Request, res: Response) {
-        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage } = req.query;
+        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
@@ -68,6 +68,10 @@ const serieController = {
 
         if (downvotesPage !== undefined) {
             queryParams.downvotesPage = Number(downvotesPage);
+        }
+
+        if (userId !== undefined) {
+            queryParams.userId = Number(userId);
         }
 
         try {

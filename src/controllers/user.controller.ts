@@ -575,36 +575,6 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async isSerieReviewUpvotedOrDownvoted(req: Request, res: Response) {
-        const { serieId, userId, serieReviewId } = req.body;
-
-        try {
-            const result = await userService.isSerieReviewUpvotedOrDownvoted(userId, serieId, serieReviewId);
-
-            if (result) {
-                res.status(HttpStatusCode.OK).send(result);
-            } else {
-                res.status(HttpStatusCode.OK).send(result);
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
-    async isMovieReviewUpvotedOrDownvoted(req: Request, res: Response) {
-        const { movieId, userId, movieReviewId } = req.body;
-
-        try {
-            const result = await userService.isMovieReviewUpvotedOrDownvoted(userId, movieId, movieReviewId);
-
-            if (result) {
-                res.status(HttpStatusCode.OK).send(result);
-            } else {
-                res.status(HttpStatusCode.OK).send(result);
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
     // #endregion
 };
 

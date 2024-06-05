@@ -44,7 +44,7 @@ const movieController = {
         }
     },
     async getMovieByTitle(req: Request, res: Response) {
-        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage } = req.query;
+        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
@@ -53,6 +53,10 @@ const movieController = {
         const queryParams: any = {
             page: Number(page),
         };
+
+        if (userId !== undefined) {
+            queryParams.userId = Number(userId);
+        }
 
         if (ascOrDesc !== undefined) {
             queryParams.ascOrDesc = String(ascOrDesc);

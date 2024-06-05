@@ -75,7 +75,7 @@ const serieService = {
         }
     },
     async getSerieByTitle(title: string, queryParams: any): Promise<Serie | any | null> {
-        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage } = queryParams;
+        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = queryParams;
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
         const orderByObject: any = {};
@@ -127,6 +127,27 @@ const serieService = {
 
             const totalRating = ratings.reduce((sum, review) => sum + review?.rating!, 0);
             const averageRating = totalReviews > 0 ? totalRating / totalReviews : 0;
+
+            if (userId) {
+                for (const review of serie.reviews) {
+                    const existingUpvote = await prisma.upvoteSerie.findFirst({
+                        where: {
+                            AND: [{ userId }, { serieId: serie.id }, { serieReviewId: review.id }],
+                        },
+                    });
+
+                    const existingDownvote = await prisma.downvoteSerie.findFirst({
+                        where: {
+                            AND: [{ userId }, { serieId: serie.id }, { serieReviewId: review.id }],
+                        },
+                    });
+
+                    // @ts-ignore
+                    review.isUpvoted = !!existingUpvote;
+                    // @ts-ignore
+                    review.isDownvoted = !!existingDownvote;
+                }
+            }
 
             return {
                 ...serie,
