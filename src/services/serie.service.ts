@@ -48,10 +48,41 @@ const serieService = {
             take,
         });
 
+        const serieIds = seriesWithGenres.map((serie) => serie.id);
+
+        const serieRatings = await prisma.serieReview.groupBy({
+            by: ['serieId'],
+            where: { serieId: { in: serieIds } },
+            _avg: {
+                rating: true,
+            },
+            _count: {
+                rating: true,
+            },
+        });
+
+        type RatingsMap = {
+            [key: number]: {
+                averageRating: number;
+                totalReviews: number;
+            };
+        };
+
+        const serieRatingsMap: RatingsMap = serieRatings.reduce((map, rating) => {
+            map[rating.serieId] = {
+                averageRating: rating._avg.rating || 0,
+                totalReviews: rating._count.rating,
+            };
+            
+            return map;
+        }, {} as RatingsMap);
+
         const series = seriesWithGenres.map((serie) => {
             const { genres, ...properties } = serie;
             const simplifiedGenres = genres.map((genre) => genre.genre);
-            return { ...properties, genres: simplifiedGenres };
+            const ratingsInfo = serieRatingsMap[serie.id] || { averageRating: 0, totalReviews: 0 };
+
+            return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
         });
 
         const count = await prisma.serie.count();
