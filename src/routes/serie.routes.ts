@@ -21,6 +21,7 @@ router.put('/updateSerieById/:id', serieIdParamSchema, serieSchemaPost, validate
 router.post('/addSerie', serieSchemaPost, validateMiddleware, serieController.addSerie);
 router.get('/searchSeriesByTitle', serieController.searchSeriesByTitle);
 router.get('/getLatestSeries', serieController.getLatestSeries);
+router.get('/getRelatedSeries', serieController.getRelatedSeries);
 router.post('/addSeasonToSerie', seasonSerieSchema, validateMiddleware, serieController.addSeasonToSerie);
 
 export default router;

@@ -99,6 +99,27 @@ const movieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+    async getRelatedMovies(req: Request, res: Response) {
+        const { title } = req.query;
+        const titleFormatted =
+            title &&
+            String(title)
+                .split('')
+                .map((char) => (char === '-' ? ' ' : char))
+                .join('');
+
+        try {
+            const relatedMovies = await movieService.getRelatedMovies(titleFormatted!);
+
+            if (relatedMovies) {
+                res.status(HttpStatusCode.OK).send(relatedMovies);
+            } else {
+                res.status(HttpStatusCode.NotFound).send({ error: 'Related Movies not found' });
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
     async updateMovieById(req: Request, res: Response) {
         const movieBodyParams = req.body;
         const { id } = req.params;

@@ -259,6 +259,70 @@ const serieService = {
             return null;
         }
     },
+    async getRelatedSeries(title: string): Promise<Serie[] | null> {
+        const serie = await prisma.serie.findFirst({
+            where: { title },
+        });
+
+        const seriesGenres = await prisma.serieGenre.findMany({
+            where: { serieId: serie?.id },
+            select: { genreId: true },
+        });
+
+        if (!seriesGenres.length) {
+            return null;
+        }
+
+        const genreIds = seriesGenres.map((sg) => sg.genreId);
+        const relatedSerieIdsByGenre = await prisma.serieGenre.findMany({
+            where: {
+                genreId: { in: genreIds },
+                serieId: { not: serie?.id },
+            },
+            distinct: ['serieId'],
+            select: { serieId: true },
+        });
+
+        const relatedSerieIds = relatedSerieIdsByGenre.map((rs) => rs.serieId);
+
+        if (!relatedSerieIds.length) {
+            return null;
+        }
+
+        const relatedSeries = await prisma.serie.findMany({
+            where: { id: { in: relatedSerieIds } },
+            include: { genres: { select: { genre: true } } },
+        });
+
+        const serieRatings = await prisma.serieReview.groupBy({
+            by: ['serieId'],
+            where: { serieId: { in: relatedSerieIds } },
+            _avg: { rating: true },
+            _count: { rating: true },
+        });
+
+        const ratingsMap = serieRatings.reduce(
+            (acc, rating) => {
+                acc[rating.serieId] = {
+                    averageRating: rating._avg.rating || 0,
+                    totalReviews: rating._count.rating,
+                };
+
+                return acc;
+            },
+            {} as { [key: number]: { averageRating: number; totalReviews: number } },
+        );
+
+        const series = relatedSeries.map((relatedSerie) => {
+            const { genres, ...serieDetails } = relatedSerie;
+            const simplifiedGenres = genres.map((genre) => genre.genre);
+            const ratingsInfo = ratingsMap[relatedSerie.id] || { averageRating: 0, totalReviews: 0 };
+
+            return { ...serieDetails, genres: simplifiedGenres, ...ratingsInfo };
+        });
+
+        return series.length > 0 ? series : null;
+    },
     async updateSerieById(serieParam: Prisma.SerieUpdateInput, id: string): Promise<Serie | null> {
         const serie: Serie | null = await prisma.serie.findUnique({
             where: { id: Number(id) },

@@ -259,6 +259,70 @@ const movieService = {
             return null;
         }
     },
+    async getRelatedMovies(title: string): Promise<Movie[] | null> {
+        const movie = await prisma.movie.findFirst({
+            where: { title },
+        });
+
+        const movieGenres = await prisma.movieGenre.findMany({
+            where: { movieId: movie?.id },
+            select: { genreId: true },
+        });
+
+        if (!movieGenres.length) {
+            return null;
+        }
+
+        const genreIds = movieGenres.map((mg) => mg.genreId);
+        const relatedMovieIdsByGenre = await prisma.movieGenre.findMany({
+            where: {
+                genreId: { in: genreIds },
+                movieId: { not: movie?.id },
+            },
+            distinct: ['movieId'],
+            select: { movieId: true },
+        });
+
+        const relatedMovieIds = relatedMovieIdsByGenre.map((rm) => rm.movieId);
+
+        if (!relatedMovieIds.length) {
+            return null;
+        }
+
+        const relatedMovies = await prisma.movie.findMany({
+            where: { id: { in: relatedMovieIds } },
+            include: { genres: { select: { genre: true } } },
+        });
+
+        const movieRatings = await prisma.movieReview.groupBy({
+            by: ['movieId'],
+            where: { movieId: { in: relatedMovieIds } },
+            _avg: { rating: true },
+            _count: { rating: true },
+        });
+
+        const ratingsMap = movieRatings.reduce(
+            (acc, rating) => {
+                acc[rating.movieId] = {
+                    averageRating: rating._avg.rating || 0,
+                    totalReviews: rating._count.rating,
+                };
+
+                return acc;
+            },
+            {} as { [key: number]: { averageRating: number; totalReviews: number } },
+        );
+
+        const movies = relatedMovies.map((relatedMovie) => {
+            const { genres, ...movieDetails } = relatedMovie;
+            const simplifiedGenres = genres.map((genre) => genre.genre);
+            const ratingsInfo = ratingsMap[relatedMovie.id] || { averageRating: 0, totalReviews: 0 };
+
+            return { ...movieDetails, genres: simplifiedGenres, ...ratingsInfo };
+        });
+
+        return movies.length > 0 ? movies : null;
+    },
     async updateMovieById(movieParam: Prisma.MovieUpdateInput, id: string): Promise<Movie | null> {
         const movie: Movie | null = await prisma.movie.findUnique({
             where: { id: Number(id) },
