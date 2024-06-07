@@ -208,7 +208,7 @@ const movieService = {
         }
     },
     async getLatestMovies(): Promise<Movie[] | null> {
-        const result = await prisma.movie.findMany({
+        const moviesWithGenres = await prisma.movie.findMany({
             orderBy: {
                 releaseYear: 'desc',
             },
@@ -216,8 +216,45 @@ const movieService = {
             include: { genres: { select: { genre: true } } },
         });
 
-        if (result) {
-            return result;
+        const movieIds = moviesWithGenres.map((movie) => movie.id);
+
+        const movieRatings = await prisma.movieReview.groupBy({
+            by: ['movieId'],
+            where: { movieId: { in: movieIds } },
+            _avg: {
+                rating: true,
+            },
+            _count: {
+                rating: true,
+            },
+        });
+
+        type RatingsMap = {
+            [key: number]: {
+                averageRating: number;
+                totalReviews: number;
+            };
+        };
+
+        const movieRatingsMap: RatingsMap = movieRatings.reduce((map, rating) => {
+            map[rating.movieId] = {
+                averageRating: rating._avg.rating || 0,
+                totalReviews: rating._count.rating,
+            };
+
+            return map;
+        }, {} as RatingsMap);
+
+        const movies = moviesWithGenres.map((movie) => {
+            const { genres, ...properties } = movie;
+            const simplifiedGenres = genres.map((genre) => genre.genre);
+            const ratingsInfo = movieRatingsMap[movie.id] || { averageRating: 0, totalReviews: 0 };
+
+            return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
+        });
+
+        if (movies) {
+            return movies;
         } else {
             return null;
         }
