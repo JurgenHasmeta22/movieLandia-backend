@@ -127,7 +127,7 @@ const genreService = {
                     skip,
                     take,
                     select: {
-                        movie: true,
+                        movie: { include: { genres: { select: { genre: true } } } },
                     },
                 });
 
@@ -138,7 +138,43 @@ const genreService = {
                 });
 
                 if (result) {
-                    const formattedMovies = result.map((item) => item.movie);
+                    const movies = result.map((item) => item.movie);
+                    const movieIds = movies.map((movie) => movie.id);
+                    const movieRatings = await prisma.movieReview.groupBy({
+                        by: ['movieId'],
+                        where: { movieId: { in: movieIds } },
+                        _avg: {
+                            rating: true,
+                        },
+                        _count: {
+                            rating: true,
+                        },
+                    });
+
+                    type RatingsMap = {
+                        [key: number]: {
+                            averageRating: number;
+                            totalReviews: number;
+                        };
+                    };
+
+                    const movieRatingsMap: RatingsMap = movieRatings.reduce((map, rating) => {
+                        map[rating.movieId] = {
+                            averageRating: rating._avg.rating || 0,
+                            totalReviews: rating._count.rating,
+                        };
+
+                        return map;
+                    }, {} as RatingsMap);
+
+                    const formattedMovies = movies.map((movie) => {
+                        const { genres, ...properties } = movie;
+                        const simplifiedGenres = genres.map((genre) => genre.genre);
+                        const ratingsInfo = movieRatingsMap[movie.id] || { averageRating: 0, totalReviews: 0 };
+
+                        return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
+                    });
+
                     return { movies: formattedMovies, count };
                 }
             } else if (type === 'serie') {
@@ -152,7 +188,7 @@ const genreService = {
                     skip,
                     take,
                     select: {
-                        serie: true,
+                        serie: { include: { genres: { select: { genre: true } } } },
                     },
                 });
 
@@ -163,7 +199,43 @@ const genreService = {
                 });
 
                 if (result) {
-                    const formattedSeries = result.map((item) => item.serie);
+                    const series = result.map((item) => item.serie);
+                    const serieIds = series.map((serie) => serie.id);
+                    const serieRatings = await prisma.serieReview.groupBy({
+                        by: ['serieId'],
+                        where: { serieId: { in: serieIds } },
+                        _avg: {
+                            rating: true,
+                        },
+                        _count: {
+                            rating: true,
+                        },
+                    });
+
+                    type RatingsMap = {
+                        [key: number]: {
+                            averageRating: number;
+                            totalReviews: number;
+                        };
+                    };
+
+                    const serieRatingsMap: RatingsMap = serieRatings.reduce((map, rating) => {
+                        map[rating.serieId] = {
+                            averageRating: rating._avg.rating || 0,
+                            totalReviews: rating._count.rating,
+                        };
+
+                        return map;
+                    }, {} as RatingsMap);
+
+                    const formattedSeries = series.map((serie) => {
+                        const { genres, ...properties } = serie;
+                        const simplifiedGenres = genres.map((genre) => genre.genre);
+                        const ratingsInfo = serieRatingsMap[serie.id] || { averageRating: 0, totalReviews: 0 };
+
+                        return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
+                    });
+
                     return { series: formattedSeries, count };
                 }
             } else {
