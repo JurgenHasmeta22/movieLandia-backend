@@ -99,6 +99,27 @@ const serieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+    async getRelatedSeries(req: Request, res: Response) {
+        const { title } = req.query;
+        const titleFormatted =
+            title &&
+            String(title)
+                .split('')
+                .map((char) => (char === '-' ? ' ' : char))
+                .join('');
+
+        try {
+            const relatedSeries = await serieService.getRelatedSeries(titleFormatted!);
+
+            if (relatedSeries) {
+                res.status(HttpStatusCode.OK).send(relatedSeries);
+            } else {
+                res.status(HttpStatusCode.NotFound).send({ error: 'Related Series not found' });
+            }
+        } catch (err) {
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        }
+    },
     async updateSerieById(req: Request, res: Response) {
         const serieBodyParams = req.body;
         const { id } = req.params;
