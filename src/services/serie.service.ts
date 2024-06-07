@@ -73,7 +73,7 @@ const serieService = {
                 averageRating: rating._avg.rating || 0,
                 totalReviews: rating._count.rating,
             };
-            
+
             return map;
         }, {} as RatingsMap);
 
@@ -208,7 +208,7 @@ const serieService = {
         }
     },
     async getLatestSeries(): Promise<Serie[] | null> {
-        const result = await prisma.serie.findMany({
+        const seriesWithGenres = await prisma.serie.findMany({
             orderBy: {
                 releaseYear: 'desc',
             },
@@ -216,8 +216,45 @@ const serieService = {
             include: { genres: { select: { genre: true } } },
         });
 
-        if (result) {
-            return result;
+        const serieIds = seriesWithGenres.map((serie) => serie.id);
+
+        const serieRatings = await prisma.serieReview.groupBy({
+            by: ['serieId'],
+            where: { serieId: { in: serieIds } },
+            _avg: {
+                rating: true,
+            },
+            _count: {
+                rating: true,
+            },
+        });
+
+        type RatingsMap = {
+            [key: number]: {
+                averageRating: number;
+                totalReviews: number;
+            };
+        };
+
+        const serieRatingsMap: RatingsMap = serieRatings.reduce((map, rating) => {
+            map[rating.serieId] = {
+                averageRating: rating._avg.rating || 0,
+                totalReviews: rating._count.rating,
+            };
+
+            return map;
+        }, {} as RatingsMap);
+
+        const series = seriesWithGenres.map((serie) => {
+            const { genres, ...properties } = serie;
+            const simplifiedGenres = genres.map((genre) => genre.genre);
+            const ratingsInfo = serieRatingsMap[serie.id] || { averageRating: 0, totalReviews: 0 };
+
+            return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
+        });
+
+        if (series) {
+            return series;
         } else {
             return null;
         }
