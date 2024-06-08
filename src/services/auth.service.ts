@@ -16,7 +16,16 @@ const authService = {
             const hash = bcrypt.hashSync(password);
             const user: User | null = await prisma.user.create({
                 data: { email, password: hash, userName },
-                include: { favMovies: { include: { movie: true } }, favSeries: { include: { serie: true } } },
+                include: {
+                    favMovies: { include: { movie: true } },
+                    favSeries: { include: { serie: true } },
+                    movieReviews: { include: { movie: true } },
+                    serieReviews: { include: { serie: true } },
+                    upvotedMovies: { include: { movieReview: true, movie: true } },
+                    downvotedMovies: { include: { movieReview: true, movie: true } },
+                    upvotedSeries: { include: { serieReview: true, serie: true } },
+                    downvotedSeries: { include: { serieReview: true, serie: true } },
+                },
             });
 
             if (user) {
