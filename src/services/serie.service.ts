@@ -438,7 +438,7 @@ const serieService = {
         });
 
         if (series) {
-            return { seriesFinal, count };
+            return { series: seriesFinal, count };
         } else {
             return null;
         }

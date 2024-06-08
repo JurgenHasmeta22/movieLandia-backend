@@ -437,7 +437,7 @@ const movieService = {
         });
 
         if (movies) {
-            return { moviesFinal, count };
+            return { movies: moviesFinal, count };
         } else {
             return null;
         }
