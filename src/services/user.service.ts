@@ -1,4 +1,4 @@
-import { Episode, Genre, Prisma, Season, User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { prisma } from '../app';
 
 interface UserServiceParams {
@@ -144,6 +144,10 @@ const userService = {
                 favSeries: { include: { serie: true } },
                 movieReviews: { include: { movie: true } },
                 serieReviews: { include: { serie: true } },
+                upvotedMovies: { include: { movieReview: true, movie: true } },
+                downvotedMovies: { include: { movieReview: true, movie: true } },
+                upvotedSeries: { include: { serieReview: true, serie: true } },
+                downvotedSeries: { include: { serieReview: true, serie: true } },
             },
         });
 
@@ -168,13 +172,17 @@ const userService = {
             data: { userId, movieId },
         });
 
-        const user: User | null = await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: { id: userId },
             include: {
                 favMovies: { include: { movie: true } },
                 favSeries: { include: { serie: true } },
                 movieReviews: { include: { movie: true } },
                 serieReviews: { include: { serie: true } },
+                upvotedMovies: { include: { movieReview: true, movie: true } },
+                downvotedMovies: { include: { movieReview: true, movie: true } },
+                upvotedSeries: { include: { serieReview: true, serie: true } },
+                downvotedSeries: { include: { serieReview: true, serie: true } },
             },
         });
 
@@ -203,6 +211,10 @@ const userService = {
                     favSeries: { include: { serie: true } },
                     movieReviews: { include: { movie: true } },
                     serieReviews: { include: { serie: true } },
+                    upvotedMovies: { include: { movieReview: true, movie: true } },
+                    downvotedMovies: { include: { movieReview: true, movie: true } },
+                    upvotedSeries: { include: { serieReview: true, serie: true } },
+                    downvotedSeries: { include: { serieReview: true, serie: true } },
                 },
             });
 
@@ -234,6 +246,10 @@ const userService = {
                     favSeries: { include: { serie: true } },
                     movieReviews: { include: { movie: true } },
                     serieReviews: { include: { serie: true } },
+                    upvotedMovies: { include: { movieReview: true, movie: true } },
+                    downvotedMovies: { include: { movieReview: true, movie: true } },
+                    upvotedSeries: { include: { serieReview: true, serie: true } },
+                    downvotedSeries: { include: { serieReview: true, serie: true } },
                 },
             });
 
@@ -268,7 +284,25 @@ const userService = {
             });
 
             if (reviewAdded) {
-                return reviewAdded;
+                const user = await prisma.user.findUnique({
+                    where: { id: userId },
+                    include: {
+                        favMovies: { include: { movie: true } },
+                        favSeries: { include: { serie: true } },
+                        movieReviews: { include: { movie: true } },
+                        serieReviews: { include: { serie: true } },
+                        upvotedMovies: { include: { movieReview: true, movie: true } },
+                        downvotedMovies: { include: { movieReview: true, movie: true } },
+                        upvotedSeries: { include: { serieReview: true, serie: true } },
+                        downvotedSeries: { include: { serieReview: true, serie: true } },
+                    },
+                });
+
+                if (user) {
+                    return user;
+                } else {
+                    return null;
+                }
             } else {
                 return null;
             }
@@ -295,7 +329,25 @@ const userService = {
             });
 
             if (reviewAdded) {
-                return reviewAdded;
+                const user = await prisma.user.findUnique({
+                    where: { id: userId },
+                    include: {
+                        favMovies: { include: { movie: true } },
+                        favSeries: { include: { serie: true } },
+                        movieReviews: { include: { movie: true } },
+                        serieReviews: { include: { serie: true } },
+                        upvotedMovies: { include: { movieReview: true, movie: true } },
+                        downvotedMovies: { include: { movieReview: true, movie: true } },
+                        upvotedSeries: { include: { serieReview: true, serie: true } },
+                        downvotedSeries: { include: { serieReview: true, serie: true } },
+                    },
+                });
+
+                if (user) {
+                    return user;
+                } else {
+                    return null;
+                }
             } else {
                 return null;
             }
@@ -325,7 +377,25 @@ const userService = {
             });
 
             if (reviewUpdated) {
-                return reviewUpdated;
+                const user = await prisma.user.findUnique({
+                    where: { id: userId },
+                    include: {
+                        favMovies: { include: { movie: true } },
+                        favSeries: { include: { serie: true } },
+                        movieReviews: { include: { movie: true } },
+                        serieReviews: { include: { serie: true } },
+                        upvotedMovies: { include: { movieReview: true, movie: true } },
+                        downvotedMovies: { include: { movieReview: true, movie: true } },
+                        upvotedSeries: { include: { serieReview: true, serie: true } },
+                        downvotedSeries: { include: { serieReview: true, serie: true } },
+                    },
+                });
+
+                if (user) {
+                    return user;
+                } else {
+                    return null;
+                }
             } else {
                 return null;
             }
@@ -355,7 +425,25 @@ const userService = {
             });
 
             if (reviewUpdated) {
-                return reviewUpdated;
+                const user = await prisma.user.findUnique({
+                    where: { id: userId },
+                    include: {
+                        favMovies: { include: { movie: true } },
+                        favSeries: { include: { serie: true } },
+                        movieReviews: { include: { movie: true } },
+                        serieReviews: { include: { serie: true } },
+                        upvotedMovies: { include: { movieReview: true, movie: true } },
+                        downvotedMovies: { include: { movieReview: true, movie: true } },
+                        upvotedSeries: { include: { serieReview: true, serie: true } },
+                        downvotedSeries: { include: { serieReview: true, serie: true } },
+                    },
+                });
+
+                if (user) {
+                    return user;
+                } else {
+                    return null;
+                }
             } else {
                 return null;
             }
@@ -376,7 +464,25 @@ const userService = {
             });
 
             if (result) {
-                return result;
+                const user = await prisma.user.findUnique({
+                    where: { id: userId },
+                    include: {
+                        favMovies: { include: { movie: true } },
+                        favSeries: { include: { serie: true } },
+                        movieReviews: { include: { movie: true } },
+                        serieReviews: { include: { serie: true } },
+                        upvotedMovies: { include: { movieReview: true, movie: true } },
+                        downvotedMovies: { include: { movieReview: true, movie: true } },
+                        upvotedSeries: { include: { serieReview: true, serie: true } },
+                        downvotedSeries: { include: { serieReview: true, serie: true } },
+                    },
+                });
+
+                if (user) {
+                    return user;
+                } else {
+                    return null;
+                }
             } else {
                 return null;
             }
@@ -397,7 +503,25 @@ const userService = {
             });
 
             if (result) {
-                return result;
+                const user = await prisma.user.findUnique({
+                    where: { id: userId },
+                    include: {
+                        favMovies: { include: { movie: true } },
+                        favSeries: { include: { serie: true } },
+                        movieReviews: { include: { movie: true } },
+                        serieReviews: { include: { serie: true } },
+                        upvotedMovies: { include: { movieReview: true, movie: true } },
+                        downvotedMovies: { include: { movieReview: true, movie: true } },
+                        upvotedSeries: { include: { serieReview: true, serie: true } },
+                        downvotedSeries: { include: { serieReview: true, serie: true } },
+                    },
+                });
+
+                if (user) {
+                    return user;
+                } else {
+                    return null;
+                }
             } else {
                 return null;
             }

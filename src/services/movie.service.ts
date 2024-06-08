@@ -1,4 +1,4 @@
-import { Movie, Prisma } from '@prisma/client';
+import { Genre, Movie, Prisma } from '@prisma/client';
 import { prisma } from '../app';
 
 interface MovieServiceParams {
@@ -394,6 +394,42 @@ const movieService = {
         };
 
         const movies = await prisma.movie.findMany(query);
+        const movieIds = movies.map((movie: Movie) => movie.id);
+
+        const movieRatings = await prisma.movieReview.groupBy({
+            by: ['movieId'],
+            where: { movieId: { in: movieIds } },
+            _avg: {
+                rating: true,
+            },
+            _count: {
+                rating: true,
+            },
+        });
+
+        type RatingsMap = {
+            [key: number]: {
+                averageRating: number;
+                totalReviews: number;
+            };
+        };
+
+        const movieRatingsMap: RatingsMap = movieRatings.reduce((map, rating) => {
+            map[rating.movieId] = {
+                averageRating: rating._avg.rating || 0,
+                totalReviews: rating._count.rating,
+            };
+
+            return map;
+        }, {} as RatingsMap);
+
+        const moviesFinal = movies.map((movie: any) => {
+            const { genres, ...properties } = movie;
+            const simplifiedGenres = genres.map((genre: any) => genre.genre);
+            const ratingsInfo = movieRatingsMap[movie.id] || { averageRating: 0, totalReviews: 0 };
+
+            return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
+        });
         const count = await prisma.movie.count({
             where: {
                 title: { contains: title },
@@ -401,7 +437,7 @@ const movieService = {
         });
 
         if (movies) {
-            return { movies, count };
+            return { moviesFinal, count };
         } else {
             return null;
         }
