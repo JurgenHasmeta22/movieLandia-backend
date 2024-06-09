@@ -1,4 +1,4 @@
-import { Genre, Movie, Prisma } from '@prisma/client';
+import { Movie, Prisma, PrismaClient } from '@prisma/client';
 import { prisma } from '../app';
 
 interface MovieServiceParams {
@@ -12,8 +12,14 @@ interface MovieServiceParams {
     filterOperatorString?: '>' | '=' | '<' | 'gt' | 'equals' | 'lt';
 }
 
-const movieService = {
-    async getMovies({
+class MovieService {
+    private prisma: PrismaClient;
+
+    constructor(prismaInstance: typeof prisma) {
+        this.prisma = prismaInstance;
+    }
+
+    public async getMovies({
         sortBy,
         ascOrDesc,
         perPage,
@@ -40,7 +46,7 @@ const movieService = {
             orderByObject[sortBy] = ascOrDesc;
         }
 
-        const moviesWithGenres = await prisma.movie.findMany({
+        const moviesWithGenres = await this.prisma.movie.findMany({
             where: filters,
             include: { genres: { select: { genre: true } } },
             orderBy: orderByObject,
@@ -48,9 +54,9 @@ const movieService = {
             take,
         });
 
-        const movieIds = moviesWithGenres.map((movie) => movie.id);
+        const movieIds = moviesWithGenres.map((movie: Movie) => movie.id);
 
-        const movieRatings = await prisma.movieReview.groupBy({
+        const movieRatings = await this.prisma.movieReview.groupBy({
             by: ['movieId'],
             where: { movieId: { in: movieIds } },
             _avg: {
@@ -85,16 +91,17 @@ const movieService = {
             return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
         });
 
-        const moviesCount = await prisma.movie.count();
+        const moviesCount = await this.prisma.movie.count();
 
         if (movies) {
             return { movies, count: moviesCount };
         } else {
             return null;
         }
-    },
-    async getMovieById(movieId: number): Promise<Movie | null> {
-        const result = await prisma.movie.findFirst({
+    }
+
+    public async getMovieById(movieId: number): Promise<Movie | null> {
+        const result = await this.prisma.movie.findFirst({
             where: { id: movieId },
             include: { genres: { select: { genre: true } }, cast: { select: { actor: true } } },
         });
@@ -104,8 +111,9 @@ const movieService = {
         } else {
             return null;
         }
-    },
-    async getMovieByTitle(title: string, queryParams: any): Promise<Movie | any | null> {
+    }
+
+    public async getMovieByTitle(title: string, queryParams: any): Promise<Movie | any | null> {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = queryParams;
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
@@ -117,7 +125,7 @@ const movieService = {
             orderByObject['createdAt'] = 'desc';
         }
 
-        const movie = await prisma.movie.findFirst({
+        const movie = await this.prisma.movie.findFirst({
             where: { title },
             include: {
                 genres: { select: { genre: true } },
@@ -147,11 +155,11 @@ const movieService = {
         });
 
         if (movie) {
-            const totalReviews = await prisma.movieReview.count({
+            const totalReviews = await this.prisma.movieReview.count({
                 where: { movieId: movie.id },
             });
 
-            const ratings = await prisma.movieReview.findMany({
+            const ratings = await this.prisma.movieReview.findMany({
                 where: { movieId: movie.id },
                 select: { rating: true },
             });
@@ -164,13 +172,13 @@ const movieService = {
 
             if (userId) {
                 for (const review of movie.reviews) {
-                    const existingUpvote = await prisma.upvoteMovie.findFirst({
+                    const existingUpvote = await this.prisma.upvoteMovie.findFirst({
                         where: {
                             AND: [{ userId }, { movieId: movie.id }, { movieReviewId: review.id }],
                         },
                     });
 
-                    const existingDownvote = await prisma.downvoteMovie.findFirst({
+                    const existingDownvote = await this.prisma.downvoteMovie.findFirst({
                         where: {
                             AND: [{ userId }, { movieId: movie.id }, { movieReviewId: review.id }],
                         },
@@ -182,14 +190,14 @@ const movieService = {
                     review.isDownvoted = !!existingDownvote;
                 }
 
-                const existingFavorite = await prisma.userMovieFavorite.findFirst({
+                const existingFavorite = await this.prisma.userMovieFavorite.findFirst({
                     where: {
                         AND: [{ userId }, { movieId: movie.id }],
                     },
                 });
                 isBookmarked = !!existingFavorite;
 
-                const existingReview = await prisma.movieReview.findFirst({
+                const existingReview = await this.prisma.movieReview.findFirst({
                     where: {
                         AND: [{ userId }, { movieId: movie.id }],
                     },
@@ -206,9 +214,10 @@ const movieService = {
         } else {
             return null;
         }
-    },
-    async getLatestMovies(): Promise<Movie[] | null> {
-        const moviesWithGenres = await prisma.movie.findMany({
+    }
+
+    public async getLatestMovies(): Promise<Movie[] | null> {
+        const moviesWithGenres = await this.prisma.movie.findMany({
             orderBy: {
                 releaseYear: 'desc',
             },
@@ -218,7 +227,7 @@ const movieService = {
 
         const movieIds = moviesWithGenres.map((movie) => movie.id);
 
-        const movieRatings = await prisma.movieReview.groupBy({
+        const movieRatings = await this.prisma.movieReview.groupBy({
             by: ['movieId'],
             where: { movieId: { in: movieIds } },
             _avg: {
@@ -258,13 +267,14 @@ const movieService = {
         } else {
             return null;
         }
-    },
-    async getRelatedMovies(title: string): Promise<Movie[] | null> {
-        const movie = await prisma.movie.findFirst({
+    }
+
+    public async getRelatedMovies(title: string): Promise<Movie[] | null> {
+        const movie = await this.prisma.movie.findFirst({
             where: { title },
         });
 
-        const movieGenres = await prisma.movieGenre.findMany({
+        const movieGenres = await this.prisma.movieGenre.findMany({
             where: { movieId: movie?.id },
             select: { genreId: true },
         });
@@ -274,7 +284,7 @@ const movieService = {
         }
 
         const genreIds = movieGenres.map((mg) => mg.genreId);
-        const relatedMovieIdsByGenre = await prisma.movieGenre.findMany({
+        const relatedMovieIdsByGenre = await this.prisma.movieGenre.findMany({
             where: {
                 genreId: { in: genreIds },
                 movieId: { not: movie?.id },
@@ -289,12 +299,12 @@ const movieService = {
             return null;
         }
 
-        const relatedMovies = await prisma.movie.findMany({
+        const relatedMovies = await this.prisma.movie.findMany({
             where: { id: { in: relatedMovieIds } },
             include: { genres: { select: { genre: true } } },
         });
 
-        const movieRatings = await prisma.movieReview.groupBy({
+        const movieRatings = await this.prisma.movieReview.groupBy({
             by: ['movieId'],
             where: { movieId: { in: relatedMovieIds } },
             _avg: { rating: true },
@@ -322,14 +332,15 @@ const movieService = {
         });
 
         return movies.length > 0 ? movies : null;
-    },
-    async updateMovieById(movieParam: Prisma.MovieUpdateInput, id: string): Promise<Movie | null> {
-        const movie: Movie | null = await prisma.movie.findUnique({
+    }
+
+    public async updateMovieById(movieParam: Prisma.MovieUpdateInput, id: string): Promise<Movie | null> {
+        const movie: Movie | null = await this.prisma.movie.findUnique({
             where: { id: Number(id) },
         });
 
         if (movie) {
-            const movieUpdated = await prisma.movie.update({
+            const movieUpdated = await this.prisma.movie.update({
                 where: { id: Number(id) },
                 data: movieParam,
                 include: { genres: { select: { genre: true } }, cast: { select: { actor: true } } },
@@ -343,9 +354,10 @@ const movieService = {
         } else {
             return null;
         }
-    },
-    async addMovie(movieParam: Prisma.MovieCreateInput): Promise<Movie | null> {
-        const movieCreated = await prisma.movie.create({
+    }
+
+    public async addMovie(movieParam: Prisma.MovieCreateInput): Promise<Movie | null> {
+        const movieCreated = await this.prisma.movie.create({
             data: movieParam,
             include: { genres: { select: { genre: true } }, cast: { select: { actor: true } } },
         });
@@ -355,14 +367,15 @@ const movieService = {
         } else {
             return null;
         }
-    },
-    async deleteMovieById(id: number): Promise<string | null> {
-        const movie: Movie | null = await prisma.movie.findUnique({
+    }
+
+    public async deleteMovieById(id: number): Promise<string | null> {
+        const movie: Movie | null = await this.prisma.movie.findUnique({
             where: { id },
         });
 
         if (movie) {
-            const result = await prisma.movie.delete({
+            const result = await this.prisma.movie.delete({
                 where: { id },
             });
 
@@ -374,8 +387,9 @@ const movieService = {
         } else {
             return null;
         }
-    },
-    async searchMoviesByTitle(title: string, queryParams: any): Promise<any | null> {
+    }
+
+    public async searchMoviesByTitle(title: string, queryParams: any): Promise<any | null> {
         const { page, ascOrDesc, sortBy } = queryParams;
         const orderByObject: any = {};
 
@@ -393,10 +407,10 @@ const movieService = {
             take: 10,
         };
 
-        const movies = await prisma.movie.findMany(query);
+        const movies = await this.prisma.movie.findMany(query);
         const movieIds = movies.map((movie: Movie) => movie.id);
 
-        const movieRatings = await prisma.movieReview.groupBy({
+        const movieRatings = await this.prisma.movieReview.groupBy({
             by: ['movieId'],
             where: { movieId: { in: movieIds } },
             _avg: {
@@ -430,7 +444,7 @@ const movieService = {
 
             return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
         });
-        const count = await prisma.movie.count({
+        const count = await this.prisma.movie.count({
             where: {
                 title: { contains: title },
             },
@@ -441,7 +455,7 @@ const movieService = {
         } else {
             return null;
         }
-    },
-};
+    }
+}
 
-export default movieService;
+export default new MovieService(prisma);
