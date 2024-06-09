@@ -1,5 +1,5 @@
-import { prisma } from '../app';
-import { Genre, Prisma } from '@prisma/client';
+import { prisma } from '../config/prisma.config';
+import { Genre, Prisma, PrismaClient } from '@prisma/client';
 
 interface GetGenresParams {
     sortBy: string;
@@ -13,8 +13,14 @@ interface GetGenresParams {
     filterOperatorString: '>' | '=' | '<';
 }
 
-const genreService = {
-    async getGenres({
+class GenreService {
+    private prisma: PrismaClient;
+
+    constructor(prismaInstance: typeof prisma) {
+        this.prisma = prismaInstance;
+    }
+
+    public async getGenres({
         sortBy,
         ascOrDesc,
         perPage,
@@ -41,23 +47,24 @@ const genreService = {
             orderByObject[sortBy] = ascOrDesc;
         }
 
-        const genres = await prisma.genre.findMany({
+        const genres = await this.prisma.genre.findMany({
             where: filters,
             orderBy: orderByObject,
             skip,
             take,
         });
 
-        const count = await prisma.genre.count();
+        const count = await this.prisma.genre.count();
 
         if (genres) {
             return { rows: genres, count };
         } else {
             return null;
         }
-    },
-    async getGenreById(id: number): Promise<Genre | null> {
-        const result = await prisma.genre.findUnique({
+    }
+
+    public async getGenreById(id: number): Promise<Genre | null> {
+        const result = await this.prisma.genre.findUnique({
             where: {
                 id,
             },
@@ -75,8 +82,9 @@ const genreService = {
         } else {
             return null;
         }
-    },
-    async getGenreByName(
+    }
+
+    public async getGenreByName(
         nameGenre: string,
         {
             sortBy,
@@ -107,7 +115,7 @@ const genreService = {
             orderByObject[sortBy] = ascOrDesc;
         }
 
-        const genre = await prisma.genre.findFirst({
+        const genre = await this.prisma.genre.findFirst({
             where: {
                 name: {
                     equals: nameGenre,
@@ -117,7 +125,7 @@ const genreService = {
 
         if (genre) {
             if (type === 'movie') {
-                const result = await prisma.movieGenre.findMany({
+                const result = await this.prisma.movieGenre.findMany({
                     where: {
                         genreId: genre?.id,
                     },
@@ -131,7 +139,7 @@ const genreService = {
                     },
                 });
 
-                const count = await prisma.movieGenre.count({
+                const count = await this.prisma.movieGenre.count({
                     where: {
                         genreId: genre?.id,
                     },
@@ -140,7 +148,7 @@ const genreService = {
                 if (result) {
                     const movies = result.map((item) => item.movie);
                     const movieIds = movies.map((movie) => movie.id);
-                    const movieRatings = await prisma.movieReview.groupBy({
+                    const movieRatings = await this.prisma.movieReview.groupBy({
                         by: ['movieId'],
                         where: { movieId: { in: movieIds } },
                         _avg: {
@@ -178,7 +186,7 @@ const genreService = {
                     return { movies: formattedMovies, count };
                 }
             } else if (type === 'serie') {
-                const result = await prisma.serieGenre.findMany({
+                const result = await this.prisma.serieGenre.findMany({
                     where: {
                         genreId: genre?.id,
                     },
@@ -192,7 +200,7 @@ const genreService = {
                     },
                 });
 
-                const count = await prisma.serieGenre.count({
+                const count = await this.prisma.serieGenre.count({
                     where: {
                         genreId: genre?.id,
                     },
@@ -201,7 +209,7 @@ const genreService = {
                 if (result) {
                     const series = result.map((item) => item.serie);
                     const serieIds = series.map((serie) => serie.id);
-                    const serieRatings = await prisma.serieReview.groupBy({
+                    const serieRatings = await this.prisma.serieReview.groupBy({
                         by: ['serieId'],
                         where: { serieId: { in: serieIds } },
                         _avg: {
@@ -244,9 +252,10 @@ const genreService = {
         } else {
             return null;
         }
-    },
-    async addGenre(genreData: Prisma.GenreCreateInput): Promise<Genre | null> {
-        const result = await prisma.genre.create({
+    }
+
+    public async addGenre(genreData: Prisma.GenreCreateInput): Promise<Genre | null> {
+        const result = await this.prisma.genre.create({
             data: genreData,
             include: {
                 movies: {
@@ -262,9 +271,10 @@ const genreService = {
         } else {
             return null;
         }
-    },
-    async updateGenreById(genreData: Prisma.GenreUpdateInput, id: string): Promise<Genre | null> {
-        const result = await prisma.genre.update({
+    }
+
+    public async updateGenreById(genreData: Prisma.GenreUpdateInput, id: string): Promise<Genre | null> {
+        const result = await this.prisma.genre.update({
             where: {
                 id: parseInt(id),
             },
@@ -283,10 +293,11 @@ const genreService = {
         } else {
             return null;
         }
-    },
-    async deleteGenreById(id: number): Promise<string | null> {
+    }
+
+    public async deleteGenreById(id: number): Promise<string | null> {
         try {
-            const result = await prisma.genre.delete({
+            const result = await this.prisma.genre.delete({
                 where: {
                     id,
                 },
@@ -300,11 +311,12 @@ const genreService = {
         } catch (error) {
             throw new Error('Failed to delete genre');
         }
-    },
-    async searchGenresByName(name: string, page: number): Promise<Genre[] | null> {
+    }
+
+    public async searchGenresByName(name: string, page: number): Promise<Genre[] | null> {
         const perPage = 20;
         const skip = perPage * (page - 1);
-        const genres = await prisma.genre.findMany({
+        const genres = await this.prisma.genre.findMany({
             where: {
                 name: {
                     contains: name,
@@ -322,7 +334,7 @@ const genreService = {
         } else {
             return null;
         }
-    },
-};
+    }
+}
 
-export default genreService;
+export default new GenreService(prisma);

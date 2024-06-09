@@ -8,7 +8,6 @@ import {
     serieIdParamSchema,
     serieTitleParamSchema,
 } from '../schemas/serie.schema';
-import { seasonSerieSchema } from '../schemas/seasonSerie.schema';
 
 class SerieRouter {
     private router: Router;
@@ -17,10 +16,14 @@ class SerieRouter {
 
     constructor(serieController: typeof SerieController, validateMiddleware: typeof ValidateMiddleware) {
         this.router = express.Router();
+
         this.serieController = serieController;
         this.validateMiddleware = validateMiddleware;
+
         this.setupRoutes = this.setupRoutes.bind(this);
         this.getRoutes = this.getRoutes.bind(this);
+
+        this.setupRoutes();
     }
 
     public setupRoutes(): any {
@@ -66,12 +69,6 @@ class SerieRouter {
         this.router.get('/searchSeriesByTitle', this.serieController.searchSeriesByTitle);
         this.router.get('/getLatestSeries', this.serieController.getLatestSeries);
         this.router.get('/getRelatedSeries', this.serieController.getRelatedSeries);
-        this.router.post(
-            '/addSeasonToSerie',
-            seasonSerieSchema,
-            this.validateMiddleware.validate,
-            this.serieController.addSeasonToSerie,
-        );
     }
 
     public getRoutes(): Router {

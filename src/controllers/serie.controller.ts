@@ -5,7 +5,6 @@ import SerieService from '../services/serie.service';
 
 class SerieController {
     private serieService: typeof SerieService;
-    private httpStatusCode = HttpStatusCode;
 
     constructor(serieService: typeof SerieService) {
         this.serieService = serieService;
@@ -27,12 +26,12 @@ class SerieController {
             });
 
             if (series) {
-                res.status(this.httpStatusCode.OK).send(series);
+                res.status(HttpStatusCode.OK).send(series);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Series not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -43,12 +42,12 @@ class SerieController {
             const serie = await this.serieService.getSerieById(serieId);
 
             if (serie) {
-                res.status(this.httpStatusCode.OK).send(serie);
+                res.status(HttpStatusCode.OK).send(serie);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Serie not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Serie not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -87,12 +86,12 @@ class SerieController {
             const serie = await this.serieService.getSerieByTitle(title, queryParams);
 
             if (serie) {
-                res.status(this.httpStatusCode.OK).send(serie);
+                res.status(HttpStatusCode.OK).send(serie);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'serie not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'serie not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -101,12 +100,12 @@ class SerieController {
             const latestSeries = await this.serieService.getLatestSeries();
 
             if (latestSeries) {
-                res.status(this.httpStatusCode.OK).send(latestSeries);
+                res.status(HttpStatusCode.OK).send(latestSeries);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Series not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -123,12 +122,12 @@ class SerieController {
             const relatedSeries = await this.serieService.getRelatedSeries(titleFormatted!);
 
             if (relatedSeries) {
-                res.status(this.httpStatusCode.OK).send(relatedSeries);
+                res.status(HttpStatusCode.OK).send(relatedSeries);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Related Series not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Related Series not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -140,12 +139,12 @@ class SerieController {
             const serie: Serie | null = await this.serieService.updateSerieById(serieBodyParams, id);
 
             if (serie) {
-                res.status(this.httpStatusCode.OK).send(serie);
+                res.status(HttpStatusCode.OK).send(serie);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Serie not updated' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Serie not updated' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -156,12 +155,12 @@ class SerieController {
             const serie: Serie | null = await this.serieService.addSerie(serieBodyParams);
 
             if (serie) {
-                res.status(this.httpStatusCode.Created).send(serie);
+                res.status(HttpStatusCode.Created).send(serie);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Serie not created' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Serie not created' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -172,14 +171,14 @@ class SerieController {
             const result = await this.serieService.deleteSerieById(idParam);
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send({
+                res.status(HttpStatusCode.OK).send({
                     msg: 'Serie deleted successfully',
                 });
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Serie not deleted' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Serie not deleted' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -202,28 +201,12 @@ class SerieController {
             const series = await this.serieService.searchSeriesByTitle(String(title), queryParams);
 
             if (series) {
-                res.status(this.httpStatusCode.OK).send(series);
+                res.status(HttpStatusCode.OK).send(series);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Series not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    }
-
-    public async addSeasonToSerie(req: Request, res: Response) {
-        const { serieId, seasonId } = req.body;
-
-        try {
-            const updatedSerie = await this.serieService.addSeasonToSerie(seasonId, serieId);
-
-            if (updatedSerie) {
-                res.status(this.httpStatusCode.OK).send(updatedSerie);
-            } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Serie with new season not updated' });
-            }
-        } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 }

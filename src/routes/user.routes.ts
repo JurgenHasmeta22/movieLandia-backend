@@ -24,10 +24,14 @@ class UserRouter {
 
     constructor(userController: typeof UserController, validateMiddleware: typeof ValidateMiddleware) {
         this.router = express.Router();
+
         this.userController = userController;
         this.validateMiddleware = validateMiddleware;
+
         this.setupRoutes = this.setupRoutes.bind(this);
         this.getRoutes = this.getRoutes.bind(this);
+
+        this.setupRoutes();
     }
 
     public setupRoutes(): any {

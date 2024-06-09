@@ -1,5 +1,5 @@
-import { Episode, Prisma } from '@prisma/client';
-import { prisma } from '../app';
+import { Episode, Prisma, PrismaClient } from '@prisma/client';
+import { prisma } from '../config/prisma.config';
 
 interface EpisodeServiceParams {
     sortBy: string;
@@ -12,8 +12,14 @@ interface EpisodeServiceParams {
     filterOperatorString?: '>' | '=' | '<' | 'gt' | 'equals' | 'lt';
 }
 
-const episodeService = {
-    async getEpisodes({
+class EpisodeService {
+    private prisma: PrismaClient;
+
+    constructor(prismaInstance: typeof prisma) {
+        this.prisma = prismaInstance;
+    }
+
+    public async getEpisodes({
         sortBy,
         ascOrDesc,
         perPage,
@@ -40,7 +46,7 @@ const episodeService = {
             orderByObject[sortBy] = ascOrDesc;
         }
 
-        const episodes = await prisma.episode.findMany({
+        const episodes = await this.prisma.episode.findMany({
             where: filters,
             include: { season: true },
             orderBy: orderByObject,
@@ -53,9 +59,10 @@ const episodeService = {
         } else {
             return null;
         }
-    },
-    async getEpisodeById(episodeId: number): Promise<Episode | null> {
-        const result = await prisma.episode.findFirst({
+    }
+
+    public async getEpisodeById(episodeId: number): Promise<Episode | null> {
+        const result = await this.prisma.episode.findFirst({
             where: { id: episodeId },
             include: { season: true },
         });
@@ -65,9 +72,10 @@ const episodeService = {
         } else {
             return null;
         }
-    },
-    async getEpisodeByTitle(title: string): Promise<Episode | null> {
-        const result = await prisma.episode.findFirst({
+    }
+
+    public async getEpisodeByTitle(title: string): Promise<Episode | null> {
+        const result = await this.prisma.episode.findFirst({
             where: { title },
             include: { season: true },
         });
@@ -77,14 +85,15 @@ const episodeService = {
         } else {
             return null;
         }
-    },
-    async updateEpisodeById(episodeParam: Prisma.EpisodeUpdateInput, id: string): Promise<Episode | null> {
-        const episode: Episode | null = await prisma.episode.findUnique({
+    }
+
+    public async updateEpisodeById(episodeParam: Prisma.EpisodeUpdateInput, id: string): Promise<Episode | null> {
+        const episode: Episode | null = await this.prisma.episode.findUnique({
             where: { id: Number(id) },
         });
 
         if (episode) {
-            const episodeUpdated = await prisma.episode.update({
+            const episodeUpdated = await this.prisma.episode.update({
                 where: { id: Number(id) },
                 data: episodeParam,
                 include: { season: true },
@@ -98,14 +107,15 @@ const episodeService = {
         } else {
             return null;
         }
-    },
-    async addEpisode(episodeParam: Episode): Promise<Episode | null> {
-        const existingSeason = await prisma.season.findUnique({
+    }
+
+    public async addEpisode(episodeParam: Episode): Promise<Episode | null> {
+        const existingSeason = await this.prisma.season.findUnique({
             where: { id: episodeParam.seasonId },
         });
 
         if (existingSeason) {
-            const episodeCreated = await prisma.episode.create({
+            const episodeCreated = await this.prisma.episode.create({
                 data: {
                     ...episodeParam,
                     season: { connect: { id: existingSeason.id } },
@@ -121,14 +131,15 @@ const episodeService = {
         } else {
             return null;
         }
-    },
-    async deleteEpisodeById(id: number): Promise<string | null> {
-        const episode: Episode | null = await prisma.episode.findUnique({
+    }
+
+    public async deleteEpisodeById(id: number): Promise<string | null> {
+        const episode: Episode | null = await this.prisma.episode.findUnique({
             where: { id },
         });
 
         if (episode) {
-            const result = await prisma.episode.delete({
+            const result = await this.prisma.episode.delete({
                 where: { id },
             });
 
@@ -140,8 +151,9 @@ const episodeService = {
         } else {
             return null;
         }
-    },
-    async searchEpisodesByTitle(title: string, page: number): Promise<Episode[] | null> {
+    }
+
+    public async searchEpisodesByTitle(title: string, page: number): Promise<Episode[] | null> {
         const query = {
             where: {
                 title: { contains: title },
@@ -151,14 +163,14 @@ const episodeService = {
             take: 20,
         };
 
-        const episodes = await prisma.episode.findMany(query);
+        const episodes = await this.prisma.episode.findMany(query);
 
         if (episodes) {
             return episodes;
         } else {
             return null;
         }
-    },
-};
+    }
+}
 
-export default episodeService;
+export default new EpisodeService(prisma);

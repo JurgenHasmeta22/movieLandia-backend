@@ -27,12 +27,12 @@ class EpisodeController {
             });
 
             if (episodes) {
-                res.status(this.httpStatusCode.OK).send(episodes);
+                res.status(HttpStatusCode.OK).send(episodes);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Episodes not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Episodes not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -43,12 +43,12 @@ class EpisodeController {
             const episode = await this.episodeService.getEpisodeById(episodeId);
 
             if (episode) {
-                res.status(this.httpStatusCode.OK).send(episode);
+                res.status(HttpStatusCode.OK).send(episode);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Episode not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Episode not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -61,12 +61,12 @@ class EpisodeController {
             const episode = await this.episodeService.getEpisodeByTitle(title);
 
             if (episode) {
-                res.status(this.httpStatusCode.OK).send(episode);
+                res.status(HttpStatusCode.OK).send(episode);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Episode not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Episode not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -78,12 +78,12 @@ class EpisodeController {
             const episode: Episode | null = await this.episodeService.updateEpisodeById(episodeBodyParams, id);
 
             if (episode) {
-                res.status(this.httpStatusCode.OK).send(episode);
+                res.status(HttpStatusCode.OK).send(episode);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Episode not updated' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Episode not updated' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -94,12 +94,12 @@ class EpisodeController {
             const episode: Episode | null = await this.episodeService.addEpisode(episodeBodyParams);
 
             if (episode) {
-                res.status(this.httpStatusCode.Created).send(episode);
+                res.status(HttpStatusCode.Created).send(episode);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Episode not created' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Episode not created' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -110,14 +110,14 @@ class EpisodeController {
             const result = await this.episodeService.deleteEpisodeById(idParam);
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send({
+                res.status(HttpStatusCode.OK).send({
                     msg: 'Episode deleted successfully',
                 });
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Episode not deleted' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Episode not deleted' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -128,12 +128,12 @@ class EpisodeController {
             const episodes = await this.episodeService.searchEpisodesByTitle(String(title), Number(page));
 
             if (episodes) {
-                res.status(this.httpStatusCode.OK).send(episodes);
+                res.status(HttpStatusCode.OK).send(episodes);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Episodes not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Episodes not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 }

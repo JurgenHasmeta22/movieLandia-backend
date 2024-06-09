@@ -10,7 +10,6 @@ interface CustomRequest extends Request {
 
 class AuthController {
     private authService: typeof AuthService;
-    private httpStatusCode = HttpStatusCode;
 
     constructor(authService: typeof AuthService) {
         this.authService = authService;
@@ -23,12 +22,12 @@ class AuthController {
             const user: User | null = await this.authService.signUp({ email, password, userName });
 
             if (user) {
-                res.status(this.httpStatusCode.OK).send({ user, token: createToken(user.id) });
+                res.status(HttpStatusCode.OK).send({ user, token: createToken(user.id) });
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'User already exists' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'User already exists' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -39,24 +38,24 @@ class AuthController {
             const user: User | null = await this.authService.login(email, password);
 
             if (user) {
-                res.status(this.httpStatusCode.OK).send({ user, token: createToken(user.id) });
+                res.status(HttpStatusCode.OK).send({ user, token: createToken(user.id) });
             } else {
-                res.status(this.httpStatusCode.BadRequest).send({ error: 'Credentials are wrong' });
+                res.status(HttpStatusCode.BadRequest).send({ error: 'Credentials are wrong' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
     public async validate(req: CustomRequest, res: Response) {
         try {
             if (req.user) {
-                res.status(this.httpStatusCode.OK).send(req.user);
+                res.status(HttpStatusCode.OK).send(req.user);
             } else {
-                res.status(this.httpStatusCode.BadRequest).send({ error: 'User not validated' });
+                res.status(HttpStatusCode.BadRequest).send({ error: 'User not validated' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 }

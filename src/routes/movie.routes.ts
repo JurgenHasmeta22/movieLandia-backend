@@ -17,10 +17,14 @@ class MovieRouter {
 
     constructor(movieController: typeof MovieController, validateMiddleware: typeof ValidateMiddleware) {
         this.router = express.Router();
+
         this.movieController = movieController;
         this.validateMiddleware = validateMiddleware;
+
         this.setupRoutes = this.setupRoutes.bind(this);
         this.getRoutes = this.getRoutes.bind(this);
+
+        this.setupRoutes();
     }
 
     public setupRoutes(): any {

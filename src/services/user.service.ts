@@ -1,5 +1,5 @@
-import { Prisma, User } from '@prisma/client';
-import { prisma } from '../app';
+import { Prisma, PrismaClient, User } from '@prisma/client';
+import { prisma } from '../config/prisma.config';
 
 interface UserServiceParams {
     sortBy: string;
@@ -12,9 +12,15 @@ interface UserServiceParams {
     filterOperatorString?: '>' | '=' | '<' | 'gt' | 'equals' | 'lt';
 }
 
-const userService = {
+class UserService {
+    private prisma: PrismaClient;
+
+    constructor(prismaInstance: typeof prisma) {
+        this.prisma = prismaInstance;
+    }
+
     // #region "CRUD"
-    async getUsers({
+    public async getUsers({
         sortBy,
         ascOrDesc,
         perPage,
@@ -41,23 +47,24 @@ const userService = {
             orderByObject[sortBy] = ascOrDesc;
         }
 
-        const users = await prisma.user.findMany({
+        const users = await this.prisma.user.findMany({
             where: filters,
             orderBy: orderByObject,
             skip,
             take,
         });
 
-        const count = await prisma.user.count();
+        const count = await this.prisma.user.count();
 
         if (users) {
             return { rows: users, count };
         } else {
             return null;
         }
-    },
-    async getUserById(userId: number): Promise<User | null> {
-        const result = await prisma.user.findUnique({
+    }
+
+    public async getUserById(userId: number): Promise<User | null> {
+        const result = await this.prisma.user.findUnique({
             where: { id: userId },
         });
 
@@ -66,9 +73,10 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async getUserByUsername(username: string): Promise<User | null> {
-        const result = await prisma.user.findFirst({
+    }
+
+    public async getUserByUsername(username: string): Promise<User | null> {
+        const result = await this.prisma.user.findFirst({
             where: { userName: username },
         });
 
@@ -77,9 +85,10 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async updateUserById(userParam: Prisma.UserUpdateInput, id: string): Promise<User | null> {
-        const result = await prisma.user.update({
+    }
+
+    public async updateUserById(userParam: Prisma.UserUpdateInput, id: string): Promise<User | null> {
+        const result = await this.prisma.user.update({
             where: { id: Number(id) },
             data: userParam,
         });
@@ -89,23 +98,25 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async deleteUserById(id: number): Promise<string | null> {
-        const user = await prisma.user.findUnique({
+    }
+
+    public async deleteUserById(id: number): Promise<string | null> {
+        const user = await this.prisma.user.findUnique({
             where: { id },
         });
 
         if (user) {
-            await prisma.user.delete({
+            await this.prisma.user.delete({
                 where: { id },
             });
             return 'User deleted successfully';
         } else {
             return null;
         }
-    },
-    async searchUsersByUsername(username: string, page: number): Promise<User[] | null> {
-        const result = await prisma.user.findMany({
+    }
+
+    public async searchUsersByUsername(username: string, page: number): Promise<User[] | null> {
+        const result = await this.prisma.user.findMany({
             where: {
                 userName: { contains: username },
             },
@@ -118,12 +129,12 @@ const userService = {
         } else {
             return null;
         }
-    },
+    }
     // #endregion
 
     // #region "Bookmarks"
-    async addFavoriteSerieToUser(userId: number, serieId: number): Promise<User | null> {
-        const existingFavorite = await prisma.userSerieFavorite.findFirst({
+    public async addFavoriteSerieToUser(userId: number, serieId: number): Promise<User | null> {
+        const existingFavorite = await this.prisma.userSerieFavorite.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
             },
@@ -133,11 +144,11 @@ const userService = {
             return null;
         }
 
-        await prisma.userSerieFavorite.create({
+        await this.prisma.userSerieFavorite.create({
             data: { userId, serieId },
         });
 
-        const user = await prisma.user.findUnique({
+        const user = await this.prisma.user.findUnique({
             where: { id: userId },
             include: {
                 favMovies: { include: { movie: true } },
@@ -156,9 +167,10 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async addFavoriteMovieToUser(userId: number, movieId: number): Promise<User | null> {
-        const existingFavorite = await prisma.userMovieFavorite.findFirst({
+    }
+
+    public async addFavoriteMovieToUser(userId: number, movieId: number): Promise<User | null> {
+        const existingFavorite = await this.prisma.userMovieFavorite.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
             },
@@ -168,11 +180,11 @@ const userService = {
             return null;
         }
 
-        await prisma.userMovieFavorite.create({
+        await this.prisma.userMovieFavorite.create({
             data: { userId, movieId },
         });
 
-        const user = await prisma.user.findUnique({
+        const user = await this.prisma.user.findUnique({
             where: { id: userId },
             include: {
                 favMovies: { include: { movie: true } },
@@ -191,20 +203,21 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async removeFavoriteMovieToUser(userId: number, movieId: number): Promise<User | null> {
-        const existingFavorite = await prisma.userMovieFavorite.findFirst({
+    }
+
+    public async removeFavoriteMovieToUser(userId: number, movieId: number): Promise<User | null> {
+        const existingFavorite = await this.prisma.userMovieFavorite.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
             },
         });
 
         if (existingFavorite) {
-            await prisma.userMovieFavorite.delete({
+            await this.prisma.userMovieFavorite.delete({
                 where: { id: existingFavorite.id },
             });
 
-            const user = await prisma.user.findUnique({
+            const user = await this.prisma.user.findUnique({
                 where: { id: userId },
                 include: {
                     favMovies: { include: { movie: true } },
@@ -226,20 +239,21 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async removeFavoriteSerieToUser(userId: number, serieId: number): Promise<User | null> {
-        const existingFavorite = await prisma.userSerieFavorite.findFirst({
+    }
+
+    public async removeFavoriteSerieToUser(userId: number, serieId: number): Promise<User | null> {
+        const existingFavorite = await this.prisma.userSerieFavorite.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
             },
         });
 
         if (existingFavorite) {
-            await prisma.userSerieFavorite.delete({
+            await this.prisma.userSerieFavorite.delete({
                 where: { id: existingFavorite.id },
             });
 
-            const user = await prisma.user.findUnique({
+            const user = await this.prisma.user.findUnique({
                 where: { id: userId },
                 include: {
                     favMovies: { include: { movie: true } },
@@ -261,19 +275,19 @@ const userService = {
         } else {
             return null;
         }
-    },
+    }
     // #endregion
 
     // #region "Reviews"
-    async addReviewMovie({ content, createdAt, rating, userId, movieId }: any): Promise<any> {
-        const existingReview = await prisma.movieReview.findFirst({
+    public async addReviewMovie({ content, createdAt, rating, userId, movieId }: any): Promise<any> {
+        const existingReview = await this.prisma.movieReview.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
             },
         });
 
         if (!existingReview) {
-            const reviewAdded = await prisma.movieReview.create({
+            const reviewAdded = await this.prisma.movieReview.create({
                 data: {
                     content,
                     createdAt,
@@ -284,7 +298,7 @@ const userService = {
             });
 
             if (reviewAdded) {
-                const user = await prisma.user.findUnique({
+                const user = await this.prisma.user.findUnique({
                     where: { id: userId },
                     include: {
                         favMovies: { include: { movie: true } },
@@ -309,16 +323,17 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async addReviewSerie({ content, createdAt, rating, userId, serieId }: any): Promise<any> {
-        const existingReview = await prisma.serieReview.findFirst({
+    }
+
+    public async addReviewSerie({ content, createdAt, rating, userId, serieId }: any): Promise<any> {
+        const existingReview = await this.prisma.serieReview.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
             },
         });
 
         if (!existingReview) {
-            const reviewAdded = await prisma.serieReview.create({
+            const reviewAdded = await this.prisma.serieReview.create({
                 data: {
                     content,
                     createdAt,
@@ -329,7 +344,7 @@ const userService = {
             });
 
             if (reviewAdded) {
-                const user = await prisma.user.findUnique({
+                const user = await this.prisma.user.findUnique({
                     where: { id: userId },
                     include: {
                         favMovies: { include: { movie: true } },
@@ -354,16 +369,17 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async updateReviewMovie({ content, updatedAt, rating, userId, movieId }: any): Promise<any> {
-        const existingReview = await prisma.movieReview.findFirst({
+    }
+
+    public async updateReviewMovie({ content, updatedAt, rating, userId, movieId }: any): Promise<any> {
+        const existingReview = await this.prisma.movieReview.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
             },
         });
 
         if (existingReview) {
-            const reviewUpdated = await prisma.movieReview.update({
+            const reviewUpdated = await this.prisma.movieReview.update({
                 data: {
                     content,
                     updatedAt,
@@ -377,7 +393,7 @@ const userService = {
             });
 
             if (reviewUpdated) {
-                const user = await prisma.user.findUnique({
+                const user = await this.prisma.user.findUnique({
                     where: { id: userId },
                     include: {
                         favMovies: { include: { movie: true } },
@@ -402,16 +418,17 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async updateReviewSerie({ content, updatedAt, rating, userId, serieId }: any): Promise<any> {
-        const existingReview = await prisma.serieReview.findFirst({
+    }
+
+    public async updateReviewSerie({ content, updatedAt, rating, userId, serieId }: any): Promise<any> {
+        const existingReview = await this.prisma.serieReview.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
             },
         });
 
         if (existingReview) {
-            const reviewUpdated = await prisma.serieReview.update({
+            const reviewUpdated = await this.prisma.serieReview.update({
                 data: {
                     content,
                     updatedAt,
@@ -425,7 +442,7 @@ const userService = {
             });
 
             if (reviewUpdated) {
-                const user = await prisma.user.findUnique({
+                const user = await this.prisma.user.findUnique({
                     where: { id: userId },
                     include: {
                         favMovies: { include: { movie: true } },
@@ -450,21 +467,22 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async removeReviewMovie({ userId, movieId }: any): Promise<any> {
-        const existingReview = await prisma.movieReview.findFirst({
+    }
+
+    public async removeReviewMovie({ userId, movieId }: any): Promise<any> {
+        const existingReview = await this.prisma.movieReview.findFirst({
             where: {
                 AND: [{ userId }, { movieId }],
             },
         });
 
         if (existingReview) {
-            const result = await prisma.movieReview.delete({
+            const result = await this.prisma.movieReview.delete({
                 where: { id: existingReview.id },
             });
 
             if (result) {
-                const user = await prisma.user.findUnique({
+                const user = await this.prisma.user.findUnique({
                     where: { id: userId },
                     include: {
                         favMovies: { include: { movie: true } },
@@ -489,21 +507,22 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async removeReviewSerie({ userId, serieId }: any): Promise<any> {
-        const existingReview = await prisma.serieReview.findFirst({
+    }
+
+    public async removeReviewSerie({ userId, serieId }: any): Promise<any> {
+        const existingReview = await this.prisma.serieReview.findFirst({
             where: {
                 AND: [{ userId }, { serieId }],
             },
         });
 
         if (existingReview) {
-            const result = await prisma.serieReview.delete({
+            const result = await this.prisma.serieReview.delete({
                 where: { id: existingReview.id },
             });
 
             if (result) {
-                const user = await prisma.user.findUnique({
+                const user = await this.prisma.user.findUnique({
                     where: { id: userId },
                     include: {
                         favMovies: { include: { movie: true } },
@@ -528,19 +547,19 @@ const userService = {
         } else {
             return null;
         }
-    },
+    }
     // #endregion
 
     // #region "upvotes, downvotes"
-    async addUpvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
-        const existingUpvoteMovieReview = await prisma.upvoteMovie.findFirst({
+    public async addUpvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
+        const existingUpvoteMovieReview = await this.prisma.upvoteMovie.findFirst({
             where: {
                 AND: [{ userId }, { movieId }, { movieReviewId }],
             },
         });
 
         if (!existingUpvoteMovieReview) {
-            const upvoteAdded = await prisma.upvoteMovie.create({
+            const upvoteAdded = await this.prisma.upvoteMovie.create({
                 data: {
                     userId,
                     movieId,
@@ -556,16 +575,17 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async addUpvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
-        const existingUpvoteSerieReview = await prisma.upvoteSerie.findFirst({
+    }
+
+    public async addUpvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
+        const existingUpvoteSerieReview = await this.prisma.upvoteSerie.findFirst({
             where: {
                 AND: [{ userId }, { serieId }, { serieReviewId }],
             },
         });
 
         if (!existingUpvoteSerieReview) {
-            const upvoteAdded = await prisma.upvoteSerie.create({
+            const upvoteAdded = await this.prisma.upvoteSerie.create({
                 data: {
                     userId,
                     serieId,
@@ -581,17 +601,17 @@ const userService = {
         } else {
             return null;
         }
-    },
+    }
 
-    async removeUpvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
-        const existingUpvote = await prisma.upvoteMovie.findFirst({
+    public async removeUpvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
+        const existingUpvote = await this.prisma.upvoteMovie.findFirst({
             where: {
                 AND: [{ userId }, { movieReviewId }, { movieId }],
             },
         });
 
         if (existingUpvote) {
-            const result = await prisma.upvoteMovie.delete({
+            const result = await this.prisma.upvoteMovie.delete({
                 where: { id: existingUpvote.id },
             });
 
@@ -603,16 +623,17 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async removeUpvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
-        const existingUpvote = await prisma.upvoteSerie.findFirst({
+    }
+
+    public async removeUpvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
+        const existingUpvote = await this.prisma.upvoteSerie.findFirst({
             where: {
                 AND: [{ userId }, { serieReviewId }, { serieId }],
             },
         });
 
         if (existingUpvote) {
-            const result = await prisma.upvoteSerie.delete({
+            const result = await this.prisma.upvoteSerie.delete({
                 where: { id: existingUpvote.id },
             });
 
@@ -624,17 +645,17 @@ const userService = {
         } else {
             return null;
         }
-    },
+    }
 
-    async addDownvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
-        const existingDownvoteMovieReview = await prisma.downvoteMovie.findFirst({
+    public async addDownvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
+        const existingDownvoteMovieReview = await this.prisma.downvoteMovie.findFirst({
             where: {
                 AND: [{ userId }, { movieId }, { movieReviewId }],
             },
         });
 
         if (!existingDownvoteMovieReview) {
-            const downvoteAdded = await prisma.downvoteMovie.create({
+            const downvoteAdded = await this.prisma.downvoteMovie.create({
                 data: {
                     userId,
                     movieId,
@@ -650,16 +671,17 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async addDownvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
-        const existingDownvoteSerieReview = await prisma.downvoteSerie.findFirst({
+    }
+
+    public async addDownvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
+        const existingDownvoteSerieReview = await this.prisma.downvoteSerie.findFirst({
             where: {
                 AND: [{ userId }, { serieId }, { serieReviewId }],
             },
         });
 
         if (!existingDownvoteSerieReview) {
-            const downvoteAdded = await prisma.downvoteSerie.create({
+            const downvoteAdded = await this.prisma.downvoteSerie.create({
                 data: {
                     userId,
                     serieId,
@@ -675,17 +697,17 @@ const userService = {
         } else {
             return null;
         }
-    },
+    }
 
-    async removeDownvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
-        const existingDownvote = await prisma.downvoteMovie.findFirst({
+    public async removeDownvoteMovieReview({ userId, movieId, movieReviewId }: any): Promise<any> {
+        const existingDownvote = await this.prisma.downvoteMovie.findFirst({
             where: {
                 AND: [{ userId }, { movieReviewId }, { movieId }],
             },
         });
 
         if (existingDownvote) {
-            const result = await prisma.downvoteMovie.delete({
+            const result = await this.prisma.downvoteMovie.delete({
                 where: { id: existingDownvote.id },
             });
 
@@ -697,16 +719,17 @@ const userService = {
         } else {
             return null;
         }
-    },
-    async removeDownvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
-        const existingDownvote = await prisma.downvoteSerie.findFirst({
+    }
+
+    public async removeDownvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
+        const existingDownvote = await this.prisma.downvoteSerie.findFirst({
             where: {
                 AND: [{ userId }, { serieReviewId }, { serieId }],
             },
         });
 
         if (existingDownvote) {
-            const result = await prisma.downvoteSerie.delete({
+            const result = await this.prisma.downvoteSerie.delete({
                 where: { id: existingDownvote.id },
             });
 
@@ -718,8 +741,8 @@ const userService = {
         } else {
             return null;
         }
-    },
+    }
     // #endregion
-};
+}
 
-export default userService;
+export default new UserService(prisma);

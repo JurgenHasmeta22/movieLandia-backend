@@ -8,33 +8,45 @@ interface CustomRequest extends Request {
     user?: User;
 }
 
-export async function authMiddleware(req: CustomRequest, res: Response, next: NextFunction) {
-    const bearerHeader = req.headers['authorization'];
+class AuthMiddleware {
+    public async authenticate(req: CustomRequest, res: Response, next: NextFunction) {
+        const bearerHeader = req.headers['authorization'];
 
-    if (!bearerHeader || typeof bearerHeader !== 'string') {
+        if (!bearerHeader || typeof bearerHeader !== 'string') {
+            return this.unauthorized(res);
+        }
+
+        const token = bearerHeader.split(' ')[1];
+
+        if (!token) {
+            return this.unauthorized(res);
+        }
+
+        try {
+            const user = await getUserFromToken(token);
+
+            if (user) {
+                req.user = user;
+                next();
+            } else {
+                return this.unauthorized(res);
+            }
+        } catch (error: any) {
+            if (error instanceof JsonWebTokenError || error instanceof TokenExpiredError) {
+                return this.unauthorized(res);
+            } else {
+                return this.internalServerError(res);
+            }
+        }
+    }
+
+    private unauthorized(res: Response) {
         return res.status(HttpStatusCode.Unauthorized).json({ message: 'Unauthorized' });
     }
 
-    const token = bearerHeader.split(' ')[1];
-
-    if (!token) {
-        return res.status(HttpStatusCode.Unauthorized).json({ message: 'Unauthorized' });
-    }
-
-    try {
-        const user = await getUserFromToken(token);
-
-        if (user) {
-            req.user = user;
-            next();
-        } else {
-            return res.status(HttpStatusCode.Unauthorized).json({ message: 'Unauthorized' });
-        }
-    } catch (error: any) {
-        if (error instanceof JsonWebTokenError || error instanceof TokenExpiredError) {
-            return res.status(HttpStatusCode.Unauthorized).json({ message: 'Unauthorized' });
-        } else {
-            return res.status(HttpStatusCode.InternalServerError).json({ message: 'Internal Server Error' });
-        }
+    private internalServerError(res: Response) {
+        return res.status(HttpStatusCode.InternalServerError).json({ message: 'Internal Server Error' });
     }
 }
+
+export default new AuthMiddleware();

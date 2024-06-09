@@ -5,7 +5,6 @@ import HttpStatusCode from '../utils/httpStatusCodes';
 
 class GenreController {
     private genreService: typeof GenreService;
-    private httpStatusCode = HttpStatusCode;
 
     constructor(genreService: typeof GenreService) {
         this.genreService = genreService;
@@ -27,12 +26,12 @@ class GenreController {
             });
 
             if (genres) {
-                res.status(this.httpStatusCode.OK).send(genres);
+                res.status(HttpStatusCode.OK).send(genres);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Genres not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Genres not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -43,12 +42,12 @@ class GenreController {
             const genre = await this.genreService.getGenreById(genreId);
 
             if (genre) {
-                res.status(this.httpStatusCode.OK).send(genre);
+                res.status(HttpStatusCode.OK).send(genre);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Genre not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Genre not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -74,12 +73,12 @@ class GenreController {
             });
 
             if (genre) {
-                res.status(this.httpStatusCode.OK).send(genre);
+                res.status(HttpStatusCode.OK).send(genre);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Genre not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Genre not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -90,12 +89,12 @@ class GenreController {
             const genre: Genre | null = await this.genreService.addGenre(genreBodyParams);
 
             if (genre) {
-                res.status(this.httpStatusCode.Created).send(genre);
+                res.status(HttpStatusCode.Created).send(genre);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Genre not created' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Genre not created' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -107,12 +106,12 @@ class GenreController {
             const genre: Genre | null = await this.genreService.updateGenreById(genreBodyParams, id);
 
             if (genre) {
-                res.status(this.httpStatusCode.OK).send(genre);
+                res.status(HttpStatusCode.OK).send(genre);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Genre not updated' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Genre not updated' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -123,14 +122,14 @@ class GenreController {
             const result = await this.genreService.deleteGenreById(idParam);
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send({
+                res.status(HttpStatusCode.OK).send({
                     msg: 'Genre deleted successfully',
                 });
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Genre not deleted' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Genre not deleted' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -141,12 +140,12 @@ class GenreController {
             const genres = await this.genreService.searchGenresByName(String(name), Number(page));
 
             if (genres) {
-                res.status(this.httpStatusCode.OK).send(genres);
+                res.status(HttpStatusCode.OK).send(genres);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Genres not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Genres not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 }

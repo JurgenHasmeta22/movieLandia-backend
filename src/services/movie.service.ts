@@ -1,5 +1,5 @@
 import { Movie, Prisma, PrismaClient } from '@prisma/client';
-import { prisma } from '../app';
+import { prisma } from '../config/prisma.config';
 
 interface MovieServiceParams {
     sortBy: string;

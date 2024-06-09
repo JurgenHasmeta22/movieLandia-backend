@@ -5,7 +5,6 @@ import HttpStatusCode from '../utils/httpStatusCodes';
 
 class UserController {
     private userService: typeof UserService;
-    private httpStatusCode = HttpStatusCode;
 
     constructor(userService: typeof UserService) {
         this.userService = userService;
@@ -28,12 +27,12 @@ class UserController {
             });
 
             if (users) {
-                res.status(this.httpStatusCode.OK).send(users);
+                res.status(HttpStatusCode.OK).send(users);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'User not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'User not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -44,12 +43,12 @@ class UserController {
             const user = await this.userService.getUserById(userId);
 
             if (user) {
-                res.status(this.httpStatusCode.OK).send(user);
+                res.status(HttpStatusCode.OK).send(user);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'User not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'User not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -62,12 +61,12 @@ class UserController {
             const user = await this.userService.getUserByUsername(title);
 
             if (user) {
-                res.status(this.httpStatusCode.OK).send(user);
+                res.status(HttpStatusCode.OK).send(user);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'User not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'User not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -79,12 +78,12 @@ class UserController {
             const user: User | null = await this.userService.updateUserById(userBodyParams, id);
 
             if (user) {
-                res.status(this.httpStatusCode.OK).send(user);
+                res.status(HttpStatusCode.OK).send(user);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'User not updated' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'User not updated' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -95,14 +94,14 @@ class UserController {
             const result = await this.userService.deleteUserById(idParam);
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send({
+                res.status(HttpStatusCode.OK).send({
                     msg: 'User deleted successfully',
                 });
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'User not deleted' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'User not deleted' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -113,12 +112,12 @@ class UserController {
             const users = await this.userService.searchUsersByUsername(String(title), Number(page));
 
             if (users) {
-                res.status(this.httpStatusCode.OK).send(users);
+                res.status(HttpStatusCode.OK).send(users);
             } else {
-                res.status(this.httpStatusCode.NotFound).send({ error: 'Users not found' });
+                res.status(HttpStatusCode.NotFound).send({ error: 'Users not found' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
     // #endregion
@@ -131,12 +130,12 @@ class UserController {
             const updatedUser = await this.userService.addFavoriteSerieToUser(userId, serieId);
 
             if (updatedUser) {
-                res.status(this.httpStatusCode.OK).send(updatedUser);
+                res.status(HttpStatusCode.OK).send(updatedUser);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'User with new serie not added' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'User with new serie not added' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -147,12 +146,12 @@ class UserController {
             const updatedUser = await this.userService.addFavoriteMovieToUser(userId, movieId);
 
             if (updatedUser) {
-                res.status(this.httpStatusCode.OK).send(updatedUser);
+                res.status(HttpStatusCode.OK).send(updatedUser);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Favorite movie not added' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Favorite movie not added' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -163,12 +162,12 @@ class UserController {
             const updatedUser = await this.userService.removeFavoriteMovieToUser(userId, movieId);
 
             if (updatedUser) {
-                res.status(this.httpStatusCode.OK).send(updatedUser);
+                res.status(HttpStatusCode.OK).send(updatedUser);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Favorite movie not deleted' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Favorite movie not deleted' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -179,12 +178,12 @@ class UserController {
             const updatedUser = await this.userService.removeFavoriteSerieToUser(userId, serieId);
 
             if (updatedUser) {
-                res.status(this.httpStatusCode.OK).send(updatedUser);
+                res.status(HttpStatusCode.OK).send(updatedUser);
             } else {
-                res.status(this.httpStatusCode.Conflict).send({ error: 'Favorite serie not deleted' });
+                res.status(HttpStatusCode.Conflict).send({ error: 'Favorite serie not deleted' });
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
     // #endregion
@@ -204,12 +203,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -227,12 +226,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -250,12 +249,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -273,12 +272,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -292,12 +291,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -311,12 +310,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
     // #endregion
@@ -333,12 +332,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -353,12 +352,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -373,12 +372,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -393,12 +392,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -413,12 +412,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -433,12 +432,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -453,12 +452,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
 
@@ -473,12 +472,12 @@ class UserController {
             });
 
             if (result) {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             } else {
-                res.status(this.httpStatusCode.OK).send(result);
+                res.status(HttpStatusCode.OK).send(result);
             }
         } catch (err) {
-            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }
     // #endregion

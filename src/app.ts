@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client';
 import { options } from './utils/swagger';
 import MovieRouter from './routes/movie.routes';
 import EpisodeRouter from './routes/episode.routes';
@@ -11,10 +10,6 @@ import AuthRouter from './routes/auth.routes';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import 'dotenv/config';
-
-export const prisma = new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
-});
 
 class App {
     private app: express.Application;
@@ -33,6 +28,7 @@ class App {
         serieRouter: typeof SerieRouter,
         genreRouter: typeof GenreRouter,
         episodeRouter: typeof EpisodeRouter,
+        port: number,
     ) {
         this.app = express();
 
@@ -46,7 +42,7 @@ class App {
         this.setup = this.setup.bind(this);
         this.start = this.start.bind(this);
         this.setup();
-        this.start(4000);
+        this.start(port);
     }
 
     private setup(): void {
@@ -78,3 +74,5 @@ class App {
 }
 
 export default App;
+
+const app = new App(MovieRouter, AuthRouter, UserRouter, SerieRouter, GenreRouter, EpisodeRouter, 4000);

@@ -1,12 +1,18 @@
 import bcrypt from 'bcryptjs';
-import { prisma } from '../app';
-import { User } from '@prisma/client';
+import { prisma } from '../config/prisma.config';
+import { PrismaClient, User } from '@prisma/client';
 
-const authService = {
-    async signUp(userData: { email: string; password: string; userName: string }): Promise<User | null> {
+class AuthService {
+    private prisma: PrismaClient;
+
+    constructor(prismaInstance: typeof prisma) {
+        this.prisma = prismaInstance;
+    }
+
+    public async signUp(userData: { email: string; password: string; userName: string }): Promise<User | null> {
         const { email, password, userName } = userData;
 
-        const existingUser: User | null = await prisma.user.findUnique({
+        const existingUser: User | null = await this.prisma.user.findUnique({
             where: { email },
         });
 
@@ -14,7 +20,7 @@ const authService = {
             return null;
         } else {
             const hash = bcrypt.hashSync(password);
-            const user: User | null = await prisma.user.create({
+            const user: User | null = await this.prisma.user.create({
                 data: { email, password: hash, userName },
                 include: {
                     favMovies: { include: { movie: true } },
@@ -34,9 +40,10 @@ const authService = {
                 return null;
             }
         }
-    },
-    async login(email: string, password: string): Promise<User | null> {
-        const user: User | null = await prisma.user.findUnique({
+    }
+
+    public async login(email: string, password: string): Promise<User | null> {
+        const user: User | null = await this.prisma.user.findUnique({
             where: { email },
             include: {
                 favMovies: { include: { movie: true } },
@@ -61,7 +68,7 @@ const authService = {
         } else {
             return null;
         }
-    },
-};
+    }
+}
 
-export default authService;
+export default new AuthService(prisma);

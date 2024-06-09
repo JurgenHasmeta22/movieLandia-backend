@@ -1,5 +1,5 @@
-import { Season, Serie, Prisma } from '@prisma/client';
-import { prisma } from '../app';
+import { Serie, Prisma, PrismaClient } from '@prisma/client';
+import { prisma } from '../config/prisma.config';
 
 interface SerieServiceParams {
     sortBy: string;
@@ -12,8 +12,14 @@ interface SerieServiceParams {
     filterOperatorString?: '>' | '=' | '<' | 'gt' | 'equals' | 'lt';
 }
 
-const serieService = {
-    async getSeries({
+class SerieService {
+    private prisma: PrismaClient;
+
+    constructor(prismaInstance: typeof prisma) {
+        this.prisma = prismaInstance;
+    }
+
+    public async getSeries({
         sortBy,
         ascOrDesc,
         perPage,
@@ -40,7 +46,7 @@ const serieService = {
             orderByObject[sortBy] = ascOrDesc;
         }
 
-        const seriesWithGenres = await prisma.serie.findMany({
+        const seriesWithGenres = await this.prisma.serie.findMany({
             where: filters,
             include: { genres: { select: { genre: true } } },
             orderBy: orderByObject,
@@ -50,7 +56,7 @@ const serieService = {
 
         const serieIds = seriesWithGenres.map((serie) => serie.id);
 
-        const serieRatings = await prisma.serieReview.groupBy({
+        const serieRatings = await this.prisma.serieReview.groupBy({
             by: ['serieId'],
             where: { serieId: { in: serieIds } },
             _avg: {
@@ -85,16 +91,17 @@ const serieService = {
             return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
         });
 
-        const count = await prisma.serie.count();
+        const count = await this.prisma.serie.count();
 
         if (series) {
             return { rows: series, count };
         } else {
             return null;
         }
-    },
-    async getSerieById(serieId: number): Promise<Serie | null> {
-        const result = await prisma.serie.findFirst({
+    }
+
+    public async getSerieById(serieId: number): Promise<Serie | null> {
+        const result = await this.prisma.serie.findFirst({
             where: { id: serieId },
             include: { genres: { select: { genre: true } } },
         });
@@ -104,8 +111,9 @@ const serieService = {
         } else {
             return null;
         }
-    },
-    async getSerieByTitle(title: string, queryParams: any): Promise<Serie | any | null> {
+    }
+
+    public async getSerieByTitle(title: string, queryParams: any): Promise<Serie | any | null> {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = queryParams;
         const skip = page ? (page - 1) * 5 : 0;
         const take = 5;
@@ -117,7 +125,7 @@ const serieService = {
             orderByObject['createdAt'] = 'desc';
         }
 
-        const serie = await prisma.serie.findFirst({
+        const serie = await this.prisma.serie.findFirst({
             where: { title },
             include: {
                 genres: { select: { genre: true } },
@@ -147,11 +155,11 @@ const serieService = {
         });
 
         if (serie) {
-            const totalReviews = await prisma.serieReview.count({
+            const totalReviews = await this.prisma.serieReview.count({
                 where: { serieId: serie.id },
             });
 
-            const ratings = await prisma.serieReview.findMany({
+            const ratings = await this.prisma.serieReview.findMany({
                 where: { serieId: serie.id },
                 select: { rating: true },
             });
@@ -164,13 +172,13 @@ const serieService = {
 
             if (userId) {
                 for (const review of serie.reviews) {
-                    const existingUpvote = await prisma.upvoteSerie.findFirst({
+                    const existingUpvote = await this.prisma.upvoteSerie.findFirst({
                         where: {
                             AND: [{ userId }, { serieId: serie.id }, { serieReviewId: review.id }],
                         },
                     });
 
-                    const existingDownvote = await prisma.downvoteSerie.findFirst({
+                    const existingDownvote = await this.prisma.downvoteSerie.findFirst({
                         where: {
                             AND: [{ userId }, { serieId: serie.id }, { serieReviewId: review.id }],
                         },
@@ -182,14 +190,14 @@ const serieService = {
                     review.isDownvoted = !!existingDownvote;
                 }
 
-                const existingFavorite = await prisma.userSerieFavorite.findFirst({
+                const existingFavorite = await this.prisma.userSerieFavorite.findFirst({
                     where: {
                         AND: [{ userId }, { serieId: serie.id }],
                     },
                 });
                 isBookmarked = !!existingFavorite;
 
-                const existingReview = await prisma.serieReview.findFirst({
+                const existingReview = await this.prisma.serieReview.findFirst({
                     where: {
                         AND: [{ userId }, { serieId: serie.id }],
                     },
@@ -206,9 +214,10 @@ const serieService = {
         } else {
             return null;
         }
-    },
-    async getLatestSeries(): Promise<Serie[] | null> {
-        const seriesWithGenres = await prisma.serie.findMany({
+    }
+
+    public async getLatestSeries(): Promise<Serie[] | null> {
+        const seriesWithGenres = await this.prisma.serie.findMany({
             orderBy: {
                 releaseYear: 'desc',
             },
@@ -218,7 +227,7 @@ const serieService = {
 
         const serieIds = seriesWithGenres.map((serie) => serie.id);
 
-        const serieRatings = await prisma.serieReview.groupBy({
+        const serieRatings = await this.prisma.serieReview.groupBy({
             by: ['serieId'],
             where: { serieId: { in: serieIds } },
             _avg: {
@@ -258,13 +267,14 @@ const serieService = {
         } else {
             return null;
         }
-    },
-    async getRelatedSeries(title: string): Promise<Serie[] | null> {
-        const serie = await prisma.serie.findFirst({
+    }
+
+    public async getRelatedSeries(title: string): Promise<Serie[] | null> {
+        const serie = await this.prisma.serie.findFirst({
             where: { title },
         });
 
-        const seriesGenres = await prisma.serieGenre.findMany({
+        const seriesGenres = await this.prisma.serieGenre.findMany({
             where: { serieId: serie?.id },
             select: { genreId: true },
         });
@@ -274,7 +284,7 @@ const serieService = {
         }
 
         const genreIds = seriesGenres.map((sg) => sg.genreId);
-        const relatedSerieIdsByGenre = await prisma.serieGenre.findMany({
+        const relatedSerieIdsByGenre = await this.prisma.serieGenre.findMany({
             where: {
                 genreId: { in: genreIds },
                 serieId: { not: serie?.id },
@@ -289,12 +299,12 @@ const serieService = {
             return null;
         }
 
-        const relatedSeries = await prisma.serie.findMany({
+        const relatedSeries = await this.prisma.serie.findMany({
             where: { id: { in: relatedSerieIds } },
             include: { genres: { select: { genre: true } } },
         });
 
-        const serieRatings = await prisma.serieReview.groupBy({
+        const serieRatings = await this.prisma.serieReview.groupBy({
             by: ['serieId'],
             where: { serieId: { in: relatedSerieIds } },
             _avg: { rating: true },
@@ -322,14 +332,15 @@ const serieService = {
         });
 
         return series.length > 0 ? series : null;
-    },
-    async updateSerieById(serieParam: Prisma.SerieUpdateInput, id: string): Promise<Serie | null> {
-        const serie: Serie | null = await prisma.serie.findUnique({
+    }
+
+    public async updateSerieById(serieParam: Prisma.SerieUpdateInput, id: string): Promise<Serie | null> {
+        const serie: Serie | null = await this.prisma.serie.findUnique({
             where: { id: Number(id) },
         });
 
         if (serie) {
-            const serieUpdated = await prisma.serie.update({
+            const serieUpdated = await this.prisma.serie.update({
                 where: { id: Number(id) },
                 data: serieParam,
                 include: { genres: { select: { genre: true } } },
@@ -343,9 +354,10 @@ const serieService = {
         } else {
             return null;
         }
-    },
-    async addSerie(serieParam: Prisma.SerieCreateInput): Promise<Serie | null> {
-        const serieCreated = await prisma.serie.create({
+    }
+
+    public async addSerie(serieParam: Prisma.SerieCreateInput): Promise<Serie | null> {
+        const serieCreated = await this.prisma.serie.create({
             data: serieParam,
             include: { genres: { select: { genre: true } } },
         });
@@ -355,14 +367,15 @@ const serieService = {
         } else {
             return null;
         }
-    },
-    async deleteSerieById(id: number): Promise<string | null> {
-        const serie: Serie | null = await prisma.serie.findUnique({
+    }
+
+    public async deleteSerieById(id: number): Promise<string | null> {
+        const serie: Serie | null = await this.prisma.serie.findUnique({
             where: { id },
         });
 
         if (serie) {
-            const result = await prisma.serie.delete({
+            const result = await this.prisma.serie.delete({
                 where: { id },
             });
 
@@ -374,8 +387,9 @@ const serieService = {
         } else {
             return null;
         }
-    },
-    async searchSeriesByTitle(title: string, queryParams: any): Promise<any | null> {
+    }
+
+    public async searchSeriesByTitle(title: string, queryParams: any): Promise<any | null> {
         const { page, ascOrDesc, sortBy } = queryParams;
         const orderByObject: any = {};
 
@@ -393,10 +407,10 @@ const serieService = {
             take: 10,
         };
 
-        const series = await prisma.serie.findMany(query);
+        const series = await this.prisma.serie.findMany(query);
         const serieIds = series.map((serie) => serie.id);
 
-        const serieRatings = await prisma.serieReview.groupBy({
+        const serieRatings = await this.prisma.serieReview.groupBy({
             by: ['serieId'],
             where: { serieId: { in: serieIds } },
             _avg: {
@@ -431,7 +445,7 @@ const serieService = {
             return { ...properties, genres: simplifiedGenres, ...ratingsInfo };
         });
 
-        const count = await prisma.serie.count({
+        const count = await this.prisma.serie.count({
             where: {
                 title: { contains: title },
             },
@@ -442,32 +456,7 @@ const serieService = {
         } else {
             return null;
         }
-    },
-    async addSeasonToSerie(serieId: number, seasonId: number): Promise<Serie | null> {
-        const season: Season | null = await prisma.season.findUnique({
-            where: { id: Number(seasonId) },
-        });
+    }
+}
 
-        if (season) {
-            await prisma.season.update({
-                where: { id: Number(seasonId) },
-                data: { serie: { connect: { id: serieId } } },
-            });
-
-            const serie = await prisma.serie.findUnique({
-                where: { id: serieId },
-                include: { genres: { select: { genre: true } } },
-            });
-
-            if (serie) {
-                return serie;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    },
-};
-
-export default serieService;
+export default new SerieService(prisma);
