@@ -7,11 +7,13 @@ class SerieController {
     private serieService: typeof SerieService;
 
     constructor(serieService: typeof SerieService) {
+        // console.log(serieService)
         this.serieService = serieService;
     }
 
     public async getSeries(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
+        // console.log(this.serieService);
 
         try {
             const series = await this.serieService.getSeries({
@@ -31,6 +33,7 @@ class SerieController {
                 res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
+            // console.log('error prap')
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     }

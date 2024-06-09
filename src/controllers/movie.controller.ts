@@ -12,6 +12,7 @@ class MovieController {
 
     public async getMovies(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
+        // console.log(this.movieService);
 
         try {
             const movies = await this.movieService.getMovies({

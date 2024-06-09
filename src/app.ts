@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import { options } from './utils/swagger';
-import MovieRouter from './routes/movie.routes';
-import EpisodeRouter from './routes/episode.routes';
-import GenreRouter from './routes/genre.routes';
-import SerieRouter from './routes/serie.routes';
-import UserRouter from './routes/user.routes';
-import AuthRouter from './routes/auth.routes';
+import MovieRoutes from './routes/movie.routes';
+import EpisodeRoutes from './routes/episode.routes';
+import GenreRoutes from './routes/genre.routes';
+import SerieRoutes from './routes/serie.routes';
+import UserRoutes from './routes/user.routes';
+import AuthRoutes from './routes/auth.routes';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import 'dotenv/config';
@@ -14,20 +14,20 @@ import 'dotenv/config';
 class App {
     private app: express.Application;
 
-    private movieRouter: typeof MovieRouter;
-    private authRouter: typeof AuthRouter;
-    private userRouter: typeof UserRouter;
-    private serieRouter: typeof SerieRouter;
-    private genreRouter: typeof GenreRouter;
-    private episodeRouter: typeof EpisodeRouter;
+    private movieRouter: typeof MovieRoutes;
+    private authRouter: typeof AuthRoutes;
+    private userRouter: typeof UserRoutes;
+    private serieRouter: typeof SerieRoutes;
+    private genreRouter: typeof GenreRoutes;
+    private episodeRouter: typeof EpisodeRoutes;
 
     constructor(
-        movieRouter: typeof MovieRouter,
-        authRouter: typeof AuthRouter,
-        userRouter: typeof UserRouter,
-        serieRouter: typeof SerieRouter,
-        genreRouter: typeof GenreRouter,
-        episodeRouter: typeof EpisodeRouter,
+        movieRouter: typeof MovieRoutes,
+        authRouter: typeof AuthRoutes,
+        userRouter: typeof UserRoutes,
+        serieRouter: typeof SerieRoutes,
+        genreRouter: typeof GenreRoutes,
+        episodeRouter: typeof EpisodeRoutes,
         port: number,
     ) {
         this.app = express();
@@ -41,6 +41,7 @@ class App {
 
         this.setup = this.setup.bind(this);
         this.start = this.start.bind(this);
+        
         this.setup();
         this.start(port);
     }
@@ -75,4 +76,4 @@ class App {
 
 export default App;
 
-const app = new App(MovieRouter, AuthRouter, UserRouter, SerieRouter, GenreRouter, EpisodeRouter, 4000);
+const app = new App(MovieRoutes, AuthRoutes, UserRoutes, SerieRoutes, GenreRoutes, EpisodeRoutes, 4000);
