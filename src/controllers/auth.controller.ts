@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import authService from '../services/auth.service';
+import AuthService from '../services/auth.service';
 import { createToken } from '../utils/authUtils';
 import { User } from '@prisma/client';
 import HttpStatusCode from '../utils/httpStatusCodes';
@@ -8,48 +8,57 @@ interface CustomRequest extends Request {
     user?: User;
 }
 
-const authController = {
-    async signUp(req: Request, res: Response) {
+class AuthController {
+    private authService: typeof AuthService;
+    private httpStatusCode = HttpStatusCode;
+
+    constructor(authService: typeof AuthService) {
+        this.authService = authService;
+    }
+
+    public async signUp(req: Request, res: Response) {
         const { email, password, userName } = req.body;
 
         try {
-            const user: User | null = await authService.signUp({ email, password, userName });
+            const user: User | null = await this.authService.signUp({ email, password, userName });
 
             if (user) {
-                res.status(HttpStatusCode.OK).send({ user, token: createToken(user.id) });
+                res.status(this.httpStatusCode.OK).send({ user, token: createToken(user.id) });
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'User already exists' });
+                res.status(this.httpStatusCode.Conflict).send({ error: 'User already exists' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async login(req: Request, res: Response) {
+    }
+
+    public async login(req: Request, res: Response) {
         const { email, password } = req.body;
 
         try {
-            const user: User | null = await authService.login(email, password);
+            const user: User | null = await this.authService.login(email, password);
 
             if (user) {
-                res.status(HttpStatusCode.OK).send({ user, token: createToken(user.id) });
+                res.status(this.httpStatusCode.OK).send({ user, token: createToken(user.id) });
             } else {
-                res.status(HttpStatusCode.BadRequest).send({ error: 'Credentials are wrong' });
+                res.status(this.httpStatusCode.BadRequest).send({ error: 'Credentials are wrong' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async validate(req: CustomRequest, res: Response) {
+    }
+
+    public async validate(req: CustomRequest, res: Response) {
         try {
             if (req.user) {
-                res.status(HttpStatusCode.OK).send(req.user);
+                res.status(this.httpStatusCode.OK).send(req.user);
             } else {
-                res.status(HttpStatusCode.BadRequest).send({ error: 'User not validated' });
+                res.status(this.httpStatusCode.BadRequest).send({ error: 'User not validated' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-};
+    }
+}
 
-export default authController;
+export default new AuthController(AuthService);

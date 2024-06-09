@@ -1,13 +1,31 @@
-import express from 'express';
-import authController from '../controllers/auth.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
+import express, { Router } from 'express';
+import AuthController from '../controllers/auth.controller';
+import ValidateMiddleware from '../middlewares/validate.middleware';
 import { loginSchema, registerSchema } from '../schemas/auth.schema';
 import { authMiddleware } from '../middlewares/auth.middleware';
 
-const router = express.Router();
+class AuthRouter {
+    private router: express.Router;
+    private authController: typeof AuthController;
+    private validateMiddleware: typeof ValidateMiddleware;
 
-router.post('/register', registerSchema, validateMiddleware, authController.signUp);
-router.post('/login', loginSchema, validateMiddleware, authController.login);
-router.get('/validateUser', authMiddleware, authController.validate);
+    constructor(authController: typeof AuthController, validateMiddleware: typeof ValidateMiddleware) {
+        this.router = express.Router();
+        this.authController = authController;
+        this.validateMiddleware = validateMiddleware;
+        this.setupRoutes = this.setupRoutes.bind(this);
+        this.setupRoutes();
+    }
 
-export default router;
+    private setupRoutes(): any {
+        this.router.post('/register', registerSchema, this.validateMiddleware.validate, this.authController.signUp);
+        this.router.post('/login', loginSchema, this.validateMiddleware.validate, this.authController.login);
+        this.router.get('/validateUser', authMiddleware, this.authController.validate);
+    }
+
+    public getRoutes(): Router {
+        return this.router;
+    }
+}
+
+export default new AuthRouter(AuthController, ValidateMiddleware);

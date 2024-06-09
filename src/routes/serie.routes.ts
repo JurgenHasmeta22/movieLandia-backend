@@ -1,6 +1,6 @@
-import express from 'express';
-import serieController from '../controllers/serie.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
+import express, { Router } from 'express';
+import SerieController from '../controllers/serie.controller';
+import ValidateMiddleware from '../middlewares/validate.middleware';
 import {
     serieSchemaUpdate,
     serieSchemaPost,
@@ -10,18 +10,73 @@ import {
 } from '../schemas/serie.schema';
 import { seasonSerieSchema } from '../schemas/seasonSerie.schema';
 
-const router = express.Router();
+class SerieRouter {
+    private router: Router;
+    private serieController: typeof SerieController;
+    private validateMiddleware: typeof ValidateMiddleware;
 
-router.get('/getSeries', serieQuerySchema, validateMiddleware, serieController.getSeries);
-router.get('/getSerieById/:id', serieIdParamSchema, validateMiddleware, serieController.getSerieById);
-router.get('/getSerieByTitle/:title', serieTitleParamSchema, validateMiddleware, serieController.getSerieByTitle);
-router.delete('/deleteSerieById/:id', serieIdParamSchema, validateMiddleware, serieController.deleteSerieById);
-router.patch('/updateSerieById/:id', serieIdParamSchema, serieSchemaUpdate, validateMiddleware, serieController.updateSerieById);
-router.put('/updateSerieById/:id', serieIdParamSchema, serieSchemaPost, validateMiddleware, serieController.updateSerieById);
-router.post('/addSerie', serieSchemaPost, validateMiddleware, serieController.addSerie);
-router.get('/searchSeriesByTitle', serieController.searchSeriesByTitle);
-router.get('/getLatestSeries', serieController.getLatestSeries);
-router.get('/getRelatedSeries', serieController.getRelatedSeries);
-router.post('/addSeasonToSerie', seasonSerieSchema, validateMiddleware, serieController.addSeasonToSerie);
+    constructor(serieController: typeof SerieController, validateMiddleware: typeof ValidateMiddleware) {
+        this.router = express.Router();
+        this.serieController = serieController;
+        this.validateMiddleware = validateMiddleware;
+        this.setupRoutes = this.setupRoutes.bind(this);
+        this.getRoutes = this.getRoutes.bind(this);
+    }
 
-export default router;
+    public setupRoutes(): any {
+        this.router.get(
+            '/getSeries',
+            serieQuerySchema,
+            this.validateMiddleware.validate,
+            this.serieController.getSeries,
+        );
+        this.router.get(
+            '/getSerieById/:id',
+            serieIdParamSchema,
+            this.validateMiddleware.validate,
+            this.serieController.getSerieById,
+        );
+        this.router.get(
+            '/getSerieByTitle/:title',
+            serieTitleParamSchema,
+            this.validateMiddleware.validate,
+            this.serieController.getSerieByTitle,
+        );
+        this.router.delete(
+            '/deleteSerieById/:id',
+            serieIdParamSchema,
+            this.validateMiddleware.validate,
+            this.serieController.deleteSerieById,
+        );
+        this.router.patch(
+            '/updateSerieById/:id',
+            serieIdParamSchema,
+            serieSchemaUpdate,
+            this.validateMiddleware.validate,
+            this.serieController.updateSerieById,
+        );
+        this.router.put(
+            '/updateSerieById/:id',
+            serieIdParamSchema,
+            serieSchemaPost,
+            this.validateMiddleware.validate,
+            this.serieController.updateSerieById,
+        );
+        this.router.post('/addSerie', serieSchemaPost, this.validateMiddleware.validate, this.serieController.addSerie);
+        this.router.get('/searchSeriesByTitle', this.serieController.searchSeriesByTitle);
+        this.router.get('/getLatestSeries', this.serieController.getLatestSeries);
+        this.router.get('/getRelatedSeries', this.serieController.getRelatedSeries);
+        this.router.post(
+            '/addSeasonToSerie',
+            seasonSerieSchema,
+            this.validateMiddleware.validate,
+            this.serieController.addSeasonToSerie,
+        );
+    }
+
+    public getRoutes(): Router {
+        return this.router;
+    }
+}
+
+export default new SerieRouter(SerieController, ValidateMiddleware);

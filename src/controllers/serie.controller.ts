@@ -1,14 +1,21 @@
 import { Request, Response } from 'express';
-import serieService from '../services/serie.service';
 import { Serie } from '@prisma/client';
 import HttpStatusCode from '../utils/httpStatusCodes';
+import SerieService from '../services/serie.service';
 
-const serieController = {
-    async getSeries(req: Request, res: Response) {
+class SerieController {
+    private serieService: typeof SerieService;
+    private httpStatusCode = HttpStatusCode;
+
+    constructor(serieService: typeof SerieService) {
+        this.serieService = serieService;
+    }
+
+    public async getSeries(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
 
         try {
-            const series = await serieService.getSeries({
+            const series = await this.serieService.getSeries({
                 sortBy: sortBy as string,
                 ascOrDesc: ascOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 10,
@@ -20,30 +27,32 @@ const serieController = {
             });
 
             if (series) {
-                res.status(HttpStatusCode.OK).send(series);
+                res.status(this.httpStatusCode.OK).send(series);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async getSerieById(req: Request, res: Response) {
+    }
+
+    public async getSerieById(req: Request, res: Response) {
         const serieId = Number(req.params.id);
 
         try {
-            const serie = await serieService.getSerieById(serieId);
+            const serie = await this.serieService.getSerieById(serieId);
 
             if (serie) {
-                res.status(HttpStatusCode.OK).send(serie);
+                res.status(this.httpStatusCode.OK).send(serie);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Serie not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Serie not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async getSerieByTitle(req: Request, res: Response) {
+    }
+
+    public async getSerieByTitle(req: Request, res: Response) {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
             .split('')
@@ -75,31 +84,33 @@ const serieController = {
         }
 
         try {
-            const serie = await serieService.getSerieByTitle(title, queryParams);
+            const serie = await this.serieService.getSerieByTitle(title, queryParams);
 
             if (serie) {
-                res.status(HttpStatusCode.OK).send(serie);
+                res.status(this.httpStatusCode.OK).send(serie);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'serie not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'serie not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async getLatestSeries(req: Request, res: Response) {
+    }
+
+    public async getLatestSeries(req: Request, res: Response) {
         try {
-            const latestSeries = await serieService.getLatestSeries();
+            const latestSeries = await this.serieService.getLatestSeries();
 
             if (latestSeries) {
-                res.status(HttpStatusCode.OK).send(latestSeries);
+                res.status(this.httpStatusCode.OK).send(latestSeries);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async getRelatedSeries(req: Request, res: Response) {
+    }
+
+    public async getRelatedSeries(req: Request, res: Response) {
         const { title } = req.query;
         const titleFormatted =
             title &&
@@ -109,66 +120,70 @@ const serieController = {
                 .join('');
 
         try {
-            const relatedSeries = await serieService.getRelatedSeries(titleFormatted!);
+            const relatedSeries = await this.serieService.getRelatedSeries(titleFormatted!);
 
             if (relatedSeries) {
-                res.status(HttpStatusCode.OK).send(relatedSeries);
+                res.status(this.httpStatusCode.OK).send(relatedSeries);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Related Series not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Related Series not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async updateSerieById(req: Request, res: Response) {
+    }
+
+    public async updateSerieById(req: Request, res: Response) {
         const serieBodyParams = req.body;
         const { id } = req.params;
 
         try {
-            const serie: Serie | null = await serieService.updateSerieById(serieBodyParams, id);
+            const serie: Serie | null = await this.serieService.updateSerieById(serieBodyParams, id);
 
             if (serie) {
-                res.status(HttpStatusCode.OK).send(serie);
+                res.status(this.httpStatusCode.OK).send(serie);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Serie not updated' });
+                res.status(this.httpStatusCode.Conflict).send({ error: 'Serie not updated' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async addSerie(req: Request, res: Response) {
+    }
+
+    public async addSerie(req: Request, res: Response) {
         const serieBodyParams = req.body;
 
         try {
-            const serie: Serie | null = await serieService.addSerie(serieBodyParams);
+            const serie: Serie | null = await this.serieService.addSerie(serieBodyParams);
 
             if (serie) {
-                res.status(HttpStatusCode.Created).send(serie);
+                res.status(this.httpStatusCode.Created).send(serie);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Serie not created' });
+                res.status(this.httpStatusCode.Conflict).send({ error: 'Serie not created' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async deleteSerieById(req: Request, res: Response) {
+    }
+
+    public async deleteSerieById(req: Request, res: Response) {
         const idParam = Number(req.params.id);
 
         try {
-            const result = await serieService.deleteSerieById(idParam);
+            const result = await this.serieService.deleteSerieById(idParam);
 
             if (result) {
-                res.status(HttpStatusCode.OK).send({
+                res.status(this.httpStatusCode.OK).send({
                     msg: 'Serie deleted successfully',
                 });
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Serie not deleted' });
+                res.status(this.httpStatusCode.Conflict).send({ error: 'Serie not deleted' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async searchSeriesByTitle(req: Request, res: Response) {
+    }
+
+    public async searchSeriesByTitle(req: Request, res: Response) {
         const { page, ascOrDesc, sortBy, title } = req.query;
 
         const queryParams: any = {
@@ -184,32 +199,33 @@ const serieController = {
         }
 
         try {
-            const series = await serieService.searchSeriesByTitle(String(title), queryParams);
+            const series = await this.serieService.searchSeriesByTitle(String(title), queryParams);
 
             if (series) {
-                res.status(HttpStatusCode.OK).send(series);
+                res.status(this.httpStatusCode.OK).send(series);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async addSeasonToSerie(req: Request, res: Response) {
+    }
+
+    public async addSeasonToSerie(req: Request, res: Response) {
         const { serieId, seasonId } = req.body;
 
         try {
-            const updatedSerie = await serieService.addSeasonToSerie(seasonId, serieId);
+            const updatedSerie = await this.serieService.addSeasonToSerie(seasonId, serieId);
 
             if (updatedSerie) {
-                res.status(HttpStatusCode.OK).send(updatedSerie);
+                res.status(this.httpStatusCode.OK).send(updatedSerie);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Serie with new season not updated' });
+                res.status(this.httpStatusCode.Conflict).send({ error: 'Serie with new season not updated' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-};
+    }
+}
 
-export default serieController;
+export default new SerieController(SerieService);

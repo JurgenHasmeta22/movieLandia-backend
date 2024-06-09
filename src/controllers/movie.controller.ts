@@ -1,14 +1,21 @@
 import { Request, Response } from 'express';
-import movieService from '../services/movie.service';
 import { Movie } from '@prisma/client';
 import HttpStatusCode from '../utils/httpStatusCodes';
+import MovieService from '../services/movie.service';
 
-const movieController = {
-    async getMovies(req: Request, res: Response) {
+class MovieController {
+    private movieService: typeof MovieService;
+    private httpStatusCode = HttpStatusCode;
+
+    constructor(movieService: typeof MovieService) {
+        this.movieService = movieService;
+    }
+
+    public async getMovies(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
 
         try {
-            const movies = await movieService.getMovies({
+            const movies = await this.movieService.getMovies({
                 sortBy: sortBy as string,
                 ascOrDesc: ascOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 10,
@@ -20,30 +27,32 @@ const movieController = {
             });
 
             if (movies) {
-                res.status(HttpStatusCode.OK).send(movies);
+                res.status(this.httpStatusCode.OK).send(movies);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movies not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Movies not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async getMovieById(req: Request, res: Response) {
+    }
+
+    public async getMovieById(req: Request, res: Response) {
         const movieId = Number(req.params.id);
 
         try {
-            const movie = await movieService.getMovieById(movieId);
+            const movie = await this.movieService.getMovieById(movieId);
 
             if (movie) {
-                res.status(HttpStatusCode.OK).send(movie);
+                res.status(this.httpStatusCode.OK).send(movie);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movie not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Movie not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async getMovieByTitle(req: Request, res: Response) {
+    }
+
+    public async getMovieByTitle(req: Request, res: Response) {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
             .split('')
@@ -75,31 +84,33 @@ const movieController = {
         }
 
         try {
-            const movie = await movieService.getMovieByTitle(title, queryParams);
+            const movie = await this.movieService.getMovieByTitle(title, queryParams);
 
             if (movie) {
-                res.status(HttpStatusCode.OK).send(movie);
+                res.status(this.httpStatusCode.OK).send(movie);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movie not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Movie not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async getLatestMovies(req: Request, res: Response) {
+    }
+
+    public async getLatestMovies(req: Request, res: Response) {
         try {
-            const latestMovies = await movieService.getLatestMovies();
+            const latestMovies = await this.movieService.getLatestMovies();
 
             if (latestMovies) {
-                res.status(HttpStatusCode.OK).send(latestMovies);
+                res.status(this.httpStatusCode.OK).send(latestMovies);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movies not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Movies not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async getRelatedMovies(req: Request, res: Response) {
+    }
+
+    public async getRelatedMovies(req: Request, res: Response) {
         const { title } = req.query;
         const titleFormatted =
             title &&
@@ -109,66 +120,70 @@ const movieController = {
                 .join('');
 
         try {
-            const relatedMovies = await movieService.getRelatedMovies(titleFormatted!);
+            const relatedMovies = await this.movieService.getRelatedMovies(titleFormatted!);
 
             if (relatedMovies) {
-                res.status(HttpStatusCode.OK).send(relatedMovies);
+                res.status(this.httpStatusCode.OK).send(relatedMovies);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Related Movies not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Related Movies not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async updateMovieById(req: Request, res: Response) {
+    }
+
+    public async updateMovieById(req: Request, res: Response) {
         const movieBodyParams = req.body;
         const { id } = req.params;
 
         try {
-            const movie: Movie | null = await movieService.updateMovieById(movieBodyParams, id);
+            const movie: Movie | null = await this.movieService.updateMovieById(movieBodyParams, id);
 
             if (movie) {
-                res.status(HttpStatusCode.OK).send(movie);
+                res.status(this.httpStatusCode.OK).send(movie);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Movie not updated' });
+                res.status(this.httpStatusCode.Conflict).send({ error: 'Movie not updated' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async addMovie(req: Request, res: Response) {
+    }
+
+    public async addMovie(req: Request, res: Response) {
         const movieBodyParams = req.body;
 
         try {
-            const movie: Movie | null = await movieService.addMovie(movieBodyParams);
+            const movie: Movie | null = await this.movieService.addMovie(movieBodyParams);
 
             if (movie) {
-                res.status(HttpStatusCode.Created).send(movie);
+                res.status(this.httpStatusCode.Created).send(movie);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Movie not created' });
+                res.status(this.httpStatusCode.Conflict).send({ error: 'Movie not created' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async deleteMovieById(req: Request, res: Response) {
+    }
+
+    public async deleteMovieById(req: Request, res: Response) {
         const idParam = Number(req.params.id);
 
         try {
-            const result = await movieService.deleteMovieById(idParam);
+            const result = await this.movieService.deleteMovieById(idParam);
 
             if (result) {
-                res.status(HttpStatusCode.OK).send({
+                res.status(this.httpStatusCode.OK).send({
                     msg: 'Movie deleted successfully',
                 });
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Movie not deleted' });
+                res.status(this.httpStatusCode.Conflict).send({ error: 'Movie not deleted' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-    async searchMoviesByTitle(req: Request, res: Response) {
+    }
+
+    public async searchMoviesByTitle(req: Request, res: Response) {
         const { page, ascOrDesc, sortBy, title } = req.query;
 
         const queryParams: any = {
@@ -184,17 +199,17 @@ const movieController = {
         }
 
         try {
-            const movies = await movieService.searchMoviesByTitle(String(title), queryParams);
+            const movies = await this.movieService.searchMoviesByTitle(String(title), queryParams);
 
             if (movies) {
-                res.status(HttpStatusCode.OK).send(movies);
+                res.status(this.httpStatusCode.OK).send(movies);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movies not found' });
+                res.status(this.httpStatusCode.NotFound).send({ error: 'Movies not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            res.status(this.httpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
-    },
-};
+    }
+}
 
-export default movieController;
+export default new MovieController(MovieService);

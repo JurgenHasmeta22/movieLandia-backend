@@ -1,6 +1,6 @@
-import express from 'express';
-import userController from '../controllers/user.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
+import express, { Router } from 'express';
+import UserController from '../controllers/user.controller';
+import ValidateMiddleware from '../middlewares/validate.middleware';
 import {
     userSchemaUpdate,
     userSchemaPost,
@@ -8,13 +8,7 @@ import {
     userIdParamSchema,
     userUserNameParamSchema,
 } from '../schemas/user.schema';
-
-// import { authMiddleware } from '../middlewares/auth.middleware';
-
-// import { userSeasonFavoriteSchema } from '../schemas/userSeasonFavorite.schema';
 import { userMovieFavoriteSchema } from '../schemas/userMovieFavorite.schema';
-// import { userEpisodeFavoriteSchema } from '../schemas/userEpisodeFavorite.schema';
-// import { userGenreFavoriteSchema } from '../schemas/userGenreFavorite.schema';
 import { userSerieFavoriteSchema } from '../schemas/userSerie.schema';
 import { movieReviewSchema } from '../schemas/movieReview.schema';
 import { serieReviewSchema } from '../schemas/serieReview.schema';
@@ -23,64 +17,165 @@ import { upvoteSerieSchema } from '../schemas/upvoteSerie.schema';
 import { downvoteMovieSchema } from '../schemas/downvoteMovie.schema';
 import { downvoteSerieSchema } from '../schemas/downvoteSerie.schema';
 
-const router = express.Router();
+class UserRouter {
+    private router: Router;
+    private userController: typeof UserController;
+    private validateMiddleware: typeof ValidateMiddleware;
 
-// router.use(authMiddleware);
+    constructor(userController: typeof UserController, validateMiddleware: typeof ValidateMiddleware) {
+        this.router = express.Router();
+        this.userController = userController;
+        this.validateMiddleware = validateMiddleware;
+        this.setupRoutes = this.setupRoutes.bind(this);
+        this.getRoutes = this.getRoutes.bind(this);
+    }
 
-// #region "CRUD Routes"
-router.get('/getUsers', userQuerySchema, validateMiddleware, userController.getUsers);
-router.get('/getUserById/:id', userIdParamSchema, validateMiddleware, userController.getUserById);
-router.get('/getUserByTitle/:userName', userUserNameParamSchema, validateMiddleware, userController.getUserByTitle);
-router.delete('/deleteUserById/:id', userIdParamSchema, validateMiddleware, userController.deleteUserById);
-router.patch(
-    '/updateUserById/:id',
-    userIdParamSchema,
-    userSchemaUpdate,
-    validateMiddleware,
-    userController.updateUserById,
-);
-router.put('/updateUserById/:id', userIdParamSchema, userSchemaPost, validateMiddleware, userController.updateUserById);
-router.get('/searchUsersByTitle', userController.searchUsersByTitle);
-// #endregion
+    public setupRoutes(): any {
+        this.router.get('/getUsers', userQuerySchema, this.validateMiddleware.validate, this.userController.getUsers);
+        this.router.get(
+            '/getUserById/:id',
+            userIdParamSchema,
+            this.validateMiddleware.validate,
+            this.userController.getUserById,
+        );
+        this.router.get(
+            '/getUserByTitle/:userName',
+            userUserNameParamSchema,
+            this.validateMiddleware.validate,
+            this.userController.getUserByTitle,
+        );
+        this.router.delete(
+            '/deleteUserById/:id',
+            userIdParamSchema,
+            this.validateMiddleware.validate,
+            this.userController.deleteUserById,
+        );
+        this.router.patch(
+            '/updateUserById/:id',
+            userIdParamSchema,
+            userSchemaUpdate,
+            this.validateMiddleware.validate,
+            this.userController.updateUserById,
+        );
+        this.router.put(
+            '/updateUserById/:id',
+            userIdParamSchema,
+            userSchemaPost,
+            this.validateMiddleware.validate,
+            this.userController.updateUserById,
+        );
+        this.router.get('/searchUsersByTitle', this.userController.searchUsersByTitle);
 
-// #region "Bookmark Routes"
-// router.post('/bookmarkSeason', userSeasonFavoriteSchema, validateMiddleware, userController.bookmarkSeason);
-router.post('/bookmarkMovie', userMovieFavoriteSchema, userController.bookmarkMovie);
-router.post('/bookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.bookmarkSerie);
-// router.post('/bookmarkEpisode', userEpisodeFavoriteSchema, validateMiddleware, userController.bookmarkEpisode);
-// router.post('/bookmarkGenre', userGenreFavoriteSchema, validateMiddleware, userController.bookmarkGenre);
-router.post('/unBookmarkMovie', userMovieFavoriteSchema, validateMiddleware, userController.unBookmarkMovie);
-router.post('/unBookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.unBookmarkSerie);
-// #endregion
+        this.router.post('/bookmarkMovie', userMovieFavoriteSchema, this.userController.bookmarkMovie);
+        this.router.post(
+            '/bookmarkSerie',
+            userSerieFavoriteSchema,
+            this.validateMiddleware.validate,
+            this.userController.bookmarkSerie,
+        );
+        this.router.post(
+            '/unBookmarkMovie',
+            userMovieFavoriteSchema,
+            this.validateMiddleware.validate,
+            this.userController.unBookmarkMovie,
+        );
+        this.router.post(
+            '/unBookmarkSerie',
+            userSerieFavoriteSchema,
+            this.validateMiddleware.validate,
+            this.userController.unBookmarkSerie,
+        );
 
-// #region "Reviews Routes"
-router.post('/addReviewMovie', movieReviewSchema, validateMiddleware, userController.addReviewMovie);
-router.post('/addReviewSerie', serieReviewSchema, validateMiddleware, userController.addReviewSerie);
-router.post('/updateReviewMovie', movieReviewSchema, validateMiddleware, userController.updateReviewMovie);
-router.post('/updateReviewSerie', serieReviewSchema, validateMiddleware, userController.updateReviewSerie);
-router.post('/removeReviewMovie', movieReviewSchema, validateMiddleware, userController.removeReviewMovie);
-router.post('/removeReviewSerie', serieReviewSchema, validateMiddleware, userController.removeReviewSerie);
-// #endregion
+        this.router.post(
+            '/addReviewMovie',
+            movieReviewSchema,
+            this.validateMiddleware.validate,
+            this.userController.addReviewMovie,
+        );
+        this.router.post(
+            '/addReviewSerie',
+            serieReviewSchema,
+            this.validateMiddleware.validate,
+            this.userController.addReviewSerie,
+        );
+        this.router.post(
+            '/updateReviewMovie',
+            movieReviewSchema,
+            this.validateMiddleware.validate,
+            this.userController.updateReviewMovie,
+        );
+        this.router.post(
+            '/updateReviewSerie',
+            serieReviewSchema,
+            this.validateMiddleware.validate,
+            this.userController.updateReviewSerie,
+        );
+        this.router.post(
+            '/removeReviewMovie',
+            movieReviewSchema,
+            this.validateMiddleware.validate,
+            this.userController.removeReviewMovie,
+        );
+        this.router.post(
+            '/removeReviewSerie',
+            serieReviewSchema,
+            this.validateMiddleware.validate,
+            this.userController.removeReviewSerie,
+        );
 
-// #region "Upvotes, Downvotes Routes"
-router.post('/addUpvoteMovieReview', upvoteMovieSchema, validateMiddleware, userController.addUpvoteMovieReview);
-router.post('/addUpvoteSerieReview', upvoteSerieSchema, validateMiddleware, userController.addUpvoteSerieReview);
-router.post('/removeUpvoteMovieReview', upvoteMovieSchema, validateMiddleware, userController.removeUpvoteMovieReview);
-router.post('/removeUpvoteSerieReview', upvoteSerieSchema, validateMiddleware, userController.removeUpvoteSerieReview);
-router.post('/addDownvoteMovieReview', downvoteMovieSchema, validateMiddleware, userController.addDownvoteMovieReview);
-router.post('/addDownvoteSerieReview', downvoteSerieSchema, validateMiddleware, userController.addDownvoteSerieReview);
-router.post(
-    '/removeDownvoteMovieReview',
-    downvoteMovieSchema,
-    validateMiddleware,
-    userController.removeDownvoteMovieReview,
-);
-router.post(
-    '/removeDownvoteSerieReview',
-    downvoteSerieSchema,
-    validateMiddleware,
-    userController.removeDownvoteSerieReview,
-);
-// #endregion
+        this.router.post(
+            '/addUpvoteMovieReview',
+            upvoteMovieSchema,
+            this.validateMiddleware.validate,
+            this.userController.addUpvoteMovieReview,
+        );
+        this.router.post(
+            '/addUpvoteSerieReview',
+            upvoteSerieSchema,
+            this.validateMiddleware.validate,
+            this.userController.addUpvoteSerieReview,
+        );
+        this.router.post(
+            '/removeUpvoteMovieReview',
+            upvoteMovieSchema,
+            this.validateMiddleware.validate,
+            this.userController.removeUpvoteMovieReview,
+        );
+        this.router.post(
+            '/removeUpvoteSerieReview',
+            upvoteSerieSchema,
+            this.validateMiddleware.validate,
+            this.userController.removeUpvoteSerieReview,
+        );
+        this.router.post(
+            '/addDownvoteMovieReview',
+            downvoteMovieSchema,
+            this.validateMiddleware.validate,
+            this.userController.addDownvoteMovieReview,
+        );
+        this.router.post(
+            '/addDownvoteSerieReview',
+            downvoteSerieSchema,
+            this.validateMiddleware.validate,
+            this.userController.addDownvoteSerieReview,
+        );
+        this.router.post(
+            '/removeDownvoteMovieReview',
+            downvoteMovieSchema,
+            this.validateMiddleware.validate,
+            this.userController.removeDownvoteMovieReview,
+        );
+        this.router.post(
+            '/removeDownvoteSerieReview',
+            downvoteSerieSchema,
+            this.validateMiddleware.validate,
+            this.userController.removeDownvoteSerieReview,
+        );
+    }
 
-export default router;
+    public getRoutes(): Router {
+        return this.router;
+    }
+}
+
+export default new UserRouter(UserController, ValidateMiddleware);
