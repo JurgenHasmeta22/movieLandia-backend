@@ -4,7 +4,7 @@
     "description": "REST API for a movies and similar things",
     "scripts": {
         "start": "nodemon src/app.ts",
-        "tailwind:css": "postcss public/styles/tailwind.css -o public/styles/style.css",
+        "tailwind:css": "npx tailwindcss -i ./public/styles/tailwind.css -o ./public/styles/style.css --watch",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json,prisma}\""
     },
     "keywords": [],
@@ -35,10 +35,7 @@
         "@types/jsonwebtoken": "^9.0.6",
         "@types/swagger-jsdoc": "^6.0.4",
         "@types/swagger-ui-express": "^4.1.6",
-        "autoprefixer": "^10.4.19",
         "cross-env": "^7.0.3",
-        "postcss": "^8.4.38",
-        "postcss-cli": "^11.0.0",
         "prettier": "^3.3.1",
         "prisma-dbml-generator": "^0.12.0",
         "prisma-erd-generator": "^1.11.2",

@@ -12,6 +12,7 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import path from 'path';
 import 'dotenv/config';
+import movieService from './services/movie.service';
 
 export const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
@@ -43,6 +44,31 @@ app.use(userRoutes);
 
 app.get('/', async (req, res) => {
     res.render('index', { title: 'Home' });
+});
+
+app.get('/movies', async (req, res) => {
+    try {
+        const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
+
+        const moviesData = await movieService.getMovies({
+            sortBy: sortBy as string,
+            ascOrDesc: ascOrDesc as 'asc' | 'desc',
+            perPage: pageSize ? Number(pageSize) : 10,
+            page: Number(page),
+            title: title as string,
+            filterValue: filterValue ? Number(filterValue) : undefined,
+            filterNameString: filterName as string,
+            filterOperatorString: filterOperator as '>' | '=' | '<',
+        });
+
+        if (moviesData) {
+            res.render('pages/movies', { movies: moviesData.movies });
+        } else {
+            res.status(404).send({ error: 'Movies not found' });
+        }
+    } catch (err) {
+        res.status(400).send({ error: (err as Error).message });
+    }
 });
 
 app.listen(4000, () => {
