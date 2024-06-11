@@ -180,14 +180,15 @@ app.get('/genres/:name', async (req, res) => {
         .map((char) => (char === '-' ? ' ' : char))
         .join('');
 
-    const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
+    const { sortBy, ascOrDesc, pageMovies, pageSeries, pageSize, name, filterValue, filterName, filterOperator } =
+        req.query;
 
     try {
         const genreDataMovies = await genreService.getGenreByName(nameGenre, {
             sortBy: sortBy! as string,
             ascOrDesc: ascOrDesc! as 'asc' | 'desc',
             perPage: pageSize ? Number(pageSize) : 20,
-            page: Number(page!),
+            page: Number(pageMovies ? pageMovies : 1),
             name: name! as string,
             type: 'movie' as string,
             filterValue: filterValue ? Number(filterValue) : undefined,
@@ -199,7 +200,7 @@ app.get('/genres/:name', async (req, res) => {
             sortBy: sortBy! as string,
             ascOrDesc: ascOrDesc! as 'asc' | 'desc',
             perPage: pageSize ? Number(pageSize) : 20,
-            page: Number(page!),
+            page: Number(pageSeries ? pageSeries : 1),
             name: name! as string,
             type: 'serie' as string,
             filterValue: filterValue ? Number(filterValue) : undefined,
@@ -207,9 +208,18 @@ app.get('/genres/:name', async (req, res) => {
             filterOperatorString: filterOperator! as '>' | '=' | '<',
         });
 
+        const pageCountMovies = genreDataMovies.count;
+        const pageCountSeries = genreDataSeries.count;
+        const currentPageMovies = pageMovies ? pageMovies : 1;
+        const currentPageSeries = pageSeries ? pageSeries : 1;
+
         res.render('pages/genre', {
             moviesByGenre: genreDataMovies.movies,
             seriesByGenre: genreDataSeries.series,
+            currentPageMovies,
+            currentPageSeries,
+            pageCountMovies,
+            pageCountSeries,
             nameGenre,
             title: `Movie and Series of Genre ${nameGenre}`,
             canonical: `/genre/${nameGenre}`,

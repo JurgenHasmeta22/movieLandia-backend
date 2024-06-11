@@ -7,7 +7,6 @@
                     <hr class="border-b-2 border-primary mt-1">
                 </div>
                 <div>
-                    <!-- Sort Select Placeholder -->
                     <select id="moviesSortSelect" class="bg-gray-700 text-white rounded px-3 py-2">
                         <!-- Add sorting options dynamically if needed -->
                     </select>
@@ -20,7 +19,7 @@
             </div>
             <!-- Pagination Placeholder -->
             <div class="mt-4">
-                <!-- Include pagination partial -->
+                <%- include('../components/pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
             </div>
         <% } else { %>
             <div class="flex items-center justify-center h-64">
@@ -36,7 +35,6 @@
                     <hr class="border-b-2 border-primary mt-1">
                 </div>
                 <div>
-                    <!-- Sort Select Placeholder -->
                     <select id="seriesSortSelect" class="bg-gray-700 text-white rounded px-3 py-2">
                         <!-- Add sorting options dynamically if needed -->
                     </select>
@@ -49,7 +47,7 @@
             </div>
             <!-- Pagination Placeholder -->
             <div class="mt-4">
-                <!-- Include pagination partial -->
+                <%- include('../components/pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries }) %>
             </div>
         <% } else { %>
             <div class="flex items-center justify-center h-64">
