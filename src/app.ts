@@ -13,7 +13,7 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import path from 'path';
 import 'dotenv/config';
 import movieService from './services/movie.service';
-const expressLayouts = require('express-ejs-layouts')
+const expressLayouts = require('express-ejs-layouts');
 
 export const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
@@ -29,8 +29,8 @@ app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(express.static('public'));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 
-app.use(expressLayouts)
-app.set('layout', 'layouts/mainLayout.ejs')
+app.use(expressLayouts);
+app.set('layout', 'layouts/mainLayout.ejs');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -64,6 +64,50 @@ app.get('/movies', async (req, res) => {
             res.render('pages/movies', { movies: moviesData.movies });
         } else {
             res.status(404).send({ error: 'Movies not found' });
+        }
+    } catch (err) {
+        res.status(400).send({ error: (err as Error).message });
+    }
+});
+
+app.get('/movies/:title', async (req, res) => {
+    const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
+    const title = req.params.title
+        .split('')
+        .map((char: string) => (char === '-' ? ' ' : char))
+        .join('');
+
+    const queryParams: any = {
+        page: Number(page),
+    };
+
+    if (userId !== undefined) {
+        queryParams.userId = Number(userId);
+    }
+
+    if (ascOrDesc !== undefined) {
+        queryParams.ascOrDesc = String(ascOrDesc);
+    }
+
+    if (sortBy !== undefined) {
+        queryParams.sortBy = String(sortBy);
+    }
+
+    if (upvotesPage !== undefined) {
+        queryParams.upvotesPage = Number(upvotesPage);
+    }
+
+    if (downvotesPage !== undefined) {
+        queryParams.downvotesPage = Number(downvotesPage);
+    }
+
+    try {
+        const movie = await movieService.getMovieByTitle(title, queryParams);
+
+        if (movie) {
+            res.render('pages/movie', { movie });
+        } else {
+            res.status(404).send({ error: 'Movie not found' });
         }
     } catch (err) {
         res.status(400).send({ error: (err as Error).message });
