@@ -17,8 +17,7 @@
                         <%- include('../components/cardItem', { data: movie, type: 'movie' }) %>
                 <% }); %>
             </div>
-            <!-- Pagination Placeholder -->
-            <div class="mt-4">
+            <div class="pt-12">
                 <%- include('../components/pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
             </div>
         <% } else { %>
@@ -45,8 +44,7 @@
                         <%- include('../components/cardItem', { data: serie, type: 'serie' }) %>
                 <% }); %>
             </div>
-            <!-- Pagination Placeholder -->
-            <div class="mt-4">
+            <div class="pt-12">
                 <%- include('../components/pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries }) %>
             </div>
         <% } else { %>

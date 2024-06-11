@@ -3,30 +3,52 @@
         <li>
             <button
                 @click="if(currentPage > 1) { currentPage--; $dispatch('page-change', currentPage); }"
-                class="px-3 py-2 mx-1 rounded <%= currentPage === 1 ? 'bg-gray-500' : 'bg-gray-700 hover:bg-gray-600' %> text-white"
+                class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer"
+                :class="{ 'bg-gray-700': currentPage === pageCount }"
                 :disabled="currentPage === 1"
             >
-                &laquo;
+                <i class="fas fa-angle-double-left"></i>
+            </button>
+        </li>
+        <li>
+            <button
+                @click="currentPage = 1; $dispatch('page-change', currentPage);"
+                class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer"
+                :class="{ 'bg-gray-700': currentPage === pageCount }"
+                :disabled="currentPage === 1"
+            >
+                <i class="fas fa-angle-left"></i>
             </button>
         </li>
         <template x-for="page in [...Array(pageCount).keys()].map(i => i + 1)" :key="page">
             <li>
                 <button
                     @click="currentPage = page; $dispatch('page-change', currentPage);"
-                    class="px-3 py-2 mx-1 rounded"
-                    :class="currentPage === page ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white hover:bg-gray-600'"
+                    class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer"
+                    :class="{ 'bg-blue-600': currentPage === page }"
                 >
-                    <span x-text="page"></span>
+                    <span x-text="page" class="text-white"></span>
                 </button>
             </li>
         </template>
         <li>
             <button
-                @click="if(currentPage < pageCount) { currentPage++; $dispatch('page-change', currentPage); }"
-                class="px-3 py-2 mx-1 rounded <%= currentPage === pageCount ? 'bg-gray-500' : 'bg-gray-700 hover:bg-gray-600' %> text-white"
+                @click="currentPage = pageCount; $dispatch('page-change', pageCount);"
+                class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer"
+                :class="{ 'bg-gray-700': currentPage === 1 }"
                 :disabled="currentPage === pageCount"
             >
-                &raquo;
+                <i class="fas fa-angle-right"></i>
+            </button>
+        </li>
+        <li>
+            <button
+                @click="if(currentPage < pageCount) { currentPage++; $dispatch('page-change', currentPage); }"
+                class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer"
+                :class="{ 'bg-gray-700': currentPage === 1 }"
+                :disabled="currentPage === pageCount"
+            >
+                <i class="fas fa-angle-double-right"></i>
             </button>
         </li>
     </ul>
