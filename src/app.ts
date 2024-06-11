@@ -61,8 +61,10 @@ app.get('/movies', async (req, res) => {
             filterOperatorString: filterOperator as '>' | '=' | '<',
         });
 
-        if (moviesData) {
-            res.render('pages/movies', { movies: moviesData.movies });
+        const latestMovies = await movieService.getLatestMovies();
+
+        if (moviesData && latestMovies) {
+            res.render('pages/movies', { movies: moviesData.movies, latestMovies });
         } else {
             res.status(404).send({ error: 'Movies not found' });
         }
@@ -86,8 +88,10 @@ app.get('/series', async (req, res) => {
             filterOperatorString: filterOperator as '>' | '=' | '<',
         });
 
-        if (seriesData) {
-            res.render('pages/series', { series: seriesData.rows });
+        const latestSeries = await serieService.getLatestSeries();
+
+        if (seriesData && latestSeries) {
+            res.render('pages/series', { series: seriesData.rows, latestSeries });
         } else {
             res.status(404).send({ error: 'Series not found' });
         }
@@ -129,9 +133,11 @@ app.get('/movies/:title', async (req, res) => {
 
     try {
         const movie = await movieService.getMovieByTitle(title, queryParams);
+        const latestMovies = await movieService.getLatestMovies();
+        const relatedMovies = await movieService.getRelatedMovies(title);
 
         if (movie) {
-            res.render('pages/movie', { movie });
+            res.render('pages/movie', { movie, latestMovies, relatedMovies });
         } else {
             res.status(404).send({ error: 'Movie not found' });
         }
@@ -173,9 +179,11 @@ app.get('/series/:title', async (req, res) => {
 
     try {
         const serie = await serieService.getSerieByTitle(title, queryParams);
+        const latestSeries = await serieService.getLatestSeries();
+        const relatedSeries = await serieService.getRelatedSeries(title);
 
         if (serie) {
-            res.render('pages/serie', { serie });
+            res.render('pages/serie', { serie, latestSeries, relatedSeries });
         } else {
             res.status(404).send({ error: 'Serie not found' });
         }
