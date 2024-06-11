@@ -13,6 +13,7 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import path from 'path';
 import 'dotenv/config';
 import movieService from './services/movie.service';
+const expressLayouts = require('express-ejs-layouts')
 
 export const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
@@ -28,6 +29,8 @@ app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(express.static('public'));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 
+app.use(expressLayouts)
+app.set('layout', 'layouts/mainLayout.ejs')
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -37,10 +40,6 @@ app.use(serieRoutes);
 app.use(genreRoutes);
 app.use(episodeRoutes);
 app.use(userRoutes);
-
-// app.get('/', async (req, res) => {
-//     res.send('Server Up and Running');
-// });
 
 app.get('/', async (req, res) => {
     res.render('index', { title: 'Home' });
