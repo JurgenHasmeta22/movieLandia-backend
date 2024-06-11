@@ -101,10 +101,10 @@ app.get('/register', async (req, res) => {
 });
 
 app.get('/search', async (req, res) => {
-    const { page, ascOrDesc, sortBy, title } = req.query;
+    const { pageMovies, pageSeries, ascOrDesc, sortBy, title } = req.query;
 
     const queryParams: any = {
-        page: Number(page ? page : 1),
+        page: Number(pageMovies ? pageMovies : pageSeries ? pageSeries : 1),
     };
 
     if (ascOrDesc !== undefined) {
@@ -127,17 +127,22 @@ app.get('/search', async (req, res) => {
             seriesData = await serieService.getSeries(queryParams);
         }
 
-        if (moviesData && seriesData) {
-            res.render('pages/search', {
-                movies: moviesData.movies,
-                series: seriesData.rows,
-                title: 'Search your favorite movies or series',
-                canonical: `search`,
-                description: 'Search and find your favorite movie or serie based on many different genres',
-            });
-        } else {
-            res.status(404).send({ error: 'Search not found' });
-        }
+        const pageCountMovies = Math.ceil(moviesData.count / 10);
+        const pageCountSeries = Math.ceil(seriesData.count / 10);
+        const currentPageMovies = pageMovies ? pageMovies : 1;
+        const currentPageSeries = pageSeries ? pageSeries : 1;
+
+        res.render('pages/search', {
+            movies: moviesData.movies,
+            series: seriesData.rows,
+            pageCountMovies,
+            pageCountSeries,
+            currentPageMovies,
+            currentPageSeries,
+            title: 'Search your favorite movies or series',
+            canonical: `search`,
+            description: 'Search and find your favorite movie or serie based on many different genres',
+        });
     } catch (err) {
         res.status(400).send({ error: (err as Error).message });
     }
@@ -208,8 +213,8 @@ app.get('/genres/:name', async (req, res) => {
             filterOperatorString: filterOperator! as '>' | '=' | '<',
         });
 
-        const pageCountMovies = genreDataMovies.count;
-        const pageCountSeries = genreDataSeries.count;
+        const pageCountMovies = Math.ceil(genreDataMovies.count / 10);
+        const pageCountSeries = Math.ceil(genreDataSeries.count / 10);
         const currentPageMovies = pageMovies ? pageMovies : 1;
         const currentPageSeries = pageSeries ? pageSeries : 1;
 
@@ -246,10 +251,14 @@ app.get('/movies', async (req, res) => {
         });
 
         const latestMovies = await movieService.getLatestMovies();
+        const pageCountMovies = Math.ceil(moviesData.count / 10);
+        const currentPageMovies = page ? page : 1;
 
         if (moviesData && latestMovies) {
             res.render('pages/movies', {
                 movies: moviesData.movies,
+                pageCountMovies,
+                currentPageMovies,
                 latestMovies,
                 title: 'Watch the Latest Movies | High-Quality and Always Updated',
                 canonical: `movies`,
@@ -280,10 +289,14 @@ app.get('/series', async (req, res) => {
         });
 
         const latestSeries = await serieService.getLatestSeries();
+        const pageCountSeries = Math.ceil(seriesData.count / 10);
+        const currentPageSeries = page ? page : 1;
 
         if (seriesData && latestSeries) {
             res.render('pages/series', {
                 series: seriesData.rows,
+                pageCountSeries,
+                currentPageSeries,
                 latestSeries,
                 title: 'Watch the Latest Series | High-Quality and Always Updated',
                 canonical: 'series',

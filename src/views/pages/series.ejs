@@ -4,7 +4,10 @@
         <div class="flex flex-wrap gap-6 justify-center">
             <% series.forEach(function(serie) { %>
                 <%- include('../components/cardItem', { data: serie, type: 'serie' }) %>
-            <% }); %>   
+            <% }); %>
+            <div class="pt-12">
+                <%- include('../components/pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries }) %>
+            </div>   
         </div>
     </section>
     <section>
@@ -12,7 +15,7 @@
         <div class="flex flex-wrap gap-6 justify-center">
             <% latestSeries.forEach(function(latestSerie) { %>
                 <%- include('../components/cardItem', { data: latestSerie, type: 'serie' }) %>
-            <% }); %>   
+            <% }); %>
         </div>
     </section>
 </div>
