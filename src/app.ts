@@ -14,6 +14,7 @@ import path from 'path';
 import 'dotenv/config';
 import movieService from './services/movie.service';
 import serieService from './services/serie.service';
+import genreService from './services/genre.service';
 const expressLayouts = require('express-ejs-layouts');
 
 export const prisma = new PrismaClient({
@@ -42,8 +43,48 @@ app.use(genreRoutes);
 app.use(episodeRoutes);
 app.use(userRoutes);
 
+// #region "EJS endpoints templates"
 app.get('/', async (req, res) => {
-    res.render('index', { title: 'Home', description: 'Home Page', canonical: '' });
+    res.render('pages/home', { title: 'Home', description: 'Home Page', canonical: '' });
+});
+
+app.get('/login', async (req, res) => {
+    res.render('pages/login', { title: 'Login', description: 'Login Page', canonical: 'login' });
+});
+
+app.get('/register', async (req, res) => {
+    res.render('pages/register', { title: 'Register', description: 'Register Page', canonical: 'register' });
+});
+
+app.get('/genres', async (req, res) => {
+    const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
+
+    try {
+        const genresData = await genreService.getGenres({
+            sortBy: sortBy! as string,
+            ascOrDesc: ascOrDesc! as 'asc' | 'desc',
+            perPage: pageSize ? Number(pageSize) : 20,
+            page: Number(page!),
+            name: name! as string,
+            filterValue: filterValue ? Number(filterValue) : undefined,
+            filterNameString: filterName! as string,
+            filterOperatorString: filterOperator! as '>' | '=' | '<',
+        });
+
+        if (genresData) {
+            res.render('pages/genres', {
+                genres: genresData.rows,
+                title: 'Choose your favorite Genre among many to choose',
+                canonical: `genres`,
+                description:
+                    'Discover and watch the latest and most amazing movies and series of many different genres.',
+            });
+        } else {
+            res.status(404).send({ error: 'Genres not found' });
+        }
+    } catch (err) {
+        res.status(400).send({ error: (err as Error).message });
+    }
 });
 
 app.get('/movies', async (req, res) => {
@@ -219,6 +260,7 @@ app.get('/series/:title', async (req, res) => {
         res.status(400).send({ error: (err as Error).message });
     }
 });
+// #endregion
 
 app.listen(4000, () => {
     console.log(`Server up: http://localhost:4000`);
