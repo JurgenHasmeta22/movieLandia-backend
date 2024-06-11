@@ -100,6 +100,49 @@ app.get('/register', async (req, res) => {
     res.render('pages/register', { title: 'Register', description: 'Register Page', canonical: 'register' });
 });
 
+app.get('/search', async (req, res) => {
+    const { page, ascOrDesc, sortBy, title } = req.query;
+
+    const queryParams: any = {
+        page: Number(page ? page : 1),
+    };
+
+    if (ascOrDesc !== undefined) {
+        queryParams.ascOrDesc = String(ascOrDesc);
+    }
+
+    if (sortBy !== undefined) {
+        queryParams.sortBy = String(sortBy);
+    }
+
+    try {
+        let moviesData;
+        let seriesData;
+
+        if (title) {
+            moviesData = await movieService.searchMoviesByTitle(String(title), queryParams);
+            seriesData = await serieService.searchSeriesByTitle(String(title), queryParams);
+        } else {
+            moviesData = await movieService.getMovies(queryParams);
+            seriesData = await serieService.getSeries(queryParams);
+        }
+
+        if (moviesData && seriesData) {
+            res.render('pages/search', {
+                movies: moviesData.movies,
+                series: seriesData.rows,
+                title: 'Search your favorite movies or series',
+                canonical: `search`,
+                description: 'Search and find your favorite movie or serie based on many different genres',
+            });
+        } else {
+            res.status(404).send({ error: 'Search not found' });
+        }
+    } catch (err) {
+        res.status(400).send({ error: (err as Error).message });
+    }
+});
+
 app.get('/genres', async (req, res) => {
     const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
 
@@ -126,6 +169,52 @@ app.get('/genres', async (req, res) => {
         } else {
             res.status(404).send({ error: 'Genres not found' });
         }
+    } catch (err) {
+        res.status(400).send({ error: (err as Error).message });
+    }
+});
+
+app.get('/genres/:name', async (req, res) => {
+    const nameGenre = req.params.name
+        .split('')
+        .map((char) => (char === '-' ? ' ' : char))
+        .join('');
+
+    const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
+
+    try {
+        const genreDataMovies = await genreService.getGenreByName(nameGenre, {
+            sortBy: sortBy! as string,
+            ascOrDesc: ascOrDesc! as 'asc' | 'desc',
+            perPage: pageSize ? Number(pageSize) : 20,
+            page: Number(page!),
+            name: name! as string,
+            type: 'movie' as string,
+            filterValue: filterValue ? Number(filterValue) : undefined,
+            filterNameString: filterName! as string,
+            filterOperatorString: filterOperator! as '>' | '=' | '<',
+        });
+
+        const genreDataSeries = await genreService.getGenreByName(nameGenre, {
+            sortBy: sortBy! as string,
+            ascOrDesc: ascOrDesc! as 'asc' | 'desc',
+            perPage: pageSize ? Number(pageSize) : 20,
+            page: Number(page!),
+            name: name! as string,
+            type: 'serie' as string,
+            filterValue: filterValue ? Number(filterValue) : undefined,
+            filterNameString: filterName! as string,
+            filterOperatorString: filterOperator! as '>' | '=' | '<',
+        });
+
+        res.render('pages/genre', {
+            moviesByGenre: genreDataMovies.movies,
+            seriesByGenre: genreDataSeries.series,
+            nameGenre,
+            title: `Movie and Series of Genre ${nameGenre}`,
+            canonical: `/genre/${nameGenre}`,
+            description: `Discover and watch the latest and most amazing movies and series of ${nameGenre} Genre`,
+        });
     } catch (err) {
         res.status(400).send({ error: (err as Error).message });
     }
