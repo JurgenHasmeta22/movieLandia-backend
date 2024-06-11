@@ -45,7 +45,51 @@ app.use(userRoutes);
 
 // #region "EJS endpoints templates"
 app.get('/', async (req, res) => {
-    res.render('pages/home', { title: 'Home', description: 'Home Page', canonical: '' });
+    const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator, title } = req.query;
+
+    const moviesData = await movieService.getMovies({
+        sortBy: sortBy as string,
+        ascOrDesc: ascOrDesc as 'asc' | 'desc',
+        perPage: pageSize ? Number(pageSize) : 10,
+        page: Number(page),
+        title: title as string,
+        filterValue: filterValue ? Number(filterValue) : undefined,
+        filterNameString: filterName as string,
+        filterOperatorString: filterOperator as '>' | '=' | '<',
+    });
+
+    const seriesData = await serieService.getSeries({
+        sortBy: sortBy as string,
+        ascOrDesc: ascOrDesc as 'asc' | 'desc',
+        perPage: pageSize ? Number(pageSize) : 10,
+        page: Number(page),
+        title: title as string,
+        filterValue: filterValue ? Number(filterValue) : undefined,
+        filterNameString: filterName as string,
+        filterOperatorString: filterOperator as '>' | '=' | '<',
+    });
+
+    const genresData = await genreService.getGenres({
+        sortBy: sortBy! as string,
+        ascOrDesc: ascOrDesc! as 'asc' | 'desc',
+        perPage: pageSize ? Number(pageSize) : 20,
+        page: Number(page!),
+        name: name! as string,
+        filterValue: filterValue ? Number(filterValue) : undefined,
+        filterNameString: filterName! as string,
+        filterOperatorString: filterOperator! as '>' | '=' | '<',
+    });
+
+    if (moviesData && seriesData && genresData) {
+        res.render('pages/home', {
+            data: { genres: genresData.rows, movies: moviesData.movies, series: seriesData.rows },
+            title: 'Home',
+            canonical: ``,
+            description: 'Home Page',
+        });
+    } else {
+        res.status(404).send({ error: 'Home not found' });
+    }
 });
 
 app.get('/login', async (req, res) => {
