@@ -13,6 +13,7 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import path from 'path';
 import 'dotenv/config';
 import movieService from './services/movie.service';
+import serieService from './services/serie.service';
 const expressLayouts = require('express-ejs-layouts');
 
 export const prisma = new PrismaClient({
@@ -70,6 +71,31 @@ app.get('/movies', async (req, res) => {
     }
 });
 
+app.get('/series', async (req, res) => {
+    try {
+        const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
+
+        const seriesData = await serieService.getSeries({
+            sortBy: sortBy as string,
+            ascOrDesc: ascOrDesc as 'asc' | 'desc',
+            perPage: pageSize ? Number(pageSize) : 10,
+            page: Number(page),
+            title: title as string,
+            filterValue: filterValue ? Number(filterValue) : undefined,
+            filterNameString: filterName as string,
+            filterOperatorString: filterOperator as '>' | '=' | '<',
+        });
+
+        if (seriesData) {
+            res.render('pages/series', { series: seriesData.rows });
+        } else {
+            res.status(404).send({ error: 'Series not found' });
+        }
+    } catch (err) {
+        res.status(400).send({ error: (err as Error).message });
+    }
+});
+
 app.get('/movies/:title', async (req, res) => {
     const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
     const title = req.params.title
@@ -108,6 +134,50 @@ app.get('/movies/:title', async (req, res) => {
             res.render('pages/movie', { movie });
         } else {
             res.status(404).send({ error: 'Movie not found' });
+        }
+    } catch (err) {
+        res.status(400).send({ error: (err as Error).message });
+    }
+});
+
+app.get('/series/:title', async (req, res) => {
+    const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
+    const title = req.params.title
+        .split('')
+        .map((char: string) => (char === '-' ? ' ' : char))
+        .join('');
+
+    const queryParams: any = {
+        page: Number(page),
+    };
+
+    if (userId !== undefined) {
+        queryParams.userId = Number(userId);
+    }
+
+    if (ascOrDesc !== undefined) {
+        queryParams.ascOrDesc = String(ascOrDesc);
+    }
+
+    if (sortBy !== undefined) {
+        queryParams.sortBy = String(sortBy);
+    }
+
+    if (upvotesPage !== undefined) {
+        queryParams.upvotesPage = Number(upvotesPage);
+    }
+
+    if (downvotesPage !== undefined) {
+        queryParams.downvotesPage = Number(downvotesPage);
+    }
+
+    try {
+        const serie = await serieService.getSerieByTitle(title, queryParams);
+
+        if (serie) {
+            res.render('pages/serie', { serie });
+        } else {
+            res.status(404).send({ error: 'Serie not found' });
         }
     } catch (err) {
         res.status(400).send({ error: (err as Error).message });
