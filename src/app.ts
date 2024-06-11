@@ -43,7 +43,7 @@ app.use(episodeRoutes);
 app.use(userRoutes);
 
 app.get('/', async (req, res) => {
-    res.render('index', { title: 'Home' });
+    res.render('index', { title: 'Home', description: 'Home Page', canonical: '' });
 });
 
 app.get('/movies', async (req, res) => {
@@ -68,6 +68,7 @@ app.get('/movies', async (req, res) => {
                 movies: moviesData.movies,
                 latestMovies,
                 title: 'Watch the Latest Movies | High-Quality and Always Updated',
+                canonical: `movies`,
                 description:
                     'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
             });
@@ -101,6 +102,7 @@ app.get('/series', async (req, res) => {
                 series: seriesData.rows,
                 latestSeries,
                 title: 'Watch the Latest Series | High-Quality and Always Updated',
+                canonical: 'series',
                 description:
                     'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
             });
@@ -154,6 +156,7 @@ app.get('/movies/:title', async (req, res) => {
                 latestMovies,
                 relatedMovies,
                 title: `Watch ${movie.title} in HD`,
+                canonical: `/movie/${movie.title}`,
                 description: `${movie.description}`,
             });
         } else {
@@ -205,6 +208,7 @@ app.get('/series/:title', async (req, res) => {
                 serie,
                 latestSeries,
                 relatedSeries,
+                canonical: `/serie/${serie.title}`,
                 title: `Watch ${serie.title} in HD`,
                 description: `${serie.description}`,
             });
