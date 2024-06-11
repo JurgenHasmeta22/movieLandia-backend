@@ -1,0 +1,33 @@
+<div class="flex justify-center mt-4" x-data="{ currentPage: <%= currentPage %>, pageCount: <%= pageCount %> }">
+    <ul class="flex list-none">
+        <li>
+            <button
+                @click="if(currentPage > 1) { currentPage--; $dispatch('page-change', currentPage); }"
+                class="px-3 py-2 mx-1 rounded <%= currentPage === 1 ? 'bg-gray-500' : 'bg-gray-700 hover:bg-gray-600' %> text-white"
+                :disabled="currentPage === 1"
+            >
+                &laquo;
+            </button>
+        </li>
+        <template x-for="page in [...Array(pageCount).keys()].map(i => i + 1)" :key="page">
+            <li>
+                <button
+                    @click="currentPage = page; $dispatch('page-change', currentPage);"
+                    class="px-3 py-2 mx-1 rounded"
+                    :class="currentPage === page ? 'bg-blue-500 text-white' : 'bg-gray-700 text-white hover:bg-gray-600'"
+                >
+                    <span x-text="page"></span>
+                </button>
+            </li>
+        </template>
+        <li>
+            <button
+                @click="if(currentPage < pageCount) { currentPage++; $dispatch('page-change', currentPage); }"
+                class="px-3 py-2 mx-1 rounded <%= currentPage === pageCount ? 'bg-gray-500' : 'bg-gray-700 hover:bg-gray-600' %> text-white"
+                :disabled="currentPage === pageCount"
+            >
+                &raquo;
+            </button>
+        </li>
+    </ul>
+</div>
