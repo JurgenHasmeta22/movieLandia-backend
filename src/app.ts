@@ -64,7 +64,13 @@ app.get('/movies', async (req, res) => {
         const latestMovies = await movieService.getLatestMovies();
 
         if (moviesData && latestMovies) {
-            res.render('pages/movies', { movies: moviesData.movies, latestMovies });
+            res.render('pages/movies', {
+                movies: moviesData.movies,
+                latestMovies,
+                title: 'Watch the Latest Movies | High-Quality and Always Updated',
+                description:
+                    'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
+            });
         } else {
             res.status(404).send({ error: 'Movies not found' });
         }
@@ -91,7 +97,13 @@ app.get('/series', async (req, res) => {
         const latestSeries = await serieService.getLatestSeries();
 
         if (seriesData && latestSeries) {
-            res.render('pages/series', { series: seriesData.rows, latestSeries });
+            res.render('pages/series', {
+                series: seriesData.rows,
+                latestSeries,
+                title: 'Watch the Latest Series | High-Quality and Always Updated',
+                description:
+                    'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
+            });
         } else {
             res.status(404).send({ error: 'Series not found' });
         }
@@ -137,7 +149,13 @@ app.get('/movies/:title', async (req, res) => {
         const relatedMovies = await movieService.getRelatedMovies(title);
 
         if (movie) {
-            res.render('pages/movie', { movie, latestMovies, relatedMovies });
+            res.render('pages/movie', {
+                movie,
+                latestMovies,
+                relatedMovies,
+                title: `Watch ${movie.title} in HD`,
+                description: `${movie.description}`,
+            });
         } else {
             res.status(404).send({ error: 'Movie not found' });
         }
@@ -183,7 +201,13 @@ app.get('/series/:title', async (req, res) => {
         const relatedSeries = await serieService.getRelatedSeries(title);
 
         if (serie) {
-            res.render('pages/serie', { serie, latestSeries, relatedSeries });
+            res.render('pages/serie', {
+                serie,
+                latestSeries,
+                relatedSeries,
+                title: `Watch ${serie.title} in HD`,
+                description: `${serie.description}`,
+            });
         } else {
             res.status(404).send({ error: 'Serie not found' });
         }
