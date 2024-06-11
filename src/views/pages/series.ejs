@@ -1,33 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Watch the Latest Series | High-Quality and Always Updated</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.">
-    <link rel="canonical" href="https://example.com/series" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <link href="styles/style.css" rel="stylesheet" /> -->
-</head>
-<body class="bg-gray-900">
-    <div class="mx-auto flex flex-col justify-start gap-y-20">
-        <div>
-            <h1 class="text-4xl font-bold pl-16 pb-12 text-white">Series</h1>
-            <div class="flex flex-wrap gap-6 justify-center">
-                <% series.forEach(function(serie) { %>
-                    <%- include('../components/cardItem', { data: serie, type: 'serie' }) %>
-                <% }); %>   
-            </div>
+<div class="mx-auto flex flex-col justify-start gap-y-20">
+    <section>
+        <h1 class="text-4xl font-bold pl-16 pb-12 text-white">Series</h1>
+        <div class="flex flex-wrap gap-6 justify-center">
+            <% series.forEach(function(serie) { %>
+                <%- include('../components/cardItem', { data: serie, type: 'serie' }) %>
+            <% }); %>   
         </div>
-        <div>
-            <h1 class="text-4xl font-bold pl-16 pb-12 text-white">Latest Series</h1>
-            <div class="flex flex-wrap gap-6 justify-center">
-                <% latestSeries.forEach(function(latestSerie) { %>
-                    <%- include('../components/cardItem', { data: latestSerie, type: 'serie' }) %>
-                <% }); %>   
-            </div>
+    </section>
+    <section>
+        <h1 class="text-4xl font-bold pl-16 pb-12 text-white">Latest Series</h1>
+        <div class="flex flex-wrap gap-6 justify-center">
+            <% latestSeries.forEach(function(latestSerie) { %>
+                <%- include('../components/cardItem', { data: latestSerie, type: 'serie' }) %>
+            <% }); %>   
         </div>
-    </div>
-</body>
-</html>
+    </section>
+</div>
