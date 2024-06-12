@@ -8,7 +8,7 @@ import genreRoutes from './routes/genre.routes';
 import serieRoutes from './routes/serie.routes';
 import userRoutes from './routes/user.routes';
 import authRoutes from './routes/auth.routes';
-import viewRoutes from './routes/view.routes';
+import viewsRoutes from './routes/views.routes';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import path from 'path';
@@ -43,7 +43,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'layouts/MainLayout.ejs');
-app.use(viewRoutes);
+app.use(viewsRoutes);
 
 app.use(authRoutes);
 app.use(movieRoutes);
