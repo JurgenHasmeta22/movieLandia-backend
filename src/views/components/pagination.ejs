@@ -1,14 +1,16 @@
+<!-- genre.ejs (inner content) -->
 <div class="flex justify-center mt-4" x-data="{ currentPage: <%= currentPage %>, pageCount: <%= pageCount %> }">
-  <form x-bind:action="'/<%= type %>'" method="GET" id="paginationForm">
+  <% if (paginationType === 'none') { %>
+  <form method="GET" id="paginationForm">
     <input type="hidden" name="page" x-model="currentPage">
     <ul class="flex list-none">
       <li>
-        <button @click="if(currentPage > 1) currentPage--; else currentPage = 1;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+        <button @click="if(currentPage > 1) currentPage--; else currentPage = 1;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
           <i class="fas fa-angle-double-left"></i>
         </button>
       </li>
       <li>
-        <button @click="if(currentPage > 1) currentPage--;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+        <button @click="if(currentPage > 1) currentPage--;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
           <i class="fas fa-angle-left"></i>
         </button>
       </li>
@@ -20,16 +22,85 @@
         </li>
       </template>
       <li>
-        <button @click="if(currentPage < pageCount) currentPage++;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+        <button @click="if(currentPage < pageCount) currentPage++;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
           <i class="fas fa-angle-right"></i>
         </button>
       </li>
       <li>
-        <button @click="if(currentPage < pageCount) currentPage = pageCount;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+        <button @click="if(currentPage < pageCount) currentPage = pageCount;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
           <i class="fas fa-angle-double-right"></i>
         </button>
       </li>
     </ul>
-    <button type="submit" class="hidden"></button>
+    <button type="submit" class="hidden"></button> <!-- Hidden submit button to trigger form submission -->
   </form>
+  <% } else if (paginationType === 'movie') { %>
+  <form method="GET" id="moviePaginationForm">
+    <input type="hidden" name="pageMovies" x-model="currentPage">
+    <ul class="flex list-none">
+      <li>
+        <button @click="if(currentPage > 1) currentPage--; else currentPage = 1;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+          <i class="fas fa-angle-double-left"></i>
+        </button>
+      </li>
+      <li>
+        <button @click="if(currentPage > 1) currentPage--;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+          <i class="fas fa-angle-left"></i>
+        </button>
+      </li>
+      <template x-for="page in [...Array(pageCount).keys()].map(i => i + 1)" :key="page">
+        <li>
+          <button @click="currentPage = page;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPage === page }">
+            <span x-text="page" class="text-white"></span>
+          </button>
+        </li>
+      </template>
+      <li>
+        <button @click="if(currentPage < pageCount) currentPage++;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+          <i class="fas fa-angle-right"></i>
+        </button>
+      </li>
+      <li>
+        <button @click="if(currentPage < pageCount) currentPage = pageCount;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+          <i class="fas fa-angle-double-right"></i>
+        </button>
+      </li>
+    </ul>
+    <button type="submit" class="hidden"></button> <!-- Hidden submit button to trigger form submission -->
+  </form>
+  <% } else if (paginationType === 'serie') { %>
+  <form method="GET" id="seriePaginationForm">
+    <input type="hidden" name="pageSeries" x-model="currentPage">
+    <ul class="flex list-none">
+      <li>
+        <button @click="if(currentPage > 1) currentPage--; else currentPage = 1;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+          <i class="fas fa-angle-double-left"></i>
+        </button>
+      </li>
+      <li>
+        <button @click="if(currentPage > 1) currentPage--;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+          <i class="fas fa-angle-left"></i>
+        </button>
+      </li>
+      <template x-for="page in [...Array(pageCount).keys()].map(i => i + 1)" :key="page">
+        <li>
+          <button @click="currentPage = page;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPage === page }">
+            <span x-text="page" class="text-white"></span>
+          </button>
+        </li>
+      </template>
+      <li>
+        <button @click="if(currentPage < pageCount) currentPage++;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+          <i class="fas fa-angle-right"></i>
+        </button>
+      </li>
+      <li>
+        <button @click="if(currentPage < pageCount) currentPage = pageCount;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+          <i class="fas fa-angle-double-right"></i>
+        </button>
+      </li>
+    </ul>
+    <button type="submit" class="hidden"></button> <!-- Hidden submit button to trigger form submission -->
+  </form>
+  <% } %>
 </div>
