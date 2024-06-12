@@ -1,0 +1,38 @@
+<div>
+  <select id="<%= selectId %>" x-data="sortHandler('<%= selectId %>', '<%= paginationType %>', '<%= sortBy %>', '<%= ascOrDesc %>')" x-init="setSelected()" @change="updateSort($event)" class="bg-gray-700 text-white rounded px-3 py-2">
+    <option value="">None</option>
+    <option value="ratingImdbAsc">Imdb rating (Asc)</option>
+    <option value="ratingImdbDesc">Imdb rating (Desc)</option>
+    <option value="titleAsc">Title (Asc)</option>
+    <option value="titleDesc">Title (Desc)</option>
+  </select>
+</div>
+
+<script>
+  function sortHandler(selectId, type, initialSortBy, initialAscOrDesc) {
+    return {
+      setSelected() {
+        const sortValue = initialSortBy && initialAscOrDesc ? `${initialSortBy}${initialAscOrDesc.charAt(0).toUpperCase() + initialAscOrDesc.slice(1)}` : '';
+        if (sortValue) {
+          document.getElementById(selectId).value = sortValue;
+        }
+      },
+      updateSort(event) {
+        const sortValue = event.target.value;
+        const [sortBy, ascOrDesc] = sortValue ? sortValue.match(/(.*)(Asc|Desc)$/).slice(1) : ['', ''];
+        const url = new URL(window.location);
+
+        if (sortBy) {
+          url.searchParams.set(`${type}SortBy`, sortBy);
+          url.searchParams.set(`${type}AscOrDesc`, ascOrDesc.toLowerCase());
+        } else {
+          url.searchParams.delete(`${type}SortBy`);
+          url.searchParams.delete(`${type}AscOrDesc`);
+        }
+
+        window.history.pushState({}, '', url);
+        window.location.reload();
+      }
+    }
+  }
+</script>
