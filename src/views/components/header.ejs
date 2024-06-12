@@ -17,7 +17,7 @@
     </div>
     <div class="flex flex-wrap items-center space-x-6">
       <div class="relative">
-        <input type="text" placeholder="What are you going to watch?" class="bg-gray-700 text-white rounded-full px-4 py-2 pl-10 focus:outline-none" />
+        <input type="text" id="searchInput" placeholder="What are you going to watch?" class="bg-gray-700 text-white rounded-full px-4 py-2 pl-10 focus:outline-none" x-data="searchHandler('<%= titleTerm %>')" @input="updateSearch($event)" x-init="document.getElementById('searchInput').value = '<%= titleTerm %>'" />
         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
       </div>
       <span class="text-white hover:text-gray-400 cursor-pointer">
@@ -49,3 +49,29 @@
     </div>
   </nav>
 </header>
+
+<script>
+  function searchHandler(initialTerm) {
+    return {
+      updateSearch(event) {
+        const searchTerm = event.target.value.trim();
+        const url = new URL(window.location);
+        const path = url.pathname;
+
+        if (path.includes('/search')) {
+          if (searchTerm) {
+            url.searchParams.set('title', searchTerm);
+          } else {
+            url.searchParams.delete('title');
+          }
+        } else {
+          url.pathname = '/search';
+          url.searchParams.set('title', searchTerm);
+        }
+
+        window.history.pushState({}, '', url);
+        window.location.reload();
+      }
+    }
+  }
+</script>
