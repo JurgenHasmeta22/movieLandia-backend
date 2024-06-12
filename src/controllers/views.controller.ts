@@ -55,7 +55,8 @@ const viewsController = {
     },
 
     async loginView(req: any, res: any) {
-        res.render('pages/Login', { title: 'Login', description: 'Login Page', canonical: 'login' });
+        const error = req.flash('error');
+        res.render('pages/Login', { title: 'Login', description: 'Login Page', canonical: 'login', error });
     },
 
     async loginPost(req: any, res: any) {
@@ -71,20 +72,12 @@ const viewsController = {
                 const redirectTo = req.session.lastPage === '/login' ? '/' : req.session.lastPage || '/';
                 res.redirect(redirectTo);
             } else {
-                res.status(HttpStatusCode.BadRequest).render('pages/login', {
-                    title: 'Login',
-                    description: 'Login Page',
-                    canonical: 'login',
-                    error: 'Credentials are wrong',
-                });
+                req.flash('error', 'Credentials are wrong');
+                res.redirect('/login');
             }
         } catch (err: any) {
-            res.status(HttpStatusCode.BadRequest).render('pages/login', {
-                title: 'Login',
-                description: 'Login Page',
-                canonical: 'login',
-                error: err.message,
-            });
+            req.flash('error', err.message);
+            res.redirect('/login');
         }
     },
 
