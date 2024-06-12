@@ -7,16 +7,16 @@
     </div>
     <div class="flex flex-wrap justify-center items-center space-x-4 space-y-4">
         <% if (type === "genre") { %>
-            <% data.forEach(function(genre) { %>
-                <%- include('../components/genreItem', { data: genre }) %>
+            <% data.forEach((genre) => { %>
+                <%- include('../components/GenreItem', { data: genre }) %>
             <% }); %>
         <% } else if (type === "movie") { %>
-            <% data.forEach(function(movie) { %>
-                <%- include('../components/cardItem', { data: movie, type: "movie" }) %>
+            <% data.forEach((movie) => { %>
+                <%- include('../components/CardItem', { data: movie, type: "movie" }) %>
             <% }); %>
         <% } else if (type === "serie") { %>
-            <% data.forEach(function(serie) { %>
-                <%- include('../components/cardItem', { data: serie, type: "serie" }) %>
+            <% data.forEach((serie) => { %>
+                <%- include('../components/CardItem', { data: serie, type: "serie" }) %>
             <% }); %>
         <% } %>
     </div>

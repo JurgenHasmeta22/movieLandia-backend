@@ -2,19 +2,19 @@
     <section>
         <h1 class="text-4xl font-bold pb-8 text-white pl-16">Movies</h1>
         <div class="flex flex-wrap gap-6 justify-center">
-            <% movies.forEach(function(movie) { %>
-                <%- include('../components/cardItem', { data: movie, type: 'movie' }) %>
+            <% movies.forEach((movie) => { %>
+                <%- include('../components/CardItem', { data: movie, type: 'movie' }) %>
             <% }); %>
             <div class="pt-12">
-                <%- include('../components/pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
+                <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
             </div>
         </div>
     </section>
     <section>
         <h1 class="text-4xl font-bold pb-8 text-white pl-16">Latest Movies</h1>
         <div class="flex flex-wrap gap-6 justify-center">
-            <% latestMovies.forEach(function(latestMovie) { %>
-                <%- include('../components/cardItem', { data: latestMovie, type: 'movie' }) %>
+            <% latestMovies.forEach((latestMovie) => { %>
+                <%- include('../components/CardItem', { data: latestMovie, type: 'movie' }) %>
             <% }); %>
         </div>
     </section>
