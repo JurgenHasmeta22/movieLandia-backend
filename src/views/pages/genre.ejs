@@ -14,11 +14,11 @@
             </div>
             <div class="flex flex-wrap gap-6 justify-center">
                 <% moviesByGenre.forEach(function(movie, index) { %>
-                        <%- include('../components/cardItem', { data: movie, type: 'movie' }) %>
+                        <%- include('../components/CardItem', { data: movie, type: 'movie' }) %>
                 <% }); %>
             </div>
             <div class="pt-12">
-                <%- include('../components/pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
+                <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
             </div>
         <% } else { %>
             <div class="flex items-center justify-center h-64">
@@ -41,11 +41,11 @@
             </div>
             <div class="flex flex-wrap gap-6 justify-center">
                 <% seriesByGenre.forEach(function(serie, index) { %>
-                        <%- include('../components/cardItem', { data: serie, type: 'serie' }) %>
+                        <%- include('../components/CardItem', { data: serie, type: 'serie' }) %>
                 <% }); %>
             </div>
             <div class="pt-12">
-                <%- include('../components/pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries }) %>
+                <%- include('../components/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries }) %>
             </div>
         <% } else { %>
             <div class="flex items-center justify-center h-64">

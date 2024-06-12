@@ -2,19 +2,19 @@
     <section>
         <h1 class="text-4xl font-bold pl-16 pb-12 text-white">Series</h1>
         <div class="flex flex-wrap gap-6 justify-center">
-            <% series.forEach(function(serie) { %>
-                <%- include('../components/cardItem', { data: serie, type: 'serie' }) %>
+            <% series.forEach((serie) => { %>
+                <%- include('../components/CardItem', { data: serie, type: 'serie' }) %>
             <% }); %>
             <div class="pt-12">
-                <%- include('../components/pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries }) %>
+                <%- include('../components/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries }) %>
             </div>   
         </div>
     </section>
     <section>
         <h1 class="text-4xl font-bold pl-16 pb-12 text-white">Latest Series</h1>
         <div class="flex flex-wrap gap-6 justify-center">
-            <% latestSeries.forEach(function(latestSerie) { %>
-                <%- include('../components/cardItem', { data: latestSerie, type: 'serie' }) %>
+            <% latestSeries.forEach((latestSerie) => { %>
+                <%- include('../components/CardItem', { data: latestSerie, type: 'serie' }) %>
             <% }); %>
         </div>
     </section>

@@ -11,12 +11,12 @@
         </div>
         <% if (movies && movies.length !== 0) { %>
             <div class="flex flex-wrap gap-6 justify-center">
-                <% movies.forEach(function(movie) { %>
-                    <%- include('../components/cardItem', { data: movie, type: 'movie' }) %>
+                <% movies.forEach((movie) => { %>
+                    <%- include('../components/CardItem', { data: movie, type: 'movie' }) %>
                 <% }); %>
             </div>
             <div class="pt-12">
-                <%- include('../components/pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
+                <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
             </div>
         <% } else { %>
             <div class="flex items-center justify-center h-64">
@@ -36,12 +36,12 @@
         </div>
         <% if (series && series.length !== 0) { %>
             <div class="flex flex-wrap gap-6 justify-center">
-                <% series.forEach(function(serie) { %>
-                    <%- include('../components/cardItem', { data: serie, type: 'serie' }) %>
+                <% series.forEach((serie) => { %>
+                    <%- include('../components/CardItem', { data: serie, type: 'serie' }) %>
                 <% }); %>
             </div>
             <div class="pt-12">
-                <%- include('../components/pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
+                <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
             </div>
         <% } else { %>
             <div class="flex items-center justify-center h-64">
