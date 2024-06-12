@@ -8,7 +8,6 @@
       </div>
       <div>
         <select id="moviesSortSelect" class="bg-gray-700 text-white rounded px-3 py-2">
-          <!-- Add sorting options dynamically if needed -->
         </select>
       </div>
     </div>
@@ -18,37 +17,7 @@
       <% }); %>
     </div>
     <div class="pt-12">
-      <div class="flex justify-center mt-4" x-data="paginationHandler('movies', <%= currentPageMovies %>, <%= pageCountMovies %>, '<%= nameGenre %>')">
-        <ul class="flex list-none">
-          <li>
-            <button @click="prevPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
-              <i class="fas fa-angle-double-left"></i>
-            </button>
-          </li>
-          <li>
-            <button @click="decrementPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
-              <i class="fas fa-angle-left"></i>
-            </button>
-          </li>
-          <template x-for="page in [...Array(pageCount).keys()].map(i => i + 1)" :key="page">
-            <li>
-              <button @click="goToPage(page)" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPage === page }">
-                <span x-text="page" class="text-white"></span>
-              </button>
-            </li>
-          </template>
-          <li>
-            <button @click="incrementPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
-              <i class="fas fa-angle-right"></i>
-            </button>
-          </li>
-          <li>
-            <button @click="nextPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
-              <i class="fas fa-angle-double-right"></i>
-            </button>
-          </li>
-        </ul>
-      </div>
+      <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, paginationType: "movie" }) %>
     </div>
     <% } else { %>
     <div class="flex items-center justify-center h-64">
@@ -65,7 +34,6 @@
       </div>
       <div>
         <select id="seriesSortSelect" class="bg-gray-700 text-white rounded px-3 py-2">
-          <!-- Add sorting options dynamically if needed -->
         </select>
       </div>
     </div>
@@ -75,37 +43,7 @@
       <% }); %>
     </div>
     <div class="pt-12">
-      <div class="flex justify-center mt-4" x-data="paginationHandler('series', <%= currentPageSeries %>, <%= pageCountSeries %>, '<%= nameGenre %>')">
-        <ul class="flex list-none">
-          <li>
-            <button @click="prevPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
-              <i class="fas fa-angle-double-left"></i>
-            </button>
-          </li>
-          <li>
-            <button @click="decrementPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
-              <i class="fas fa-angle-left"></i>
-            </button>
-          </li>
-          <template x-for="page in [...Array(pageCount).keys()].map(i => i + 1)" :key="page">
-            <li>
-              <button @click="goToPage(page)" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPage === page }">
-                <span x-text="page" class="text-white"></span>
-              </button>
-            </li>
-          </template>
-          <li>
-            <button @click="incrementPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
-              <i class="fas fa-angle-right"></i>
-            </button>
-          </li>
-          <li>
-            <button @click="nextPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
-              <i class="fas fa-angle-double-right"></i>
-            </button>
-          </li>
-        </ul>
-      </div>
+      <%- include('../components/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries, paginationType: "serie" }) %>
     </div>
     <% } else { %>
     <div class="flex items-center justify-center h-64">
@@ -114,39 +52,3 @@
     <% } %>
   </section>
 </div>
-
-<script>
-  function paginationHandler(type, currentPage, pageCount, genreName) {
-    return {
-      currentPage: currentPage,
-      pageCount: pageCount,
-      genreName: genreName,
-      goToPage(page) {
-        this.currentPage = page;
-        this.updateUrl();
-      },
-      prevPage() {
-        if (this.currentPage > 1) this.currentPage--;
-        this.updateUrl();
-      },
-      decrementPage() {
-        if (this.currentPage > 1) this.currentPage--;
-        this.updateUrl();
-      },
-      incrementPage() {
-        if (this.currentPage < this.pageCount) this.currentPage++;
-        this.updateUrl();
-      },
-      nextPage() {
-        if (this.currentPage < this.pageCount) this.currentPage++;
-        this.updateUrl();
-      },
-      updateUrl() {
-        const url = new URL(window.location);
-        url.searchParams.set(`page${type.charAt(0).toUpperCase() + type.slice(1)}`, this.currentPage);
-        window.history.pushState({}, '', url);
-        window.location.reload();
-      }
-    }
-  }
-</script>

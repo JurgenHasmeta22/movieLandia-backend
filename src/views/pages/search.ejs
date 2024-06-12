@@ -1,52 +1,48 @@
 <div class="container mx-auto py-32 pb-20 flex flex-col gap-y-10 bg-gray-900 text-white">
-    <section class="mb-10">
-        <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
-            <h2 class="text-2xl font-bold">Movies</h2>
-            <div class="flex items-center">
-                <!-- Sort Select Placeholder -->
-                <select id="moviesSortSelect" class="bg-gray-700 text-white rounded px-3 py-2">
-                    <!-- Add sorting options dynamically if needed -->
-                </select>
-            </div>
-        </div>
-        <% if (movies && movies.length !== 0) { %>
-            <div class="flex flex-wrap gap-6 justify-center">
-                <% movies.forEach((movie) => { %>
-                    <%- include('../components/CardItem', { data: movie, type: 'movie' }) %>
-                <% }); %>
-            </div>
-            <div class="pt-12">
-                <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
-            </div>
-        <% } else { %>
-            <div class="flex items-center justify-center h-64">
-                <h1 class="text-xl text-center">No search result, no movie found with that criteria.</h1>
-            </div>
-        <% } %>
-    </section>
-    <section>
-        <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
-            <h2 class="text-2xl font-bold">Series</h2>
-            <div class="flex items-center">
-                <!-- Sort Select Placeholder -->
-                <select id="seriesSortSelect" class="bg-gray-700 text-white rounded px-3 py-2">
-                    <!-- Add sorting options dynamically if needed -->
-                </select>
-            </div>
-        </div>
-        <% if (series && series.length !== 0) { %>
-            <div class="flex flex-wrap gap-6 justify-center">
-                <% series.forEach((serie) => { %>
-                    <%- include('../components/CardItem', { data: serie, type: 'serie' }) %>
-                <% }); %>
-            </div>
-            <div class="pt-12">
-                <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
-            </div>
-        <% } else { %>
-            <div class="flex items-center justify-center h-64">
-                <h1 class="text-xl text-center">No search result, no series found with that criteria.</h1>
-            </div>
-        <% } %>
-    </section>
+  <section class="mb-10">
+    <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
+      <h2 class="text-2xl font-bold">Movies</h2>
+      <div class="flex items-center">
+        <select id="moviesSortSelect" class="bg-gray-700 text-white rounded px-3 py-2">
+        </select>
+      </div>
+    </div>
+    <% if (movies && movies.length !== 0) { %>
+    <div class="flex flex-wrap gap-6 justify-center">
+      <% movies.forEach((movie) => { %>
+      <%- include('../components/CardItem', { data: movie, type: 'movie' }) %>
+      <% }); %>
+    </div>
+    <div class="pt-12">
+      <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, paginationType: "movie" }) %>
+    </div>
+    <% } else { %>
+    <div class="flex items-center justify-center h-64">
+      <h1 class="text-xl text-center">No search result, no movie found with that criteria.</h1>
+    </div>
+    <% } %>
+  </section>
+  <section>
+    <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
+      <h2 class="text-2xl font-bold">Series</h2>
+      <div class="flex items-center">
+        <select id="seriesSortSelect" class="bg-gray-700 text-white rounded px-3 py-2">
+        </select>
+      </div>
+    </div>
+    <% if (series && series.length !== 0) { %>
+    <div class="flex flex-wrap gap-6 justify-center">
+      <% series.forEach((serie) => { %>
+      <%- include('../components/CardItem', { data: serie, type: 'serie' }) %>
+      <% }); %>
+    </div>
+    <div class="pt-12">
+      <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, paginationType: "movie" }) %>
+    </div>
+    <% } else { %>
+    <div class="flex items-center justify-center h-64">
+      <h1 class="text-xl text-center">No search result, no series found with that criteria.</h1>
+    </div>
+    <% } %>
+  </section>
 </div>
