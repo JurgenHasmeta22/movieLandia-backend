@@ -1,6 +1,8 @@
+import authService from '../services/auth.service';
 import genreService from '../services/genre.service';
 import movieService from '../services/movie.service';
 import serieService from '../services/serie.service';
+import { createToken } from '../utils/authUtils';
 import HttpStatusCode from '../utils/httpStatusCodes';
 
 const viewsController = {
@@ -54,6 +56,36 @@ const viewsController = {
 
     async loginView(req: any, res: any) {
         res.render('pages/Login', { title: 'Login', description: 'Login Page', canonical: 'login' });
+    },
+
+    async loginPost(req: any, res: any) {
+        const { email, password } = req.body;
+
+        try {
+            const user = await authService.login(email, password);
+
+            if (user) {
+                req.session.user = user;
+                req.session.token = createToken(user.id);
+
+                const redirectTo = req.session.lastPage === '/login' ? '/' : req.session.lastPage || '/';
+                res.redirect(redirectTo);
+            } else {
+                res.status(HttpStatusCode.BadRequest).render('pages/login', {
+                    title: 'Login',
+                    description: 'Login Page',
+                    canonical: 'login',
+                    error: 'Credentials are wrong',
+                });
+            }
+        } catch (err: any) {
+            res.status(HttpStatusCode.BadRequest).render('pages/login', {
+                title: 'Login',
+                description: 'Login Page',
+                canonical: 'login',
+                error: err.message,
+            });
+        }
     },
 
     async registerView(req: any, res: any) {
