@@ -18,7 +18,41 @@
       <% }); %>
     </div>
     <div class="pt-12">
-      <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, type: `genres/${nameGenre}`, paginationType: "movie" }) %>
+      <div class="flex justify-center mt-4" x-data="{ currentPageMovies: <%= currentPageMovies %>, pageCountMovies: <%= pageCountMovies %>, genreName: '<%= nameGenre %>' }">
+        <form method="GET" x-bind:action="constructFormAction('pageMovies', currentPageMovies, genreName)">
+          <input type="hidden" name="pageMovies" x-model="currentPageMovies">
+          <ul class="flex list-none">
+            <li>
+              <button @click="if(currentPageMovies > 1) currentPageMovies--; else currentPageMovies = 1;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageMovies === 1 }">
+                <i class="fas fa-angle-double-left"></i>
+              </button>
+            </li>
+            <li>
+              <button @click="if(currentPageMovies > 1) currentPageMovies--;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageMovies === 1 }">
+                <i class="fas fa-angle-left"></i>
+              </button>
+            </li>
+            <template x-for="page in [...Array(pageCountMovies).keys()].map(i => i + 1)" :key="page">
+              <li>
+                <button @click="currentPageMovies = page;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPageMovies === page }">
+                  <span x-text="page" class="text-white"></span>
+                </button>
+              </li>
+            </template>
+            <li>
+              <button @click="if(currentPageMovies < pageCountMovies) currentPageMovies++;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageMovies === pageCountMovies }">
+                <i class="fas fa-angle-right"></i>
+              </button>
+            </li>
+            <li>
+              <button @click="if(currentPageMovies < pageCountMovies) currentPageMovies = pageCountMovies;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageMovies === pageCountMovies }">
+                <i class="fas fa-angle-double-right"></i>
+              </button>
+            </li>
+          </ul>
+          <button type="submit" class="hidden"></button> <!-- Hidden submit button to trigger form submission -->
+        </form>
+      </div>
     </div>
     <% } else { %>
     <div class="flex items-center justify-center h-64">
@@ -45,7 +79,41 @@
       <% }); %>
     </div>
     <div class="pt-12">
-      <%- include('../components/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries, type: `genres/${nameGenre}`, paginationType: "serie" }) %>
+      <div class="flex justify-center mt-4" x-data="{ currentPageSeries: <%= currentPageSeries %>, pageCountSeries: <%= pageCountSeries %>, genreName: '<%= nameGenre %>' }">
+        <form method="GET" x-bind:action="constructFormAction('pageSeries', currentPageSeries, genreName)">
+          <input type="hidden" name="pageSeries" x-model="currentPageSeries">
+          <ul class="flex list-none">
+            <li>
+              <button @click="if(currentPageSeries > 1) currentPageSeries--; else currentPageSeries = 1;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageSeries === 1 }">
+                <i class="fas fa-angle-double-left"></i>
+              </button>
+            </li>
+            <li>
+              <button @click="if(currentPageSeries > 1) currentPageSeries--;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageSeries === 1 }">
+                <i class="fas fa-angle-left"></i>
+              </button>
+            </li>
+            <template x-for="page in [...Array(pageCountSeries).keys()].map(i => i + 1)" :key="page">
+              <li>
+                <button @click="currentPageSeries = page;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPageSeries === page }">
+                  <span x-text="page" class="text-white"></span>
+                </button>
+              </li>
+            </template>
+            <li>
+              <button @click="if(currentPageSeries < pageCountSeries) currentPageSeries++;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageSeries === pageCountSeries }">
+                <i class="fas fa-angle-right"></i>
+              </button>
+            </li>
+            <li>
+              <button @click="if(currentPageSeries < pageCountSeries) currentPageSeries = pageCountSeries;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageSeries === pageCountSeries }">
+                <i class="fas fa-angle-double-right"></i>
+              </button>
+            </li>
+          </ul>
+          <button type="submit" class="hidden"></button> <!-- Hidden submit button to trigger form submission -->
+        </form>
+      </div>
     </div>
     <% } else { %>
     <div class="flex items-center justify-center h-64">
@@ -54,3 +122,11 @@
     <% } %>
   </section>
 </div>
+
+<script>
+  function constructFormAction(paginationType, currentPage, genreName) {
+    let actionUrl = `/genres/${genreName}`;
+    actionUrl += `?page${paginationType}=${currentPage}`;
+    return actionUrl;
+  }
+</script>
