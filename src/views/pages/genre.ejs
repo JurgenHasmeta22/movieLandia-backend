@@ -18,40 +18,36 @@
       <% }); %>
     </div>
     <div class="pt-12">
-      <div class="flex justify-center mt-4" x-data="{ currentPageMovies: <%= currentPageMovies %>, pageCountMovies: <%= pageCountMovies %>, genreName: '<%= nameGenre %>' }">
-        <form method="GET" x-bind:action="constructFormAction('pageMovies', currentPageMovies, genreName)">
-          <input type="hidden" name="pageMovies" x-model="currentPageMovies">
-          <ul class="flex list-none">
+      <div class="flex justify-center mt-4" x-data="paginationHandler('movies', <%= currentPageMovies %>, <%= pageCountMovies %>, '<%= nameGenre %>')">
+        <ul class="flex list-none">
+          <li>
+            <button @click="prevPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+              <i class="fas fa-angle-double-left"></i>
+            </button>
+          </li>
+          <li>
+            <button @click="decrementPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+              <i class="fas fa-angle-left"></i>
+            </button>
+          </li>
+          <template x-for="page in [...Array(pageCount).keys()].map(i => i + 1)" :key="page">
             <li>
-              <button @click="if(currentPageMovies > 1) currentPageMovies--; else currentPageMovies = 1;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageMovies === 1 }">
-                <i class="fas fa-angle-double-left"></i>
+              <button @click="goToPage(page)" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPage === page }">
+                <span x-text="page" class="text-white"></span>
               </button>
             </li>
-            <li>
-              <button @click="if(currentPageMovies > 1) currentPageMovies--;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageMovies === 1 }">
-                <i class="fas fa-angle-left"></i>
-              </button>
-            </li>
-            <template x-for="page in [...Array(pageCountMovies).keys()].map(i => i + 1)" :key="page">
-              <li>
-                <button @click="currentPageMovies = page;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPageMovies === page }">
-                  <span x-text="page" class="text-white"></span>
-                </button>
-              </li>
-            </template>
-            <li>
-              <button @click="if(currentPageMovies < pageCountMovies) currentPageMovies++;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageMovies === pageCountMovies }">
-                <i class="fas fa-angle-right"></i>
-              </button>
-            </li>
-            <li>
-              <button @click="if(currentPageMovies < pageCountMovies) currentPageMovies = pageCountMovies;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageMovies === pageCountMovies }">
-                <i class="fas fa-angle-double-right"></i>
-              </button>
-            </li>
-          </ul>
-          <button type="submit" class="hidden"></button> <!-- Hidden submit button to trigger form submission -->
-        </form>
+          </template>
+          <li>
+            <button @click="incrementPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+              <i class="fas fa-angle-right"></i>
+            </button>
+          </li>
+          <li>
+            <button @click="nextPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+              <i class="fas fa-angle-double-right"></i>
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
     <% } else { %>
@@ -79,40 +75,36 @@
       <% }); %>
     </div>
     <div class="pt-12">
-      <div class="flex justify-center mt-4" x-data="{ currentPageSeries: <%= currentPageSeries %>, pageCountSeries: <%= pageCountSeries %>, genreName: '<%= nameGenre %>' }">
-        <form method="GET" x-bind:action="constructFormAction('pageSeries', currentPageSeries, genreName)">
-          <input type="hidden" name="pageSeries" x-model="currentPageSeries">
-          <ul class="flex list-none">
+      <div class="flex justify-center mt-4" x-data="paginationHandler('series', <%= currentPageSeries %>, <%= pageCountSeries %>, '<%= nameGenre %>')">
+        <ul class="flex list-none">
+          <li>
+            <button @click="prevPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+              <i class="fas fa-angle-double-left"></i>
+            </button>
+          </li>
+          <li>
+            <button @click="decrementPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === 1 }">
+              <i class="fas fa-angle-left"></i>
+            </button>
+          </li>
+          <template x-for="page in [...Array(pageCount).keys()].map(i => i + 1)" :key="page">
             <li>
-              <button @click="if(currentPageSeries > 1) currentPageSeries--; else currentPageSeries = 1;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageSeries === 1 }">
-                <i class="fas fa-angle-double-left"></i>
+              <button @click="goToPage(page)" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPage === page }">
+                <span x-text="page" class="text-white"></span>
               </button>
             </li>
-            <li>
-              <button @click="if(currentPageSeries > 1) currentPageSeries--;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageSeries === 1 }">
-                <i class="fas fa-angle-left"></i>
-              </button>
-            </li>
-            <template x-for="page in [...Array(pageCountSeries).keys()].map(i => i + 1)" :key="page">
-              <li>
-                <button @click="currentPageSeries = page;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-blue-600': currentPageSeries === page }">
-                  <span x-text="page" class="text-white"></span>
-                </button>
-              </li>
-            </template>
-            <li>
-              <button @click="if(currentPageSeries < pageCountSeries) currentPageSeries++;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageSeries === pageCountSeries }">
-                <i class="fas fa-angle-right"></i>
-              </button>
-            </li>
-            <li>
-              <button @click="if(currentPageSeries < pageCountSeries) currentPageSeries = pageCountSeries;" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPageSeries === pageCountSeries }">
-                <i class="fas fa-angle-double-right"></i>
-              </button>
-            </li>
-          </ul>
-          <button type="submit" class="hidden"></button> <!-- Hidden submit button to trigger form submission -->
-        </form>
+          </template>
+          <li>
+            <button @click="incrementPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+              <i class="fas fa-angle-right"></i>
+            </button>
+          </li>
+          <li>
+            <button @click="nextPage()" class="px-3 py-2 mx-1 rounded-md text-white hover:bg-gray-400 hover:text-gray-800 transition duration-300 cursor-pointer" :class="{ 'bg-gray-700': currentPage === pageCount }">
+              <i class="fas fa-angle-double-right"></i>
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
     <% } else { %>
@@ -124,9 +116,37 @@
 </div>
 
 <script>
-  function constructFormAction(paginationType, currentPage, genreName) {
-    let actionUrl = `/genres/${genreName}`;
-    actionUrl += `?page${paginationType}=${currentPage}`;
-    return actionUrl;
+  function paginationHandler(type, currentPage, pageCount, genreName) {
+    return {
+      currentPage: currentPage,
+      pageCount: pageCount,
+      genreName: genreName,
+      goToPage(page) {
+        this.currentPage = page;
+        this.updateUrl();
+      },
+      prevPage() {
+        if (this.currentPage > 1) this.currentPage--;
+        this.updateUrl();
+      },
+      decrementPage() {
+        if (this.currentPage > 1) this.currentPage--;
+        this.updateUrl();
+      },
+      incrementPage() {
+        if (this.currentPage < this.pageCount) this.currentPage++;
+        this.updateUrl();
+      },
+      nextPage() {
+        if (this.currentPage < this.pageCount) this.currentPage++;
+        this.updateUrl();
+      },
+      updateUrl() {
+        const url = new URL(window.location);
+        url.searchParams.set(`page${type.charAt(0).toUpperCase() + type.slice(1)}`, this.currentPage);
+        window.history.pushState({}, '', url);
+        window.location.reload();
+      }
+    }
   }
 </script>
