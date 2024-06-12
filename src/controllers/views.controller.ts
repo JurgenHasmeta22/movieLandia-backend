@@ -306,11 +306,12 @@ const viewsController = {
     // #region "Movies Views and Endpoints"
     async moviesView(req: any, res: any) {
         try {
-            const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
+            const { moviesAscOrDesc, moviesSortBy, page, pageSize, title, filterValue, filterName, filterOperator } =
+                req.query;
 
             const moviesData = await movieService.getMovies({
-                sortBy: sortBy as string,
-                ascOrDesc: ascOrDesc as 'asc' | 'desc',
+                sortBy: moviesSortBy as string,
+                ascOrDesc: moviesAscOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 10,
                 page: Number(page),
                 title: title as string,
@@ -333,6 +334,8 @@ const viewsController = {
                     canonical: `movies`,
                     user: req.session.user,
                     titleTerm: '',
+                    moviesSortBy,
+                    moviesAscOrDesc,
                     description:
                         'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
                 });
@@ -383,7 +386,7 @@ const viewsController = {
             if (movie) {
                 res.render('pages/Movie', {
                     movie,
-                    latestMovies,
+                    latestMovies: latestMovies?.slice(0, 5),
                     relatedMovies,
                     title: `Watch ${movie.title} in HD`,
                     canonical: `/movie/${movie.title}`,
@@ -403,11 +406,12 @@ const viewsController = {
     // #region "Series Views and Endpoints"
     async seriesView(req: any, res: any) {
         try {
-            const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
+            const { seriesSortBy, seriesAscOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } =
+                req.query;
 
             const seriesData = await serieService.getSeries({
-                sortBy: sortBy as string,
-                ascOrDesc: ascOrDesc as 'asc' | 'desc',
+                sortBy: seriesSortBy as string,
+                ascOrDesc: seriesAscOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 10,
                 page: Number(page),
                 title: title as string,
@@ -430,6 +434,8 @@ const viewsController = {
                     canonical: 'series',
                     user: req.session.user,
                     titleTerm: '',
+                    seriesSortBy,
+                    seriesAscOrDesc,
                     description:
                         'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
                 });
@@ -480,7 +486,7 @@ const viewsController = {
             if (serie) {
                 res.render('pages/Serie', {
                     serie,
-                    latestSeries,
+                    latestSeries: latestSeries?.slice(0, 5),
                     relatedSeries,
                     canonical: `/serie/${serie.title}`,
                     title: `Watch ${serie.title} in HD`,
