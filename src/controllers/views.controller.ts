@@ -134,36 +134,39 @@ const viewsController = {
     // #endregion
 
     async searchView(req: any, res: any) {
-        const { pageMovies, pageSeries, ascOrDesc, sortBy, title } = req.query;
+        const { pageMovies, pageSeries, moviesSortBy, moviesAscOrDesc, seriesSortBy, seriesAscOrDesc, title } =
+            req.query;
 
-        const queryParams: any = {
-            page: Number(pageMovies ? pageMovies : pageSeries ? pageSeries : 1),
+        const queryParamsMovies = {
+            page: Number(pageMovies || 1),
+            sortBy: moviesSortBy,
+            ascOrDesc: moviesAscOrDesc,
+            perPage: 10,
         };
 
-        if (ascOrDesc !== undefined) {
-            queryParams.ascOrDesc = String(ascOrDesc);
-        }
-
-        if (sortBy !== undefined) {
-            queryParams.sortBy = String(sortBy);
-        }
+        const queryParamsSeries = {
+            page: Number(pageSeries || 1),
+            sortBy: seriesSortBy,
+            ascOrDesc: seriesAscOrDesc,
+            perPage: 10,
+        };
 
         try {
             let moviesData;
             let seriesData;
 
             if (title) {
-                moviesData = await movieService.searchMoviesByTitle(String(title), queryParams);
-                seriesData = await serieService.searchSeriesByTitle(String(title), queryParams);
+                moviesData = await movieService.searchMoviesByTitle(String(title), queryParamsMovies);
+                seriesData = await serieService.searchSeriesByTitle(String(title), queryParamsSeries);
             } else {
-                moviesData = await movieService.getMovies(queryParams);
-                seriesData = await serieService.getSeries(queryParams);
+                moviesData = await movieService.getMovies(queryParamsMovies);
+                seriesData = await serieService.getSeries(queryParamsSeries);
             }
 
             const pageCountMovies = Math.ceil(moviesData.count / 10);
             const pageCountSeries = Math.ceil(seriesData.count / 10);
-            const currentPageMovies = pageMovies ? pageMovies : 1;
-            const currentPageSeries = pageSeries ? pageSeries : 1;
+            const currentPageMovies = pageMovies ? Number(pageMovies) : 1;
+            const currentPageSeries = pageSeries ? Number(pageSeries) : 1;
 
             res.render('pages/Search', {
                 movies: moviesData.movies,
@@ -172,13 +175,17 @@ const viewsController = {
                 pageCountSeries,
                 currentPageMovies,
                 currentPageSeries,
+                moviesSortBy,
+                moviesAscOrDesc,
+                seriesSortBy,
+                seriesAscOrDesc,
                 title: 'Search your favorite movies or series',
                 canonical: `search`,
                 description: 'Search and find your favorite movie or serie based on many different genres',
                 user: req.session.user,
             });
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            res.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
 
