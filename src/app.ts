@@ -13,6 +13,7 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
 import path from 'path';
 import 'dotenv/config';
+import session from 'express-session';
 const expressLayouts = require('express-ejs-layouts');
 
 export const prisma = new PrismaClient({
@@ -28,6 +29,13 @@ app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(express.static('public'));
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
+app.use(
+    session({
+        secret: process.env.MY_SECRET || 'defaultSecret',
+        resave: false,
+        saveUninitialized: true,
+    }),
+);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));

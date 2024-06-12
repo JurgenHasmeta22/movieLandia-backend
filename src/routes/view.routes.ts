@@ -1,11 +1,15 @@
 import express from 'express';
 import viewsController from '../controllers/views.controller';
+import { trackLastPageMiddleware } from '../middlewares/trackLastPage.middleware';
 
 const router = express.Router();
 
 router.get('/', viewsController.homeView);
+
 router.get('/login', viewsController.loginView);
+router.post('/login', trackLastPageMiddleware, viewsController.loginPost);
 router.get('/register', viewsController.registerView);
+
 router.get('/search', viewsController.searchView);
 router.get('/genres', viewsController.genresView);
 router.get('/genres/:name', viewsController.genreView);
