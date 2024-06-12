@@ -82,7 +82,30 @@ const viewsController = {
     },
 
     async registerView(req: any, res: any) {
-        res.render('pages/Register', { title: 'Register', description: 'Register Page', canonical: 'register' });
+        const error = req.flash('error');
+        res.render('pages/Register', { title: 'Register', description: 'Register Page', canonical: 'register', error });
+    },
+
+    async registerPost(req: any, res: any) {
+        const { email, password, userName } = req.body;
+
+        try {
+            const user = await authService.signUp({ email, password, userName });
+
+            if (user) {
+                req.session.user = user;
+                req.session.token = createToken(user.id);
+
+                const redirectTo = req.session.lastPage === '/register' ? '/' : req.session.lastPage || '/';
+                res.redirect(redirectTo);
+            } else {
+                req.flash('error', 'User with that Username or Email already exists');
+                res.redirect('/register');
+            }
+        } catch (err: any) {
+            req.flash('error', err.message);
+            res.redirect('/register');
+        }
     },
 
     async searchView(req: any, res: any) {

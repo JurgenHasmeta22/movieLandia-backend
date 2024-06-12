@@ -9,6 +9,7 @@ router.get('/', viewsController.homeView);
 router.get('/login', viewsController.loginView);
 router.post('/login', trackLastPageMiddleware, viewsController.loginPost);
 router.get('/register', viewsController.registerView);
+router.post('/register', viewsController.registerPost);
 
 router.get('/search', viewsController.searchView);
 router.get('/genres', viewsController.genresView);
