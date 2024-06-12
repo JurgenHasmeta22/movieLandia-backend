@@ -14,6 +14,7 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import path from 'path';
 import 'dotenv/config';
 import session from 'express-session';
+import flash from 'connect-flash';
 const expressLayouts = require('express-ejs-layouts');
 
 export const prisma = new PrismaClient({
@@ -36,6 +37,7 @@ app.use(
         saveUninitialized: true,
     }),
 );
+app.use(flash());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
