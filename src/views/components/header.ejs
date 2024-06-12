@@ -1,7 +1,7 @@
-<header class="bg-black fixed top-0 left-0 w-full z-50">
+<header class="bg-black fixed top-0 left-0 w-full z-50" x-data="{ menuOpen: false }">
   <nav class="flex flex-wrap items-center justify-between px-8 py-6">
     <div class="flex items-center space-x-6">
-      <a href="/"><span class="text-xl font-bold text-white">MovieLandia24</span> </a>
+      <a href="/"><span class="text-xl font-bold text-white">MovieLandia24</span></a>
       <a href="/movies" class="flex items-center space-x-2 text-white hover:text-gray-400">
         <i class="fas fa-film"></i>
         <span>Movies</span>
@@ -24,9 +24,17 @@
         <i class="fas fa-moon"></i>
       </span>
       <% if (user) { %>
-      <div class="flex items-center text-white">
-        <i class="fas fa-user mr-2"></i>
-        <span><%= user.userName %></span>
+      <div class="relative" @click="menuOpen = !menuOpen">
+        <div class="flex items-center text-white">
+          <i class="fas fa-user mr-2"></i>
+          <span><%= user.userName %></span>
+        </div>
+        <div x-show="menuOpen" @click.away="menuOpen = false" class="absolute left-0 mt-2 bg-gray-800 rounded-lg shadow-lg">
+          <a href="#" class="block px-4 py-2 text-white hover:bg-gray-700">Profile</a>
+          <form action="/logout" method="post">
+            <button type="submit" class="block px-4 py-2 text-white hover:bg-gray-700">Logout</button>
+          </form>
+        </div>
       </div>
       <% } else { %>
       <a href="/login" class="flex items-center text-white hover:text-gray-400">

@@ -10,6 +10,7 @@ router.get('/login', viewsController.loginView);
 router.post('/login', trackLastPageMiddleware, viewsController.loginPost);
 router.get('/register', viewsController.registerView);
 router.post('/register', viewsController.registerPost);
+router.post('/logout', viewsController.logout);
 
 router.get('/search', viewsController.searchView);
 router.get('/genres', viewsController.genresView);

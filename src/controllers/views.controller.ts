@@ -121,6 +121,12 @@ const viewsController = {
             res.redirect('/register');
         }
     },
+
+    async logout(req: any, res: any) {
+        delete req.session.user;
+        delete req.session.token;
+        res.redirect('/login');
+    },
     // #endregion
 
     async searchView(req: any, res: any) {
