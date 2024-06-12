@@ -221,13 +221,24 @@ const viewsController = {
             .map((char: string) => (char === '-' ? ' ' : char))
             .join('');
 
-        const { sortBy, ascOrDesc, pageMovies, pageSeries, pageSize, name, filterValue, filterName, filterOperator } =
-            req.query;
+        const {
+            moviesSortBy,
+            moviesAscOrDesc,
+            seriesSortBy,
+            seriesAscOrDesc,
+            pageMovies,
+            pageSeries,
+            pageSize,
+            name,
+            filterValue,
+            filterName,
+            filterOperator,
+        } = req.query;
 
         try {
             const genreDataMovies = await genreService.getGenreByName(nameGenre, {
-                sortBy: sortBy! as string,
-                ascOrDesc: ascOrDesc! as 'asc' | 'desc',
+                sortBy: moviesSortBy! as string,
+                ascOrDesc: moviesAscOrDesc! as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 20,
                 page: Number(pageMovies ? pageMovies : 1),
                 name: name! as string,
@@ -238,8 +249,8 @@ const viewsController = {
             });
 
             const genreDataSeries = await genreService.getGenreByName(nameGenre, {
-                sortBy: sortBy! as string,
-                ascOrDesc: ascOrDesc! as 'asc' | 'desc',
+                sortBy: seriesSortBy! as string,
+                ascOrDesc: seriesAscOrDesc! as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 20,
                 page: Number(pageSeries ? pageSeries : 1),
                 name: name! as string,
@@ -262,6 +273,10 @@ const viewsController = {
                 pageCountMovies,
                 pageCountSeries,
                 nameGenre,
+                moviesSortBy,
+                seriesSortBy,
+                moviesAscOrDesc,
+                seriesAscOrDesc,
                 title: `Movie and Series of Genre ${nameGenre}`,
                 canonical: `/genre/${nameGenre}`,
                 description: `Discover and watch the latest and most amazing movies and series of ${nameGenre} Genre`,
