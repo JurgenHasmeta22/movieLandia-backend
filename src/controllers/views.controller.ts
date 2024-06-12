@@ -6,6 +6,7 @@ import { createToken } from '../utils/authUtils';
 import HttpStatusCode from '../utils/httpStatusCodes';
 
 const viewsController = {
+    // #region "Other Views and Endpoints"
     async homeView(req: any, res: any) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator, title } = req.query;
 
@@ -53,85 +54,12 @@ const viewsController = {
                 canonical: ``,
                 description: 'Home Page',
                 user: req.session.user,
+                titleTerm: '',
             });
         } else {
             res.status(HttpStatusCode.BadRequest).send({ error: 'Home not found' });
         }
     },
-
-    // #region "Auth Views and Endpoints"
-    async loginView(req: any, res: any) {
-        const error = req.flash('error');
-        res.render('pages/Login', {
-            title: 'Login',
-            description: 'Login Page',
-            canonical: 'login',
-            error,
-            user: req.session.user,
-        });
-    },
-
-    async loginPost(req: any, res: any) {
-        const { email, password } = req.body;
-
-        try {
-            const user = await authService.login(email, password);
-
-            if (user) {
-                req.session.user = user;
-                req.session.token = createToken(user.id);
-
-                const redirectTo = req.session.lastPage === '/login' ? '/' : req.session.lastPage || '/';
-                res.redirect(redirectTo);
-            } else {
-                req.flash('error', 'Credentials are wrong');
-                res.redirect('/login');
-            }
-        } catch (err: any) {
-            req.flash('error', err.message);
-            res.redirect('/login');
-        }
-    },
-
-    async registerView(req: any, res: any) {
-        const error = req.flash('error');
-        res.render('pages/Register', {
-            title: 'Register',
-            description: 'Register Page',
-            canonical: 'register',
-            error,
-            user: req.session.user,
-        });
-    },
-
-    async registerPost(req: any, res: any) {
-        const { email, password, userName } = req.body;
-
-        try {
-            const user = await authService.signUp({ email, password, userName });
-
-            if (user) {
-                req.session.user = user;
-                req.session.token = createToken(user.id);
-
-                const redirectTo = req.session.lastPage === '/register' ? '/' : req.session.lastPage || '/';
-                res.redirect(redirectTo);
-            } else {
-                req.flash('error', 'User with that Username or Email already exists');
-                res.redirect('/register');
-            }
-        } catch (err: any) {
-            req.flash('error', err.message);
-            res.redirect('/register');
-        }
-    },
-
-    async logout(req: any, res: any) {
-        delete req.session.user;
-        delete req.session.token;
-        res.redirect('/login');
-    },
-    // #endregion
 
     async searchView(req: any, res: any) {
         const { pageMovies, pageSeries, moviesSortBy, moviesAscOrDesc, seriesSortBy, seriesAscOrDesc, title } =
@@ -183,11 +111,89 @@ const viewsController = {
                 canonical: `search`,
                 description: 'Search and find your favorite movie or serie based on many different genres',
                 user: req.session.user,
+                titleTerm: title,
             });
         } catch (err: any) {
             res.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
+    // #endregion
+
+    // #region "Auth Views and Endpoints"
+    async loginView(req: any, res: any) {
+        const error = req.flash('error');
+        res.render('pages/Login', {
+            title: 'Login',
+            description: 'Login Page',
+            canonical: 'login',
+            error,
+            user: req.session.user,
+            titleTerm: '',
+        });
+    },
+
+    async loginPost(req: any, res: any) {
+        const { email, password } = req.body;
+
+        try {
+            const user = await authService.login(email, password);
+
+            if (user) {
+                req.session.user = user;
+                req.session.token = createToken(user.id);
+
+                const redirectTo = req.session.lastPage === '/login' ? '/' : req.session.lastPage || '/';
+                res.redirect(redirectTo);
+            } else {
+                req.flash('error', 'Credentials are wrong');
+                res.redirect('/login');
+            }
+        } catch (err: any) {
+            req.flash('error', err.message);
+            res.redirect('/login');
+        }
+    },
+
+    async registerView(req: any, res: any) {
+        const error = req.flash('error');
+        res.render('pages/Register', {
+            title: 'Register',
+            description: 'Register Page',
+            canonical: 'register',
+            error,
+            user: req.session.user,
+            titleTerm: '',
+        });
+    },
+
+    async registerPost(req: any, res: any) {
+        const { email, password, userName } = req.body;
+
+        try {
+            const user = await authService.signUp({ email, password, userName });
+
+            if (user) {
+                req.session.user = user;
+                req.session.token = createToken(user.id);
+
+                const redirectTo = req.session.lastPage === '/register' ? '/' : req.session.lastPage || '/';
+                res.redirect(redirectTo);
+            } else {
+                req.flash('error', 'User with that Username or Email already exists');
+                res.redirect('/register');
+            }
+        } catch (err: any) {
+            req.flash('error', err.message);
+            res.redirect('/register');
+        }
+    },
+
+    async logout(req: any, res: any) {
+        delete req.session.user;
+        delete req.session.token;
+        res.redirect('/login');
+    },
+    // #endregion
 
     // #region "Genres Views and Endpoints"
     async genresView(req: any, res: any) {
@@ -213,6 +219,7 @@ const viewsController = {
                     description:
                         'Discover and watch the latest and most amazing movies and series of many different genres.',
                     user: req.session.user,
+                    titleTerm: '',
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Genres not found' });
@@ -288,6 +295,7 @@ const viewsController = {
                 canonical: `/genre/${nameGenre}`,
                 description: `Discover and watch the latest and most amazing movies and series of ${nameGenre} Genre`,
                 user: req.session.user,
+                titleTerm: '',
             });
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
@@ -324,6 +332,7 @@ const viewsController = {
                     title: 'Watch the Latest Movies | High-Quality and Always Updated',
                     canonical: `movies`,
                     user: req.session.user,
+                    titleTerm: '',
                     description:
                         'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
                 });
@@ -380,6 +389,7 @@ const viewsController = {
                     canonical: `/movie/${movie.title}`,
                     description: `${movie.description}`,
                     user: req.session.user,
+                    titleTerm: '',
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Movie not found' });
@@ -419,6 +429,7 @@ const viewsController = {
                     title: 'Watch the Latest Series | High-Quality and Always Updated',
                     canonical: 'series',
                     user: req.session.user,
+                    titleTerm: '',
                     description:
                         'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
                 });
@@ -475,6 +486,7 @@ const viewsController = {
                     title: `Watch ${serie.title} in HD`,
                     description: `${serie.description}`,
                     user: req.session.user,
+                    titleTerm: '',
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Serie not found' });
