@@ -44,7 +44,11 @@ const viewsController = {
 
         if (moviesData && seriesData && genresData) {
             res.render('pages/home/Home', {
-                data: { genres: genresData.rows, movies: moviesData.movies, series: seriesData.rows },
+                data: {
+                    genres: genresData.rows.slice(0, 5),
+                    movies: moviesData.movies.slice(0, 5),
+                    series: seriesData.rows.slice(0, 5),
+                },
                 title: 'Home',
                 canonical: ``,
                 description: 'Home Page',

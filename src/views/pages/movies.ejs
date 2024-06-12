@@ -5,9 +5,9 @@
             <% movies.forEach((movie) => { %>
                 <%- include('../components/CardItem', { data: movie, type: 'movie' }) %>
             <% }); %>
-            <div class="pt-12">
-                <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies }) %>
-            </div>
+        </div>
+        <div class="pt-12">
+            <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, type: "movies" }) %>
         </div>
     </section>
     <section>
