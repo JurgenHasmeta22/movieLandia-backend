@@ -1,110 +1,105 @@
 <section class="relative flex justify-center items-center pt-32 pb-20">
-    <div
-        class="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-center -z-10"
-        style="background-image: url('/images/backgrounds/netflix.png'); filter: blur(2px) opacity(1)"
-    ></div>
-    <div class="relative z-10 px-20 py-16 rounded-lg bg-gray-50 shadow-lg">
-        <form action="/register" method="POST">
-            <div class="flex flex-col space-y-2">
-                <h2 class="text-2xl font-bold capitalize">Sign Up</h2>
-                <div class="flex flex-col space-y-1">
-                    <label for="userName" class="font-medium">Username</label>
-                    <input
-                        type="text"
-                        name="userName"
-                        id="userName"
-                        aria-label="Username"
-                        required
-                        autocomplete="username"
-                        class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        aria-autocomplete="both"
-                    />
-                </div>
-                <div class="flex flex-col space-y-1">
-                    <label for="email" class="font-medium">Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        aria-label="Email"
-                        required
-                        autocomplete="username"
-                        class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        aria-autocomplete="both"
-                    />
-                </div>
-                <div class="flex flex-col space-y-1">
-                    <label for="password" class="font-medium">Password</label>
-                    <div class="relative">
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            required
-                            autocomplete="current-password"
-                            aria-label="Current password"
-                            aria-autocomplete="both"
-                            class="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <button
-                            type="button"
-                            class="absolute inset-y-0 right-0 flex items-center pr-3"
-                            onclick="togglePasswordVisibility('password', 'password-icon')"
-                        >
-                            <i id="password-icon" class="fas fa-eye text-gray-500"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="flex flex-col space-y-1">
-                    <label for="confirmPassword" class="font-medium">Confirm password</label>
-                    <div class="relative">
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            id="confirmPassword"
-                            required
-                            autocomplete="current-password"
-                            aria-label="Confirm password"
-                            aria-autocomplete="both"
-                            class="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <button
-                            type="button"
-                            class="absolute inset-y-0 right-0 flex items-center pr-3"
-                            onclick="togglePasswordVisibility('confirmPassword', 'confirm-password-icon')"
-                        >
-                            <i id="confirm-password-icon" class="fas fa-eye text-gray-500"></i>
-                        </button>
-                    </div>
-                </div>
-                <button
-                    type="submit"
-                    class="flex items-center justify-center w-full py-2 mt-4 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600"
-                >
-                    <i class="fas fa-lock mr-2"></i>
-                    <span class="text-base capitalize">Sign Up</span>
-                </button>
-                <div class="mt-4 text-sm">
-                    <span class="text-gray-600">Already have an account?</span>
-                    <a href="/login" class="pl-1 text-blue-500 hover:underline">Sign In</a>
-                </div>
-            </div>
-        </form>
-    </div>
+  <div class="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-center -z-10" style="background-image: url('/images/backgrounds/netflix.png'); filter: blur(2px) opacity(1)"></div>
+  <div class="relative z-10 px-20 py-16 rounded-lg bg-gray-50 shadow-lg">
+    <% if (error && error.length > 0) { %>
+    <div class="mb-4 text-gray-900"><%= error[0] %></div>
+    <% } %>
+    <form action="/register" method="POST" x-data="registerForm()" @submit.prevent="validateForm">
+      <div class="flex flex-col space-y-2">
+        <h2 class="text-2xl font-bold capitalize">Sign Up</h2>
+        <div class="flex flex-col space-y-1">
+          <label for="userName" class="font-medium">Username</label>
+          <input type="text" name="userName" id="userName" aria-label="Username" required autocomplete="username" class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" aria-autocomplete="both" x-model="userName" />
+          <template x-if="errors.userName">
+            <span class="text-red-500 text-sm" x-text="errors.userName"></span>
+          </template>
+        </div>
+        <div class="flex flex-col space-y-1">
+          <label for="email" class="font-medium">Email</label>
+          <input type="email" name="email" id="email" aria-label="Email" required autocomplete="username" class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" aria-autocomplete="both" x-model="email" />
+          <template x-if="errors.email">
+            <span class="text-red-500 text-sm" x-text="errors.email"></span>
+          </template>
+        </div>
+        <div class="flex flex-col space-y-1">
+          <label for="password" class="font-medium">Password</label>
+          <div class="relative">
+            <input type="password" name="password" id="password" required autocomplete="current-password" aria-label="Current password" aria-autocomplete="both" class="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500" x-bind:type="showPassword ? 'text' : 'password'" x-model="password" />
+            <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3" @click="togglePassword">
+              <i :class="showPassword ? 'fas fa-eye-slash text-gray-500' : 'fas fa-eye text-gray-500'"></i>
+            </button>
+          </div>
+          <template x-if="errors.password">
+            <span class="text-red-500 text-sm" x-text="errors.password"></span>
+          </template>
+        </div>
+        <div class="flex flex-col space-y-1">
+          <label for="confirmPassword" class="font-medium">Confirm password</label>
+          <div class="relative">
+            <input type="password" name="confirmPassword" id="confirmPassword" required autocomplete="current-password" aria-label="Confirm password" aria-autocomplete="both" class="border p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500" x-bind:type="showConfirmPassword ? 'text' : 'password'" x-model="confirmPassword" />
+            <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3" @click="toggleConfirmPassword">
+              <i :class="showConfirmPassword ? 'fas fa-eye-slash text-gray-500' : 'fas fa-eye text-gray-500'"></i>
+            </button>
+          </div>
+          <template x-if="errors.confirmPassword">
+            <span class="text-red-500 text-sm" x-text="errors.confirmPassword"></span>
+          </template>
+        </div>
+        <button type="submit" class="flex items-center justify-center w-full py-2 mt-4 font-semibold text-white bg-blue-500 rounded hover:bg-blue-600">
+          <i class="fas fa-lock mr-2"></i>
+          <span class="text-base capitalize">Sign Up</span>
+        </button>
+        <div class="mt-4 text-sm">
+          <span class="text-gray-600">Already have an account?</span>
+          <a href="/login" class="pl-1 text-blue-500 hover:underline">Sign In</a>
+        </div>
+      </div>
+    </form>
+  </div>
 </section>
 
 <script>
-    // function togglePasswordVisibility(inputId, iconId) {
-    //     var passwordInput = document.getElementById(inputId);
-    //     var passwordIcon = document.getElementById(iconId);
-    //     if (passwordInput.type === 'password') {
-    //         passwordInput.type = 'text';
-    //         passwordIcon.classList.remove('fa-eye');
-    //         passwordIcon.classList.add('fa-eye-slash');
-    //     } else {
-    //         passwordInput.type = 'password';
-    //         passwordIcon.classList.remove('fa-eye-slash');
-    //         passwordIcon.classList.add('fa-eye');
-    //     }
-    // }
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('registerForm', () => ({
+      userName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      showPassword: false,
+      showConfirmPassword: false,
+      errors: {},
+      togglePassword() {
+        this.showPassword = !this.showPassword;
+      },
+      toggleConfirmPassword() {
+        this.showConfirmPassword = !this.showConfirmPassword;
+      },
+      validateForm() {
+        this.errors = {};
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const userNamePattern = /^[a-zA-Z0-9_]{3,16}$/;
+
+        if (!userNamePattern.test(this.userName)) {
+          this.errors.userName = 'Username must be 3-16 characters long and can only contain letters, numbers, and underscores.';
+        }
+
+        if (!emailPattern.test(this.email)) {
+          this.errors.email = 'Please enter a valid email address.';
+        }
+
+        if (!passwordPattern.test(this.password)) {
+          this.errors.password = 'Password must be at least 8 characters long, contain at least one letter, one number, and one special character.';
+        }
+
+        if (this.password !== this.confirmPassword) {
+          this.errors.confirmPassword = 'Passwords do not match.';
+        }
+
+        if (Object.keys(this.errors).length === 0) {
+          this.$el.submit();
+        }
+      }
+    }));
+  });
 </script>
