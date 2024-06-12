@@ -48,15 +48,23 @@ const viewsController = {
                 title: 'Home',
                 canonical: ``,
                 description: 'Home Page',
+                user: req.session.user,
             });
         } else {
             res.status(HttpStatusCode.BadRequest).send({ error: 'Home not found' });
         }
     },
 
+    // #region "Auth Views and Endpoints"
     async loginView(req: any, res: any) {
         const error = req.flash('error');
-        res.render('pages/Login', { title: 'Login', description: 'Login Page', canonical: 'login', error });
+        res.render('pages/Login', {
+            title: 'Login',
+            description: 'Login Page',
+            canonical: 'login',
+            error,
+            user: req.session.user,
+        });
     },
 
     async loginPost(req: any, res: any) {
@@ -83,7 +91,13 @@ const viewsController = {
 
     async registerView(req: any, res: any) {
         const error = req.flash('error');
-        res.render('pages/Register', { title: 'Register', description: 'Register Page', canonical: 'register', error });
+        res.render('pages/Register', {
+            title: 'Register',
+            description: 'Register Page',
+            canonical: 'register',
+            error,
+            user: req.session.user,
+        });
     },
 
     async registerPost(req: any, res: any) {
@@ -107,6 +121,7 @@ const viewsController = {
             res.redirect('/register');
         }
     },
+    // #endregion
 
     async searchView(req: any, res: any) {
         const { pageMovies, pageSeries, ascOrDesc, sortBy, title } = req.query;
@@ -150,12 +165,14 @@ const viewsController = {
                 title: 'Search your favorite movies or series',
                 canonical: `search`,
                 description: 'Search and find your favorite movie or serie based on many different genres',
+                user: req.session.user,
             });
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
 
+    // #region "Genres Views and Endpoints"
     async genresView(req: any, res: any) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
 
@@ -178,6 +195,7 @@ const viewsController = {
                     canonical: `genres`,
                     description:
                         'Discover and watch the latest and most amazing movies and series of many different genres.',
+                    user: req.session.user,
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Genres not found' });
@@ -237,12 +255,15 @@ const viewsController = {
                 title: `Movie and Series of Genre ${nameGenre}`,
                 canonical: `/genre/${nameGenre}`,
                 description: `Discover and watch the latest and most amazing movies and series of ${nameGenre} Genre`,
+                user: req.session.user,
             });
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+    // #endregion
 
+    // #region "Movies Views and Endpoints"
     async moviesView(req: any, res: any) {
         try {
             const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
@@ -270,6 +291,7 @@ const viewsController = {
                     latestMovies,
                     title: 'Watch the Latest Movies | High-Quality and Always Updated',
                     canonical: `movies`,
+                    user: req.session.user,
                     description:
                         'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
                 });
@@ -325,6 +347,7 @@ const viewsController = {
                     title: `Watch ${movie.title} in HD`,
                     canonical: `/movie/${movie.title}`,
                     description: `${movie.description}`,
+                    user: req.session.user,
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Movie not found' });
@@ -333,7 +356,9 @@ const viewsController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+    // #endregion
 
+    // #region "Series Views and Endpoints"
     async seriesView(req: any, res: any) {
         try {
             const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
@@ -361,6 +386,7 @@ const viewsController = {
                     latestSeries,
                     title: 'Watch the Latest Series | High-Quality and Always Updated',
                     canonical: 'series',
+                    user: req.session.user,
                     description:
                         'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
                 });
@@ -416,6 +442,7 @@ const viewsController = {
                     canonical: `/serie/${serie.title}`,
                     title: `Watch ${serie.title} in HD`,
                     description: `${serie.description}`,
+                    user: req.session.user,
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Serie not found' });
@@ -424,6 +451,7 @@ const viewsController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+    // #endregion
 };
 
 export default viewsController;
