@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import serieService from '../services/serie.service';
+import serieModel from '../../models/serie.model';
 import { Serie } from '@prisma/client';
-import HttpStatusCode from '../utils/httpStatusCodes';
+import HttpStatusCode from '../../utils/httpStatusCodes';
 
 const serieController = {
     async getSeries(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
 
         try {
-            const series = await serieService.getSeries({
+            const series = await serieModel.getSeries({
                 sortBy: sortBy as string,
                 ascOrDesc: ascOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 10,
@@ -32,7 +32,7 @@ const serieController = {
         const serieId = Number(req.params.id);
 
         try {
-            const serie = await serieService.getSerieById(serieId);
+            const serie = await serieModel.getSerieById(serieId);
 
             if (serie) {
                 res.status(HttpStatusCode.OK).send(serie);
@@ -75,7 +75,7 @@ const serieController = {
         }
 
         try {
-            const serie = await serieService.getSerieByTitle(title, queryParams);
+            const serie = await serieModel.getSerieByTitle(title, queryParams);
 
             if (serie) {
                 res.status(HttpStatusCode.OK).send(serie);
@@ -88,7 +88,7 @@ const serieController = {
     },
     async getLatestSeries(req: Request, res: Response) {
         try {
-            const latestSeries = await serieService.getLatestSeries();
+            const latestSeries = await serieModel.getLatestSeries();
 
             if (latestSeries) {
                 res.status(HttpStatusCode.OK).send(latestSeries);
@@ -109,7 +109,7 @@ const serieController = {
                 .join('');
 
         try {
-            const relatedSeries = await serieService.getRelatedSeries(titleFormatted!);
+            const relatedSeries = await serieModel.getRelatedSeries(titleFormatted!);
 
             if (relatedSeries) {
                 res.status(HttpStatusCode.OK).send(relatedSeries);
@@ -125,7 +125,7 @@ const serieController = {
         const { id } = req.params;
 
         try {
-            const serie: Serie | null = await serieService.updateSerieById(serieBodyParams, id);
+            const serie: Serie | null = await serieModel.updateSerieById(serieBodyParams, id);
 
             if (serie) {
                 res.status(HttpStatusCode.OK).send(serie);
@@ -140,7 +140,7 @@ const serieController = {
         const serieBodyParams = req.body;
 
         try {
-            const serie: Serie | null = await serieService.addSerie(serieBodyParams);
+            const serie: Serie | null = await serieModel.addSerie(serieBodyParams);
 
             if (serie) {
                 res.status(HttpStatusCode.Created).send(serie);
@@ -155,7 +155,7 @@ const serieController = {
         const idParam = Number(req.params.id);
 
         try {
-            const result = await serieService.deleteSerieById(idParam);
+            const result = await serieModel.deleteSerieById(idParam);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send({
@@ -184,7 +184,7 @@ const serieController = {
         }
 
         try {
-            const series = await serieService.searchSeriesByTitle(String(title), queryParams);
+            const series = await serieModel.searchSeriesByTitle(String(title), queryParams);
 
             if (series) {
                 res.status(HttpStatusCode.OK).send(series);
@@ -199,7 +199,7 @@ const serieController = {
         const { serieId, seasonId } = req.body;
 
         try {
-            const updatedSerie = await serieService.addSeasonToSerie(seasonId, serieId);
+            const updatedSerie = await serieModel.addSeasonToSerie(seasonId, serieId);
 
             if (updatedSerie) {
                 res.status(HttpStatusCode.OK).send(updatedSerie);

@@ -1,7 +1,7 @@
 import { Genre, Movie, Prisma } from '@prisma/client';
 import { prisma } from '../app';
 
-interface MovieServiceParams {
+interface MovieModelParams {
     sortBy: string;
     ascOrDesc: 'asc' | 'desc';
     perPage: number;
@@ -12,7 +12,7 @@ interface MovieServiceParams {
     filterOperatorString?: '>' | '=' | '<' | 'gt' | 'equals' | 'lt';
 }
 
-const movieService = {
+const movieModel = {
     async getMovies({
         sortBy,
         ascOrDesc,
@@ -22,7 +22,7 @@ const movieService = {
         filterValue,
         filterNameString,
         filterOperatorString,
-    }: MovieServiceParams): Promise<any | null> {
+    }: MovieModelParams): Promise<any | null> {
         const filters: any = {};
         const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 10 : 0;
         const take = perPage || 10;
@@ -444,4 +444,4 @@ const movieService = {
     },
 };
 
-export default movieService;
+export default movieModel;

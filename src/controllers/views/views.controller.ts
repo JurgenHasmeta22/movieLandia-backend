@@ -1,16 +1,16 @@
-import authService from '../services/auth.service';
-import genreService from '../services/genre.service';
-import movieService from '../services/movie.service';
-import serieService from '../services/serie.service';
-import { createToken } from '../utils/authUtils';
-import HttpStatusCode from '../utils/httpStatusCodes';
+import authModel from '../../models/auth.model';
+import genreModel from '../../models/genre.model';
+import movieModel from '../../models/movie.model';
+import serieModel from '../../models/serie.model';
+import { createToken } from '../../utils/authUtils';
+import HttpStatusCode from '../../utils/httpStatusCodes';
 
 const viewsController = {
     // #region "Other Views and Endpoints"
     async homeView(req: any, res: any) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator, title } = req.query;
 
-        const moviesData = await movieService.getMovies({
+        const moviesData = await movieModel.getMovies({
             sortBy: sortBy as string,
             ascOrDesc: ascOrDesc as 'asc' | 'desc',
             perPage: pageSize ? Number(pageSize) : 10,
@@ -21,7 +21,7 @@ const viewsController = {
             filterOperatorString: filterOperator as '>' | '=' | '<',
         });
 
-        const seriesData = await serieService.getSeries({
+        const seriesData = await serieModel.getSeries({
             sortBy: sortBy as string,
             ascOrDesc: ascOrDesc as 'asc' | 'desc',
             perPage: pageSize ? Number(pageSize) : 10,
@@ -32,7 +32,7 @@ const viewsController = {
             filterOperatorString: filterOperator as '>' | '=' | '<',
         });
 
-        const genresData = await genreService.getGenres({
+        const genresData = await genreModel.getGenres({
             sortBy: sortBy! as string,
             ascOrDesc: ascOrDesc! as 'asc' | 'desc',
             perPage: pageSize ? Number(pageSize) : 20,
@@ -84,11 +84,11 @@ const viewsController = {
             let seriesData;
 
             if (title) {
-                moviesData = await movieService.searchMoviesByTitle(String(title), queryParamsMovies);
-                seriesData = await serieService.searchSeriesByTitle(String(title), queryParamsSeries);
+                moviesData = await movieModel.searchMoviesByTitle(String(title), queryParamsMovies);
+                seriesData = await serieModel.searchSeriesByTitle(String(title), queryParamsSeries);
             } else {
-                moviesData = await movieService.getMovies(queryParamsMovies);
-                seriesData = await serieService.getSeries(queryParamsSeries);
+                moviesData = await movieModel.getMovies(queryParamsMovies);
+                seriesData = await serieModel.getSeries(queryParamsSeries);
             }
 
             const pageCountMovies = Math.ceil(moviesData.count / 10);
@@ -136,7 +136,7 @@ const viewsController = {
         const { email, password } = req.body;
 
         try {
-            const user = await authService.login(email, password);
+            const user = await authModel.login(email, password);
 
             if (user) {
                 req.session.user = user;
@@ -170,7 +170,7 @@ const viewsController = {
         const { email, password, userName } = req.body;
 
         try {
-            const user = await authService.signUp({ email, password, userName });
+            const user = await authModel.signUp({ email, password, userName });
 
             if (user) {
                 req.session.user = user;
@@ -200,7 +200,7 @@ const viewsController = {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
 
         try {
-            const genresData = await genreService.getGenres({
+            const genresData = await genreModel.getGenres({
                 sortBy: sortBy! as string,
                 ascOrDesc: ascOrDesc! as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 20,
@@ -250,7 +250,7 @@ const viewsController = {
         } = req.query;
 
         try {
-            const genreDataMovies = await genreService.getGenreByName(nameGenre, {
+            const genreDataMovies = await genreModel.getGenreByName(nameGenre, {
                 sortBy: moviesSortBy! as string,
                 ascOrDesc: moviesAscOrDesc! as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 20,
@@ -262,7 +262,7 @@ const viewsController = {
                 filterOperatorString: filterOperator! as '>' | '=' | '<',
             });
 
-            const genreDataSeries = await genreService.getGenreByName(nameGenre, {
+            const genreDataSeries = await genreModel.getGenreByName(nameGenre, {
                 sortBy: seriesSortBy! as string,
                 ascOrDesc: seriesAscOrDesc! as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 20,
@@ -309,7 +309,7 @@ const viewsController = {
             const { moviesAscOrDesc, moviesSortBy, page, pageSize, title, filterValue, filterName, filterOperator } =
                 req.query;
 
-            const moviesData = await movieService.getMovies({
+            const moviesData = await movieModel.getMovies({
                 sortBy: moviesSortBy as string,
                 ascOrDesc: moviesAscOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 10,
@@ -320,7 +320,7 @@ const viewsController = {
                 filterOperatorString: filterOperator as '>' | '=' | '<',
             });
 
-            const latestMovies = await movieService.getLatestMovies();
+            const latestMovies = await movieModel.getLatestMovies();
             const pageCountMovies = Math.ceil(moviesData.count / 10);
             const currentPageMovies = page ? page : 1;
 
@@ -379,9 +379,9 @@ const viewsController = {
         }
 
         try {
-            const movie = await movieService.getMovieByTitle(title, queryParams);
-            const latestMovies = await movieService.getLatestMovies();
-            const relatedMovies = await movieService.getRelatedMovies(title);
+            const movie = await movieModel.getMovieByTitle(title, queryParams);
+            const latestMovies = await movieModel.getLatestMovies();
+            const relatedMovies = await movieModel.getRelatedMovies(title);
 
             if (movie) {
                 res.render('pages/Movie', {
@@ -409,7 +409,7 @@ const viewsController = {
             const { seriesSortBy, seriesAscOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } =
                 req.query;
 
-            const seriesData = await serieService.getSeries({
+            const seriesData = await serieModel.getSeries({
                 sortBy: seriesSortBy as string,
                 ascOrDesc: seriesAscOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 10,
@@ -420,7 +420,7 @@ const viewsController = {
                 filterOperatorString: filterOperator as '>' | '=' | '<',
             });
 
-            const latestSeries = await serieService.getLatestSeries();
+            const latestSeries = await serieModel.getLatestSeries();
             const pageCountSeries = Math.ceil(seriesData.count / 10);
             const currentPageSeries = page ? page : 1;
 
@@ -479,9 +479,9 @@ const viewsController = {
         }
 
         try {
-            const serie = await serieService.getSerieByTitle(title, queryParams);
-            const latestSeries = await serieService.getLatestSeries();
-            const relatedSeries = await serieService.getRelatedSeries(title);
+            const serie = await serieModel.getSerieByTitle(title, queryParams);
+            const latestSeries = await serieModel.getLatestSeries();
+            const relatedSeries = await serieModel.getRelatedSeries(title);
 
             if (serie) {
                 res.render('pages/Serie', {

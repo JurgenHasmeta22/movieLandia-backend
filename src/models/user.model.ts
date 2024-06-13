@@ -1,7 +1,7 @@
 import { Prisma, User } from '@prisma/client';
 import { prisma } from '../app';
 
-interface UserServiceParams {
+interface UserModelParams {
     sortBy: string;
     ascOrDesc: 'asc' | 'desc';
     perPage: number;
@@ -12,7 +12,7 @@ interface UserServiceParams {
     filterOperatorString?: '>' | '=' | '<' | 'gt' | 'equals' | 'lt';
 }
 
-const userService = {
+const userModel = {
     // #region "CRUD"
     async getUsers({
         sortBy,
@@ -23,7 +23,7 @@ const userService = {
         filterValue,
         filterNameString,
         filterOperatorString,
-    }: UserServiceParams): Promise<any | null> {
+    }: UserModelParams): Promise<any | null> {
         const filters: Prisma.UserWhereInput = {};
         const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 20 : 0;
         const take = perPage || 20;
@@ -722,4 +722,4 @@ const userService = {
     // #endregion
 };
 
-export default userService;
+export default userModel;

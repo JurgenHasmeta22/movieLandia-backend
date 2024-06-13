@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import userService from '../services/user.service';
+import userModel from '../../models/user.model';
 import { User } from '@prisma/client';
-import HttpStatusCode from '../utils/httpStatusCodes';
+import HttpStatusCode from '../../utils/httpStatusCodes';
 
 const userController = {
     // #region "CRUD"
@@ -9,7 +9,7 @@ const userController = {
         const { sortBy, ascOrDesc, page, pageSize, userName, filterValue, filterName, filterOperator } = req.query;
 
         try {
-            const users = await userService.getUsers({
+            const users = await userModel.getUsers({
                 sortBy: sortBy as string,
                 ascOrDesc: ascOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 20,
@@ -33,7 +33,7 @@ const userController = {
         const userId = Number(req.params.id);
 
         try {
-            const user = await userService.getUserById(userId);
+            const user = await userModel.getUserById(userId);
 
             if (user) {
                 res.status(HttpStatusCode.OK).send(user);
@@ -50,7 +50,7 @@ const userController = {
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
         try {
-            const user = await userService.getUserByUsername(title);
+            const user = await userModel.getUserByUsername(title);
 
             if (user) {
                 res.status(HttpStatusCode.OK).send(user);
@@ -66,7 +66,7 @@ const userController = {
         const { id } = req.params;
 
         try {
-            const user: User | null = await userService.updateUserById(userBodyParams, id);
+            const user: User | null = await userModel.updateUserById(userBodyParams, id);
 
             if (user) {
                 res.status(HttpStatusCode.OK).send(user);
@@ -81,7 +81,7 @@ const userController = {
         const idParam = Number(req.params.id);
 
         try {
-            const result = await userService.deleteUserById(idParam);
+            const result = await userModel.deleteUserById(idParam);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send({
@@ -98,7 +98,7 @@ const userController = {
         const { title, page } = req.query;
 
         try {
-            const users = await userService.searchUsersByUsername(String(title), Number(page));
+            const users = await userModel.searchUsersByUsername(String(title), Number(page));
 
             if (users) {
                 res.status(HttpStatusCode.OK).send(users);
@@ -116,7 +116,7 @@ const userController = {
         const { userId, serieId } = req.body;
 
         try {
-            const updatedUser = await userService.addFavoriteSerieToUser(userId, serieId);
+            const updatedUser = await userModel.addFavoriteSerieToUser(userId, serieId);
 
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
@@ -131,7 +131,7 @@ const userController = {
         const { movieId, userId } = req.body;
 
         try {
-            const updatedUser = await userService.addFavoriteMovieToUser(userId, movieId);
+            const updatedUser = await userModel.addFavoriteMovieToUser(userId, movieId);
 
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
@@ -147,7 +147,7 @@ const userController = {
         const { movieId, userId } = req.body;
 
         try {
-            const updatedUser = await userService.removeFavoriteMovieToUser(userId, movieId);
+            const updatedUser = await userModel.removeFavoriteMovieToUser(userId, movieId);
 
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
@@ -162,7 +162,7 @@ const userController = {
         const { serieId, userId } = req.body;
 
         try {
-            const updatedUser = await userService.removeFavoriteSerieToUser(userId, serieId);
+            const updatedUser = await userModel.removeFavoriteSerieToUser(userId, serieId);
 
             if (updatedUser) {
                 res.status(HttpStatusCode.OK).send(updatedUser);
@@ -181,7 +181,7 @@ const userController = {
         const createdAt = new Date();
 
         try {
-            const result = await userService.addReviewMovie({
+            const result = await userModel.addReviewMovie({
                 content,
                 createdAt,
                 rating,
@@ -203,7 +203,7 @@ const userController = {
         const createdAt = new Date();
 
         try {
-            const result = await userService.addReviewSerie({
+            const result = await userModel.addReviewSerie({
                 content,
                 createdAt,
                 rating,
@@ -226,7 +226,7 @@ const userController = {
         const updatedAt = new Date();
 
         try {
-            const result = await userService.updateReviewMovie({
+            const result = await userModel.updateReviewMovie({
                 content,
                 updatedAt,
                 rating,
@@ -248,7 +248,7 @@ const userController = {
         const updatedAt = new Date();
 
         try {
-            const result = await userService.updateReviewSerie({
+            const result = await userModel.updateReviewSerie({
                 content,
                 updatedAt,
                 rating,
@@ -270,7 +270,7 @@ const userController = {
         const { userId, movieId } = req.body;
 
         try {
-            const result = await userService.removeReviewMovie({
+            const result = await userModel.removeReviewMovie({
                 userId,
                 movieId,
             });
@@ -288,7 +288,7 @@ const userController = {
         const { userId, serieId } = req.body;
 
         try {
-            const result = await userService.removeReviewSerie({
+            const result = await userModel.removeReviewSerie({
                 userId,
                 serieId,
             });
@@ -309,7 +309,7 @@ const userController = {
         const { userId, movieId, movieReviewId } = req.body;
 
         try {
-            const result = await userService.addUpvoteMovieReview({
+            const result = await userModel.addUpvoteMovieReview({
                 userId,
                 movieId,
                 movieReviewId,
@@ -328,7 +328,7 @@ const userController = {
         const { userId, serieId, serieReviewId } = req.body;
 
         try {
-            const result = await userService.addUpvoteSerieReview({
+            const result = await userModel.addUpvoteSerieReview({
                 userId,
                 serieId,
                 serieReviewId,
@@ -348,7 +348,7 @@ const userController = {
         const { userId, movieId, movieReviewId } = req.body;
 
         try {
-            const result = await userService.removeUpvoteMovieReview({
+            const result = await userModel.removeUpvoteMovieReview({
                 userId,
                 movieId,
                 movieReviewId,
@@ -367,7 +367,7 @@ const userController = {
         const { userId, serieId, serieReviewId } = req.body;
 
         try {
-            const result = await userService.removeUpvoteSerieReview({
+            const result = await userModel.removeUpvoteSerieReview({
                 userId,
                 serieId,
                 serieReviewId,
@@ -387,7 +387,7 @@ const userController = {
         const { userId, movieId, movieReviewId } = req.body;
 
         try {
-            const result = await userService.addDownvoteMovieReview({
+            const result = await userModel.addDownvoteMovieReview({
                 userId,
                 movieId,
                 movieReviewId,
@@ -406,7 +406,7 @@ const userController = {
         const { userId, serieId, serieReviewId } = req.body;
 
         try {
-            const result = await userService.addDownvoteSerieReview({
+            const result = await userModel.addDownvoteSerieReview({
                 userId,
                 serieId,
                 serieReviewId,
@@ -426,7 +426,7 @@ const userController = {
         const { userId, movieId, movieReviewId } = req.body;
 
         try {
-            const result = await userService.removeDownvoteMovieReview({
+            const result = await userModel.removeDownvoteMovieReview({
                 userId,
                 movieId,
                 movieReviewId,
@@ -445,7 +445,7 @@ const userController = {
         const { userId, serieId, serieReviewId } = req.body;
 
         try {
-            const result = await userService.removeDownvoteSerieReview({
+            const result = await userModel.removeDownvoteSerieReview({
                 userId,
                 serieId,
                 serieReviewId,

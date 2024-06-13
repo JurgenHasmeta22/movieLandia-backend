@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import genreService from '../services/genre.service';
+import genreModel from '../../models/genre.model';
 import { Genre } from '@prisma/client';
-import HttpStatusCode from '../utils/httpStatusCodes';
+import HttpStatusCode from '../../utils/httpStatusCodes';
 
 const genreController = {
     async getGenres(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
 
         try {
-            const genres = await genreService.getGenres({
+            const genres = await genreModel.getGenres({
                 sortBy: sortBy! as string,
                 ascOrDesc: ascOrDesc! as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 20,
@@ -32,7 +32,7 @@ const genreController = {
         const genreId = Number(req.params.id);
 
         try {
-            const genre = await genreService.getGenreById(genreId);
+            const genre = await genreModel.getGenreById(genreId);
 
             if (genre) {
                 res.status(HttpStatusCode.OK).send(genre);
@@ -52,7 +52,7 @@ const genreController = {
         const { sortBy, ascOrDesc, page, pageSize, type, name, filterValue, filterName, filterOperator } = req.query;
 
         try {
-            const genre = await genreService.getGenreByName(nameGenre, {
+            const genre = await genreModel.getGenreByName(nameGenre, {
                 sortBy: sortBy! as string,
                 ascOrDesc: ascOrDesc! as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 20,
@@ -77,7 +77,7 @@ const genreController = {
         const genreBodyParams = req.body;
 
         try {
-            const genre: Genre | null = await genreService.addGenre(genreBodyParams);
+            const genre: Genre | null = await genreModel.addGenre(genreBodyParams);
 
             if (genre) {
                 res.status(HttpStatusCode.Created).send(genre);
@@ -93,7 +93,7 @@ const genreController = {
         const { id } = req.params;
 
         try {
-            const genre: Genre | null = await genreService.updateGenreById(genreBodyParams, id);
+            const genre: Genre | null = await genreModel.updateGenreById(genreBodyParams, id);
 
             if (genre) {
                 res.status(HttpStatusCode.OK).send(genre);
@@ -108,7 +108,7 @@ const genreController = {
         const idParam = Number(req.params.id);
 
         try {
-            const result = await genreService.deleteGenreById(idParam);
+            const result = await genreModel.deleteGenreById(idParam);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send({
@@ -125,7 +125,7 @@ const genreController = {
         const { name, page } = req.query;
 
         try {
-            const genres = await genreService.searchGenresByName(String(name), Number(page));
+            const genres = await genreModel.searchGenresByName(String(name), Number(page));
 
             if (genres) {
                 res.status(HttpStatusCode.OK).send(genres);

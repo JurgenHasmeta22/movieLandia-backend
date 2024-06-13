@@ -1,5 +1,5 @@
 import express from 'express';
-import serieController from '../controllers/serie.controller';
+import serieController from '../controllers/REST/serie.controller';
 import { validateMiddleware } from '../middlewares/validate.middleware';
 import {
     serieSchemaUpdate,

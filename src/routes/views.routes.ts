@@ -1,5 +1,5 @@
 import express from 'express';
-import viewsController from '../controllers/views.controller';
+import viewsController from '../controllers/views/views.controller';
 import { trackLastPageMiddleware } from '../middlewares/trackLastPage.middleware';
 
 const router = express.Router();
