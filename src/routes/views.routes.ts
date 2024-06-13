@@ -1,23 +1,28 @@
 import express from 'express';
-import viewsController from '../controllers/views/views.controller';
+import authController from '../controllers/views/authView.controller';
+import homeController from '../controllers/views/homeView.controller';
+import movieController from '../controllers/views/movieView.controller';
+import serieController from '../controllers/views/serieView.controller';
+import genreController from '../controllers/views/genreView.controller';
+import searchController from '../controllers/views/searchView.controller';
 import { trackLastPageMiddleware } from '../middlewares/trackLastPage.middleware';
 
 const router = express.Router();
 
-router.get('/', viewsController.homeView);
+router.get('/', homeController.homeView);
 
-router.get('/login', viewsController.loginView);
-router.post('/login', trackLastPageMiddleware, viewsController.loginPost);
-router.get('/register', viewsController.registerView);
-router.post('/register', viewsController.registerPost);
-router.post('/logout', viewsController.logout);
+router.get('/login', authController.loginView);
+router.post('/login', trackLastPageMiddleware, authController.loginPost);
+router.get('/register', authController.registerView);
+router.post('/register', authController.registerPost);
+router.post('/logout', authController.logout);
 
-router.get('/search', viewsController.searchView);
-router.get('/genres', viewsController.genresView);
-router.get('/genres/:name', viewsController.genreView);
-router.get('/movies', viewsController.moviesView);
-router.get('/movies/:title', viewsController.movieView);
-router.get('/series', viewsController.seriesView);
-router.get('/series/:title', viewsController.serieView);
+router.get('/search', searchController.searchView);
+router.get('/genres', genreController.genresView);
+router.get('/genres/:name', genreController.genreView);
+router.get('/movies', movieController.moviesView);
+router.get('/movies/:title', movieController.movieView);
+router.get('/series', serieController.seriesView);
+router.get('/series/:title', serieController.serieView);
 
 export default router;
