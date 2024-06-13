@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import episodeService from '../services/episode.service';
+import episodeModel from '../../models/episode.model';
 import { Episode } from '@prisma/client';
-import HttpStatusCode from '../utils/httpStatusCodes';
+import HttpStatusCode from '../../utils/httpStatusCodes';
 
 const episodeController = {
     async getEpisodes(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
 
         try {
-            const episodes = await episodeService.getEpisodes({
+            const episodes = await episodeModel.getEpisodes({
                 sortBy: sortBy as string,
                 ascOrDesc: ascOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 20,
@@ -32,7 +32,7 @@ const episodeController = {
         const episodeId = Number(req.params.id);
 
         try {
-            const episode = await episodeService.getEpisodeById(episodeId);
+            const episode = await episodeModel.getEpisodeById(episodeId);
 
             if (episode) {
                 res.status(HttpStatusCode.OK).send(episode);
@@ -49,7 +49,7 @@ const episodeController = {
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
         try {
-            const episode = await episodeService.getEpisodeByTitle(title);
+            const episode = await episodeModel.getEpisodeByTitle(title);
 
             if (episode) {
                 res.status(HttpStatusCode.OK).send(episode);
@@ -65,7 +65,7 @@ const episodeController = {
         const { id } = req.params;
 
         try {
-            const episode: Episode | null = await episodeService.updateEpisodeById(episodeBodyParams, id);
+            const episode: Episode | null = await episodeModel.updateEpisodeById(episodeBodyParams, id);
 
             if (episode) {
                 res.status(HttpStatusCode.OK).send(episode);
@@ -80,7 +80,7 @@ const episodeController = {
         const episodeBodyParams = req.body;
 
         try {
-            const episode: Episode | null = await episodeService.addEpisode(episodeBodyParams);
+            const episode: Episode | null = await episodeModel.addEpisode(episodeBodyParams);
 
             if (episode) {
                 res.status(HttpStatusCode.Created).send(episode);
@@ -95,7 +95,7 @@ const episodeController = {
         const idParam = Number(req.params.id);
 
         try {
-            const result = await episodeService.deleteEpisodeById(idParam);
+            const result = await episodeModel.deleteEpisodeById(idParam);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send({
@@ -112,7 +112,7 @@ const episodeController = {
         const { title, page } = req.query;
 
         try {
-            const episodes = await episodeService.searchEpisodesByTitle(String(title), Number(page));
+            const episodes = await episodeModel.searchEpisodesByTitle(String(title), Number(page));
 
             if (episodes) {
                 res.status(HttpStatusCode.OK).send(episodes);

@@ -13,7 +13,7 @@ interface GetGenresParams {
     filterOperatorString: '>' | '=' | '<';
 }
 
-const genreService = {
+const genreModel = {
     async getGenres({
         sortBy,
         ascOrDesc,
@@ -325,4 +325,4 @@ const genreService = {
     },
 };
 
-export default genreService;
+export default genreModel;

@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '../app';
 import { User } from '@prisma/client';
 
-const authService = {
+const authModel = {
     async signUp(userData: { email: string; password: string; userName: string }): Promise<User | null> {
         const { email, password, userName } = userData;
 
@@ -64,4 +64,4 @@ const authService = {
     },
 };
 
-export default authService;
+export default authModel;

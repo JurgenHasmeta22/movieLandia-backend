@@ -1,5 +1,5 @@
 import express from 'express';
-import userController from '../controllers/user.controller';
+import userController from '../controllers/REST/user.controller';
 import { validateMiddleware } from '../middlewares/validate.middleware';
 import {
     userSchemaUpdate,

@@ -1,7 +1,7 @@
 import { Season, Serie, Prisma } from '@prisma/client';
 import { prisma } from '../app';
 
-interface SerieServiceParams {
+interface SerieModelParams {
     sortBy: string;
     ascOrDesc: 'asc' | 'desc';
     perPage: number;
@@ -12,7 +12,7 @@ interface SerieServiceParams {
     filterOperatorString?: '>' | '=' | '<' | 'gt' | 'equals' | 'lt';
 }
 
-const serieService = {
+const serieModel = {
     async getSeries({
         sortBy,
         ascOrDesc,
@@ -22,7 +22,7 @@ const serieService = {
         filterValue,
         filterNameString,
         filterOperatorString,
-    }: SerieServiceParams): Promise<any | null> {
+    }: SerieModelParams): Promise<any | null> {
         const filters: any = {};
         const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 10 : 0;
         const take = perPage || 10;
@@ -470,4 +470,4 @@ const serieService = {
     },
 };
 
-export default serieService;
+export default serieModel;

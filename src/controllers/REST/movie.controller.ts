@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
-import movieService from '../services/movie.service';
+import movieModel from '../../models/movie.model';
 import { Movie } from '@prisma/client';
-import HttpStatusCode from '../utils/httpStatusCodes';
+import HttpStatusCode from '../../utils/httpStatusCodes';
 
 const movieController = {
     async getMovies(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
 
         try {
-            const movies = await movieService.getMovies({
+            const movies = await movieModel.getMovies({
                 sortBy: sortBy as string,
                 ascOrDesc: ascOrDesc as 'asc' | 'desc',
                 perPage: pageSize ? Number(pageSize) : 10,
@@ -32,7 +32,7 @@ const movieController = {
         const movieId = Number(req.params.id);
 
         try {
-            const movie = await movieService.getMovieById(movieId);
+            const movie = await movieModel.getMovieById(movieId);
 
             if (movie) {
                 res.status(HttpStatusCode.OK).send(movie);
@@ -75,7 +75,7 @@ const movieController = {
         }
 
         try {
-            const movie = await movieService.getMovieByTitle(title, queryParams);
+            const movie = await movieModel.getMovieByTitle(title, queryParams);
 
             if (movie) {
                 res.status(HttpStatusCode.OK).send(movie);
@@ -88,7 +88,7 @@ const movieController = {
     },
     async getLatestMovies(req: Request, res: Response) {
         try {
-            const latestMovies = await movieService.getLatestMovies();
+            const latestMovies = await movieModel.getLatestMovies();
 
             if (latestMovies) {
                 res.status(HttpStatusCode.OK).send(latestMovies);
@@ -109,7 +109,7 @@ const movieController = {
                 .join('');
 
         try {
-            const relatedMovies = await movieService.getRelatedMovies(titleFormatted!);
+            const relatedMovies = await movieModel.getRelatedMovies(titleFormatted!);
 
             if (relatedMovies) {
                 res.status(HttpStatusCode.OK).send(relatedMovies);
@@ -125,7 +125,7 @@ const movieController = {
         const { id } = req.params;
 
         try {
-            const movie: Movie | null = await movieService.updateMovieById(movieBodyParams, id);
+            const movie: Movie | null = await movieModel.updateMovieById(movieBodyParams, id);
 
             if (movie) {
                 res.status(HttpStatusCode.OK).send(movie);
@@ -140,7 +140,7 @@ const movieController = {
         const movieBodyParams = req.body;
 
         try {
-            const movie: Movie | null = await movieService.addMovie(movieBodyParams);
+            const movie: Movie | null = await movieModel.addMovie(movieBodyParams);
 
             if (movie) {
                 res.status(HttpStatusCode.Created).send(movie);
@@ -155,7 +155,7 @@ const movieController = {
         const idParam = Number(req.params.id);
 
         try {
-            const result = await movieService.deleteMovieById(idParam);
+            const result = await movieModel.deleteMovieById(idParam);
 
             if (result) {
                 res.status(HttpStatusCode.OK).send({
@@ -184,7 +184,7 @@ const movieController = {
         }
 
         try {
-            const movies = await movieService.searchMoviesByTitle(String(title), queryParams);
+            const movies = await movieModel.searchMoviesByTitle(String(title), queryParams);
 
             if (movies) {
                 res.status(HttpStatusCode.OK).send(movies);

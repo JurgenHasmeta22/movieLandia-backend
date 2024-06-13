@@ -1,5 +1,5 @@
 import express from 'express';
-import genreController from '../controllers/genre.controller';
+import genreController from '../controllers/REST/genre.controller';
 import { validateMiddleware } from '../middlewares/validate.middleware';
 import {
     genreSchemaPost,

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import authService from '../services/auth.service';
-import { createToken } from '../utils/authUtils';
+import authModel from '../../models/auth.model';
+import { createToken } from '../../utils/authUtils';
 import { User } from '@prisma/client';
-import HttpStatusCode from '../utils/httpStatusCodes';
+import HttpStatusCode from '../../utils/httpStatusCodes';
 
 interface CustomRequest extends Request {
     user?: User;
@@ -13,7 +13,7 @@ const authController = {
         const { email, password, userName } = req.body;
 
         try {
-            const user: User | null = await authService.signUp({ email, password, userName });
+            const user: User | null = await authModel.signUp({ email, password, userName });
 
             if (user) {
                 res.status(HttpStatusCode.OK).send({ user, token: createToken(user.id) });
@@ -28,7 +28,7 @@ const authController = {
         const { email, password } = req.body;
 
         try {
-            const user: User | null = await authService.login(email, password);
+            const user: User | null = await authModel.login(email, password);
 
             if (user) {
                 res.status(HttpStatusCode.OK).send({ user, token: createToken(user.id) });

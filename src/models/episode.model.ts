@@ -1,7 +1,7 @@
 import { Episode, Prisma } from '@prisma/client';
 import { prisma } from '../app';
 
-interface EpisodeServiceParams {
+interface EpisodeModelParams {
     sortBy: string;
     ascOrDesc: 'asc' | 'desc';
     perPage: number;
@@ -12,7 +12,7 @@ interface EpisodeServiceParams {
     filterOperatorString?: '>' | '=' | '<' | 'gt' | 'equals' | 'lt';
 }
 
-const episodeService = {
+const episodeModel = {
     async getEpisodes({
         sortBy,
         ascOrDesc,
@@ -22,7 +22,7 @@ const episodeService = {
         filterValue,
         filterNameString,
         filterOperatorString,
-    }: EpisodeServiceParams): Promise<Episode[] | null> {
+    }: EpisodeModelParams): Promise<Episode[] | null> {
         const filters: any = {};
         const skip = perPage ? (page ? (page - 1) * perPage : 0) : page ? (page - 1) * 20 : 0;
         const take = perPage || 20;
@@ -161,4 +161,4 @@ const episodeService = {
     },
 };
 
-export default episodeService;
+export default episodeModel;
