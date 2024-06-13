@@ -80,6 +80,7 @@ const movieViewController = {
             const movie = await movieModel.getMovieByTitle(title, queryParams);
             const latestMovies = await movieModel.getLatestMovies();
             const relatedMovies = await movieModel.getRelatedMovies(title);
+            const reviews = movie?.reviews;
 
             if (movie) {
                 res.render('pages/Movie', {
@@ -91,6 +92,7 @@ const movieViewController = {
                     description: `${movie.description}`,
                     user: req.session.user,
                     titleTerm: '',
+                    reviews
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Movie not found' });

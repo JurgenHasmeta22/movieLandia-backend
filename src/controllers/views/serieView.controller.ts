@@ -81,6 +81,7 @@ const serieViewController = {
             const serie = await serieModel.getSerieByTitle(title, queryParams);
             const latestSeries = await serieModel.getLatestSeries();
             const relatedSeries = await serieModel.getRelatedSeries(title);
+            const reviews = serie?.reviews;
 
             if (serie) {
                 res.render('pages/Serie', {
@@ -92,6 +93,7 @@ const serieViewController = {
                     description: `${serie.description}`,
                     user: req.session.user,
                     titleTerm: '',
+                    reviews
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Serie not found' });
