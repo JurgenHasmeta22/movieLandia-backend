@@ -1,200 +1,171 @@
-import { Request, Response } from 'express';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import movieModel from '../../models/movie.model';
-import { Movie } from '@prisma/client';
 import HttpStatusCode from '../../utils/httpStatusCodes';
 
 const movieController = {
-    async getMovies(req: Request, res: Response) {
-        const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
+    async getMovies(request: FastifyRequest<{ Querystring: any }>, reply: FastifyReply) {
+        const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = request.query;
 
         try {
             const movies = await movieModel.getMovies({
-                sortBy: sortBy as string,
+                sortBy: sortBy,
                 ascOrDesc: ascOrDesc as 'asc' | 'desc',
-                perPage: pageSize ? Number(pageSize) : 10,
-                page: Number(page),
-                title: title as string,
-                filterValue: filterValue ? Number(filterValue) : undefined,
-                filterNameString: filterName as string,
-                filterOperatorString: filterOperator as '>' | '=' | '<',
+                perPage: pageSize ?? 10,
+                page: page ?? 1,
+                title: title ?? '',
+                filterValue: filterValue ?? undefined,
+                filterNameString: filterName ?? '',
+                filterOperatorString: filterOperator ?? '',
             });
 
-            if (movies) {
-                res.status(HttpStatusCode.OK).send(movies);
-            } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movies not found' });
-            }
+            reply.status(HttpStatusCode.OK).send(movies);
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async getMovieById(req: Request, res: Response) {
-        const movieId = Number(req.params.id);
+
+    async getMovieById(request: FastifyRequest<{ Params: UpdateMovieByIdParams }>, reply: FastifyReply) {
+        const { id } = request.params;
 
         try {
-            const movie = await movieModel.getMovieById(movieId);
+            const movie = await movieModel.getMovieById(Number(id));
 
-            if (movie) {
-                res.status(HttpStatusCode.OK).send(movie);
-            } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movie not found' });
+            if (!movie) {
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Movie not found' });
+                return;
             }
+
+            reply.status(HttpStatusCode.OK).send(movie);
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async getMovieByTitle(req: Request, res: Response) {
-        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
-        const title = req.params.title
-            .split('')
-            .map((char) => (char === '-' ? ' ' : char))
-            .join('');
 
-        const queryParams: any = {
-            page: Number(page),
-        };
-
-        if (userId !== undefined) {
-            queryParams.userId = Number(userId);
-        }
-
-        if (ascOrDesc !== undefined) {
-            queryParams.ascOrDesc = String(ascOrDesc);
-        }
-
-        if (sortBy !== undefined) {
-            queryParams.sortBy = String(sortBy);
-        }
-
-        if (upvotesPage !== undefined) {
-            queryParams.upvotesPage = Number(upvotesPage);
-        }
-
-        if (downvotesPage !== undefined) {
-            queryParams.downvotesPage = Number(downvotesPage);
-        }
+    async getMovieByTitle(request: FastifyRequest<{ Params: GetMovieByTitleParams, Querystring: GetMovieByTitleQuery }>, reply: FastifyReply) {
+        const { title } = request.params;
+        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = request.query;
 
         try {
-            const movie = await movieModel.getMovieByTitle(title, queryParams);
+            const movie = await movieModel.getMovieByTitle(title, {
+                page: page ?? 1,
+                ascOrDesc: ascOrDesc ?? '',
+                sortBy: sortBy ?? '',
+                upvotesPage: upvotesPage ?? undefined,
+                downvotesPage: downvotesPage ?? undefined,
+                userId: userId ?? undefined,
+            });
 
-            if (movie) {
-                res.status(HttpStatusCode.OK).send(movie);
-            } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movie not found' });
+            if (!movie) {
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Movie not found' });
+                return;
             }
+
+            reply.status(HttpStatusCode.OK).send(movie);
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async getLatestMovies(req: Request, res: Response) {
+
+    async getLatestMovies(request: FastifyRequest, reply: FastifyReply) {
         try {
             const latestMovies = await movieModel.getLatestMovies();
 
-            if (latestMovies) {
-                res.status(HttpStatusCode.OK).send(latestMovies);
-            } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movies not found' });
-            }
+            reply.status(HttpStatusCode.OK).send(latestMovies);
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async getRelatedMovies(req: Request, res: Response) {
-        const { title } = req.query;
-        const titleFormatted =
-            title &&
-            String(title)
-                .split('')
-                .map((char) => (char === '-' ? ' ' : char))
-                .join('');
+
+    async getRelatedMovies(request: FastifyRequest<{ Querystring: { title?: string } }>, reply: FastifyReply) {
+        const { title } = request.query;
 
         try {
-            const relatedMovies = await movieModel.getRelatedMovies(titleFormatted!);
+            const relatedMovies = await movieModel.getRelatedMovies(title ?? '');
 
-            if (relatedMovies) {
-                res.status(HttpStatusCode.OK).send(relatedMovies);
-            } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Related Movies not found' });
+            if (!relatedMovies) {
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Related Movies not found' });
+                return;
             }
+
+            reply.status(HttpStatusCode.OK).send(relatedMovies);
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async updateMovieById(req: Request, res: Response) {
-        const movieBodyParams = req.body;
-        const { id } = req.params;
+
+    async updateMovieById(request: FastifyRequest<{ Params: UpdateMovieByIdParams, Body: MovieRequestBody }>, reply: FastifyReply) {
+        const { id } = request.params;
+        const movieBodyParams = request.body;
 
         try {
-            const movie: Movie | null = await movieModel.updateMovieById(movieBodyParams, id);
+            const movie = await movieModel.updateMovieById(movieBodyParams, id);
 
-            if (movie) {
-                res.status(HttpStatusCode.OK).send(movie);
-            } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Movie not updated' });
+            if (!movie) {
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Movie not updated' });
+                return;
             }
+
+            reply.status(HttpStatusCode.OK).send(movie);
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addMovie(req: Request, res: Response) {
-        const movieBodyParams = req.body;
+
+    async addMovie(request: FastifyRequest<{ Body: MovieRequestBody }>, reply: FastifyReply) {
+        const movieBodyParams = request.body;
 
         try {
-            const movie: Movie | null = await movieModel.addMovie(movieBodyParams);
+            const movie = await movieModel.addMovie(movieBodyParams);
 
-            if (movie) {
-                res.status(HttpStatusCode.Created).send(movie);
-            } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Movie not created' });
+            if (!movie) {
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Movie not created' });
+                return;
             }
+
+            reply.status(HttpStatusCode.Created).send(movie);
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async deleteMovieById(req: Request, res: Response) {
-        const idParam = Number(req.params.id);
+
+    async deleteMovieById(request: FastifyRequest<{ Params: UpdateMovieByIdParams }>, reply: FastifyReply) {
+        const { id } = request.params;
 
         try {
-            const result = await movieModel.deleteMovieById(idParam);
+            const replyult = await movieModel.deleteMovieById(Number(id));
 
-            if (result) {
-                res.status(HttpStatusCode.OK).send({
-                    msg: 'Movie deleted successfully',
-                });
-            } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Movie not deleted' });
+            if (!replyult) {
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Movie not deleted' });
+                return;
             }
+
+            reply.status(HttpStatusCode.OK).send({ msg: 'Movie deleted successfully' });
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async searchMoviesByTitle(req: Request, res: Response) {
-        const { page, ascOrDesc, sortBy, title } = req.query;
 
-        const queryParams: any = {
-            page: Number(page),
-        };
-
-        if (ascOrDesc !== undefined) {
-            queryParams.ascOrDesc = String(ascOrDesc);
-        }
-
-        if (sortBy !== undefined) {
-            queryParams.sortBy = String(sortBy);
-        }
+    async searchMoviesByTitle(request: FastifyRequest<{ Querystring: any }>, reply: FastifyReply) {
+        const { title, page, ascOrDesc, sortBy } = request.query ;
 
         try {
-            const movies = await movieModel.searchMoviesByTitle(String(title), queryParams);
+            const movies = await movieModel.searchMoviesByTitle(title ?? '', {
+                page: page ?? 1,
+                ascOrDesc: ascOrDesc ?? '',
+                sortBy: sortBy ?? '',
+            });
 
-            if (movies) {
-                res.status(HttpStatusCode.OK).send(movies);
-            } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Movies not found' });
+            if (!movies) {
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Movies not found' });
+                return;
             }
+
+            reply.status(HttpStatusCode.OK).send(movies);
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
 };
 
 export default movieController;
+

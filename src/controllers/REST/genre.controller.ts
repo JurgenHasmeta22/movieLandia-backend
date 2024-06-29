@@ -2,20 +2,43 @@ import genreModel from '../../models/genre.model';
 import { FastifyRequest, FastifyReply } from 'fastify';
 import HttpStatusCode from '../../utils/httpStatusCodes';
 
+interface GetGenresQuery {
+    sortBy?: string;
+    ascOrDesc?: "asc" | "desc";
+    page?: number;
+    pageSize?: number;
+    name?: string;
+    filterValue?: string;
+    filterName?: string;
+    filterOperator?: ">" | "=" | "<";
+}
+
+interface GetGenreByNameQuery {
+    sortBy?: string;
+    ascOrDesc?: "asc" | "desc";
+    page?: number;
+    pageSize?: number;
+    type?: string;
+    name?: string;
+    filterValue?: string;
+    filterName?: string;
+    filterOperator?: ">" | "=" | "<";
+}
+
 const genreController = {
-    async getGenres(request: FastifyRequest<{ Querystring: { sortBy?: string; ascOrDesc?: string; page?: number; pageSize?: number; name?: string; filterValue?: number; filterName?: string; filterOperator?: string } }>, reply: FastifyReply) {
+    async getGenres(request: FastifyRequest<{ Querystring: GetGenresQuery }>, reply: FastifyReply) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = request.query;
 
         try {
             const genres = await genreModel.getGenres({
                 sortBy: sortBy || 'defaultSortBy',
-                ascOrDesc: ascOrDesc || 'defaultAscOrDesc',
+                ascOrDesc: ascOrDesc || 'asc',
                 perPage: pageSize ? Number(pageSize) : 20,
                 page: page !== undefined ? Number(page) : 1,
                 name: name || 'defaultName',
                 filterValue: filterValue !== undefined ? Number(filterValue) : undefined,
                 filterNameString: filterName || 'defaultFilterName',
-                filterOperatorString: filterOperator || 'defaultFilterOperator',
+                filterOperatorString: filterOperator || '=',
             });
 
             if (genres) {
@@ -44,21 +67,21 @@ const genreController = {
         }
     },
 
-    async getGenreByName(request: FastifyRequest<{ Params: { name: string }, Querystring: { sortBy?: string; ascOrDesc?: string; page?: number; pageSize?: number; type?: string; name?: string; filterValue?: number; filterName?: string; filterOperator?: string } }>, reply: FastifyReply) {
+    async getGenreByName(request: FastifyRequest<{ Params: { name: string }, Querystring: GetGenreByNameQuery }>, reply: FastifyReply) {
         const nameGenre = request.params.name.split('').map((char: string) => (char === '-' ? ' ' : char)).join('');
         const { sortBy, ascOrDesc, page, pageSize, type, name, filterValue, filterName, filterOperator } = request.query;
 
         try {
             const genre = await genreModel.getGenreByName(nameGenre, {
                 sortBy: sortBy || 'defaultSortBy',
-                ascOrDesc: ascOrDesc || 'defaultAscOrDesc',
+                ascOrDesc: ascOrDesc || 'asc',
                 perPage: pageSize ? Number(pageSize) : 20,
                 page: page !== undefined ? Number(page) : 1,
                 name: name || 'defaultName',
                 type: type || 'defaultType',
                 filterValue: filterValue !== undefined ? Number(filterValue) : undefined,
                 filterNameString: filterName || 'defaultFilterName',
-                filterOperatorString: filterOperator || 'defaultFilterOperator',
+                filterOperatorString: filterOperator || '=',
             });
 
             if (genre) {
@@ -72,7 +95,7 @@ const genreController = {
     },
 
     async addGenre(request: FastifyRequest<{ Body: any }>, reply: FastifyReply) {
-        const genreBodyParams = request.body;
+        const genreBodyParams: any = request.body;
 
         try {
             const genre = await genreModel.addGenre(genreBodyParams);
@@ -88,7 +111,7 @@ const genreController = {
     },
 
     async updateGenreById(request: FastifyRequest<{ Params: { id: string }, Body: any }>, reply: FastifyReply) {
-        const genreBodyParams = request.body;
+        const genreBodyParams: any = request.body;
         const { id } = request.params;
 
         try {

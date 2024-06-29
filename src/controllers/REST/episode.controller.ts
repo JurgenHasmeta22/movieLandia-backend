@@ -1,11 +1,22 @@
-import { Request, Response } from 'express';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import episodeModel from '../../models/episode.model';
 import { Episode } from '@prisma/client';
 import HttpStatusCode from '../../utils/httpStatusCodes';
 
+interface GetEpisodesQuery {
+    sortBy?: string;
+    ascOrDesc?: string;
+    page?: number;
+    pageSize?: number;
+    title?: string;
+    filterValue?: number;
+    filterName?: string;
+    filterOperator?: string;
+}
+
 const episodeController = {
-    async getEpisodes(req: Request, res: Response) {
-        const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
+    async getEpisodes(request: FastifyRequest<{ Querystring: GetEpisodesQuery }>, reply: FastifyReply) {
+        const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = request.query;
 
         try {
             const episodes = await episodeModel.getEpisodes({
@@ -20,107 +31,114 @@ const episodeController = {
             });
 
             if (episodes) {
-                res.status(HttpStatusCode.OK).send(episodes);
+                reply.status(HttpStatusCode.OK).send(episodes);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Episodes not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Episodes not found' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async getEpisodeById(req: Request, res: Response) {
-        const episodeId = Number(req.params.id);
+
+    async getEpisodeById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+        const episodeId = Number(request.params.id);
 
         try {
             const episode = await episodeModel.getEpisodeById(episodeId);
 
             if (episode) {
-                res.status(HttpStatusCode.OK).send(episode);
+                reply.status(HttpStatusCode.OK).send(episode);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Episode not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Episode not found' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async getEpisodeByTitle(req: Request, res: Response) {
-        const title = req.params.title
+
+    async getEpisodeByTitle(request: FastifyRequest<{ Params: { title: string } }>, reply: FastifyReply) {
+        const title = request.params.title
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
+
         try {
             const episode = await episodeModel.getEpisodeByTitle(title);
 
             if (episode) {
-                res.status(HttpStatusCode.OK).send(episode);
+                reply.status(HttpStatusCode.OK).send(episode);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Episode not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Episode not found' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async updateEpisodeById(req: Request, res: Response) {
-        const episodeBodyParams = req.body;
-        const { id } = req.params;
+
+    async updateEpisodeById(request: FastifyRequest<{ Params: { id: string }, Body: any }>, reply: FastifyReply) {
+        const episodeBodyParams: any = request.body;
+        const { id } = request.params;
 
         try {
             const episode: Episode | null = await episodeModel.updateEpisodeById(episodeBodyParams, id);
 
             if (episode) {
-                res.status(HttpStatusCode.OK).send(episode);
+                reply.status(HttpStatusCode.OK).send(episode);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Episode not updated' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Episode not updated' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async addEpisode(req: Request, res: Response) {
-        const episodeBodyParams = req.body;
+
+    async addEpisode(request: FastifyRequest<{ Body: any }>, reply: FastifyReply) {
+        const episodeBodyParams: any = request.body;
 
         try {
             const episode: Episode | null = await episodeModel.addEpisode(episodeBodyParams);
 
             if (episode) {
-                res.status(HttpStatusCode.Created).send(episode);
+                reply.status(HttpStatusCode.Created).send(episode);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Episode not created' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Episode not created' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async deleteEpisodeById(req: Request, res: Response) {
-        const idParam = Number(req.params.id);
+
+    async deleteEpisodeById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+        const idParam = Number(request.params.id);
 
         try {
             const result = await episodeModel.deleteEpisodeById(idParam);
 
             if (result) {
-                res.status(HttpStatusCode.OK).send({
+                reply.status(HttpStatusCode.OK).send({
                     msg: 'Episode deleted successfully',
                 });
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Episode not deleted' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Episode not deleted' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async searchEpisodesByTitle(req: Request, res: Response) {
-        const { title, page } = req.query;
+
+    async searchEpisodesByTitle(request: FastifyRequest<{ Querystring: { title?: string; page?: number } }>, reply: FastifyReply) {
+        const { title, page } = request.query;
 
         try {
             const episodes = await episodeModel.searchEpisodesByTitle(String(title), Number(page));
 
             if (episodes) {
-                res.status(HttpStatusCode.OK).send(episodes);
+                reply.status(HttpStatusCode.OK).send(episodes);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Episodes not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Episodes not found' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
 };

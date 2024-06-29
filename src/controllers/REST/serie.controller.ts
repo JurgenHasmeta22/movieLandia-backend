@@ -1,11 +1,31 @@
-import { Request, Response } from 'express';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import serieModel from '../../models/serie.model';
 import { Serie } from '@prisma/client';
 import HttpStatusCode from '../../utils/httpStatusCodes';
 
+interface GetSeriesQuery {
+    sortBy?: string;
+    ascOrDesc?: 'asc' | 'desc';
+    page?: string;
+    pageSize?: string;
+    title?: string;
+    filterValue?: string;
+    filterName?: string;
+    filterOperator?: '>' | '=' | '<';
+}
+
+interface GetSerieByTitleQuery {
+    page?: string;
+    ascOrDesc?: string;
+    sortBy?: string;
+    upvotesPage?: string;
+    downvotesPage?: string;
+    userId?: string;
+}
+
 const serieController = {
-    async getSeries(req: Request, res: Response) {
-        const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = req.query;
+    async getSeries(request: FastifyRequest<{ Querystring: GetSeriesQuery }>, reply: FastifyReply) {
+        const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = request.query;
 
         try {
             const series = await serieModel.getSeries({
@@ -20,32 +40,34 @@ const serieController = {
             });
 
             if (series) {
-                res.status(HttpStatusCode.OK).send(series);
+                reply.status(HttpStatusCode.OK).send(series);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async getSerieById(req: Request, res: Response) {
-        const serieId = Number(req.params.id);
+
+    async getSerieById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+        const serieId = Number(request.params.id);
 
         try {
             const serie = await serieModel.getSerieById(serieId);
 
             if (serie) {
-                res.status(HttpStatusCode.OK).send(serie);
+                reply.status(HttpStatusCode.OK).send(serie);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Serie not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Serie not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async getSerieByTitle(req: Request, res: Response) {
-        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
-        const title = req.params.title
+
+    async getSerieByTitle(request: FastifyRequest<{ Querystring: GetSerieByTitleQuery, Params: { title: string } }>, reply: FastifyReply) {
+        const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = request.query;
+        const title = request.params.title
             .split('')
             .map((char) => (char === '-' ? ' ' : char))
             .join('');
@@ -78,29 +100,31 @@ const serieController = {
             const serie = await serieModel.getSerieByTitle(title, queryParams);
 
             if (serie) {
-                res.status(HttpStatusCode.OK).send(serie);
+                reply.status(HttpStatusCode.OK).send(serie);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'serie not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Serie not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async getLatestSeries(req: Request, res: Response) {
+
+    async getLatestSeries(request: FastifyRequest, reply: FastifyReply) {
         try {
             const latestSeries = await serieModel.getLatestSeries();
 
             if (latestSeries) {
-                res.status(HttpStatusCode.OK).send(latestSeries);
+                reply.status(HttpStatusCode.OK).send(latestSeries);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async getRelatedSeries(req: Request, res: Response) {
-        const { title } = req.query;
+
+    async getRelatedSeries(request: FastifyRequest<{ Querystring: { title: string } }>, reply: FastifyReply) {
+        const { title } = request.query;
         const titleFormatted =
             title &&
             String(title)
@@ -112,64 +136,68 @@ const serieController = {
             const relatedSeries = await serieModel.getRelatedSeries(titleFormatted!);
 
             if (relatedSeries) {
-                res.status(HttpStatusCode.OK).send(relatedSeries);
+                reply.status(HttpStatusCode.OK).send(relatedSeries);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Related Series not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Related Series not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async updateSerieById(req: Request, res: Response) {
-        const serieBodyParams = req.body;
-        const { id } = req.params;
+
+    async updateSerieById(request: FastifyRequest<{ Params: { id: string }, Body: Serie }>, reply: FastifyReply) {
+        const serieBodyParams = request.body;
+        const { id } = request.params;
 
         try {
             const serie: Serie | null = await serieModel.updateSerieById(serieBodyParams, id);
 
             if (serie) {
-                res.status(HttpStatusCode.OK).send(serie);
+                reply.status(HttpStatusCode.OK).send(serie);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Serie not updated' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Serie not updated' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addSerie(req: Request, res: Response) {
-        const serieBodyParams = req.body;
+
+    async addSerie(request: FastifyRequest<{ Body: Serie }>, reply: FastifyReply) {
+        const serieBodyParams = request.body;
 
         try {
             const serie: Serie | null = await serieModel.addSerie(serieBodyParams);
 
             if (serie) {
-                res.status(HttpStatusCode.Created).send(serie);
+                reply.status(HttpStatusCode.Created).send(serie);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Serie not created' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Serie not created' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async deleteSerieById(req: Request, res: Response) {
-        const idParam = Number(req.params.id);
+
+    async deleteSerieById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+        const idParam = Number(request.params.id);
 
         try {
             const result = await serieModel.deleteSerieById(idParam);
 
             if (result) {
-                res.status(HttpStatusCode.OK).send({
+                reply.status(HttpStatusCode.OK).send({
                     msg: 'Serie deleted successfully',
                 });
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Serie not deleted' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Serie not deleted' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async searchSeriesByTitle(req: Request, res: Response) {
-        const { page, ascOrDesc, sortBy, title } = req.query;
+
+    async searchSeriesByTitle(request: FastifyRequest<{ Querystring: { title: string, page?: string, ascOrDesc?: string, sortBy?: string } }>, reply: FastifyReply) {
+        const { page, ascOrDesc, sortBy, title } = request.query;
 
         const queryParams: any = {
             page: Number(page),
@@ -187,27 +215,28 @@ const serieController = {
             const series = await serieModel.searchSeriesByTitle(String(title), queryParams);
 
             if (series) {
-                res.status(HttpStatusCode.OK).send(series);
+                reply.status(HttpStatusCode.OK).send(series);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
-    async addSeasonToSerie(req: Request, res: Response) {
-        const { serieId, seasonId } = req.body;
+
+    async addSeasonToSerie(request: FastifyRequest<{ Body: { serieId: number, seasonId: number } }>, reply: FastifyReply) {
+        const { serieId, seasonId } = request.body;
 
         try {
             const updatedSerie = await serieModel.addSeasonToSerie(seasonId, serieId);
 
             if (updatedSerie) {
-                res.status(HttpStatusCode.OK).send(updatedSerie);
+                reply.status(HttpStatusCode.OK).send(updatedSerie);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Serie with new season not updated' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Serie with new season not updated' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
 };
