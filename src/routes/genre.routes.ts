@@ -7,13 +7,13 @@ import {
     genreIdParamSchema,
     genreNameParamSchema,
 } from '../schemas/genre.schema';
+import { FastifyPluginAsync } from 'fastify';
 
-async function genreRoutes(fastify: any, options: any) {
+const genreRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getGenres', {
         schema: {
             querystring: genreQuerySchema,
         },
-        // preHandler: validateMiddleware,
         handler: genreController.getGenres,
     });
 
@@ -21,7 +21,6 @@ async function genreRoutes(fastify: any, options: any) {
         schema: {
             params: genreIdParamSchema,
         },
-        // preHandler: validateMiddleware,
         handler: genreController.getGenreById,
     });
 
@@ -29,7 +28,6 @@ async function genreRoutes(fastify: any, options: any) {
         schema: {
             params: genreNameParamSchema,
         },
-        // preHandler: validateMiddleware,
         handler: genreController.getGenreByName,
     });
 
@@ -37,7 +35,6 @@ async function genreRoutes(fastify: any, options: any) {
         schema: {
             params: genreIdParamSchema,
         },
-        // preHandler: validateMiddleware,
         handler: genreController.deleteGenreById,
     });
 
@@ -46,7 +43,6 @@ async function genreRoutes(fastify: any, options: any) {
             params: genreIdParamSchema,
             body: genreSchemaPost,
         },
-        // preHandler: validateMiddleware,
         handler: genreController.updateGenreById,
     });
 
@@ -55,7 +51,6 @@ async function genreRoutes(fastify: any, options: any) {
             params: genreIdParamSchema,
             body: genreSchemaUpdate,
         },
-        // preHandler: validateMiddleware,
         handler: genreController.updateGenreById,
     });
 
@@ -63,11 +58,10 @@ async function genreRoutes(fastify: any, options: any) {
         schema: {
             body: genreSchemaPost,
         },
-        // preHandler: validateMiddleware,
         handler: genreController.addGenre,
     });
 
     fastify.get('/searchGenresByTitle', genreController.searchGenresByName);
-}
+};
 
 export default fp(genreRoutes);

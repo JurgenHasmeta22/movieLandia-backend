@@ -1,5 +1,3 @@
-import { FastifySchema } from 'fastify';
-
 const allowedSortByProperties = ['userName', 'email'];
 
 const userIdParamSchema = {
@@ -13,17 +11,15 @@ const userIdParamSchema = {
     required: ['id'],
 };
 
-const userUserNameParamSchema: FastifySchema = {
-    params: {
-        type: 'object',
-        properties: {
-            userName: {
-                type: 'string',
-                pattern: '^[a-zA-Z\\s]+$',
-            },
+const userUserNameParamSchema = {
+    type: 'object',
+    properties: {
+        userName: {
+            type: 'string',
+            pattern: '^[a-zA-Z\\s]+$',
         },
-        required: ['userName'],
     },
+    required: ['userName'],
 };
 
 const userQuerySchema = {

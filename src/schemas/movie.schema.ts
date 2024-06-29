@@ -1,5 +1,3 @@
-import { FastifySchema } from 'fastify';
-
 const allowedSortByProperties = [
     'id',
     'title',
@@ -13,45 +11,41 @@ const allowedSortByProperties = [
 
 const allowedSortByPropertiesDetails = ['createdAt', 'rating'];
 
-const movieQuerySchema: FastifySchema = {
-    querystring: {
-        type: 'object',
-        properties: {
-            sortBy: {
-                type: 'string',
-                enum: allowedSortByProperties,
-            },
-            ascOrDesc: {
-                type: 'string',
-                enum: ['asc', 'desc'],
-            },
-            page: { type: 'integer', minimum: 1 },
-            pageSize: { type: 'integer', minimum: 1, maximum: 100 },
-            title: { type: 'string' },
-            filterValue: { type: 'string' },
-            filterName: {
-                type: 'string',
-                enum: ['title', 'releaseYear'],
-            },
-            filterOperator: {
-                type: 'string',
-                enum: ['equals', 'contains', 'startsWith', 'endsWith'],
-            },
+const movieQuerySchema = {
+    type: 'object',
+    properties: {
+        sortBy: {
+            type: 'string',
+            enum: allowedSortByProperties,
+        },
+        ascOrDesc: {
+            type: 'string',
+            enum: ['asc', 'desc'],
+        },
+        page: { type: 'integer', minimum: 1 },
+        pageSize: { type: 'integer', minimum: 1, maximum: 100 },
+        title: { type: 'string' },
+        filterValue: { type: 'string' },
+        filterName: {
+            type: 'string',
+            enum: ['title', 'releaseYear'],
+        },
+        filterOperator: {
+            type: 'string',
+            enum: ['equals', 'contains', 'startsWith', 'endsWith'],
         },
     },
 };
 
-const movieIdParamSchema: FastifySchema = {
-    params: {
-        type: 'object',
-        properties: {
-            id: { type: 'integer', minimum: 1 },
-        },
-        required: ['id'],
+const movieIdParamSchema = {
+    type: 'object',
+    properties: {
+        id: { type: 'integer', minimum: 1 },
     },
+    required: ['id'],
 };
 
-const movieTitleParamSchema: FastifySchema = {
+const movieTitleParamSchema = {
     params: {
         type: 'object',
         properties: {
@@ -62,6 +56,9 @@ const movieTitleParamSchema: FastifySchema = {
         },
         required: ['title'],
     },
+};
+
+const movieTitleQueryParam = {
     querystring: {
         type: 'object',
         properties: {
@@ -80,36 +77,39 @@ const movieTitleParamSchema: FastifySchema = {
     },
 };
 
-const movieSchemaUpdate: FastifySchema = {
-    body: {
-        type: 'object',
-        properties: {
-            title: { type: 'string' },
-            photoSrc: { type: 'string' },
-            trailerSrc: { type: 'string', format: 'uri' },
-            duration: { type: 'string', minLength: 1, maxLength: 10 },
-            ratingImdb: { type: 'number', minimum: 0, maximum: 10 },
-            releaseYear: { type: 'integer', minimum: 1900, maximum: new Date().getFullYear() },
-            description: { type: 'string', minLength: 10, maxLength: 200 },
-        },
-        required: [],
+const movieSchemaUpdate = {
+    type: 'object',
+    properties: {
+        title: { type: 'string' },
+        photoSrc: { type: 'string' },
+        trailerSrc: { type: 'string', format: 'uri' },
+        duration: { type: 'string', minLength: 1, maxLength: 10 },
+        ratingImdb: { type: 'number', minimum: 0, maximum: 10 },
+        releaseYear: { type: 'integer', minimum: 1900, maximum: new Date().getFullYear() },
+        description: { type: 'string', minLength: 10, maxLength: 200 },
     },
+    required: [],
 };
 
-const movieSchemaPost: FastifySchema = {
-    body: {
-        type: 'object',
-        properties: {
-            title: { type: 'string' },
-            photoSrc: { type: 'string' },
-            trailerSrc: { type: 'string', format: 'uri' },
-            duration: { type: 'string', minLength: 1, maxLength: 10 },
-            ratingImdb: { type: 'number', minimum: 0, maximum: 10 },
-            releaseYear: { type: 'integer', minimum: 1900, maximum: new Date().getFullYear() },
-            description: { type: 'string', minLength: 10, maxLength: 200 },
-        },
-        required: ['title', 'photoSrc', 'trailerSrc', 'duration', 'ratingImdb', 'releaseYear', 'description'],
+const movieSchemaPost = {
+    type: 'object',
+    properties: {
+        title: { type: 'string' },
+        photoSrc: { type: 'string' },
+        trailerSrc: { type: 'string', format: 'uri' },
+        duration: { type: 'string', minLength: 1, maxLength: 10 },
+        ratingImdb: { type: 'number', minimum: 0, maximum: 10 },
+        releaseYear: { type: 'integer', minimum: 1900, maximum: new Date().getFullYear() },
+        description: { type: 'string', minLength: 10, maxLength: 200 },
     },
+    required: ['title', 'photoSrc', 'trailerSrc', 'duration', 'ratingImdb', 'releaseYear', 'description'],
 };
 
-export { movieSchemaPost, movieSchemaUpdate, movieQuerySchema, movieIdParamSchema, movieTitleParamSchema };
+export {
+    movieTitleQueryParam,
+    movieSchemaPost,
+    movieSchemaUpdate,
+    movieQuerySchema,
+    movieIdParamSchema,
+    movieTitleParamSchema,
+};

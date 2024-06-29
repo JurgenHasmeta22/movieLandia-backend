@@ -9,55 +9,56 @@ import trackLastPageMiddleware from '../middlewares/trackLastPage.middleware';
 
 const viewRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/', {
-        handler: homeController.homeView
+        handler: homeController.homeView,
     });
 
     fastify.get('/login', {
-        handler: authController.loginView
+        handler: authController.loginView,
     });
 
-    fastify.post('/login', { preHandler: trackLastPageMiddleware }, async (request, reply) => {
-        return authController.loginPost(request, reply);
+    fastify.post('/login', {
+        preHandler: trackLastPageMiddleware,
+        handler: authController.loginPost,
     });
 
-    fastify.get('/register', async (request, reply) => {
-        return authController.registerView(request, reply);
+    fastify.get('/register', {
+        handler: authController.registerView,
     });
 
-    fastify.post('/register', async (request, reply) => {
-        return authController.registerPost(request, reply);
+    fastify.post('/register', {
+        handler: authController.registerPost,
     });
 
-    fastify.post('/logout', async (request, reply) => {
-        return authController.logout(request, reply);
+    fastify.post('/logout', {
+        handler: authController.logout,
     });
 
-    fastify.get('/search', async (request, reply) => {
-        return searchController.searchView(request, reply);
+    fastify.get('/search', {
+        handler: searchController.searchView,
     });
 
-    fastify.get('/genres', async (request, reply) => {
-        return genreController.genresView(request, reply);
+    fastify.get('/genres', {
+        handler: genreController.genresView,
     });
 
-    fastify.get('/genres/:name', async (request, reply) => {
-        return genreController.genreView(request, reply);
+    fastify.get('/genres/:name', {
+        handler: genreController.genreView,
     });
 
-    fastify.get('/movies', async (request, reply) => {
-        return movieController.moviesView(request, reply);
+    fastify.get('/movies', {
+        handler: movieController.moviesView,
     });
 
-    fastify.get('/movies/:title', async (request, reply) => {
-        return movieController.movieView(request, reply);
+    fastify.get('/movies/:title', {
+        handler: movieController.movieView,
     });
 
-    fastify.get('/series', async (request, reply) => {
-        return serieController.seriesView(request, reply);
+    fastify.get('/series', {
+        handler: serieController.seriesView,
     });
 
-    fastify.get('/series/:title', async (request, reply) => {
-        return serieController.serieView(request, reply);
+    fastify.get('/series/:title', {
+        handler: serieController.serieView,
     });
 };
 

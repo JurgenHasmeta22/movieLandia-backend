@@ -7,60 +7,53 @@ import {
     movieIdParamSchema,
     movieTitleParamSchema,
 } from '../schemas/movie.schema';
-// import validateMiddleware from '../middlewares/validate.middleware';
+import { FastifyPluginAsync } from 'fastify';
 
-async function movieRoutes(fastify: any, options: any) {
+const movieRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getMovies', {
-        schema: movieQuerySchema,
-        // preHandler: fastify.validateMiddleware,
+        schema: { querystring: movieQuerySchema },
         handler: movieController.getMovies,
     });
 
     fastify.get('/getMovieById/:id', {
-        schema: movieIdParamSchema,
-        // preHandler: validateMiddleware,
+        schema: { params: movieIdParamSchema },
         handler: movieController.getMovieById,
     });
 
     fastify.get('/getMovieByTitle/:title', {
-        schema: movieTitleParamSchema,
-        // preHandler: validateMiddleware,
+        schema: { params: movieTitleParamSchema },
         handler: movieController.getMovieByTitle,
     });
 
     fastify.delete('/deleteMovieById/:id', {
-        schema: movieIdParamSchema,
-        // preHandler: validateMiddleware,
+        schema: { params: movieIdParamSchema },
         handler: movieController.deleteMovieById,
     });
 
     fastify.patch('/updateMovieById/:id', {
         schema: {
-            movieIdParamSchema,
-            movieSchemaUpdate,
+            params: { params: movieIdParamSchema },
+            body: movieSchemaUpdate,
         },
-        // preHandler: validateMiddleware,
         handler: movieController.updateMovieById,
     });
 
     fastify.put('/updateMovieById/:id', {
         schema: {
-            movieIdParamSchema,
-            movieSchemaPost,
+            params: { params: movieIdParamSchema },
+            body: movieSchemaPost,
         },
-        // preHandler: validateMiddleware,
         handler: movieController.updateMovieById,
     });
 
     fastify.post('/addMovie', {
-        schema: movieSchemaPost,
-        // preHandler: validateMiddleware,
+        schema: { body: movieSchemaPost },
         handler: movieController.addMovie,
     });
 
     fastify.get('/searchMoviesByTitle', movieController.searchMoviesByTitle);
     fastify.get('/getLatestMovies', movieController.getLatestMovies);
     fastify.get('/getRelatedMovies', movieController.getRelatedMovies);
-}
+};
 
 export default fp(movieRoutes);
