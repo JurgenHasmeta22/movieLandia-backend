@@ -1,6 +1,5 @@
-import express from 'express';
+import fp from 'fastify-plugin';
 import movieController from '../controllers/REST/movie.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
 import {
     movieSchemaUpdate,
     movieSchemaPost,
@@ -9,29 +8,68 @@ import {
     movieTitleParamSchema,
 } from '../schemas/movie.schema';
 
-const router = express.Router();
+async function movieRoutes(fastify: any, options: any) {
+    fastify.get('/getMovies', {
+        schema: {
+            querystring: movieQuerySchema,
+        },
+        preHandler: fastify.validateMiddleware,
+        handler: movieController.getMovies,
+    });
 
-router.get('/getMovies', movieQuerySchema, validateMiddleware, movieController.getMovies);
-router.get('/getMovieById/:id', movieIdParamSchema, validateMiddleware, movieController.getMovieById);
-router.get('/getMovieByTitle/:title', movieTitleParamSchema, validateMiddleware, movieController.getMovieByTitle);
-router.delete('/deleteMovieById/:id', movieIdParamSchema, validateMiddleware, movieController.deleteMovieById);
-router.patch(
-    '/updateMovieById/:id',
-    movieIdParamSchema,
-    movieSchemaUpdate,
-    validateMiddleware,
-    movieController.updateMovieById,
-);
-router.put(
-    '/updateMovieById/:id',
-    movieIdParamSchema,
-    movieSchemaPost,
-    validateMiddleware,
-    movieController.updateMovieById,
-);
-router.post('/addMovie', movieSchemaPost, validateMiddleware, movieController.addMovie);
-router.get('/searchMoviesByTitle', movieController.searchMoviesByTitle);
-router.get('/getLatestMovies', movieController.getLatestMovies);
-router.get('/getRelatedMovies', movieController.getRelatedMovies);
+    fastify.get('/getMovieById/:id', {
+        schema: {
+            params: movieIdParamSchema,
+        },
+        preHandler: fastify.validateMiddleware,
+        handler: movieController.getMovieById,
+    });
 
-export default router;
+    fastify.get('/getMovieByTitle/:title', {
+        schema: {
+            params: movieTitleParamSchema,
+        },
+        preHandler: fastify.validateMiddleware,
+        handler: movieController.getMovieByTitle,
+    });
+
+    fastify.delete('/deleteMovieById/:id', {
+        schema: {
+            params: movieIdParamSchema,
+        },
+        preHandler: fastify.validateMiddleware,
+        handler: movieController.deleteMovieById,
+    });
+
+    fastify.patch('/updateMovieById/:id', {
+        schema: {
+            params: movieIdParamSchema,
+            body: movieSchemaUpdate,
+        },
+        preHandler: fastify.validateMiddleware,
+        handler: movieController.updateMovieById,
+    });
+
+    fastify.put('/updateMovieById/:id', {
+        schema: {
+            params: movieIdParamSchema,
+            body: movieSchemaPost,
+        },
+        preHandler: fastify.validateMiddleware,
+        handler: movieController.updateMovieById,
+    });
+
+    fastify.post('/addMovie', {
+        schema: {
+            body: movieSchemaPost,
+        },
+        preHandler: fastify.validateMiddleware,
+        handler: movieController.addMovie,
+    });
+
+    fastify.get('/searchMoviesByTitle', movieController.searchMoviesByTitle);
+    fastify.get('/getLatestMovies', movieController.getLatestMovies);
+    fastify.get('/getRelatedMovies', movieController.getRelatedMovies);
+}
+
+export default fp(movieRoutes);

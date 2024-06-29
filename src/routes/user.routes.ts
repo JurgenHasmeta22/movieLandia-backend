@@ -1,6 +1,5 @@
-import express from 'express';
+import { FastifyPluginAsync } from 'fastify';
 import userController from '../controllers/REST/user.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
 import {
     userSchemaUpdate,
     userSchemaPost,
@@ -8,13 +7,7 @@ import {
     userIdParamSchema,
     userUserNameParamSchema,
 } from '../schemas/user.schema';
-
-// import { authMiddleware } from '../middlewares/auth.middleware';
-
-// import { userSeasonFavoriteSchema } from '../schemas/userSeasonFavorite.schema';
 import { userMovieFavoriteSchema } from '../schemas/userMovieFavorite.schema';
-// import { userEpisodeFavoriteSchema } from '../schemas/userEpisodeFavorite.schema';
-// import { userGenreFavoriteSchema } from '../schemas/userGenreFavorite.schema';
 import { userSerieFavoriteSchema } from '../schemas/userSerie.schema';
 import { movieReviewSchema } from '../schemas/movieReview.schema';
 import { serieReviewSchema } from '../schemas/serieReview.schema';
@@ -23,64 +16,231 @@ import { upvoteSerieSchema } from '../schemas/upvoteSerie.schema';
 import { downvoteMovieSchema } from '../schemas/downvoteMovie.schema';
 import { downvoteSerieSchema } from '../schemas/downvoteSerie.schema';
 
-const router = express.Router();
+const userRoutes: FastifyPluginAsync = async (fastify) => {
+    fastify.get('/getUsers', { schema: { querystring: userQuerySchema } }, async (request, reply) => {
+        try {
+            const users = await userController.getUsers(request, reply);
+            reply.send(users);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
 
-// router.use(authMiddleware);
+    fastify.get('/getUserById/:id', { schema: { params: userIdParamSchema } }, async (request, reply) => {
+        try {
+            const user = await userController.getUserById(request, reply);
+            reply.send(user);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
 
-// #region "CRUD Routes"
-router.get('/getUsers', userQuerySchema, validateMiddleware, userController.getUsers);
-router.get('/getUserById/:id', userIdParamSchema, validateMiddleware, userController.getUserById);
-router.get('/getUserByTitle/:userName', userUserNameParamSchema, validateMiddleware, userController.getUserByTitle);
-router.delete('/deleteUserById/:id', userIdParamSchema, validateMiddleware, userController.deleteUserById);
-router.patch(
-    '/updateUserById/:id',
-    userIdParamSchema,
-    userSchemaUpdate,
-    validateMiddleware,
-    userController.updateUserById,
-);
-router.put('/updateUserById/:id', userIdParamSchema, userSchemaPost, validateMiddleware, userController.updateUserById);
-router.get('/searchUsersByTitle', userController.searchUsersByTitle);
-// #endregion
+    fastify.get('/getUserByTitle/:userName', { schema: { params: userUserNameParamSchema } }, async (request, reply) => {
+        try {
+            const user = await userController.getUserByTitle(request, reply);
+            reply.send(user);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
 
-// #region "Bookmark Routes"
-// router.post('/bookmarkSeason', userSeasonFavoriteSchema, validateMiddleware, userController.bookmarkSeason);
-router.post('/bookmarkMovie', userMovieFavoriteSchema, userController.bookmarkMovie);
-router.post('/bookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.bookmarkSerie);
-// router.post('/bookmarkEpisode', userEpisodeFavoriteSchema, validateMiddleware, userController.bookmarkEpisode);
-// router.post('/bookmarkGenre', userGenreFavoriteSchema, validateMiddleware, userController.bookmarkGenre);
-router.post('/unBookmarkMovie', userMovieFavoriteSchema, validateMiddleware, userController.unBookmarkMovie);
-router.post('/unBookmarkSerie', userSerieFavoriteSchema, validateMiddleware, userController.unBookmarkSerie);
-// #endregion
+    fastify.delete('/deleteUserById/:id', { schema: { params: userIdParamSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.deleteUserById(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
 
-// #region "Reviews Routes"
-router.post('/addReviewMovie', movieReviewSchema, validateMiddleware, userController.addReviewMovie);
-router.post('/addReviewSerie', serieReviewSchema, validateMiddleware, userController.addReviewSerie);
-router.post('/updateReviewMovie', movieReviewSchema, validateMiddleware, userController.updateReviewMovie);
-router.post('/updateReviewSerie', serieReviewSchema, validateMiddleware, userController.updateReviewSerie);
-router.post('/removeReviewMovie', movieReviewSchema, validateMiddleware, userController.removeReviewMovie);
-router.post('/removeReviewSerie', serieReviewSchema, validateMiddleware, userController.removeReviewSerie);
-// #endregion
+    fastify.patch('/updateUserById/:id', { schema: { params: userIdParamSchema, body: userSchemaUpdate } }, async (request, reply) => {
+        try {
+            const user = await userController.updateUserById(request, reply);
+            reply.send(user);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
 
-// #region "Upvotes, Downvotes Routes"
-router.post('/addUpvoteMovieReview', upvoteMovieSchema, validateMiddleware, userController.addUpvoteMovieReview);
-router.post('/addUpvoteSerieReview', upvoteSerieSchema, validateMiddleware, userController.addUpvoteSerieReview);
-router.post('/removeUpvoteMovieReview', upvoteMovieSchema, validateMiddleware, userController.removeUpvoteMovieReview);
-router.post('/removeUpvoteSerieReview', upvoteSerieSchema, validateMiddleware, userController.removeUpvoteSerieReview);
-router.post('/addDownvoteMovieReview', downvoteMovieSchema, validateMiddleware, userController.addDownvoteMovieReview);
-router.post('/addDownvoteSerieReview', downvoteSerieSchema, validateMiddleware, userController.addDownvoteSerieReview);
-router.post(
-    '/removeDownvoteMovieReview',
-    downvoteMovieSchema,
-    validateMiddleware,
-    userController.removeDownvoteMovieReview,
-);
-router.post(
-    '/removeDownvoteSerieReview',
-    downvoteSerieSchema,
-    validateMiddleware,
-    userController.removeDownvoteSerieReview,
-);
-// #endregion
+    fastify.put('/updateUserById/:id', { schema: { params: userIdParamSchema, body: userSchemaPost } }, async (request, reply) => {
+        try {
+            const user = await userController.updateUserById(request, reply);
+            reply.send(user);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
 
-export default router;
+    fastify.get('/searchUsersByTitle', async (request, reply) => {
+        try {
+            const users = await userController.searchUsersByTitle(request, reply);
+            reply.send(users);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/bookmarkMovie', { schema: { body: userMovieFavoriteSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.bookmarkMovie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/bookmarkSerie', { schema: { body: userSerieFavoriteSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.bookmarkSerie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/unBookmarkMovie', { schema: { body: userMovieFavoriteSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.unBookmarkMovie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/unBookmarkSerie', { schema: { body: userSerieFavoriteSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.unBookmarkSerie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/addReviewMovie', { schema: { body: movieReviewSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.addReviewMovie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/addReviewSerie', { schema: { body: serieReviewSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.addReviewSerie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/updateReviewMovie', { schema: { body: movieReviewSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.updateReviewMovie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/updateReviewSerie', { schema: { body: serieReviewSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.updateReviewSerie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/removeReviewMovie', { schema: { body: movieReviewSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.removeReviewMovie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/removeReviewSerie', { schema: { body: serieReviewSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.removeReviewSerie(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/addUpvoteMovieReview', { schema: { body: upvoteMovieSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.addUpvoteMovieReview(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/addUpvoteSerieReview', { schema: { body: upvoteSerieSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.addUpvoteSerieReview(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/removeUpvoteMovieReview', { schema: { body: upvoteMovieSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.removeUpvoteMovieReview(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/removeUpvoteSerieReview', { schema: { body: upvoteSerieSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.removeUpvoteSerieReview(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/addDownvoteMovieReview', { schema: { body: downvoteMovieSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.addDownvoteMovieReview(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/addDownvoteSerieReview', { schema: { body: downvoteSerieSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.addDownvoteSerieReview(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/removeDownvoteMovieReview', { schema: { body: downvoteMovieSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.removeDownvoteMovieReview(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+
+    fastify.post('/removeDownvoteSerieReview', { schema: { body: downvoteSerieSchema } }, async (request, reply) => {
+        try {
+            const result = await userController.removeDownvoteSerieReview(request, reply);
+            reply.send(result);
+        } catch (error) {
+            reply.status(500).send({ error: 'Internal Server Error' });
+        }
+    });
+};
+
+export default userRoutes;
