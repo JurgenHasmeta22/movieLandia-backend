@@ -55,8 +55,10 @@ const movieTitleParamSchema: FastifySchema = {
     params: {
         type: 'object',
         properties: {
-            title: { type: 'string' },
-            pattern: '^(?!\\d+$)[\\w\\s]*$',
+            title: {
+                type: 'string',
+                pattern: '^(?!\\d+$)[\\w\\s]*$',
+            },
         },
         required: ['title'],
     },
