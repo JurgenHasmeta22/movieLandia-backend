@@ -47,6 +47,7 @@ server.register(fastifySwagger, {
 //   },
 //   exposeRoute: true,
 // });
+
 server.register(fastifyStatic, {
     root: path.join(__dirname, 'public'),
 });
@@ -65,8 +66,8 @@ server.register(fastifySession, {
     cookie: { secure: false },
 });
 server.register(fastifyFlash);
+server.register(require('@fastify/formbody'));
 
-// Register routes
 server.register(viewsRoutes);
 server.register(authRoutes);
 server.register(movieRoutes);
@@ -75,13 +76,11 @@ server.register(genreRoutes);
 server.register(episodeRoutes);
 server.register(userRoutes);
 
-// Error handling
 server.setErrorHandler((error, request, reply) => {
     server.log.error(error);
     reply.status(500).send({ error: 'Internal Server Error' });
 });
 
-// Start server
 const start = async () => {
     try {
         await server.listen(4000);

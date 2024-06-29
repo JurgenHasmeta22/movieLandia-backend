@@ -2,79 +2,81 @@ import authModel from '../../models/auth.model';
 import { createToken } from '../../utils/authUtils';
 
 const authViewController = {
-    async loginView(req: any, res: any) {
-        const error = req.flash('error');
+    async loginView(request: any, reply: any) {
+        const error = request.flash('error', 'Error in requesting the login page');
 
-        return res.view('pages/Login', {
+        return reply.render('pages/Login', {
             title: 'Login',
             description: 'Login Page',
             canonical: 'login',
             error,
-            user: req.session.user,
+            user: request.session.user,
             titleTerm: '',
         });
     },
 
-    async loginPost(req: any, res: any) {
-        const { email, password } = req.body;
+    async loginPost(request: any, reply: any) {
+        const { email, password } = request.body;
 
         try {
             const user = await authModel.login(email, password);
 
             if (user) {
-                req.session.user = user;
-                req.session.token = createToken(user.id);
+                request.session.user = user;
+                request.session.token = createToken(user.id);
 
-                const redirectTo = req.session.lastPage === '/login' ? '/' : req.session.lastPage || '/';
-                return res.redirect(redirectTo);
+                const redirectTo = request.session.lastPage === '/login' ? '/' : request.session.lastPage || '/';
+                return reply.redirect(redirectTo);
             } else {
-                req.flash('error', 'Credentials are wrong');
-                return res.redirect('/login');
+                request.flash('error', 'Credentials are wrong');
+                return reply.redirect('/login');
             }
         } catch (err: any) {
-            req.flash('error', err.message);
-            return res.redirect('/login');
+            request.flash('error', err.message);
+            return reply.redirect('/login');
         }
     },
 
-    async registerView(req: any, res: any) {
-        const error = req.flash('error');
-        res.render('pages/Register', {
+    async registerView(request: any, reply: any) {
+        const error = request.flash('error', 'Error in requesting the register page');
+
+        return reply.render('pages/Register', {
             title: 'Register',
             description: 'Register Page',
             canonical: 'register',
             error,
-            user: req.session.user,
+            user: request.session.user,
             titleTerm: '',
         });
     },
 
-    async registerPost(req: any, res: any) {
-        const { email, password, userName } = req.body;
+    async registerPost(request: any, reply: any) {
+        const { email, password, userName } = request.body;
 
         try {
             const user = await authModel.signUp({ email, password, userName });
 
             if (user) {
-                req.session.user = user;
-                req.session.token = createToken(user.id);
+                request.session.user = user;
+                request.session.token = createToken(user.id);
+                const redirectTo = request.session.lastPage === '/register' ? '/' : request.session.lastPage || '/';
 
-                const redirectTo = req.session.lastPage === '/register' ? '/' : req.session.lastPage || '/';
-                return res.redirect(redirectTo);
+                return reply.redirect(redirectTo);
             } else {
-                req.flash('error', 'User with that Username or Email already exists');
-                return res.redirect('/register');
+                request.flash('error', 'User with that Username or Email already exists');
+                return reply.redirect('/register');
             }
         } catch (err: any) {
-            req.flash('error', err.message);
-            return res.redirect('/register');
+            request.flash('error', err.message);
+            return reply.redirect('/register');
         }
     },
 
-    async logout(req: any, res: any) {
-        delete req.session.user;
-        delete req.session.token;
-        return res.redirect('/login');
+    async logout(request: any, reply: any) {
+        delete request.session.user;
+        delete request.session.token;
+
+        return reply.redirect('/login');
     },
 };
 
