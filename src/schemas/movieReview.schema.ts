@@ -1,4 +1,4 @@
-const movieReviewSchema = {
+export const movieReviewSchema = {
     description: 'Create or update a movie review',
     tags: ['review', 'movie'],
     summary: 'Create or update movie review',

@@ -1,7 +1,7 @@
 const downvoteSerieSchema = {
-    description: 'Downvote a serie review',
-    tags: ['serie', 'review', 'vote'],
-    summary: 'Downvote a serie review',
+    // description: 'Downvote a serie review',
+    // tags: ['serie', 'review', 'vote'],
+    // summary: 'Downvote a serie review',
     body: {
         type: 'object',
         required: ['userId', 'serieId', 'serieReviewId'],
