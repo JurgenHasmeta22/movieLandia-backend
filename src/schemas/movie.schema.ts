@@ -12,9 +12,9 @@ const allowedSortByProperties = [
 const allowedSortByPropertiesDetails = ['createdAt', 'rating'];
 
 const movieQuerySchema = {
-    description: 'Query movies',
-    tags: ['movie'],
-    summary: 'Query movies',
+    // description: 'Query movies',
+    // tags: ['movie'],
+    // summary: 'Query movies',
     querystring: {
         type: 'object',
         properties: {
@@ -85,9 +85,9 @@ const movieQuerySchema = {
 };
 
 const movieIdParamSchema = {
-    description: 'Movie ID parameter',
-    tags: ['movie'],
-    summary: 'Movie ID parameter',
+    // description: 'Movie ID parameter',
+    // tags: ['movie'],
+    // summary: 'Movie ID parameter',
     params: {
         type: 'object',
         properties: {
@@ -126,9 +126,9 @@ const movieIdParamSchema = {
 };
 
 const movieTitleParamSchema = {
-    description: 'Movie title parameter',
-    tags: ['movie'],
-    summary: 'Movie title parameter',
+    // description: 'Movie title parameter',
+    // tags: ['movie'],
+    // summary: 'Movie title parameter',
     params: {
         type: 'object',
         properties: {
@@ -171,9 +171,9 @@ const movieTitleParamSchema = {
 };
 
 const movieTitleQueryParam = {
-    description: 'Query movie by title',
-    tags: ['movie'],
-    summary: 'Query movie by title',
+    // description: 'Query movie by title',
+    // tags: ['movie'],
+    // summary: 'Query movie by title',
     querystring: {
         type: 'object',
         properties: {
@@ -233,9 +233,9 @@ const movieTitleQueryParam = {
 };
 
 const movieSchemaUpdate = {
-    description: 'Update movie details',
-    tags: ['movie'],
-    summary: 'Update movie',
+    // description: 'Update movie details',
+    // tags: ['movie'],
+    // summary: 'Update movie',
     body: {
         type: 'object',
         properties: {
@@ -298,9 +298,9 @@ const movieSchemaUpdate = {
 };
 
 const movieSchemaPost = {
-    description: 'Create a new movie',
-    tags: ['movie'],
-    summary: 'Create movie',
+    // description: 'Create a new movie',
+    // tags: ['movie'],
+    // summary: 'Create movie',
     body: {
         type: 'object',
         required: ['title', 'photoSrc', 'trailerSrc', 'duration', 'ratingImdb', 'releaseYear', 'description'],

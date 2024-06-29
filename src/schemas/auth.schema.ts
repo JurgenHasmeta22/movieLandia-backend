@@ -1,7 +1,7 @@
 const registerSchema = {
-    description: 'Register a new user',
-    tags: ['auth', 'user'],
-    summary: 'User registration',
+    // description: 'Register a new user',
+    // tags: ['auth', 'user'],
+    // summary: 'User registration',
     body: {
         type: 'object',
         required: ['email', 'password', 'userName'],
@@ -55,9 +55,9 @@ const registerSchema = {
 };
 
 const loginSchema = {
-    description: 'Login a user',
-    tags: ['auth', 'user'],
-    summary: 'User login',
+    // description: 'Login a user',
+    // tags: ['auth', 'user'],
+    // summary: 'User login',
     body: {
         type: 'object',
         required: ['email', 'password'],

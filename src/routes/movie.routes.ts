@@ -11,7 +11,9 @@ import { FastifyPluginAsync } from 'fastify';
 
 const movieRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getMovies', {
-        schema: { querystring: movieQuerySchema },
+        schema: {
+            querystring: movieQuerySchema,
+        },
         handler: movieController.getMovies,
     });
 

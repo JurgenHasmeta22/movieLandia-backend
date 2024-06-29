@@ -1,4 +1,4 @@
-const seasonSerieSchema = {
+export const seasonSerieSchema = {
     description: 'Create or update a season for a serie',
     tags: ['season', 'serie'],
     summary: 'Create or update season for serie',
