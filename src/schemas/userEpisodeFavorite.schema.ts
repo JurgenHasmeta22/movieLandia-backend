@@ -1,5 +1,20 @@
-import { body } from 'express-validator';
+import { FastifySchema } from 'fastify';
 
-const userEpisodeFavoriteSchema = [body('userId').isInt({ min: 1 }), body('episodeId').isInt({ min: 1 })];
+const userEpisodeFavoriteSchema: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            userId: {
+                type: 'integer',
+                minimum: 1,
+            },
+            episodeId: {
+                type: 'integer',
+                minimum: 1,
+            },
+        },
+        required: ['userId', 'episodeId'],
+    },
+};
 
 export { userEpisodeFavoriteSchema };

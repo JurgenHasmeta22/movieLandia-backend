@@ -61,10 +61,8 @@ server.register(fastifyView, {
 
 server.register(fastifyCookie);
 server.register(fastifySession, {
-  secret: process.env.MY_SECRET || 'defaultSecret', // Ensure to use environment variables securely
-  cookie: { secure: false }, // Review this setting carefully for production
-  saveUninitialized: false, // Not required in Fastify
-  resave: false, // Not required in Fastify
+  secret: process.env.MY_SECRET || 'defaultSecret',
+  cookie: { secure: false },
 });
 server.register(fastifyFlash);
 

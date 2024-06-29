@@ -1,46 +1,108 @@
-import { body, param, query } from 'express-validator';
+import { FastifySchema } from 'fastify';
 
 const allowedSortByProperties = ['userName', 'email'];
 
-const userIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid user ID format')];
+const userIdParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            id: {
+                type: 'integer',
+                minimum: 1,
+            },
+        },
+        required: ['id'],
+    },
+};
 
-const userUserNameParamSchema = [
-    param('userName')
-        .isString()
-        .trim()
-        .matches(/^[a-zA-Z\s]+$/)
-        .withMessage('Invalid user userName format'),
-];
+const userUserNameParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            userName: {
+                type: 'string',
+                pattern: '^[a-zA-Z\\s]+$',
+            },
+        },
+        required: ['userName'],
+    },
+};
 
-const userQuerySchema = [
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const userQuerySchema: FastifySchema = {
+    querystring: {
+        type: 'object',
+        properties: {
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByProperties,
+            },
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+            },
+            page: {
+                type: 'integer',
+                minimum: 1,
+            },
+            pageSize: {
+                type: 'integer',
+                minimum: 1,
+                maximum: 100,
+            },
+            title: {
+                type: 'string',
+            },
+            filterValue: {
+                type: 'string',
+            },
+            filterName: {
+                type: 'string',
+                enum: ['name', 'id'],
+            },
+            filterOperator: {
+                type: 'string',
+                enum: ['equals', 'contains', 'startsWith', 'endsWith'],
+            },
+        },
+    },
+};
 
-            if (!allowedSortByProperties.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const userSchemaUpdate: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            userName: {
+                type: 'string',
+            },
+            email: {
+                type: 'string',
+                format: 'email',
+            },
+            password: {
+                type: 'string',
+            },
+        },
+        required: [],
+    },
+};
 
-            return true;
-        }),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('pageSize').optional().isInt({ min: 1, max: 100 }).withMessage('Invalid pageSize value'),
-    query('title').optional().isString().withMessage('Title must be a string'),
-    query('filterValue').optional().isString().withMessage('Filter value must be a string'),
-    query('filterName').optional().isIn(['name', 'id']).withMessage('Invalid filterName value'),
-    query('filterOperator')
-        .optional()
-        .isIn(['equals', 'contains', 'startsWith', 'endsWith'])
-        .withMessage('Invalid filterOperator value'),
-];
-
-const userSchemaUpdate = [
-    body('userName').optional().isString(),
-    body('email').optional().isString().isEmail(),
-    body('password').optional().isString(),
-];
-const userSchemaPost = [body('userName').isString(), body('email').isString().isEmail(), body('password').isString()];
+const userSchemaPost: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            userName: {
+                type: 'string',
+            },
+            email: {
+                type: 'string',
+                format: 'email',
+            },
+            password: {
+                type: 'string',
+            },
+        },
+        required: ['userName', 'email', 'password'],
+    },
+};
 
 export { userSchemaPost, userSchemaUpdate, userQuerySchema, userIdParamSchema, userUserNameParamSchema };

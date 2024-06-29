@@ -1,32 +1,34 @@
-import { body } from 'express-validator';
+import { FastifySchema } from 'fastify';
 
-const registerSchema = [
-    body('email').isEmail().withMessage('Please provide a valid email address'),
-    body('password')
-        .isLength({ min: 6 })
-        .withMessage('Password must be at least 6 characters long')
-        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/)
-        .withMessage(
-            'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
-        ),
-    body('userName')
-        .isString()
-        .withMessage('Username must be a string')
-        .isLength({ min: 3 })
-        .withMessage('Username must be at least 3 characters long')
-        .matches(/^[a-zA-Z0-9]*$/)
-        .withMessage('Username must contain only letters and numbers'),
-];
+const registerSchema: FastifySchema = {
+    body: {
+        type: 'object',
+        required: ['email', 'password', 'userName'],
+        properties: {
+            email: { type: 'string', format: 'email', minLength: 1 },
+            password: {
+                type: 'string',
+                minLength: 6,
+                pattern: '^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_]).{6,}$',
+            },
+            userName: { type: 'string', minLength: 3, pattern: '^[a-zA-Z0-9]*$' },
+        },
+    },
+};
 
-const loginSchema = [
-    body('email').isEmail().withMessage('Please provide a valid email address'),
-    body('password')
-        .isLength({ min: 6 })
-        .withMessage('Password must be at least 6 characters long')
-        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/)
-        .withMessage(
-            'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
-        ),
-];
+const loginSchema: FastifySchema = {
+    body: {
+        type: 'object',
+        required: ['email', 'password'],
+        properties: {
+            email: { type: 'string', format: 'email', minLength: 1 },
+            password: {
+                type: 'string',
+                minLength: 6,
+                pattern: '^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_]).{6,}$',
+            },
+        },
+    },
+};
 
 export { registerSchema, loginSchema };

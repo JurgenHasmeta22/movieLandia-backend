@@ -1,9 +1,15 @@
-import { body } from 'express-validator';
+import { FastifySchema } from 'fastify';
 
-const downvoteMovieSchema = [
-    body('userId').isInt({ min: 1 }).optional(),
-    body('movieId').isInt({ min: 1 }),
-    body('movieReviewId').isInt({ min: 1 }),
-];
+const downvoteMovieSchema: FastifySchema = {
+    body: {
+        type: 'object',
+        required: ['movieId', 'movieReviewId'],
+        properties: {
+            userId: { type: 'integer', minimum: 1 },
+            movieId: { type: 'integer', minimum: 1 },
+            movieReviewId: { type: 'integer', minimum: 1 },
+        },
+    },
+};
 
 export { downvoteMovieSchema };

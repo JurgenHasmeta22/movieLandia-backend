@@ -1,55 +1,85 @@
-import { body, param, query } from 'express-validator';
+import { FastifySchema } from 'fastify';
 
 const allowedSortByProperties = ['id', 'title', 'photoSrc', 'videoSrc', 'description'];
 
-const episodeIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid episode ID format')];
+const episodeIdParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1 },
+        },
+    },
+};
 
-const episodeTitleParamSchema = [
-    param('title')
-        .isString()
-        .trim()
-        .matches(/^[a-zA-Z\s]+$/)
-        .withMessage('Invalid episode title format'),
-];
+const episodeTitleParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            title: { type: 'string', pattern: '^[a-zA-Z\\s]+$' },
+        },
+    },
+};
 
-const episodeQuerySchema = [
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const episodeQuerySchema: FastifySchema = {
+    querystring: {
+        type: 'object',
+        properties: {
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByProperties,
+            },
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+            },
+            page: { type: 'integer', minimum: 1 },
+            pageSize: { type: 'integer', minimum: 1, maximum: 100 },
+            title: { type: 'string' },
+            filterValue: { type: 'string' },
+            filterName: {
+                type: 'string',
+                enum: ['title', 'releaseYear'],
+            },
+            filterOperator: {
+                type: 'string',
+                enum: ['equals', 'contains', 'startsWith', 'endsWith'],
+            },
+        },
+    },
+};
 
-            if (!allowedSortByProperties.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const episodeSchemaUpdate: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            title: { type: 'string' },
+            photoSrc: { type: 'string' },
+            videoSrc: { type: 'string' },
+            description: { type: 'string' },
+            serieId: { type: 'number' },
+        },
+        required: [],
+    },
+};
 
-            return true;
-        }),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('pageSize').optional().isInt({ min: 1, max: 100 }).withMessage('Invalid pageSize value'),
-    query('title').optional().isString().withMessage('Title must be a string'),
-    query('filterValue').optional().isString().withMessage('Filter value must be a string'),
-    query('filterName').optional().isIn(['title', 'releaseYear']).withMessage('Invalid filterName value'),
-    query('filterOperator')
-        .optional()
-        .isIn(['equals', 'contains', 'startsWith', 'endsWith'])
-        .withMessage('Invalid filterOperator value'),
-];
+const episodeSchemaPost: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            title: { type: 'string' },
+            photoSrc: { type: 'string' },
+            videoSrc: { type: 'string' },
+            description: { type: 'string' },
+            serieId: { type: 'number' },
+        },
+        required: ['title', 'photoSrc', 'videoSrc', 'description', 'serieId'],
+    },
+};
 
-const episodeSchemaUpdate = [
-    body('title').optional().isString(),
-    body('photoSrc').optional().isString(),
-    body('videoSrc').optional().isString(),
-    body('description').optional().isString(),
-    body('serieId').optional().isNumeric(),
-];
-
-const episodeSchemaPost = [
-    body('title').isString(),
-    body('photoSrc').isString(),
-    body('videoSrc').isString(),
-    body('description').isString(),
-    body('serieId').isNumeric(),
-];
-
-export { episodeSchemaPost, episodeSchemaUpdate, episodeQuerySchema, episodeIdParamSchema, episodeTitleParamSchema };
+export {
+    episodeIdParamSchema,
+    episodeTitleParamSchema,
+    episodeQuerySchema,
+    episodeSchemaUpdate,
+    episodeSchemaPost,
+};

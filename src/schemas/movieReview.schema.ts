@@ -1,5 +1,14 @@
-import { body } from 'express-validator';
+import { FastifySchema } from 'fastify';
 
-const movieReviewSchema = [body('userId').isInt({ min: 1 }), body('movieId').isInt({ min: 1 })];
+const movieReviewSchema: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            userId: { type: 'integer', minimum: 1 },
+            movieId: { type: 'integer', minimum: 1 },
+        },
+        required: ['userId', 'movieId'],
+    },
+};
 
 export { movieReviewSchema };

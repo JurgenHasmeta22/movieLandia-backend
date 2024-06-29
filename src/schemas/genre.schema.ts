@@ -1,41 +1,77 @@
-import { body, param, query } from 'express-validator';
-
-const genreSchemaUpdate = [body('name').optional().isString()];
-const genreSchemaPost = [body('name').isString()];
-const genreIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid movie ID format')];
-
-const genreNameParamSchema = [
-    param('name')
-        .isString()
-        // .trim()
-        // .matches(/^[a-zA-Z\s]+$/)
-        .withMessage('Invalid movie name format'),
-];
+import { FastifySchema } from 'fastify';
 
 const allowedSortByProperties = ['name', 'id', 'createdAt', 'updatedAt'];
 
-const genreQuerySchema = [
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const genreSchemaUpdate: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            name: { type: 'string' },
+        },
+        required: [],
+    },
+};
 
-            if (!allowedSortByProperties.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const genreSchemaPost: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            name: { type: 'string' },
+        },
+        required: ['name'],
+    },
+};
 
-            return true;
-        }),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('pageSize').optional().isInt({ min: 1, max: 100 }).withMessage('Invalid pageSize value'),
-    query('name').optional().isString().withMessage('Title must be a string'),
-    query('filterValue').optional().isString().withMessage('Filter value must be a string'),
-    query('filterName').optional().isIn(['name', 'id']).withMessage('Invalid filterName value'),
-    query('filterOperator')
-        .optional()
-        .isIn(['equals', 'contains', 'startsWith', 'endsWith'])
-        .withMessage('Invalid filterOperator value'),
-];
+const genreIdParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1 },
+        },
+    },
+};
 
-export { genreSchemaPost, genreSchemaUpdate, genreQuerySchema, genreIdParamSchema, genreNameParamSchema };
+const genreNameParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            name: { type: 'string' },
+        },
+    },
+};
+
+const genreQuerySchema: FastifySchema = {
+    querystring: {
+        type: 'object',
+        properties: {
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByProperties,
+            },
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+            },
+            page: { type: 'integer', minimum: 1 },
+            pageSize: { type: 'integer', minimum: 1, maximum: 100 },
+            name: { type: 'string' },
+            filterValue: { type: 'string' },
+            filterName: {
+                type: 'string',
+                enum: ['name', 'id'],
+            },
+            filterOperator: {
+                type: 'string',
+                enum: ['equals', 'contains', 'startsWith', 'endsWith'],
+            },
+        },
+    },
+};
+
+export {
+    genreSchemaPost,
+    genreSchemaUpdate,
+    genreQuerySchema,
+    genreIdParamSchema,
+    genreNameParamSchema,
+};

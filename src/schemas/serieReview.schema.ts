@@ -1,5 +1,20 @@
-import { body } from 'express-validator';
+import { FastifySchema } from 'fastify';
 
-const serieReviewSchema = [body('userId').isInt({ min: 1 }), body('serieId').isInt({ min: 1 })];
+const serieReviewSchema: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            userId: {
+                type: 'integer',
+                minimum: 1,
+            },
+            serieId: {
+                type: 'integer',
+                minimum: 1,
+            },
+        },
+        required: ['userId', 'serieId'],
+    },
+};
 
 export { serieReviewSchema };
