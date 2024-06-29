@@ -1,5 +1,5 @@
-import express from 'express';
-import cors from 'cors';
+import fastify from 'fastify';
+import fastifyCors from '@fastify/cors';
 import { PrismaClient } from '@prisma/client';
 import { options } from './utils/swagger';
 import movieRoutes from './routes/movie.routes';
@@ -9,49 +9,89 @@ import serieRoutes from './routes/serie.routes';
 import userRoutes from './routes/user.routes';
 import authRoutes from './routes/auth.routes';
 import viewsRoutes from './routes/views.routes';
-import swaggerUI from 'swagger-ui-express';
-import swaggerJsDoc from 'swagger-jsdoc';
+import fastifySwagger from '@fastify/swagger';
+import fastifySwaggerUI from '@fastify/swagger-ui';
+import fastifyStatic from '@fastify/static';
+import fastifyView from '@fastify/view';
 import path from 'path';
 import 'dotenv/config';
-import session from 'express-session';
-import flash from 'connect-flash';
-const expressLayouts = require('express-ejs-layouts');
+import fastifySession from '@fastify/session';
+import fastifyFlash from '@fastify/flash';
+import fastifyCookie from '@fastify/cookie';
+import ejs from 'ejs';
 
 export const prisma = new PrismaClient({
-    log: ['query', 'info', 'warn', 'error'],
+  log: ['query', 'info', 'warn', 'error'],
 });
 
-const specs = swaggerJsDoc(options);
+const server = fastify({ logger: true });
 
-export const app = express();
-
-app.use(cors());
-app.use(express.json({ limit: '100mb' }));
-app.use(express.urlencoded({ limit: '100mb', extended: true }));
-app.use(express.static('public'));
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
-app.use(
-    session({
-        secret: process.env.MY_SECRET || 'defaultSecret',
-        resave: false,
-        saveUninitialized: true,
-    }),
-);
-app.use(flash());
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(expressLayouts);
-app.set('layout', 'layouts/MainLayout.ejs');
-app.use(viewsRoutes);
-
-app.use(authRoutes);
-app.use(movieRoutes);
-app.use(serieRoutes);
-app.use(genreRoutes);
-app.use(episodeRoutes);
-app.use(userRoutes);
-
-app.listen(4000, () => {
-    console.log(`Server up: http://localhost:4000`);
+server.register(fastifyCors);
+server.register(fastifySwagger, {
+  swagger: {
+    info: {
+      title: 'Fastify API',
+      description: 'API documentation',
+      version: '1.0.0',
+    },
+  },
 });
+server.register(fastifySwaggerUI, {
+  routePrefix: '/api-docs',
+  swaggerOptions: {
+    url: '/swagger.json',
+  },
+  uiConfig: {
+    docExpansion: 'full',
+    deepLinking: false,
+  },
+  exposeRoute: true,
+});
+server.register(fastifyStatic, {
+  root: path.join(__dirname, 'public'),
+  prefix: '/public/',
+});
+server.register(fastifyView, {
+  engine: {
+    ejs,
+  },
+  root: path.join(__dirname, 'views'),
+  layout: 'layouts/MainLayout.ejs',
+});
+
+server.register(fastifyCookie);
+server.register(fastifySession, {
+  secret: process.env.MY_SECRET || 'defaultSecret',
+  cookie: { secure: false },
+  saveUninitialized: false, // Not required in Fastify
+  resave: false, // Not required in Fastify
+});
+server.register(fastifyFlash);
+
+// Register routes
+server.register(viewsRoutes);
+server.register(authRoutes);
+server.register(movieRoutes);
+server.register(serieRoutes);
+server.register(genreRoutes);
+server.register(episodeRoutes);
+server.register(userRoutes);
+
+// Error handling
+server.setErrorHandler((error, request, reply) => {
+  server.log.error(error);
+  reply.status(500).send({ error: 'Internal Server Error' });
+});
+
+// Start server
+const start = async () => {
+  try {
+    await server.listen(4000);
+    server.log.info(`Server up: http://localhost:4000`);
+  } catch (err) {
+    server.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();
