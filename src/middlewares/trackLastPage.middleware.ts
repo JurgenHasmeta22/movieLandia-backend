@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
-
-export function trackLastPageMiddleware(req: any, res: Response, next: NextFunction) {
-    if (req.session) {
-        req.session.lastPage = req.originalUrl;
+async function trackLastPageMiddleware(request: any, reply: any, next: any) {
+    if (request.session) {
+        request.session.lastPage = request.raw.url;
     }
     
     next();
 }
+
+export default trackLastPageMiddleware;

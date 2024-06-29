@@ -1,13 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import HttpStatusCode from '../utils/httpStatusCodes';
 
-export function validateMiddleware(req: Request, res: Response, next: NextFunction) {
-    const errors = validationResult(req);
-
+async function validateMiddleware(request: FastifyRequest, reply: FastifyReply) {
+    const errors = validationResult(request);
+    
     if (!errors.isEmpty()) {
-        return res.status(HttpStatusCode.BadRequest).json({ errors: errors.array() });
+        return reply.status(HttpStatusCode.BadRequest).send({ errors: errors.array() });
     }
-
-    next();
 }
+
+export default validateMiddleware;

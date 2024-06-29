@@ -1,139 +1,138 @@
-import { Request, Response } from 'express';
 import genreModel from '../../models/genre.model';
-import { Genre } from '@prisma/client';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import HttpStatusCode from '../../utils/httpStatusCodes';
 
 const genreController = {
-    async getGenres(req: Request, res: Response) {
-        const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
+    async getGenres(request: FastifyRequest<{ Querystring: { sortBy?: string; ascOrDesc?: string; page?: number; pageSize?: number; name?: string; filterValue?: number; filterName?: string; filterOperator?: string } }>, reply: FastifyReply) {
+        const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = request.query;
 
         try {
             const genres = await genreModel.getGenres({
-                sortBy: sortBy! as string,
-                ascOrDesc: ascOrDesc! as 'asc' | 'desc',
+                sortBy: sortBy || 'defaultSortBy',
+                ascOrDesc: ascOrDesc || 'defaultAscOrDesc',
                 perPage: pageSize ? Number(pageSize) : 20,
-                page: Number(page!),
-                name: name! as string,
-                filterValue: filterValue ? Number(filterValue) : undefined,
-                filterNameString: filterName! as string,
-                filterOperatorString: filterOperator! as '>' | '=' | '<',
+                page: page !== undefined ? Number(page) : 1,
+                name: name || 'defaultName',
+                filterValue: filterValue !== undefined ? Number(filterValue) : undefined,
+                filterNameString: filterName || 'defaultFilterName',
+                filterOperatorString: filterOperator || 'defaultFilterOperator',
             });
 
             if (genres) {
-                res.status(HttpStatusCode.OK).send(genres);
+                reply.status(HttpStatusCode.OK).send(genres);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Genres not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Genres not found' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async getGenreById(req: Request, res: Response) {
-        const genreId = Number(req.params.id);
+
+    async getGenreById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+        const genreId = Number(request.params.id);
 
         try {
             const genre = await genreModel.getGenreById(genreId);
 
             if (genre) {
-                res.status(HttpStatusCode.OK).send(genre);
+                reply.status(HttpStatusCode.OK).send(genre);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Genre not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Genre not found' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async getGenreByName(req: Request, res: Response) {
-        const nameGenre = req.params.name
-            .split('')
-            .map((char) => (char === '-' ? ' ' : char))
-            .join('');
 
-        const { sortBy, ascOrDesc, page, pageSize, type, name, filterValue, filterName, filterOperator } = req.query;
+    async getGenreByName(request: FastifyRequest<{ Params: { name: string }, Querystring: { sortBy?: string; ascOrDesc?: string; page?: number; pageSize?: number; type?: string; name?: string; filterValue?: number; filterName?: string; filterOperator?: string } }>, reply: FastifyReply) {
+        const nameGenre = request.params.name.split('').map((char: string) => (char === '-' ? ' ' : char)).join('');
+        const { sortBy, ascOrDesc, page, pageSize, type, name, filterValue, filterName, filterOperator } = request.query;
 
         try {
             const genre = await genreModel.getGenreByName(nameGenre, {
-                sortBy: sortBy! as string,
-                ascOrDesc: ascOrDesc! as 'asc' | 'desc',
+                sortBy: sortBy || 'defaultSortBy',
+                ascOrDesc: ascOrDesc || 'defaultAscOrDesc',
                 perPage: pageSize ? Number(pageSize) : 20,
-                page: Number(page!),
-                name: name! as string,
-                type: type as string,
-                filterValue: filterValue ? Number(filterValue) : undefined,
-                filterNameString: filterName! as string,
-                filterOperatorString: filterOperator! as '>' | '=' | '<',
+                page: page !== undefined ? Number(page) : 1,
+                name: name || 'defaultName',
+                type: type || 'defaultType',
+                filterValue: filterValue !== undefined ? Number(filterValue) : undefined,
+                filterNameString: filterName || 'defaultFilterName',
+                filterOperatorString: filterOperator || 'defaultFilterOperator',
             });
 
             if (genre) {
-                res.status(HttpStatusCode.OK).send(genre);
+                reply.status(HttpStatusCode.OK).send(genre);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Genre not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Genre not found' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async addGenre(req: Request, res: Response) {
-        const genreBodyParams = req.body;
+
+    async addGenre(request: FastifyRequest<{ Body: any }>, reply: FastifyReply) {
+        const genreBodyParams = request.body;
 
         try {
-            const genre: Genre | null = await genreModel.addGenre(genreBodyParams);
+            const genre = await genreModel.addGenre(genreBodyParams);
 
             if (genre) {
-                res.status(HttpStatusCode.Created).send(genre);
+                reply.status(HttpStatusCode.Created).send(genre);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Genre not created' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Genre not created' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async updateGenreById(req: Request, res: Response) {
-        const genreBodyParams = req.body;
-        const { id } = req.params;
+
+    async updateGenreById(request: FastifyRequest<{ Params: { id: string }, Body: any }>, reply: FastifyReply) {
+        const genreBodyParams = request.body;
+        const { id } = request.params;
 
         try {
-            const genre: Genre | null = await genreModel.updateGenreById(genreBodyParams, id);
+            const genre = await genreModel.updateGenreById(genreBodyParams, id);
 
             if (genre) {
-                res.status(HttpStatusCode.OK).send(genre);
+                reply.status(HttpStatusCode.OK).send(genre);
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Genre not updated' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Genre not updated' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async deleteGenreById(req: Request, res: Response) {
-        const idParam = Number(req.params.id);
+
+    async deleteGenreById(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
+        const idParam = Number(request.params.id);
 
         try {
             const result = await genreModel.deleteGenreById(idParam);
 
             if (result) {
-                res.status(HttpStatusCode.OK).send({
-                    msg: 'Genre deleted successfully',
-                });
+                reply.status(HttpStatusCode.OK).send({ msg: 'Genre deleted successfully' });
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Genre not deleted' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'Genre not deleted' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async searchGenresByName(req: Request, res: Response) {
-        const { name, page } = req.query;
+
+    async searchGenresByName(request: FastifyRequest<{ Querystring: { name?: string; page?: number } }>, reply: FastifyReply) {
+        const { name, page } = request.query;
 
         try {
             const genres = await genreModel.searchGenresByName(String(name), Number(page));
 
             if (genres) {
-                res.status(HttpStatusCode.OK).send(genres);
+                reply.status(HttpStatusCode.OK).send(genres);
             } else {
-                res.status(HttpStatusCode.NotFound).send({ error: 'Genres not found' });
+                reply.status(HttpStatusCode.NotFound).send({ error: 'Genres not found' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
 };
