@@ -2,20 +2,59 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 import movieModel from '../../models/movie.model';
 import HttpStatusCode from '../../utils/httpStatusCodes';
 
+interface GetMoviesQuery {
+    sortBy?: string;
+    ascOrDesc?: 'asc' | 'desc';
+    page?: string;
+    pageSize?: string;
+    title?: string;
+    filterValue?: string;
+    filterName?: string;
+    filterOperator?: '>' | '=' | '<';
+}
+
+interface UpdateMovieByIdParams {
+    id: string;
+}
+
+interface GetMovieByTitleParams {
+    title: string;
+}
+
+interface GetMovieByTitleQuery {
+    page?: number;
+    ascOrDesc?: 'asc' | 'desc';
+    sortBy?: string;
+    upvotesPage?: number;
+    downvotesPage?: number;
+    userId?: number;
+}
+
+interface MovieRequestBody {
+    // Define your request body structure
+}
+
+interface SearchMoviesByTitleQuery {
+    title?: string;
+    page?: number;
+    ascOrDesc?: 'asc' | 'desc';
+    sortBy?: string;
+}
+
 const movieController = {
-    async getMovies(request: FastifyRequest<{ Querystring: any }>, reply: FastifyReply) {
+    async getMovies(request: FastifyRequest<{ Querystring: GetMoviesQuery }>, reply: FastifyReply) {
         const { sortBy, ascOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } = request.query;
 
         try {
             const movies = await movieModel.getMovies({
-                sortBy: sortBy,
-                ascOrDesc: ascOrDesc as 'asc' | 'desc',
-                perPage: pageSize ?? 10,
-                page: page ?? 1,
-                title: title ?? '',
-                filterValue: filterValue ?? undefined,
-                filterNameString: filterName ?? '',
-                filterOperatorString: filterOperator ?? '',
+                sortBy: sortBy!,
+                ascOrDesc: ascOrDesc!,
+                perPage: pageSize ? Number(pageSize) : 10,
+                page: Number(page),
+                title: title!,
+                filterValue: filterValue ? Number(filterValue) : undefined,
+                filterNameString: filterName!,
+                filterOperatorString: filterOperator!,
             });
 
             reply.status(HttpStatusCode.OK).send(movies);
@@ -47,12 +86,12 @@ const movieController = {
 
         try {
             const movie = await movieModel.getMovieByTitle(title, {
-                page: page ?? 1,
-                ascOrDesc: ascOrDesc ?? '',
-                sortBy: sortBy ?? '',
-                upvotesPage: upvotesPage ?? undefined,
-                downvotesPage: downvotesPage ?? undefined,
-                userId: userId ?? undefined,
+                page: page || 1,
+                ascOrDesc,
+                sortBy,
+                upvotesPage,
+                downvotesPage,
+                userId,
             });
 
             if (!movie) {
@@ -80,7 +119,7 @@ const movieController = {
         const { title } = request.query;
 
         try {
-            const relatedMovies = await movieModel.getRelatedMovies(title ?? '');
+            const relatedMovies = await movieModel.getRelatedMovies(title || '');
 
             if (!relatedMovies) {
                 reply.status(HttpStatusCode.NotFound).send({ error: 'Related Movies not found' });
@@ -95,7 +134,7 @@ const movieController = {
 
     async updateMovieById(request: FastifyRequest<{ Params: UpdateMovieByIdParams, Body: MovieRequestBody }>, reply: FastifyReply) {
         const { id } = request.params;
-        const movieBodyParams = request.body;
+        const movieBodyParams: any = request.body;
 
         try {
             const movie = await movieModel.updateMovieById(movieBodyParams, id);
@@ -112,7 +151,7 @@ const movieController = {
     },
 
     async addMovie(request: FastifyRequest<{ Body: MovieRequestBody }>, reply: FastifyReply) {
-        const movieBodyParams = request.body;
+        const movieBodyParams: any = request.body;
 
         try {
             const movie = await movieModel.addMovie(movieBodyParams);
@@ -132,9 +171,9 @@ const movieController = {
         const { id } = request.params;
 
         try {
-            const replyult = await movieModel.deleteMovieById(Number(id));
+            const result = await movieModel.deleteMovieById(Number(id));
 
-            if (!replyult) {
+            if (!result) {
                 reply.status(HttpStatusCode.Conflict).send({ error: 'Movie not deleted' });
                 return;
             }
@@ -145,14 +184,14 @@ const movieController = {
         }
     },
 
-    async searchMoviesByTitle(request: FastifyRequest<{ Querystring: any }>, reply: FastifyReply) {
-        const { title, page, ascOrDesc, sortBy } = request.query ;
+    async searchMoviesByTitle(request: FastifyRequest<{ Querystring: SearchMoviesByTitleQuery }>, reply: FastifyReply) {
+        const { title, page, ascOrDesc, sortBy } = request.query;
 
         try {
-            const movies = await movieModel.searchMoviesByTitle(title ?? '', {
-                page: page ?? 1,
-                ascOrDesc: ascOrDesc ?? '',
-                sortBy: sortBy ?? '',
+            const movies = await movieModel.searchMoviesByTitle(title || '', {
+                page: page || 1,
+                ascOrDesc: ascOrDesc || 'asc',
+                sortBy: sortBy || '',
             });
 
             if (!movies) {
@@ -168,4 +207,3 @@ const movieController = {
 };
 
 export default movieController;
-

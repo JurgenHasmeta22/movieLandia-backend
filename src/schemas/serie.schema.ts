@@ -1,69 +1,139 @@
-import { body, param, query } from 'express-validator';
+import { FastifySchema } from 'fastify';
 
 const allowedSortByProperties = ['id', 'photoSrc', 'releaseYear', 'title', 'ratingImdb'];
 const allowedSortByPropertiesDetails = ['createdAt', 'rating'];
 
-const serieQuerySchema = [
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const serieQuerySchema: FastifySchema = {
+    querystring: {
+        type: 'object',
+        properties: {
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByProperties,
+            },
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+            },
+            page: {
+                type: 'integer',
+                minimum: 1,
+            },
+            pageSize: {
+                type: 'integer',
+                minimum: 1,
+                maximum: 100,
+            },
+            title: {
+                type: 'string',
+            },
+            filterValue: {
+                type: 'string',
+            },
+            filterName: {
+                type: 'string',
+                enum: ['title', 'releaseYear'],
+            },
+            filterOperator: {
+                type: 'string',
+                enum: ['equals', 'contains', 'startsWith', 'endsWith'],
+            },
+        },
+    },
+};
 
-            if (!allowedSortByProperties.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const serieIdParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            id: {
+                type: 'integer',
+                minimum: 1,
+            },
+        },
+    },
+};
 
-            return true;
-        }),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('pageSize').optional().isInt({ min: 1, max: 100 }).withMessage('Invalid pageSize value'),
-    query('title').optional().isString().withMessage('Title must be a string'),
-    query('filterValue').optional().isString().withMessage('Filter value must be a string'),
-    query('filterName').optional().isIn(['title', 'releaseYear']).withMessage('Invalid filterName value'),
-    query('filterOperator')
-        .optional()
-        .isIn(['equals', 'contains', 'startsWith', 'endsWith'])
-        .withMessage('Invalid filterOperator value'),
-];
+const serieTitleParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            title: {
+                type: 'string',
+            },
+        },
+    },
+    querystring: {
+        type: 'object',
+        properties: {
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+            },
+            page: {
+                type: 'integer',
+                minimum: 1,
+            },
+            upvotesPage: {
+                type: 'integer',
+                minimum: 1,
+            },
+            downvotesPage: {
+                type: 'integer',
+                minimum: 1,
+            },
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByPropertiesDetails,
+            },
+        },
+    },
+};
 
-const serieIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid serie ID format')];
+const serieSchemaUpdate: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            title: {
+                type: 'string',
+            },
+            photoSrc: {
+                type: 'string',
+            },
+            releaseYear: {
+                type: 'integer',
+                minimum: 1900,
+            },
+            ratingImdb: {
+                type: 'number',
+                minimum: 0,
+            },
+        },
+        required: [],
+    },
+};
 
-const serieTitleParamSchema = [
-    param('title')
-        .isString()
-        // .trim()
-        // .matches(/^[a-zA-Z\s]+$/)
-        .withMessage('Invalid serie title format'),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('upvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid upvotesPage value'),
-    query('downvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid downvotesPage value'),
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
-
-            if (!allowedSortByPropertiesDetails.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
-
-            return true;
-        }),
-];
-
-const serieSchemaUpdate = [
-    body('title').optional().isString(),
-    body('photoSrc').optional().isString(),
-    body('releaseYear').optional().isNumeric(),
-    body('ratingImdb').optional().isNumeric(),
-];
-
-const serieSchemaPost = [
-    body('title').isString(),
-    body('photoSrc').isString(),
-    body('releaseYear').isNumeric(),
-    body('ratingImdb').isNumeric(),
-];
+const serieSchemaPost: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            title: {
+                type: 'string',
+            },
+            photoSrc: {
+                type: 'string',
+            },
+            releaseYear: {
+                type: 'integer',
+                minimum: 1900,
+            },
+            ratingImdb: {
+                type: 'number',
+                minimum: 0,
+            },
+        },
+        required: ['title', 'photoSrc', 'releaseYear', 'ratingImdb'],
+    },
+};
 
 export { serieSchemaPost, serieSchemaUpdate, serieQuerySchema, serieIdParamSchema, serieTitleParamSchema };

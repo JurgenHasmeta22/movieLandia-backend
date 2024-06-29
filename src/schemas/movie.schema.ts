@@ -1,4 +1,4 @@
-import { body, param, query } from 'express-validator';
+import { FastifySchema } from 'fastify';
 
 const allowedSortByProperties = [
     'id',
@@ -13,73 +13,98 @@ const allowedSortByProperties = [
 
 const allowedSortByPropertiesDetails = ['createdAt', 'rating'];
 
-const movieQuerySchema = [
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const movieQuerySchema: FastifySchema = {
+    querystring: {
+        type: 'object',
+        properties: {
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByProperties,
+            },
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+            },
+            page: { type: 'integer', minimum: 1 },
+            pageSize: { type: 'integer', minimum: 1, maximum: 100 },
+            title: { type: 'string' },
+            filterValue: { type: 'string' },
+            filterName: {
+                type: 'string',
+                enum: ['title', 'releaseYear'],
+            },
+            filterOperator: {
+                type: 'string',
+                enum: ['equals', 'contains', 'startsWith', 'endsWith'],
+            },
+        },
+    },
+};
 
-            if (!allowedSortByProperties.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const movieIdParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1 },
+        },
+    },
+};
 
-            return true;
-        }),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('pageSize').optional().isInt({ min: 1, max: 100 }).withMessage('Invalid pageSize value'),
-    query('title').optional().isString().withMessage('Title must be a string'),
-    query('filterValue').optional().isString().withMessage('Filter value must be a string'),
-    query('filterName').optional().isIn(['title', 'releaseYear']).withMessage('Invalid filterName value'),
-    query('filterOperator')
-        .optional()
-        .isIn(['equals', 'contains', 'startsWith', 'endsWith'])
-        .withMessage('Invalid filterOperator value'),
-];
+const movieTitleParamSchema: FastifySchema = {
+    params: {
+        type: 'object',
+        properties: {
+            title: { type: 'string' },
+        },
+    },
+    querystring: {
+        type: 'object',
+        properties: {
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+            },
+            page: { type: 'integer', minimum: 1 },
+            upvotesPage: { type: 'integer', minimum: 1 },
+            downvotesPage: { type: 'integer', minimum: 1 },
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByPropertiesDetails,
+            },
+        },
+    },
+};
 
-const movieIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid movie ID format')];
+const movieSchemaUpdate: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            title: { type: 'string' },
+            photoSrc: { type: 'string' },
+            trailerSrc: { type: 'string', format: 'uri' },
+            duration: { type: 'string', minLength: 1, maxLength: 10 },
+            ratingImdb: { type: 'number', minimum: 0, maximum: 10 },
+            releaseYear: { type: 'integer', minimum: 1900, maximum: new Date().getFullYear() },
+            description: { type: 'string', minLength: 10, maxLength: 200 },
+        },
+        required: [],
+    },
+};
 
-const movieTitleParamSchema = [
-    param('title')
-        .isString()
-        // .trim()
-        // .matches(/^[a-zA-Z\s]+$/)
-        .withMessage('Invalid movie title format'),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('upvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid upvotesPage value'),
-    query('downvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid downvotesPage value'),
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
-
-            if (!allowedSortByPropertiesDetails.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
-
-            return true;
-        }),
-];
-
-const movieSchemaUpdate = [
-    body('title').optional().isString(),
-    body('photoSrc').optional().isString(),
-    body('trailerSrc').optional().isURL(),
-    body('duration').optional().isString().isLength({ min: 1, max: 10 }),
-    body('ratingImdb').optional().isFloat({ min: 0, max: 10 }),
-    body('releaseYear').optional().isInt({ min: 1900, max: new Date().getFullYear() }),
-    body('description').optional().isString().isLength({ min: 10, max: 200 }),
-];
-
-const movieSchemaPost = [
-    body('title').isString(),
-    body('photoSrc').isString(),
-    body('trailerSrc').isURL(),
-    body('duration').isString().isLength({ min: 1, max: 10 }),
-    body('ratingImdb').isFloat({ min: 0, max: 10 }),
-    body('releaseYear').isInt({ min: 1900, max: new Date().getFullYear() }),
-    body('description').isString().isLength({ min: 10, max: 200 }),
-];
+const movieSchemaPost: FastifySchema = {
+    body: {
+        type: 'object',
+        properties: {
+            title: { type: 'string' },
+            photoSrc: { type: 'string' },
+            trailerSrc: { type: 'string', format: 'uri' },
+            duration: { type: 'string', minLength: 1, maxLength: 10 },
+            ratingImdb: { type: 'number', minimum: 0, maximum: 10 },
+            releaseYear: { type: 'integer', minimum: 1900, maximum: new Date().getFullYear() },
+            description: { type: 'string', minLength: 10, maxLength: 200 },
+        },
+        required: ['title', 'photoSrc', 'trailerSrc', 'duration', 'ratingImdb', 'releaseYear', 'description'],
+    },
+};
 
 export { movieSchemaPost, movieSchemaUpdate, movieQuerySchema, movieIdParamSchema, movieTitleParamSchema };

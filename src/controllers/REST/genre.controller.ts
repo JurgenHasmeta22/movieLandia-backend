@@ -4,25 +4,25 @@ import HttpStatusCode from '../../utils/httpStatusCodes';
 
 interface GetGenresQuery {
     sortBy?: string;
-    ascOrDesc?: "asc" | "desc";
+    ascOrDesc?: 'asc' | 'desc';
     page?: number;
     pageSize?: number;
     name?: string;
     filterValue?: string;
     filterName?: string;
-    filterOperator?: ">" | "=" | "<";
+    filterOperator?: '>' | '=' | '<';
 }
 
 interface GetGenreByNameQuery {
     sortBy?: string;
-    ascOrDesc?: "asc" | "desc";
+    ascOrDesc?: 'asc' | 'desc';
     page?: number;
     pageSize?: number;
     type?: string;
     name?: string;
     filterValue?: string;
     filterName?: string;
-    filterOperator?: ">" | "=" | "<";
+    filterOperator?: '>' | '=' | '<';
 }
 
 const genreController = {
@@ -31,14 +31,14 @@ const genreController = {
 
         try {
             const genres = await genreModel.getGenres({
-                sortBy: sortBy || 'defaultSortBy',
-                ascOrDesc: ascOrDesc || 'asc',
+                sortBy: sortBy!,
+                ascOrDesc: ascOrDesc!,
                 perPage: pageSize ? Number(pageSize) : 20,
                 page: page !== undefined ? Number(page) : 1,
-                name: name || 'defaultName',
+                name: name!,
                 filterValue: filterValue !== undefined ? Number(filterValue) : undefined,
-                filterNameString: filterName || 'defaultFilterName',
-                filterOperatorString: filterOperator || '=',
+                filterNameString: filterName!,
+                filterOperatorString: filterOperator!,
             });
 
             if (genres) {
@@ -67,21 +67,28 @@ const genreController = {
         }
     },
 
-    async getGenreByName(request: FastifyRequest<{ Params: { name: string }, Querystring: GetGenreByNameQuery }>, reply: FastifyReply) {
-        const nameGenre = request.params.name.split('').map((char: string) => (char === '-' ? ' ' : char)).join('');
-        const { sortBy, ascOrDesc, page, pageSize, type, name, filterValue, filterName, filterOperator } = request.query;
+    async getGenreByName(
+        request: FastifyRequest<{ Params: { name: string }; Querystring: GetGenreByNameQuery }>,
+        reply: FastifyReply,
+    ) {
+        const nameGenre = request.params.name
+            .split('')
+            .map((char: string) => (char === '-' ? ' ' : char))
+            .join('');
+        const { sortBy, ascOrDesc, page, pageSize, type, name, filterValue, filterName, filterOperator } =
+            request.query;
 
         try {
             const genre = await genreModel.getGenreByName(nameGenre, {
-                sortBy: sortBy || 'defaultSortBy',
-                ascOrDesc: ascOrDesc || 'asc',
+                sortBy: sortBy!,
+                ascOrDesc: ascOrDesc!,
                 perPage: pageSize ? Number(pageSize) : 20,
                 page: page !== undefined ? Number(page) : 1,
-                name: name || 'defaultName',
-                type: type || 'defaultType',
+                name: name!,
+                type: type!,
                 filterValue: filterValue !== undefined ? Number(filterValue) : undefined,
-                filterNameString: filterName || 'defaultFilterName',
-                filterOperatorString: filterOperator || '=',
+                filterNameString: filterName!,
+                filterOperatorString: filterOperator!,
             });
 
             if (genre) {
@@ -110,7 +117,7 @@ const genreController = {
         }
     },
 
-    async updateGenreById(request: FastifyRequest<{ Params: { id: string }, Body: any }>, reply: FastifyReply) {
+    async updateGenreById(request: FastifyRequest<{ Params: { id: string }; Body: any }>, reply: FastifyReply) {
         const genreBodyParams: any = request.body;
         const { id } = request.params;
 
@@ -143,7 +150,10 @@ const genreController = {
         }
     },
 
-    async searchGenresByName(request: FastifyRequest<{ Querystring: { name?: string; page?: number } }>, reply: FastifyReply) {
+    async searchGenresByName(
+        request: FastifyRequest<{ Querystring: { name?: string; page?: number } }>,
+        reply: FastifyReply,
+    ) {
         const { name, page } = request.query;
 
         try {
