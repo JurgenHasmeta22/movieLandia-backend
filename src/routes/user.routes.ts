@@ -44,7 +44,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.delete('/deleteUserById/:id', { schema: userIdParamSchema }, async (request: any, reply) => {
+    fastify.delete('/deleteUserById/:id', { schema: { params: userIdParamSchema } }, async (request: any, reply) => {
         try {
             const result = await userController.deleteUserById(request, reply);
             reply.send(result);
@@ -57,32 +57,8 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         '/updateUserById/:id',
         {
             schema: {
-                params: {
-                    type: 'object',
-                    properties: {
-                        id: {
-                            type: 'integer',
-                            minimum: 1,
-                        },
-                    },
-                    required: ['id'],
-                },
-                body: {
-                    type: 'object',
-                    properties: {
-                        userName: {
-                            type: 'string',
-                        },
-                        email: {
-                            type: 'string',
-                            format: 'email',
-                        },
-                        password: {
-                            type: 'string',
-                        },
-                    },
-                    required: ['userName', 'email', 'password'],
-                },
+                params: userIdParamSchema,
+                body: userSchemaPost,
             },
         },
         async (request: any, reply) => {
@@ -99,32 +75,8 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         '/updateUserById/:id',
         {
             schema: {
-                params: {
-                    type: 'object',
-                    properties: {
-                        id: {
-                            type: 'integer',
-                            minimum: 1,
-                        },
-                    },
-                    required: ['id'],
-                },
-                body: {
-                    type: 'object',
-                    properties: {
-                        userName: {
-                            type: 'string',
-                        },
-                        email: {
-                            type: 'string',
-                            format: 'email',
-                        },
-                        password: {
-                            type: 'string',
-                        },
-                    },
-                    required: ['userName', 'email', 'password'],
-                },
+                params: userIdParamSchema,
+                body: userSchemaUpdate,
             },
         },
         async (request: any, reply) => {
@@ -137,7 +89,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         },
     );
 
-    fastify.get('/searchUsersByTitle', { schema: userQuerySchema }, async (request: any, reply) => {
+    fastify.get('/searchUsersByTitle', { schema: { querystring: userQuerySchema } }, async (request: any, reply) => {
         try {
             const users = await userController.searchUsersByTitle(request, reply);
             reply.send(users);
