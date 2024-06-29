@@ -13,7 +13,7 @@ async function genreRoutes(fastify: any, options: any) {
         schema: {
             querystring: genreQuerySchema,
         },
-        preHandler: fastify.validateMiddleware,
+        // preHandler: validateMiddleware,
         handler: genreController.getGenres,
     });
 
@@ -21,7 +21,7 @@ async function genreRoutes(fastify: any, options: any) {
         schema: {
             params: genreIdParamSchema,
         },
-        preHandler: fastify.validateMiddleware,
+        // preHandler: validateMiddleware,
         handler: genreController.getGenreById,
     });
 
@@ -29,7 +29,7 @@ async function genreRoutes(fastify: any, options: any) {
         schema: {
             params: genreNameParamSchema,
         },
-        preHandler: fastify.validateMiddleware,
+        // preHandler: validateMiddleware,
         handler: genreController.getGenreByName,
     });
 
@@ -37,7 +37,7 @@ async function genreRoutes(fastify: any, options: any) {
         schema: {
             params: genreIdParamSchema,
         },
-        preHandler: fastify.validateMiddleware,
+        // preHandler: validateMiddleware,
         handler: genreController.deleteGenreById,
     });
 
@@ -46,7 +46,7 @@ async function genreRoutes(fastify: any, options: any) {
             params: genreIdParamSchema,
             body: genreSchemaPost,
         },
-        preHandler: fastify.validateMiddleware,
+        // preHandler: validateMiddleware,
         handler: genreController.updateGenreById,
     });
 
@@ -55,7 +55,7 @@ async function genreRoutes(fastify: any, options: any) {
             params: genreIdParamSchema,
             body: genreSchemaUpdate,
         },
-        preHandler: fastify.validateMiddleware,
+        // preHandler: validateMiddleware,
         handler: genreController.updateGenreById,
     });
 
@@ -63,7 +63,7 @@ async function genreRoutes(fastify: any, options: any) {
         schema: {
             body: genreSchemaPost,
         },
-        preHandler: fastify.validateMiddleware,
+        // preHandler: validateMiddleware,
         handler: genreController.addGenre,
     });
 

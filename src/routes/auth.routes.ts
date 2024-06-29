@@ -4,23 +4,17 @@ import { loginSchema, registerSchema } from '../schemas/auth.schema';
 
 async function authRoutes(fastify: any, options: any) {
     fastify.post('/registerUser', {
-        schema: {
-            body: registerSchema,
-        },
-        preHandler: fastify.validateMiddleware,
+        schema: registerSchema,
         handler: authController.signUp,
     });
 
     fastify.post('/loginUser', {
-        schema: {
-            body: loginSchema,
-        },
-        preHandler: fastify.validateMiddleware,
+        schema: loginSchema,
         handler: authController.login,
     });
 
     fastify.get('/validateUser', {
-        preHandler: fastify.authMiddleware,
+        // preHandler: validateMiddleware,
         handler: authController.validate,
     });
 }
