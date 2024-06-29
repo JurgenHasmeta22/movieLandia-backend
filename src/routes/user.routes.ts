@@ -35,7 +35,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.get('/getUserByTitle/:userName', { schema: { params: userUserNameParamSchema } }, async (request: any, reply) => {
+    fastify.get('/getUserByTitle/:userName', { schema: userUserNameParamSchema }, async (request: any, reply) => {
         try {
             const user = await userController.getUserByTitle(request, reply);
             reply.send(user);
@@ -44,7 +44,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.delete('/deleteUserById/:id', { schema: { params: userIdParamSchema } }, async (request: any, reply) => {
+    fastify.delete('/deleteUserById/:id', { schema: userIdParamSchema }, async (request: any, reply) => {
         try {
             const result = await userController.deleteUserById(request, reply);
             reply.send(result);
@@ -53,25 +53,91 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.patch('/updateUserById/:id', { schema: { params: userIdParamSchema, body: userSchemaUpdate } }, async (request: any, reply) => {
-        try {
-            const user = await userController.updateUserById(request, reply);
-            reply.send(user);
-        } catch (error) {
-            reply.status(500).send({ error: 'Internal Server Error' });
-        }
-    });
+    fastify.patch(
+        '/updateUserById/:id',
+        {
+            schema: {
+                params: {
+                    type: 'object',
+                    properties: {
+                        id: {
+                            type: 'integer',
+                            minimum: 1,
+                        },
+                    },
+                    required: ['id'],
+                },
+                body: {
+                    type: 'object',
+                    properties: {
+                        userName: {
+                            type: 'string',
+                        },
+                        email: {
+                            type: 'string',
+                            format: 'email',
+                        },
+                        password: {
+                            type: 'string',
+                        },
+                    },
+                    required: ['userName', 'email', 'password'],
+                },
+            },
+        },
+        async (request: any, reply) => {
+            try {
+                const user = await userController.updateUserById(request, reply);
+                reply.send(user);
+            } catch (error) {
+                reply.status(500).send({ error: 'Internal Server Error' });
+            }
+        },
+    );
 
-    fastify.put('/updateUserById/:id', { schema: { params: userIdParamSchema, body: userSchemaPost } }, async (request: any, reply) => {
-        try {
-            const user = await userController.updateUserById(request, reply);
-            reply.send(user);
-        } catch (error) {
-            reply.status(500).send({ error: 'Internal Server Error' });
-        }
-    });
+    fastify.put(
+        '/updateUserById/:id',
+        {
+            schema: {
+                params: {
+                    type: 'object',
+                    properties: {
+                        id: {
+                            type: 'integer',
+                            minimum: 1,
+                        },
+                    },
+                    required: ['id'],
+                },
+                body: {
+                    type: 'object',
+                    properties: {
+                        userName: {
+                            type: 'string',
+                        },
+                        email: {
+                            type: 'string',
+                            format: 'email',
+                        },
+                        password: {
+                            type: 'string',
+                        },
+                    },
+                    required: ['userName', 'email', 'password'],
+                },
+            },
+        },
+        async (request: any, reply) => {
+            try {
+                const user = await userController.updateUserById(request, reply);
+                reply.send(user);
+            } catch (error) {
+                reply.status(500).send({ error: 'Internal Server Error' });
+            }
+        },
+    );
 
-    fastify.get('/searchUsersByTitle', { schema: { querystring: userQuerySchema } }, async (request: any, reply) => {
+    fastify.get('/searchUsersByTitle', { schema: userQuerySchema }, async (request: any, reply) => {
         try {
             const users = await userController.searchUsersByTitle(request, reply);
             reply.send(users);
@@ -80,7 +146,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/bookmarkMovie', { schema: { body: userMovieFavoriteSchema } }, async (request: any, reply) => {
+    fastify.post('/bookmarkMovie', { schema: userMovieFavoriteSchema }, async (request: any, reply) => {
         try {
             const result = await userController.bookmarkMovie(request, reply);
             reply.send(result);
@@ -89,7 +155,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/bookmarkSerie', { schema: { body: userSerieFavoriteSchema } }, async (request: any, reply) => {
+    fastify.post('/bookmarkSerie', { schema: userSerieFavoriteSchema }, async (request: any, reply) => {
         try {
             const result = await userController.bookmarkSerie(request, reply);
             reply.send(result);
@@ -98,7 +164,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/unBookmarkMovie', { schema: { body: userMovieFavoriteSchema } }, async (request: any, reply) => {
+    fastify.post('/unBookmarkMovie', { schema: userMovieFavoriteSchema }, async (request: any, reply) => {
         try {
             const result = await userController.unBookmarkMovie(request, reply);
             reply.send(result);
@@ -107,7 +173,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/unBookmarkSerie', { schema: { body: userSerieFavoriteSchema } }, async (request: any, reply) => {
+    fastify.post('/unBookmarkSerie', { schema: userSerieFavoriteSchema }, async (request: any, reply) => {
         try {
             const result = await userController.unBookmarkSerie(request, reply);
             reply.send(result);
@@ -116,7 +182,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/addReviewMovie', { schema: { body: movieReviewSchema } }, async (request: any, reply) => {
+    fastify.post('/addReviewMovie', { schema: movieReviewSchema }, async (request: any, reply) => {
         try {
             const result = await userController.addReviewMovie(request, reply);
             reply.send(result);
@@ -125,7 +191,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/addReviewSerie', { schema: { body: serieReviewSchema } }, async (request: any, reply) => {
+    fastify.post('/addReviewSerie', { schema: serieReviewSchema }, async (request: any, reply) => {
         try {
             const result = await userController.addReviewSerie(request, reply);
             reply.send(result);
@@ -134,7 +200,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/updateReviewMovie', { schema: { body: movieReviewSchema } }, async (request: any, reply) => {
+    fastify.post('/updateReviewMovie', { schema: movieReviewSchema }, async (request: any, reply) => {
         try {
             const result = await userController.updateReviewMovie(request, reply);
             reply.send(result);
@@ -143,7 +209,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/updateReviewSerie', { schema: { body: serieReviewSchema } }, async (request: any, reply) => {
+    fastify.post('/updateReviewSerie', { schema: serieReviewSchema }, async (request: any, reply) => {
         try {
             const result = await userController.updateReviewSerie(request, reply);
             reply.send(result);
@@ -152,7 +218,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/removeReviewMovie', { schema: { body: movieReviewSchema } }, async (request: any, reply) => {
+    fastify.post('/removeReviewMovie', { schema: movieReviewSchema }, async (request: any, reply) => {
         try {
             const result = await userController.removeReviewMovie(request, reply);
             reply.send(result);
@@ -161,7 +227,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/removeReviewSerie', { schema: { body: serieReviewSchema } }, async (request: any, reply) => {
+    fastify.post('/removeReviewSerie', { schema: serieReviewSchema }, async (request: any, reply) => {
         try {
             const result = await userController.removeReviewSerie(request, reply);
             reply.send(result);
@@ -170,7 +236,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/addUpvoteMovieReview', { schema: { body: upvoteMovieSchema } }, async (request: any, reply) => {
+    fastify.post('/addUpvoteMovieReview', { schema: upvoteMovieSchema }, async (request: any, reply) => {
         try {
             const result = await userController.addUpvoteMovieReview(request, reply);
             reply.send(result);
@@ -179,7 +245,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/addUpvoteSerieReview', { schema: { body: upvoteSerieSchema } }, async (request: any, reply) => {
+    fastify.post('/addUpvoteSerieReview', { schema: upvoteSerieSchema }, async (request: any, reply) => {
         try {
             const result = await userController.addUpvoteSerieReview(request, reply);
             reply.send(result);
@@ -188,7 +254,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/removeUpvoteMovieReview', { schema: { body: upvoteMovieSchema } }, async (request: any, reply) => {
+    fastify.post('/removeUpvoteMovieReview', { schema: upvoteMovieSchema }, async (request: any, reply) => {
         try {
             const result = await userController.removeUpvoteMovieReview(request, reply);
             reply.send(result);
@@ -197,7 +263,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/removeUpvoteSerieReview', { schema: { body: upvoteSerieSchema } }, async (request: any, reply) => {
+    fastify.post('/removeUpvoteSerieReview', { schema: upvoteSerieSchema }, async (request: any, reply) => {
         try {
             const result = await userController.removeUpvoteSerieReview(request, reply);
             reply.send(result);
@@ -206,7 +272,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/addDownvoteMovieReview', { schema: { body: downvoteMovieSchema } }, async (request: any, reply) => {
+    fastify.post('/addDownvoteMovieReview', { schema: downvoteMovieSchema }, async (request: any, reply) => {
         try {
             const result = await userController.addDownvoteMovieReview(request, reply);
             reply.send(result);
@@ -215,7 +281,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/addDownvoteSerieReview', { schema: { body: downvoteSerieSchema } }, async (request: any, reply) => {
+    fastify.post('/addDownvoteSerieReview', { schema: downvoteSerieSchema }, async (request: any, reply) => {
         try {
             const result = await userController.addDownvoteSerieReview(request, reply);
             reply.send(result);
@@ -224,7 +290,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/removeDownvoteMovieReview', { schema: { body: downvoteMovieSchema } }, async (request: any, reply) => {
+    fastify.post('/removeDownvoteMovieReview', { schema: downvoteMovieSchema }, async (request: any, reply) => {
         try {
             const result = await userController.removeDownvoteMovieReview(request, reply);
             reply.send(result);
@@ -233,7 +299,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/removeDownvoteSerieReview', { schema: { body: downvoteSerieSchema } }, async (request: any, reply) => {
+    fastify.post('/removeDownvoteSerieReview', { schema: downvoteSerieSchema }, async (request: any, reply) => {
         try {
             const result = await userController.removeDownvoteSerieReview(request, reply);
             reply.send(result);

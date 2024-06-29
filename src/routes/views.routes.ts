@@ -8,12 +8,12 @@ import searchController from '../controllers/views/searchView.controller';
 import trackLastPageMiddleware from '../middlewares/trackLastPage.middleware';
 
 const viewRoutes: FastifyPluginAsync = async (fastify) => {
-    fastify.get('/', async (request, reply) => {
-        return homeController.homeView(request, reply);
+    fastify.get('/', {
+        handler: homeController.homeView
     });
 
-    fastify.get('/login', async (request, reply) => {
-        return authController.loginView(request, reply);
+    fastify.get('/login', {
+        handler: authController.loginView
     });
 
     fastify.post('/login', { preHandler: trackLastPageMiddleware }, async (request, reply) => {

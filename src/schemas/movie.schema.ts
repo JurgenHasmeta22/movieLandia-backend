@@ -47,6 +47,7 @@ const movieIdParamSchema: FastifySchema = {
         properties: {
             id: { type: 'integer', minimum: 1 },
         },
+        required: ['id'],
     },
 };
 
@@ -55,7 +56,9 @@ const movieTitleParamSchema: FastifySchema = {
         type: 'object',
         properties: {
             title: { type: 'string' },
+            pattern: '^(?!\\d+$)[\\w\\s]*$',
         },
+        required: ['title'],
     },
     querystring: {
         type: 'object',
