@@ -8,13 +8,13 @@ import {
     serieTitleParamSchema,
 } from '../schemas/serie.schema';
 import { seasonSerieSchema } from '../schemas/seasonSerie.schema';
+import { FastifyPluginAsync } from 'fastify';
 
-async function serieRoutes(fastify: any, options: any) {
+const serieRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getSeries', {
         schema: {
             querystring: serieQuerySchema,
         },
-        // preHandler: validateMiddleware,
         handler: serieController.getSeries,
     });
 
@@ -22,7 +22,6 @@ async function serieRoutes(fastify: any, options: any) {
         schema: {
             params: serieIdParamSchema,
         },
-        // preHandler: validateMiddleware,
         handler: serieController.getSerieById,
     });
 
@@ -30,7 +29,6 @@ async function serieRoutes(fastify: any, options: any) {
         schema: {
             params: serieTitleParamSchema,
         },
-        // preHandler: validateMiddleware,
         handler: serieController.getSerieByTitle,
     });
 
@@ -38,7 +36,6 @@ async function serieRoutes(fastify: any, options: any) {
         schema: {
             params: serieIdParamSchema,
         },
-        // preHandler: validateMiddleware,
         handler: serieController.deleteSerieById,
     });
 
@@ -47,7 +44,6 @@ async function serieRoutes(fastify: any, options: any) {
             params: serieIdParamSchema,
             body: serieSchemaUpdate,
         },
-        // preHandler: validateMiddleware,
         handler: serieController.updateSerieById,
     });
 
@@ -56,7 +52,6 @@ async function serieRoutes(fastify: any, options: any) {
             params: serieIdParamSchema,
             body: serieSchemaPost,
         },
-        // preHandler: validateMiddleware,
         handler: serieController.updateSerieById,
     });
 
@@ -64,7 +59,6 @@ async function serieRoutes(fastify: any, options: any) {
         schema: {
             body: serieSchemaPost,
         },
-        // preHandler: validateMiddleware,
         handler: serieController.addSerie,
     });
 
@@ -76,9 +70,8 @@ async function serieRoutes(fastify: any, options: any) {
         schema: {
             body: seasonSerieSchema,
         },
-        // preHandler: validateMiddleware,
         handler: serieController.addSeasonToSerie,
     });
-}
+};
 
 export default fp(serieRoutes);

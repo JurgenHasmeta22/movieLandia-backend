@@ -7,53 +7,45 @@ import {
     episodeIdParamSchema,
     episodeTitleParamSchema,
 } from '../schemas/episode.schema';
+import { FastifyPluginAsync } from 'fastify';
 
-async function episodeRoutes(fastify: any, options: any) {
+const episodeRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getEpisodes', {
-        schema: episodeQuerySchema,
-        // preHandler: validateMiddleware,
+        schema: { querystring: episodeQuerySchema },
         handler: episodeController.getEpisodes,
     });
 
     fastify.get('/getEpisodeById/:id', {
-        schema: episodeIdParamSchema,
-        // preHandler: validateMiddleware,
+        schema: { params: episodeIdParamSchema },
         handler: episodeController.getEpisodeById,
     });
 
     fastify.get('/getEpisodeByTitle/:title', {
-        schema: episodeTitleParamSchema,
-        // preHandler: validateMiddleware,
+        schema: { params: episodeTitleParamSchema },
         handler: episodeController.getEpisodeByTitle,
     });
 
     fastify.delete('/deleteEpisodeById/:id', {
-        schema: episodeIdParamSchema,
-        // preHandler: validateMiddleware,
+        schema: { params: episodeIdParamSchema },
         handler: episodeController.deleteEpisodeById,
     });
 
     fastify.patch('/updateEpisodeById/:id', {
-        schema: episodeIdParamSchema,
-        episodeSchemaUpdate,
-        // preHandler: validateMiddleware,
+        schema: { params: episodeIdParamSchema, body: episodeSchemaUpdate },
         handler: episodeController.updateEpisodeById,
     });
 
     fastify.put('/updateEpisodeById/:id', {
-        schema: episodeIdParamSchema,
-        episodeSchemaPost,
-        // preHandler: validateMiddleware,
+        schema: { params: episodeIdParamSchema, body: episodeSchemaPost },
         handler: episodeController.updateEpisodeById,
     });
 
     fastify.post('/addEpisode', {
-        schema: episodeSchemaPost, 
-        // preHandler: validateMiddleware,
+        schema: { body: episodeSchemaPost },
         handler: episodeController.addEpisode,
     });
 
     fastify.get('/searchEpisodesByTitle', episodeController.searchEpisodesByTitle);
-}
+};
 
 export default fp(episodeRoutes);

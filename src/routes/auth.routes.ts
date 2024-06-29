@@ -1,8 +1,9 @@
 import fp from 'fastify-plugin';
 import authController from '../controllers/REST/auth.controller';
 import { loginSchema, registerSchema } from '../schemas/auth.schema';
+import { FastifyPluginAsync } from 'fastify';
 
-async function authRoutes(fastify: any, options: any) {
+const authRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.post('/registerUser', {
         schema: registerSchema,
         handler: authController.signUp,
@@ -17,6 +18,6 @@ async function authRoutes(fastify: any, options: any) {
         // preHandler: validateMiddleware,
         handler: authController.validate,
     });
-}
+};
 
 export default fp(authRoutes);
