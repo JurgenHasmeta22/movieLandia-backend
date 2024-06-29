@@ -21,20 +21,20 @@ import fastifyCookie from '@fastify/cookie';
 import ejs from 'ejs';
 
 export const prisma = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error'],
+    log: ['query', 'info', 'warn', 'error'],
 });
 
 const server = fastify({ logger: true });
 
 server.register(fastifyCors);
 server.register(fastifySwagger, {
-  swagger: {
-    info: {
-      title: 'Fastify API',
-      description: 'API documentation',
-      version: '1.0.0',
+    swagger: {
+        info: {
+            title: 'Fastify API',
+            description: 'API documentation',
+            version: '1.0.0',
+        },
     },
-  },
 });
 // server.register(fastifySwaggerUI, {
 //   routePrefix: '/api-docs',
@@ -48,26 +48,26 @@ server.register(fastifySwagger, {
 //   exposeRoute: true,
 // });
 server.register(fastifyStatic, {
-  root: path.join(__dirname, 'public'),
-  prefix: '/public/',
+    root: path.join(__dirname, 'public'),
 });
 server.register(fastifyView, {
-  engine: {
-    ejs,
-  },
-  root: path.join(__dirname, 'views'),
-  layout: 'layouts/MainLayout.ejs',
+    engine: {
+        ejs,
+    },
+    root: path.join(__dirname, 'views'),
+    layout: 'layouts/MainLayout.ejs',
+    propertyName: 'render',
 });
 
 server.register(fastifyCookie);
 server.register(fastifySession, {
-  secret: process.env.MY_SECRET || 'defaultSecret',
-  cookie: { secure: false },
+    secret: process.env.MY_SECRET || 'defaultSecret',
+    cookie: { secure: false },
 });
 server.register(fastifyFlash);
 
 // Register routes
-// server.register(viewsRoutes);
+server.register(viewsRoutes);
 server.register(authRoutes);
 server.register(movieRoutes);
 server.register(serieRoutes);
@@ -77,19 +77,19 @@ server.register(userRoutes);
 
 // Error handling
 server.setErrorHandler((error, request, reply) => {
-  server.log.error(error);
-  reply.status(500).send({ error: 'Internal Server Error' });
+    server.log.error(error);
+    reply.status(500).send({ error: 'Internal Server Error' });
 });
 
 // Start server
 const start = async () => {
-  try {
-    await server.listen(4000);
-    server.log.info(`Server up: http://localhost:4000`);
-  } catch (err) {
-    server.log.error(err);
-    process.exit(1);
-  }
+    try {
+        await server.listen(4000);
+        server.log.info(`Server up: http://localhost:4000`);
+    } catch (err) {
+        server.log.error(err);
+        process.exit(1);
+    }
 };
 
 start();
