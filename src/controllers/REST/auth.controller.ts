@@ -1,53 +1,57 @@
-import { Request, Response } from 'express';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import authModel from '../../models/auth.model';
 import { createToken } from '../../utils/authUtils';
 import { User } from '@prisma/client';
 import HttpStatusCode from '../../utils/httpStatusCodes';
 
-interface CustomRequest extends Request {
+interface CustomRequest extends FastifyRequest {
     user?: User;
 }
 
 const authController = {
-    async signUp(req: Request, res: Response) {
-        const { email, password, userName } = req.body;
+    async signUp(request: FastifyRequest<{ Body: { email: string; password: string; userName: string } }>, reply: FastifyReply) {
+        const { email, password, userName } = request.body;
 
         try {
             const user: User | null = await authModel.signUp({ email, password, userName });
 
             if (user) {
-                res.status(HttpStatusCode.OK).send({ user, token: createToken(user.id) });
+                const token = createToken(user.id);
+                reply.status(HttpStatusCode.OK).send({ user, token });
             } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'User already exists' });
+                reply.status(HttpStatusCode.Conflict).send({ error: 'User already exists' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async login(req: Request, res: Response) {
-        const { email, password } = req.body;
+
+    async login(request: FastifyRequest<{ Body: { email: string; password: string } }>, reply: FastifyReply) {
+        const { email, password } = request.body;
 
         try {
             const user: User | null = await authModel.login(email, password);
 
             if (user) {
-                res.status(HttpStatusCode.OK).send({ user, token: createToken(user.id) });
+                const token = createToken(user.id);
+                reply.status(HttpStatusCode.OK).send({ user, token });
             } else {
-                res.status(HttpStatusCode.BadRequest).send({ error: 'Credentials are wrong' });
+                reply.status(HttpStatusCode.BadRequest).send({ error: 'Credentials are wrong' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
-    async validate(req: CustomRequest, res: Response) {
+
+    async validate(request: CustomRequest, reply: FastifyReply) {
         try {
-            if (req.user) {
-                res.status(HttpStatusCode.OK).send(req.user);
+            if (request.user) {
+                reply.status(HttpStatusCode.OK).send(request.user);
             } else {
-                res.status(HttpStatusCode.BadRequest).send({ error: 'User not validated' });
+                reply.status(HttpStatusCode.BadRequest).send({ error: 'User not validated' });
             }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+        } catch (err: any) {
+            reply.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
 };
