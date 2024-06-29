@@ -4,7 +4,8 @@ import { createToken } from '../../utils/authUtils';
 const authViewController = {
     async loginView(req: any, res: any) {
         const error = req.flash('error');
-        res.render('pages/Login', {
+
+        return res.view('pages/Login', {
             title: 'Login',
             description: 'Login Page',
             canonical: 'login',
@@ -25,14 +26,14 @@ const authViewController = {
                 req.session.token = createToken(user.id);
 
                 const redirectTo = req.session.lastPage === '/login' ? '/' : req.session.lastPage || '/';
-                res.redirect(redirectTo);
+                return res.redirect(redirectTo);
             } else {
                 req.flash('error', 'Credentials are wrong');
-                res.redirect('/login');
+                return res.redirect('/login');
             }
         } catch (err: any) {
             req.flash('error', err.message);
-            res.redirect('/login');
+            return res.redirect('/login');
         }
     },
 
@@ -59,21 +60,21 @@ const authViewController = {
                 req.session.token = createToken(user.id);
 
                 const redirectTo = req.session.lastPage === '/register' ? '/' : req.session.lastPage || '/';
-                res.redirect(redirectTo);
+                return res.redirect(redirectTo);
             } else {
                 req.flash('error', 'User with that Username or Email already exists');
-                res.redirect('/register');
+                return res.redirect('/register');
             }
         } catch (err: any) {
             req.flash('error', err.message);
-            res.redirect('/register');
+            return res.redirect('/register');
         }
     },
 
     async logout(req: any, res: any) {
         delete req.session.user;
         delete req.session.token;
-        res.redirect('/login');
+        return res.redirect('/login');
     },
 };
 

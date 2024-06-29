@@ -24,7 +24,7 @@ const serieViewController = {
             const currentPageSeries = page ? page : 1;
 
             if (seriesData && latestSeries) {
-                res.render('pages/Series', {
+                return res.render('pages/Series', {
                     series: seriesData.rows,
                     pageCountSeries,
                     currentPageSeries,
@@ -39,10 +39,10 @@ const serieViewController = {
                         'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
                 });
             } else {
-                res.status(HttpStatusCode.BadRequest).send({ error: 'Series not found' });
+                return res.status(HttpStatusCode.BadRequest).send({ error: 'Series not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            return res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
 
@@ -84,7 +84,7 @@ const serieViewController = {
             const reviews = serie?.reviews;
 
             if (serie) {
-                res.render('pages/Serie', {
+                return res.render('pages/Serie', {
                     serie,
                     latestSeries: latestSeries?.slice(0, 5),
                     relatedSeries,
@@ -96,10 +96,10 @@ const serieViewController = {
                     reviews
                 });
             } else {
-                res.status(HttpStatusCode.BadRequest).send({ error: 'Serie not found' });
+                return res.status(HttpStatusCode.BadRequest).send({ error: 'Serie not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            return res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
 };

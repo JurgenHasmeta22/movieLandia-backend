@@ -18,7 +18,7 @@ const genreViewController = {
             });
 
             if (genresData) {
-                res.render('pages/Genres', {
+                return res.render('pages/Genres', {
                     genres: genresData.rows,
                     title: 'Choose your favorite Genre among many to choose',
                     canonical: `genres`,
@@ -28,10 +28,10 @@ const genreViewController = {
                     titleTerm: '',
                 });
             } else {
-                res.status(HttpStatusCode.BadRequest).send({ error: 'Genres not found' });
+                return res.status(HttpStatusCode.BadRequest).send({ error: 'Genres not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            return res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
 
@@ -85,7 +85,7 @@ const genreViewController = {
             const currentPageMovies = pageMovies ? pageMovies : 1;
             const currentPageSeries = pageSeries ? pageSeries : 1;
 
-            res.render('pages/Genre', {
+            return res.render('pages/Genre', {
                 moviesByGenre: genreDataMovies.movies,
                 seriesByGenre: genreDataSeries.series,
                 currentPageMovies,
@@ -104,7 +104,7 @@ const genreViewController = {
                 titleTerm: '',
             });
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            return res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
 };

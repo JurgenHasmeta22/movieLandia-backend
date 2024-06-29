@@ -23,7 +23,7 @@ const movieViewController = {
             const currentPageMovies = page ? page : 1;
 
             if (moviesData && latestMovies) {
-                res.render('pages/Movies', {
+                return res.render('pages/Movies', {
                     movies: moviesData.movies,
                     pageCountMovies,
                     currentPageMovies,
@@ -38,10 +38,10 @@ const movieViewController = {
                         'Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases.',
                 });
             } else {
-                res.status(HttpStatusCode.BadRequest).send({ error: 'Movies not found' });
+                return res.status(HttpStatusCode.BadRequest).send({ error: 'Movies not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            return res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
 
@@ -83,7 +83,7 @@ const movieViewController = {
             const reviews = movie?.reviews;
 
             if (movie) {
-                res.render('pages/Movie', {
+                return res.render('pages/Movie', {
                     movie,
                     latestMovies: latestMovies?.slice(0, 5),
                     relatedMovies,
@@ -95,10 +95,10 @@ const movieViewController = {
                     reviews
                 });
             } else {
-                res.status(HttpStatusCode.BadRequest).send({ error: 'Movie not found' });
+                return res.status(HttpStatusCode.BadRequest).send({ error: 'Movie not found' });
             }
         } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
+            return res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
 };

@@ -39,7 +39,7 @@ const searchViewController = {
             const currentPageMovies = pageMovies ? Number(pageMovies) : 1;
             const currentPageSeries = pageSeries ? Number(pageSeries) : 1;
 
-            res.render('pages/Search', {
+            return res.render('pages/Search', {
                 movies: moviesData.movies,
                 series: seriesData.rows,
                 pageCountMovies,
@@ -57,7 +57,7 @@ const searchViewController = {
                 titleTerm: title,
             });
         } catch (err: any) {
-            res.status(HttpStatusCode.BadRequest).send({ error: err.message });
+            return res.status(HttpStatusCode.BadRequest).send({ error: err.message });
         }
     },
 };
