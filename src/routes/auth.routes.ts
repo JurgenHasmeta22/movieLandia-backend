@@ -5,12 +5,12 @@ import { FastifyPluginAsync } from 'fastify';
 
 const authRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.post('/registerUser', {
-        schema: registerSchema,
+        schema: { body: registerSchema },
         handler: authController.signUp,
     });
 
     fastify.post('/loginUser', {
-        schema: loginSchema,
+        schema: { body: loginSchema },
         handler: authController.login,
     });
 

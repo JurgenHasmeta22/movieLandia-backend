@@ -24,71 +24,77 @@ export const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
 });
 
-const server = fastify({ logger: true });
+const createServer = async () => {
+    const server = fastify({ logger: true });
 
-server.register(fastifyCors);
-server.register(fastifySwagger, {
-    swagger: {
-        info: {
-            title: 'Fastify API',
-            description: 'API documentation',
-            version: '1.0.0',
+    server.register(fastifyCors);
+
+    await server.register(fastifySwagger, {
+        swagger: {
+            info: {
+                title: 'Movielandia24',
+                description: 'API documentation',
+                version: '1.0.0',
+            },
         },
-    },
-});
-// server.register(fastifySwaggerUI, {
-//   routePrefix: '/api-docs',
-//   swaggerOptions: {
-//     url: '/swagger.json',
-//   },
-//   uiConfig: {
-//     docExpansion: 'full',
-//     deepLinking: false,
-//   },
-//   exposeRoute: true,
-// });
+    });
+    await server.register(require('@fastify/swagger-ui'), {
+        routePrefix: '/docs',
+        uiConfig: {
+            docExpansion: 'full',
+            deepLinking: false,
+        },
+        uiHooks: {
+            onRequest: function (next: any) {
+                next();
+            },
+            preHandler: function (next: any) {
+                next();
+            },
+        },
+        staticCSP: true,
+        transformStaticCSP: (header: any) => header,
+        transformSpecification: (swaggerObject: any) => {
+            return swaggerObject;
+        },
+        transformSpecificationClone: true,
+    });
 
-server.register(fastifyStatic, {
-    root: path.join(__dirname, 'public'),
-});
-server.register(fastifyView, {
-    engine: {
-        ejs,
-    },
-    root: path.join(__dirname, 'views'),
-    layout: 'layouts/MainLayout.ejs',
-    propertyName: 'render',
-});
+    server.register(fastifyStatic, {
+        root: path.join(__dirname, 'public'),
+    });
 
-server.register(fastifyCookie);
-server.register(fastifySession, {
-    secret: process.env.MY_SECRET || 'defaultSecret',
-    cookie: { secure: false },
-});
-server.register(fastifyFlash);
-server.register(require('@fastify/formbody'));
+    server.register(fastifyView, {
+        engine: {
+            ejs,
+        },
+        root: path.join(__dirname, 'views'),
+        layout: 'layouts/MainLayout.ejs',
+        propertyName: 'render',
+    });
 
-server.register(viewsRoutes);
-server.register(authRoutes);
-server.register(movieRoutes);
-server.register(serieRoutes);
-server.register(genreRoutes);
-server.register(episodeRoutes);
-server.register(userRoutes);
+    server.register(fastifyCookie);
+    server.register(fastifySession, {
+        secret: process.env.MY_SECRET || 'defaultSecret',
+        cookie: { secure: false },
+    });
+    server.register(fastifyFlash);
+    server.register(require('@fastify/formbody'));
 
-server.setErrorHandler((error, request, reply) => {
-    server.log.error(error);
-    reply.status(500).send({ error: 'Internal Server Error' });
-});
+    server.register(viewsRoutes);
+    server.register(authRoutes);
+    server.register(movieRoutes);
+    server.register(serieRoutes);
+    server.register(genreRoutes);
+    server.register(episodeRoutes);
+    server.register(userRoutes);
 
-const start = async () => {
-    try {
-        await server.listen(4000);
-        server.log.info(`Server up: http://localhost:4000`);
-    } catch (err) {
-        server.log.error(err);
-        process.exit(1);
-    }
+    server.setErrorHandler((error, request, reply) => {
+        server.log.error(error);
+        reply.status(500).send({ error: 'Internal Server Error' });
+    });
+
+    return server;
 };
 
-start();
+export default createServer;
