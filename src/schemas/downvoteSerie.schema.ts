@@ -23,43 +23,43 @@ const downvoteSerieSchema = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'Downvote registered successfully',
-            type: 'object',
-            properties: {
-                success: { type: 'boolean', description: 'Indicates if the downvote was successful' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        401: {
-            description: 'Unauthorized',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Downvote registered successfully',
+    //         type: 'object',
+    //         properties: {
+    //             success: { type: 'boolean', description: 'Indicates if the downvote was successful' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     401: {
+    //         description: 'Unauthorized',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 export { downvoteSerieSchema };

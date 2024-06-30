@@ -23,43 +23,43 @@ export const seasonSerieSchema = {
             },
         },
     },
-    response: {
-        201: {
-            description: 'Season created or updated successfully',
-            type: 'object',
-            properties: {
-                seasonId: { type: 'integer', description: 'Season ID' },
-                serieId: { type: 'integer', description: 'Serie ID' },
-                seasonTitle: { type: 'string', description: 'Title of the season' },
-                episodes: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            episodeId: { type: 'integer', description: 'Episode ID' },
-                            episodeTitle: { type: 'string', description: 'Episode title' },
-                            description: { type: 'string', description: 'Episode description' },
-                        },
-                    },
-                    description: 'List of episodes in the season',
-                },
-                createdAt: { type: 'string', format: 'date-time', description: 'Creation timestamp' },
-                updatedAt: { type: 'string', format: 'date-time', description: 'Update timestamp' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     201: {
+    //         description: 'Season created or updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             seasonId: { type: 'integer', description: 'Season ID' },
+    //             serieId: { type: 'integer', description: 'Serie ID' },
+    //             seasonTitle: { type: 'string', description: 'Title of the season' },
+    //             episodes: {
+    //                 type: 'array',
+    //                 items: {
+    //                     type: 'object',
+    //                     properties: {
+    //                         episodeId: { type: 'integer', description: 'Episode ID' },
+    //                         episodeTitle: { type: 'string', description: 'Episode title' },
+    //                         description: { type: 'string', description: 'Episode description' },
+    //                     },
+    //                 },
+    //                 description: 'List of episodes in the season',
+    //             },
+    //             createdAt: { type: 'string', format: 'date-time', description: 'Creation timestamp' },
+    //             updatedAt: { type: 'string', format: 'date-time', description: 'Update timestamp' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };

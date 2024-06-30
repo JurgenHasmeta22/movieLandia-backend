@@ -15,29 +15,29 @@ const userIdParamSchema = {
         },
         required: ['id'],
     },
-    response: {
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const userUserNameParamSchema = {
@@ -55,29 +55,29 @@ const userUserNameParamSchema = {
         },
         required: ['userName'],
     },
-    response: {
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const userQuerySchema = {
@@ -128,34 +128,34 @@ const userQuerySchema = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'Query executed successfully',
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'integer', description: 'User ID' },
-                    userName: { type: 'string', description: 'Username of the user' },
-                    email: { type: 'string', format: 'email', description: 'Email address of the user' },
-                },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'User ID' },
+    //                 userName: { type: 'string', description: 'Username of the user' },
+    //                 email: { type: 'string', format: 'email', description: 'Email address of the user' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const userSchemaUpdate = {
@@ -191,38 +191,38 @@ const userSchemaUpdate = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'User updated successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'User ID' },
-                userName: { type: 'string', description: 'Username of the user' },
-                email: { type: 'string', format: 'email', description: 'Email address of the user' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'User updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'User ID' },
+    //             userName: { type: 'string', description: 'Username of the user' },
+    //             email: { type: 'string', format: 'email', description: 'Email address of the user' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const userSchemaPost = {
@@ -248,31 +248,31 @@ const userSchemaPost = {
             },
         },
     },
-    response: {
-        201: {
-            description: 'User created successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'User ID' },
-                userName: { type: 'string', description: 'Username of the user' },
-                email: { type: 'string', format: 'email', description: 'Email address of the user' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     201: {
+    //         description: 'User created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'User ID' },
+    //             userName: { type: 'string', description: 'Username of the user' },
+    //             email: { type: 'string', format: 'email', description: 'Email address of the user' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const userSchemaPut = {
@@ -309,38 +309,38 @@ const userSchemaPut = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'User updated successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'User ID' },
-                userName: { type: 'string', description: 'Username of the user' },
-                email: { type: 'string', format: 'email', description: 'Email address of the user' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'User updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'User ID' },
+    //             userName: { type: 'string', description: 'Username of the user' },
+    //             email: { type: 'string', format: 'email', description: 'Email address of the user' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 export { userSchemaPost, userSchemaUpdate, userQuerySchema, userIdParamSchema, userUserNameParamSchema, userSchemaPut };

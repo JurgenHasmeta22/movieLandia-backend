@@ -44,39 +44,39 @@ const movieQuerySchema = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'Query executed successfully',
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'integer', description: 'Movie ID' },
-                    title: { type: 'string', description: 'Movie title' },
-                    photoSrc: { type: 'string', description: 'Photo source URL' },
-                    trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
-                    duration: { type: 'string', description: 'Duration of the movie' },
-                    ratingImdb: { type: 'number', description: 'IMDB rating' },
-                    releaseYear: { type: 'integer', description: 'Release year' },
-                    description: { type: 'string', description: 'Movie description' },
-                },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'Movie ID' },
+    //                 title: { type: 'string', description: 'Movie title' },
+    //                 photoSrc: { type: 'string', description: 'Photo source URL' },
+    //                 trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //                 duration: { type: 'string', description: 'Duration of the movie' },
+    //                 ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //                 releaseYear: { type: 'integer', description: 'Release year' },
+    //                 description: { type: 'string', description: 'Movie description' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const movieIdParamSchema = {
@@ -90,29 +90,29 @@ const movieIdParamSchema = {
         },
         required: ['id'],
     },
-    response: {
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const movieTitleParamSchema = {
@@ -130,29 +130,29 @@ const movieTitleParamSchema = {
         },
         required: ['title'],
     },
-    response: {
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const movieTitleQueryParam = {
@@ -177,39 +177,39 @@ const movieTitleQueryParam = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'Query executed successfully',
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'integer', description: 'Movie ID' },
-                    title: { type: 'string', description: 'Movie title' },
-                    photoSrc: { type: 'string', description: 'Photo source URL' },
-                    trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
-                    duration: { type: 'string', description: 'Duration of the movie' },
-                    ratingImdb: { type: 'number', description: 'IMDB rating' },
-                    releaseYear: { type: 'integer', description: 'Release year' },
-                    description: { type: 'string', description: 'Movie description' },
-                },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'Movie ID' },
+    //                 title: { type: 'string', description: 'Movie title' },
+    //                 photoSrc: { type: 'string', description: 'Photo source URL' },
+    //                 trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //                 duration: { type: 'string', description: 'Duration of the movie' },
+    //                 ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //                 releaseYear: { type: 'integer', description: 'Release year' },
+    //                 description: { type: 'string', description: 'Movie description' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const movieSchemaUpdate = {
@@ -240,43 +240,43 @@ const movieSchemaUpdate = {
             description: { type: 'string', minLength: 10, maxLength: 200, description: 'Movie description' },
         },
     },
-    response: {
-        200: {
-            description: 'Movie updated successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'Movie ID' },
-                title: { type: 'string', description: 'Movie title' },
-                photoSrc: { type: 'string', description: 'Photo source URL' },
-                trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
-                duration: { type: 'string', description: 'Duration of the movie' },
-                ratingImdb: { type: 'number', description: 'IMDB rating' },
-                releaseYear: { type: 'integer', description: 'Release year' },
-                description: { type: 'string', description: 'Movie description' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Movie updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Movie ID' },
+    //             title: { type: 'string', description: 'Movie title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //             duration: { type: 'string', description: 'Duration of the movie' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             description: { type: 'string', description: 'Movie description' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const movieSchemaPost = {
@@ -301,36 +301,36 @@ const movieSchemaPost = {
             description: { type: 'string', minLength: 10, maxLength: 200, description: 'Movie description' },
         },
     },
-    response: {
-        201: {
-            description: 'Movie created successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'Movie ID' },
-                title: { type: 'string', description: 'Movie title' },
-                photoSrc: { type: 'string', description: 'Photo source URL' },
-                trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
-                duration: { type: 'string', description: 'Duration of the movie' },
-                ratingImdb: { type: 'number', description: 'IMDB rating' },
-                releaseYear: { type: 'integer', description: 'Release year' },
-                description: { type: 'string', description: 'Movie description' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     201: {
+    //         description: 'Movie created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Movie ID' },
+    //             title: { type: 'string', description: 'Movie title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //             duration: { type: 'string', description: 'Duration of the movie' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             description: { type: 'string', description: 'Movie description' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const movieSchemaPut = {
@@ -362,36 +362,36 @@ const movieSchemaPut = {
             description: { type: 'string', minLength: 10, maxLength: 200, description: 'Movie description' },
         },
     },
-    response: {
-        201: {
-            description: 'Movie created successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'Movie ID' },
-                title: { type: 'string', description: 'Movie title' },
-                photoSrc: { type: 'string', description: 'Photo source URL' },
-                trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
-                duration: { type: 'string', description: 'Duration of the movie' },
-                ratingImdb: { type: 'number', description: 'IMDB rating' },
-                releaseYear: { type: 'integer', description: 'Release year' },
-                description: { type: 'string', description: 'Movie description' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     201: {
+    //         description: 'Movie created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Movie ID' },
+    //             title: { type: 'string', description: 'Movie title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //             duration: { type: 'string', description: 'Duration of the movie' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             description: { type: 'string', description: 'Movie description' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 export {

@@ -49,36 +49,36 @@ const serieQuerySchema = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'Query executed successfully',
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'integer', description: 'Series ID' },
-                    title: { type: 'string', description: 'Series title' },
-                    photoSrc: { type: 'string', description: 'Photo source URL' },
-                    releaseYear: { type: 'integer', description: 'Release year' },
-                    ratingImdb: { type: 'number', description: 'IMDB rating' },
-                },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'Series ID' },
+    //                 title: { type: 'string', description: 'Series title' },
+    //                 photoSrc: { type: 'string', description: 'Photo source URL' },
+    //                 releaseYear: { type: 'integer', description: 'Release year' },
+    //                 ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const serieIdParamSchema = {
@@ -92,29 +92,29 @@ const serieIdParamSchema = {
         },
         required: ['id'],
     },
-    response: {
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const serieTitleParamSchema = {
@@ -132,29 +132,29 @@ const serieTitleParamSchema = {
         },
         required: ['title'],
     },
-    response: {
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const serieTitleQuerySchema = {
@@ -191,36 +191,36 @@ const serieTitleQuerySchema = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'Query executed successfully',
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'integer', description: 'Series ID' },
-                    title: { type: 'string', description: 'Series title' },
-                    photoSrc: { type: 'string', description: 'Photo source URL' },
-                    releaseYear: { type: 'integer', description: 'Release year' },
-                    ratingImdb: { type: 'number', description: 'IMDB rating' },
-                },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'Series ID' },
+    //                 title: { type: 'string', description: 'Series title' },
+    //                 photoSrc: { type: 'string', description: 'Photo source URL' },
+    //                 releaseYear: { type: 'integer', description: 'Release year' },
+    //                 ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const serieSchemaUpdate = {
@@ -243,40 +243,40 @@ const serieSchemaUpdate = {
             ratingImdb: { type: 'number', minimum: 0, description: 'Updated IMDb rating of the series' },
         },
     },
-    response: {
-        200: {
-            description: 'Series updated successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'Series ID' },
-                title: { type: 'string', description: 'Series title' },
-                photoSrc: { type: 'string', description: 'Photo source URL' },
-                releaseYear: { type: 'integer', description: 'Release year' },
-                ratingImdb: { type: 'number', description: 'IMDB rating' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Series updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Series ID' },
+    //             title: { type: 'string', description: 'Series title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const serieSchemaPost = {
@@ -293,33 +293,33 @@ const serieSchemaPost = {
             ratingImdb: { type: 'number', minimum: 0, maximum: 10, description: 'IMDb rating of the new series' },
         },
     },
-    response: {
-        201: {
-            description: 'Series created successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'Series ID' },
-                title: { type: 'string', description: 'Series title' },
-                photoSrc: { type: 'string', description: 'Photo source URL' },
-                releaseYear: { type: 'integer', description: 'Release year' },
-                ratingImdb: { type: 'number', description: 'IMDB rating' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     201: {
+    //         description: 'Series created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Series ID' },
+    //             title: { type: 'string', description: 'Series title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const serieSchemaPut = {
@@ -343,40 +343,40 @@ const serieSchemaPut = {
             ratingImdb: { type: 'number', minimum: 0, maximum: 10, description: 'IMDB rating' },
         },
     },
-    response: {
-        200: {
-            description: 'Series updated successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'Series ID' },
-                title: { type: 'string', description: 'Series title' },
-                photoSrc: { type: 'string', description: 'Photo source URL' },
-                releaseYear: { type: 'integer', description: 'Release year' },
-                ratingImdb: { type: 'number', description: 'IMDB rating' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Series updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Series ID' },
+    //             title: { type: 'string', description: 'Series title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 export {
