@@ -9,7 +9,10 @@ interface CustomRequest extends FastifyRequest {
 }
 
 const authController = {
-    async signUp(request: FastifyRequest<{ Body: { email: string; password: string; userName: string } }>, reply: FastifyReply) {
+    async signUp(
+        request: FastifyRequest<{ Body: { email: string; password: string; userName: string } }>,
+        reply: FastifyReply,
+    ) {
         const { email, password, userName } = request.body;
 
         try {

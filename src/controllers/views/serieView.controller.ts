@@ -93,7 +93,7 @@ const serieViewController = {
                     description: `${serie.description}`,
                     user: req.session.user,
                     titleTerm: '',
-                    reviews
+                    reviews,
                 });
             } else {
                 return res.status(HttpStatusCode.BadRequest).send({ error: 'Serie not found' });

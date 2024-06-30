@@ -4,6 +4,13 @@ const genreSchemaUpdate = {
     description: 'Update genre details',
     tags: ['genre'],
     summary: 'Update genre',
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1, description: 'Genre ID' },
+        },
+        required: ['id'],
+    },
     body: {
         type: 'object',
         properties: {
@@ -41,11 +48,6 @@ const genreSchemaUpdate = {
             },
         },
     },
-    security: [
-        {
-            apiKey: [],
-        },
-    ],
 };
 
 const genreSchemaPost = {
@@ -83,11 +85,50 @@ const genreSchemaPost = {
             },
         },
     },
-    security: [
-        {
-            apiKey: [],
+};
+
+const genreSchemaPut = {
+    description: 'Update a genre',
+    tags: ['genre'],
+    summary: 'Update genre',
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1, description: 'Genre ID' },
         },
-    ],
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        required: ['name'],
+        properties: {
+            name: { type: 'string', description: 'Genre name' },
+        },
+    },
+    response: {
+        201: {
+            description: 'Genre created successfully',
+            type: 'object',
+            properties: {
+                id: { type: 'integer', description: 'Genre ID' },
+                name: { type: 'string', description: 'Genre name' },
+            },
+        },
+        400: {
+            description: 'Bad Request',
+            type: 'object',
+            properties: {
+                error: { type: 'string', description: 'Error message' },
+            },
+        },
+        500: {
+            description: 'Internal Server Error',
+            type: 'object',
+            properties: {
+                error: { type: 'string', description: 'Error message' },
+            },
+        },
+    },
 };
 
 const genreIdParamSchema = {
@@ -124,11 +165,6 @@ const genreIdParamSchema = {
             },
         },
     },
-    security: [
-        {
-            apiKey: [],
-        },
-    ],
 };
 
 const genreNameParamSchema = {
@@ -165,11 +201,6 @@ const genreNameParamSchema = {
             },
         },
     },
-    security: [
-        {
-            apiKey: [],
-        },
-    ],
 };
 
 const genreQuerySchema = {
@@ -234,11 +265,13 @@ const genreQuerySchema = {
             },
         },
     },
-    security: [
-        {
-            apiKey: [],
-        },
-    ],
 };
 
-export { genreSchemaPost, genreSchemaUpdate, genreQuerySchema, genreIdParamSchema, genreNameParamSchema };
+export {
+    genreSchemaPut,
+    genreSchemaPost,
+    genreSchemaUpdate,
+    genreQuerySchema,
+    genreIdParamSchema,
+    genreNameParamSchema,
+};

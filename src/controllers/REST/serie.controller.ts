@@ -65,7 +65,10 @@ const serieController = {
         }
     },
 
-    async getSerieByTitle(request: FastifyRequest<{ Querystring: GetSerieByTitleQuery, Params: { title: string } }>, reply: FastifyReply) {
+    async getSerieByTitle(
+        request: FastifyRequest<{ Querystring: GetSerieByTitleQuery; Params: { title: string } }>,
+        reply: FastifyReply,
+    ) {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = request.query;
         const title = request.params.title
             .split('')
@@ -145,7 +148,7 @@ const serieController = {
         }
     },
 
-    async updateSerieById(request: FastifyRequest<{ Params: { id: string }, Body: Serie }>, reply: FastifyReply) {
+    async updateSerieById(request: FastifyRequest<{ Params: { id: string }; Body: Serie }>, reply: FastifyReply) {
         const serieBodyParams = request.body;
         const { id } = request.params;
 
@@ -196,7 +199,10 @@ const serieController = {
         }
     },
 
-    async searchSeriesByTitle(request: FastifyRequest<{ Querystring: { title: string, page?: string, ascOrDesc?: string, sortBy?: string } }>, reply: FastifyReply) {
+    async searchSeriesByTitle(
+        request: FastifyRequest<{ Querystring: { title: string; page?: string; ascOrDesc?: string; sortBy?: string } }>,
+        reply: FastifyReply,
+    ) {
         const { page, ascOrDesc, sortBy, title } = request.query;
 
         const queryParams: any = {
@@ -224,7 +230,10 @@ const serieController = {
         }
     },
 
-    async addSeasonToSerie(request: FastifyRequest<{ Body: { serieId: number, seasonId: number } }>, reply: FastifyReply) {
+    async addSeasonToSerie(
+        request: FastifyRequest<{ Body: { serieId: number; seasonId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { serieId, seasonId } = request.body;
 
         try {

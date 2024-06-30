@@ -62,9 +62,4 @@ export const seasonSerieSchema = {
             },
         },
     },
-    security: [
-        {
-            apiKey: [],
-        },
-    ],
 };

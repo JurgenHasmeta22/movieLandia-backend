@@ -74,7 +74,7 @@ const userController = {
         }
     },
 
-    async updateUserById(request: FastifyRequest<{ Params: { id: string }, Body: User }>, reply: FastifyReply) {
+    async updateUserById(request: FastifyRequest<{ Params: { id: string }; Body: User }>, reply: FastifyReply) {
         const userBodyParams = request.body;
         const { id } = request.params;
 
@@ -109,7 +109,10 @@ const userController = {
         }
     },
 
-    async searchUsersByTitle(request: FastifyRequest<{ Querystring: { title: string, page?: string } }>, reply: FastifyReply) {
+    async searchUsersByTitle(
+        request: FastifyRequest<{ Querystring: { title: string; page?: string } }>,
+        reply: FastifyReply,
+    ) {
         const { title, page } = request.query;
 
         try {
@@ -125,7 +128,7 @@ const userController = {
         }
     },
 
-    async bookmarkSerie(request: FastifyRequest<{ Body: { userId: number, serieId: number } }>, reply: FastifyReply) {
+    async bookmarkSerie(request: FastifyRequest<{ Body: { userId: number; serieId: number } }>, reply: FastifyReply) {
         const { userId, serieId } = request.body;
 
         try {
@@ -141,7 +144,7 @@ const userController = {
         }
     },
 
-    async bookmarkMovie(request: FastifyRequest<{ Body: { movieId: number, userId: number } }>, reply: FastifyReply) {
+    async bookmarkMovie(request: FastifyRequest<{ Body: { movieId: number; userId: number } }>, reply: FastifyReply) {
         const { movieId, userId } = request.body;
 
         try {
@@ -157,7 +160,7 @@ const userController = {
         }
     },
 
-    async unBookmarkMovie(request: FastifyRequest<{ Body: { movieId: number, userId: number } }>, reply: FastifyReply) {
+    async unBookmarkMovie(request: FastifyRequest<{ Body: { movieId: number; userId: number } }>, reply: FastifyReply) {
         const { movieId, userId } = request.body;
 
         try {
@@ -173,7 +176,7 @@ const userController = {
         }
     },
 
-    async unBookmarkSerie(request: FastifyRequest<{ Body: { serieId: number, userId: number } }>, reply: FastifyReply) {
+    async unBookmarkSerie(request: FastifyRequest<{ Body: { serieId: number; userId: number } }>, reply: FastifyReply) {
         const { serieId, userId } = request.body;
 
         try {
@@ -189,7 +192,10 @@ const userController = {
         }
     },
 
-    async addReviewMovie(request: FastifyRequest<{ Body: { content: string, rating: number, userId: number, movieId: number } }>, reply: FastifyReply) {
+    async addReviewMovie(
+        request: FastifyRequest<{ Body: { content: string; rating: number; userId: number; movieId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { content, rating, userId, movieId } = request.body;
         const createdAt = new Date();
 
@@ -212,7 +218,10 @@ const userController = {
         }
     },
 
-    async addReviewSerie(request: FastifyRequest<{ Body: { content: string, rating: number, userId: number, serieId: number } }>, reply: FastifyReply) {
+    async addReviewSerie(
+        request: FastifyRequest<{ Body: { content: string; rating: number; userId: number; serieId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { content, rating, userId, serieId } = request.body;
         const createdAt = new Date();
 
@@ -235,7 +244,10 @@ const userController = {
         }
     },
 
-    async updateReviewMovie(request: FastifyRequest<{ Body: { content: string, rating: number, userId: number, movieId: number } }>, reply: FastifyReply) {
+    async updateReviewMovie(
+        request: FastifyRequest<{ Body: { content: string; rating: number; userId: number; movieId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { content, rating, userId, movieId } = request.body;
         const updatedAt = new Date();
 
@@ -258,7 +270,10 @@ const userController = {
         }
     },
 
-    async updateReviewSerie(request: FastifyRequest<{ Body: { content: string, rating: number, userId: number, serieId: number } }>, reply: FastifyReply) {
+    async updateReviewSerie(
+        request: FastifyRequest<{ Body: { content: string; rating: number; userId: number; serieId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { content, rating, userId, serieId } = request.body;
         const updatedAt = new Date();
 
@@ -281,7 +296,10 @@ const userController = {
         }
     },
 
-    async removeReviewMovie(request: FastifyRequest<{ Body: { userId: number, movieId: number } }>, reply: FastifyReply) {
+    async removeReviewMovie(
+        request: FastifyRequest<{ Body: { userId: number; movieId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, movieId } = request.body;
 
         try {
@@ -300,7 +318,10 @@ const userController = {
         }
     },
 
-    async removeReviewSerie(request: FastifyRequest<{ Body: { userId: number, serieId: number } }>, reply: FastifyReply) {
+    async removeReviewSerie(
+        request: FastifyRequest<{ Body: { userId: number; serieId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, serieId } = request.body;
 
         try {
@@ -319,7 +340,10 @@ const userController = {
         }
     },
 
-    async addUpvoteMovieReview(request: FastifyRequest<{ Body: { userId: number, movieId: number, movieReviewId: number } }>, reply: FastifyReply) {
+    async addUpvoteMovieReview(
+        request: FastifyRequest<{ Body: { userId: number; movieId: number; movieReviewId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, movieId, movieReviewId } = request.body;
 
         try {
@@ -339,7 +363,10 @@ const userController = {
         }
     },
 
-    async addUpvoteSerieReview(request: FastifyRequest<{ Body: { userId: number, serieId: number, serieReviewId: number } }>, reply: FastifyReply) {
+    async addUpvoteSerieReview(
+        request: FastifyRequest<{ Body: { userId: number; serieId: number; serieReviewId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, serieId, serieReviewId } = request.body;
 
         try {
@@ -359,7 +386,10 @@ const userController = {
         }
     },
 
-    async removeUpvoteMovieReview(request: FastifyRequest<{ Body: { userId: number, movieId: number, movieReviewId: number } }>, reply: FastifyReply) {
+    async removeUpvoteMovieReview(
+        request: FastifyRequest<{ Body: { userId: number; movieId: number; movieReviewId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, movieId, movieReviewId } = request.body;
 
         try {
@@ -379,7 +409,10 @@ const userController = {
         }
     },
 
-    async removeUpvoteSerieReview(request: FastifyRequest<{ Body: { userId: number, serieId: number, serieReviewId: number } }>, reply: FastifyReply) {
+    async removeUpvoteSerieReview(
+        request: FastifyRequest<{ Body: { userId: number; serieId: number; serieReviewId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, serieId, serieReviewId } = request.body;
 
         try {
@@ -399,7 +432,10 @@ const userController = {
         }
     },
 
-    async addDownvoteMovieReview(request: FastifyRequest<{ Body: { userId: number, movieId: number, movieReviewId: number } }>, reply: FastifyReply) {
+    async addDownvoteMovieReview(
+        request: FastifyRequest<{ Body: { userId: number; movieId: number; movieReviewId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, movieId, movieReviewId } = request.body;
 
         try {
@@ -419,7 +455,10 @@ const userController = {
         }
     },
 
-    async addDownvoteSerieReview(request: FastifyRequest<{ Body: { userId: number, serieId: number, serieReviewId: number } }>, reply: FastifyReply) {
+    async addDownvoteSerieReview(
+        request: FastifyRequest<{ Body: { userId: number; serieId: number; serieReviewId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, serieId, serieReviewId } = request.body;
 
         try {
@@ -439,7 +478,10 @@ const userController = {
         }
     },
 
-    async removeDownvoteMovieReview(request: FastifyRequest<{ Body: { userId: number, movieId: number, movieReviewId: number } }>, reply: FastifyReply) {
+    async removeDownvoteMovieReview(
+        request: FastifyRequest<{ Body: { userId: number; movieId: number; movieReviewId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, movieId, movieReviewId } = request.body;
 
         try {
@@ -459,7 +501,10 @@ const userController = {
         }
     },
 
-    async removeDownvoteSerieReview(request: FastifyRequest<{ Body: { userId: number, serieId: number, serieReviewId: number } }>, reply: FastifyReply) {
+    async removeDownvoteSerieReview(
+        request: FastifyRequest<{ Body: { userId: number; serieId: number; serieReviewId: number } }>,
+        reply: FastifyReply,
+    ) {
         const { userId, serieId, serieReviewId } = request.body;
 
         try {

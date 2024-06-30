@@ -6,58 +6,43 @@ import {
     genreQuerySchema,
     genreIdParamSchema,
     genreNameParamSchema,
+    genreSchemaPut,
 } from '../schemas/genre.schema';
 import { FastifyPluginAsync } from 'fastify';
 
 const genreRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getGenres', {
-        schema: {
-            querystring: genreQuerySchema,
-        },
+        schema: genreQuerySchema,
         handler: genreController.getGenres,
     });
 
     fastify.get('/getGenreById/:id', {
-        schema: {
-            params: genreIdParamSchema,
-        },
+        schema: genreIdParamSchema,
         handler: genreController.getGenreById,
     });
 
     fastify.get('/getGenreByName/:name', {
-        schema: {
-            params: genreNameParamSchema,
-        },
+        schema: genreNameParamSchema,
         handler: genreController.getGenreByName,
     });
 
     fastify.delete('/deleteGenreById/:id', {
-        schema: {
-            params: genreIdParamSchema,
-        },
+        schema: genreIdParamSchema,
         handler: genreController.deleteGenreById,
     });
 
     fastify.put('/updateGenreById/:id', {
-        schema: {
-            params: genreIdParamSchema,
-            body: genreSchemaPost,
-        },
+        schema: genreSchemaPut,
         handler: genreController.updateGenreById,
     });
 
     fastify.patch('/updateGenreById/:id', {
-        schema: {
-            params: genreIdParamSchema,
-            body: genreSchemaUpdate,
-        },
+        schema: genreSchemaUpdate,
         handler: genreController.updateGenreById,
     });
 
     fastify.post('/addGenre', {
-        schema: {
-            body: genreSchemaPost,
-        },
+        schema: genreSchemaPost,
         handler: genreController.addGenre,
     });
 

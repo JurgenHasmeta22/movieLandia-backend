@@ -24,27 +24,42 @@ export const prisma = new PrismaClient({
 const server = fastify({ logger: true });
 
 server.register(fastifyCors);
+server.register(require('@fastify/formbody'));
 
-server.register(require('@fastify/swagger'));
+server.register(require('@fastify/swagger'), {
+    swagger: {
+        info: {
+            title: 'Fastify API',
+            description: 'API documentation with Swagger',
+            version: '0.1.0',
+        },
+        host: 'localhost:4000',
+        schemes: ['http'],
+        consumes: ['application/json'],
+        produces: ['application/json'],
+    },
+});
+
 server.register(require('@fastify/swagger-ui'), {
     routePrefix: '/documentation',
+    swagger: {
+        info: {
+            title: 'Fastify API',
+            description: 'API documentation with Swagger UI',
+            version: '0.1.0',
+        },
+        host: 'localhost:4000',
+        schemes: ['http'],
+        consumes: ['application/json'],
+        produces: ['application/json'],
+    },
     uiConfig: {
         docExpansion: 'full',
         deepLinking: false,
     },
-    uiHooks: {
-        onRequest: function (next: any) {
-            next();
-        },
-        preHandler: function (next: any) {
-            next();
-        },
-    },
     staticCSP: true,
     transformStaticCSP: (header: any) => header,
-    transformSpecification: (swaggerObject: any) => {
-        return swaggerObject;
-    },
+    transformSpecification: (swaggerObject: any) => swaggerObject,
     transformSpecificationClone: true,
 });
 
@@ -66,15 +81,14 @@ server.register(fastifySession, {
     cookie: { secure: false },
 });
 server.register(fastifyFlash);
-server.register(require('@fastify/formbody'));
 
 server.register(viewsRoutes);
 server.register(authRoutes);
 server.register(movieRoutes);
-server.register(serieRoutes);
-server.register(genreRoutes);
-server.register(episodeRoutes);
-server.register(userRoutes);
+// server.register(serieRoutes);
+// server.register(genreRoutes);
+// server.register(episodeRoutes);
+// server.register(userRoutes);
 
 server.setErrorHandler((error, request, reply) => {
     server.log.error(error);
@@ -83,7 +97,9 @@ server.setErrorHandler((error, request, reply) => {
 
 const start = async () => {
     try {
-        await server.listen(4000);
+        await server.listen({ port: 4000 });
+        // @ts-ignore
+        server.swagger();
         server.log.info('Server up: http://localhost:4000');
     } catch (err) {
         server.log.error(err);

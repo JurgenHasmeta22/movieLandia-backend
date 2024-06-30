@@ -75,7 +75,7 @@ const episodeController = {
         }
     },
 
-    async updateEpisodeById(request: FastifyRequest<{ Params: { id: string }, Body: any }>, reply: FastifyReply) {
+    async updateEpisodeById(request: FastifyRequest<{ Params: { id: string }; Body: any }>, reply: FastifyReply) {
         const episodeBodyParams: any = request.body;
         const { id } = request.params;
 
@@ -126,7 +126,10 @@ const episodeController = {
         }
     },
 
-    async searchEpisodesByTitle(request: FastifyRequest<{ Querystring: { title?: string; page?: number } }>, reply: FastifyReply) {
+    async searchEpisodesByTitle(
+        request: FastifyRequest<{ Querystring: { title?: string; page?: number } }>,
+        reply: FastifyReply,
+    ) {
         const { title, page } = request.query;
 
         try {
