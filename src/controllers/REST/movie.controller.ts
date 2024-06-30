@@ -111,7 +111,6 @@ const movieController = {
     async getLatestMovies(request: FastifyRequest, reply: FastifyReply) {
         try {
             const latestMovies = await movieModel.getLatestMovies();
-
             reply.status(HttpStatusCode.OK).send(latestMovies);
         } catch (err) {
             reply.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });

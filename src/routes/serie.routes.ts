@@ -10,6 +10,8 @@ import {
 } from '../schemas/serie.schema';
 import { seasonSerieSchema } from '../schemas/seasonSerie.schema';
 import { FastifyPluginAsync } from 'fastify';
+import { latestMoviesSchema } from '../schemas/latestMovies.schema';
+import { latestSeriesSchema } from '../schemas/latestSeries.schema';
 
 const serieRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getSeries', {
@@ -47,9 +49,20 @@ const serieRoutes: FastifyPluginAsync = async (fastify) => {
         handler: serieController.addSerie,
     });
 
-    fastify.get('/searchSeriesByTitle', serieController.searchSeriesByTitle);
-    fastify.get('/getLatestSeries', serieController.getLatestSeries);
-    fastify.get('/getRelatedSeries', serieController.getRelatedSeries);
+    fastify.get('/searchSeriesByTitle', {
+        schema: serieTitleParamSchema,
+        handler: serieController.searchSeriesByTitle,
+    });
+
+    fastify.get('/getLatestSeries', {
+        schema: latestSeriesSchema,
+        handler: serieController.getLatestSeries,
+    });
+
+    fastify.get('/getRelatedSeries', {
+        schema: serieTitleParamSchema,
+        handler: serieController.getRelatedSeries,
+    });
 
     fastify.post('/addSeasonToSerie', {
         schema: seasonSerieSchema,

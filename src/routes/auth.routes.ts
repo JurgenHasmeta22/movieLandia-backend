@@ -2,6 +2,7 @@ import fp from 'fastify-plugin';
 import authController from '../controllers/REST/auth.controller';
 import { loginSchema, registerSchema } from '../schemas/auth.schema';
 import { FastifyPluginAsync } from 'fastify';
+import { validateSchema } from '../schemas/validate.schema';
 
 const authRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.post('/registerUser', {
@@ -15,6 +16,7 @@ const authRoutes: FastifyPluginAsync = async (fastify) => {
     });
 
     fastify.get('/validateUser', {
+        schema: validateSchema,
         // preHandler: validateMiddleware,
         handler: authController.validate,
     });
