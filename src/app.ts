@@ -56,7 +56,7 @@ server.register(require('@fastify/swagger-ui'), {
 
 // #region "Views, public, cookie, sessions config, flash"
 server.register(fastifyStatic, {
-    root: path.join(__dirname, 'public'),
+    root: path.join(__dirname, '..', 'public'),
 });
 server.register(fastifyView, {
     engine: {
