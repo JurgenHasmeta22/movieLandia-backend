@@ -2,7 +2,7 @@ const allowedSortByProperties = ['id', 'title', 'photoSrc', 'videoSrc', 'descrip
 
 const episodeIdParamSchema = {
     description: 'Episode ID parameter',
-    tags: ['episode'],
+    tags: ['Episode'],
     summary: 'Episode ID parameter',
     params: {
         type: 'object',
@@ -38,7 +38,7 @@ const episodeIdParamSchema = {
 
 const episodeTitleParamSchema = {
     description: 'Episode title parameter',
-    tags: ['episode'],
+    tags: ['Episode'],
     summary: 'Episode title parameter',
     params: {
         type: 'object',
@@ -74,7 +74,7 @@ const episodeTitleParamSchema = {
 
 const episodeQuerySchema = {
     description: 'Query episodes',
-    tags: ['episode'],
+    tags: ['Episode'],
     summary: 'Query episodes',
     querystring: {
         type: 'object',
@@ -140,7 +140,7 @@ const episodeQuerySchema = {
 
 const episodeSchemaUpdate = {
     description: 'Update episode details',
-    tags: ['episode'],
+    tags: ['Episode'],
     summary: 'Update episode',
     params: {
         type: 'object',
@@ -198,7 +198,7 @@ const episodeSchemaUpdate = {
 
 const episodeSchemaPost = {
     description: 'Create a new episode',
-    tags: ['episode'],
+    tags: ['Episode'],
     summary: 'Create episode',
     body: {
         type: 'object',
@@ -243,7 +243,7 @@ const episodeSchemaPost = {
 
 const episodeSchemaPut = {
     description: 'Update a episode',
-    tags: ['episode'],
+    tags: ['Episode'],
     summary: 'Update episode',
     params: {
         type: 'object',

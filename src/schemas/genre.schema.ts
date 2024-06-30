@@ -2,7 +2,7 @@ const allowedSortByProperties = ['name', 'id', 'createdAt', 'updatedAt'];
 
 const genreSchemaUpdate = {
     description: 'Update genre details',
-    tags: ['genre'],
+    tags: ['Genre'],
     summary: 'Update genre',
     params: {
         type: 'object',
@@ -52,7 +52,7 @@ const genreSchemaUpdate = {
 
 const genreSchemaPost = {
     description: 'Create a new genre',
-    tags: ['genre'],
+    tags: ['Genre'],
     summary: 'Create genre',
     body: {
         type: 'object',
@@ -89,7 +89,7 @@ const genreSchemaPost = {
 
 const genreSchemaPut = {
     description: 'Update a genre',
-    tags: ['genre'],
+    tags: ['Genre'],
     summary: 'Update genre',
     params: {
         type: 'object',
@@ -133,7 +133,7 @@ const genreSchemaPut = {
 
 const genreIdParamSchema = {
     description: 'Genre ID parameter',
-    tags: ['genre'],
+    tags: ['Genre'],
     summary: 'Genre ID parameter',
     params: {
         type: 'object',
@@ -169,7 +169,7 @@ const genreIdParamSchema = {
 
 const genreNameParamSchema = {
     description: 'Genre name parameter',
-    tags: ['genre'],
+    tags: ['Genre'],
     summary: 'Genre name parameter',
     params: {
         type: 'object',
@@ -205,7 +205,7 @@ const genreNameParamSchema = {
 
 const genreQuerySchema = {
     description: 'Query genres',
-    tags: ['genre'],
+    tags: ['Genre'],
     summary: 'Query genres',
     querystring: {
         type: 'object',

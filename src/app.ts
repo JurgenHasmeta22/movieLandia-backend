@@ -44,9 +44,9 @@ server.register(require('@fastify/swagger-ui'), {
     routePrefix: '/documentation',
     swagger: {
         info: {
-            title: 'Fastify API',
-            description: 'API documentation with Swagger UI',
-            version: '0.1.0',
+            title: 'Movies API',
+            version: '1.0.0',
+            description: 'Movies API',
         },
         host: 'localhost:4000',
         schemes: ['http'],
