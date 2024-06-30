@@ -1,7 +1,7 @@
 {
     "name": "movielandia-backend",
     "version": "1.0.0",
-    "description": "REST API for movies and similar things",
+    "description": "REST API and MVC for MovieLandia24 WebApp",
     "scripts": {
         "dev": "nodemon src/app.ts",
         "start": "ts-node src/app.ts",
