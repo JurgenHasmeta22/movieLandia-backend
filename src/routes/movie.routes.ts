@@ -9,6 +9,7 @@ import {
     movieSchemaPut,
 } from '../schemas/movie.schema';
 import { FastifyPluginAsync } from 'fastify';
+import { latestMoviesSchema } from '../schemas/latestMovies.schema';
 
 const movieRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getMovies', {
@@ -46,9 +47,20 @@ const movieRoutes: FastifyPluginAsync = async (fastify) => {
         handler: movieController.addMovie,
     });
 
-    fastify.get('/searchMoviesByTitle', movieController.searchMoviesByTitle);
-    fastify.get('/getLatestMovies', movieController.getLatestMovies);
-    fastify.get('/getRelatedMovies', movieController.getRelatedMovies);
+    fastify.get('/searchMoviesByTitle', {
+        schema: movieTitleParamSchema,
+        handler: movieController.searchMoviesByTitle,
+    });
+
+    fastify.get('/getRelatedMovies', {
+        schema: movieTitleParamSchema,
+        handler: movieController.getRelatedMovies,
+    });
+    
+    fastify.get('/getLatestMovies', {
+        schema: latestMoviesSchema,
+        handler: movieController.getLatestMovies,
+    });
 };
 
 export default fp(movieRoutes);

@@ -46,7 +46,7 @@ const genreRoutes: FastifyPluginAsync = async (fastify) => {
         handler: genreController.addGenre,
     });
 
-    fastify.get('/searchGenresByTitle', genreController.searchGenresByName);
+    fastify.get('/searchGenresByTitle', { schema: genreNameParamSchema, handler: genreController.searchGenresByName });
 };
 
 export default fp(genreRoutes);

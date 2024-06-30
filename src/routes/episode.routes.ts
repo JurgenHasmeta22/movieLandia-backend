@@ -46,7 +46,10 @@ const episodeRoutes: FastifyPluginAsync = async (fastify) => {
         handler: episodeController.addEpisode,
     });
 
-    fastify.get('/searchEpisodesByTitle', episodeController.searchEpisodesByTitle);
+    fastify.get('/searchEpisodesByTitle', {
+        schema: episodeTitleParamSchema,
+        handler: episodeController.searchEpisodesByTitle,
+    });
 };
 
 export default fp(episodeRoutes);
