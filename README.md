@@ -57,7 +57,6 @@ MovieLandia Backend is a REST API for managing movies and related entities such 
 ## Project Structure
 
 ```plaintext
-.
 ├── src
 │   ├── routes
 │   │   ├── auth.routes.ts
@@ -84,6 +83,7 @@ MovieLandia Backend is a REST API for managing movies and related entities such 
 │   └── migrations
 ├── .env
 └── package.json
+```
 
 ## Environment Variables
 
@@ -102,4 +102,7 @@ Swagger documentation is available at `http://localhost:4000/api-docs` once the 
 -   **`npm run start`**: Starts the server without nodemon.
 -   **`npm run tailwind:css`**: Compiles Tailwind CSS.
 -   **`npm run pretty`**: Formats the code using Prettier.
+
+```
+
 ```
