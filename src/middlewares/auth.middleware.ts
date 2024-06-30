@@ -1,6 +1,6 @@
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import HttpStatusCode from '../utils/httpStatusCodes';
-import fastify from 'fastify';
+import { getUserFromToken } from '../utils/authUtils';
 
 async function authMiddleware(request: any, reply: any) {
     const bearerHeader = request.headers['authorization'];
@@ -16,8 +16,7 @@ async function authMiddleware(request: any, reply: any) {
     }
 
     try {
-        // @ts-ignore
-        const user = await fastify.getUserFromToken(token);
+        const user = await getUserFromToken(token);
 
         if (user) {
             request.user = user;
