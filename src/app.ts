@@ -38,7 +38,7 @@ server.register(require('@fastify/swagger'), {
         },
         host: 'localhost:4000',
         schemes: ['http'],
-        consumes: ['application/json, multipart/form-data'],
+        consumes: ['application/json'],
         produces: ['application/json, text/html'],
     },
 });
