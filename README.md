@@ -56,31 +56,32 @@ MovieLandia Backend is a REST API for managing movies and related entities such 
 
 ## Project Structure
 
+```plaintext
 .
 ├── src
-│ ├── routes
-│ │ ├── auth.routes.ts
-│ │ ├── episode.routes.ts
-│ │ ├── genre.routes.ts
-│ │ ├── movie.routes.ts
-│ │ ├── serie.routes.ts
-│ │ ├── user.routes.ts
-│ │ └── views.routes.ts
-│ ├── views
-│ │ ├── layouts
-│ │ │ └── MainLayout.ejs
-│ │ └── other_views.ejs
-│ ├── app.ts
-│ └── plugins
-│ └── auth.decorators.ts
+│   ├── routes
+│   │   ├── auth.routes.ts
+│   │   ├── episode.routes.ts
+│   │   ├── genre.routes.ts
+│   │   ├── movie.routes.ts
+│   │   ├── serie.routes.ts
+│   │   ├── user.routes.ts
+│   │   └── views.routes.ts
+│   ├── views
+│   │   ├── layouts
+│   │   │   └── MainLayout.ejs
+│   │   └── other_views.ejs
+│   ├── app.ts
+│   └── plugins
+│       └── auth.decorators.ts
 ├── public
-│ ├── styles
-│ │ ├── tailwind.css
-│ │ └── style.css
-│ └── other_public_files
+│   ├── styles
+│   │   ├── tailwind.css
+│   │   └── style.css
+│   └── other_public_files
 ├── prisma
-│ ├── schema.prisma
-│ └── migrations
+│   ├── schema.prisma
+│   └── migrations
 ├── .env
 └── package.json
 
@@ -101,3 +102,4 @@ Swagger documentation is available at `http://localhost:4000/api-docs` once the 
 -   **`npm run start`**: Starts the server without nodemon.
 -   **`npm run tailwind:css`**: Compiles Tailwind CSS.
 -   **`npm run pretty`**: Formats the code using Prettier.
+```
