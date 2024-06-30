@@ -41,9 +41,4 @@ export const movieReviewSchema = {
             },
         },
     },
-    security: [
-        {
-            apiKey: [],
-        },
-    ],
 };

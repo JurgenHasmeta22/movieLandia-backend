@@ -80,7 +80,10 @@ const movieController = {
         }
     },
 
-    async getMovieByTitle(request: FastifyRequest<{ Params: GetMovieByTitleParams, Querystring: GetMovieByTitleQuery }>, reply: FastifyReply) {
+    async getMovieByTitle(
+        request: FastifyRequest<{ Params: GetMovieByTitleParams; Querystring: GetMovieByTitleQuery }>,
+        reply: FastifyReply,
+    ) {
         const { title } = request.params;
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = request.query;
 
@@ -132,7 +135,10 @@ const movieController = {
         }
     },
 
-    async updateMovieById(request: FastifyRequest<{ Params: UpdateMovieByIdParams, Body: MovieRequestBody }>, reply: FastifyReply) {
+    async updateMovieById(
+        request: FastifyRequest<{ Params: UpdateMovieByIdParams; Body: MovieRequestBody }>,
+        reply: FastifyReply,
+    ) {
         const { id } = request.params;
         const movieBodyParams: any = request.body;
 

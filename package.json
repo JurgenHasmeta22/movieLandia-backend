@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "description": "REST API for movies and similar things",
     "scripts": {
-        "start": "nodemon src/app.ts",
+        "dev": "nodemon src/app.ts",
+        "start": "ts-node src/app.ts",
         "tailwind:css": "npx tailwindcss -i ./public/styles/tailwind.css -o ./public/styles/style.css --watch",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json,prisma}\""
     },

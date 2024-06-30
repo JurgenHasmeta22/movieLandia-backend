@@ -6,42 +6,43 @@ import {
     episodeQuerySchema,
     episodeIdParamSchema,
     episodeTitleParamSchema,
+    episodeSchemaPut,
 } from '../schemas/episode.schema';
 import { FastifyPluginAsync } from 'fastify';
 
 const episodeRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getEpisodes', {
-        schema: { querystring: episodeQuerySchema },
+        schema: episodeQuerySchema,
         handler: episodeController.getEpisodes,
     });
 
     fastify.get('/getEpisodeById/:id', {
-        schema: { params: episodeIdParamSchema },
+        schema: episodeIdParamSchema,
         handler: episodeController.getEpisodeById,
     });
 
     fastify.get('/getEpisodeByTitle/:title', {
-        schema: { params: episodeTitleParamSchema },
+        schema: episodeTitleParamSchema,
         handler: episodeController.getEpisodeByTitle,
     });
 
     fastify.delete('/deleteEpisodeById/:id', {
-        schema: { params: episodeIdParamSchema },
+        schema: episodeIdParamSchema,
         handler: episodeController.deleteEpisodeById,
     });
 
     fastify.patch('/updateEpisodeById/:id', {
-        schema: { params: episodeIdParamSchema, body: episodeSchemaUpdate },
+        schema: episodeSchemaUpdate,
         handler: episodeController.updateEpisodeById,
     });
 
     fastify.put('/updateEpisodeById/:id', {
-        schema: { params: episodeIdParamSchema, body: episodeSchemaPost },
+        schema: episodeSchemaPut,
         handler: episodeController.updateEpisodeById,
     });
 
     fastify.post('/addEpisode', {
-        schema: { body: episodeSchemaPost },
+        schema: episodeSchemaPost,
         handler: episodeController.addEpisode,
     });
 

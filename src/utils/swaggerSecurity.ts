@@ -1,2 +1,1 @@
-export const security = [
-];
+export const security = [];
