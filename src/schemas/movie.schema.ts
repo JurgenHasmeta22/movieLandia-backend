@@ -13,7 +13,7 @@ const allowedSortByPropertiesDetails = ['createdAt', 'rating'];
 
 const movieQuerySchema = {
     description: 'Query movies',
-    tags: ['movie'],
+    tags: ['Movie'],
     summary: 'Query movies',
     querystring: {
         type: 'object',
@@ -81,7 +81,7 @@ const movieQuerySchema = {
 
 const movieIdParamSchema = {
     description: 'Movie ID parameter',
-    tags: ['movie'],
+    tags: ['Movie'],
     summary: 'Movie ID parameter',
     params: {
         type: 'object',
@@ -117,7 +117,7 @@ const movieIdParamSchema = {
 
 const movieTitleParamSchema = {
     description: 'Movie title parameter',
-    tags: ['movie'],
+    tags: ['Movie'],
     summary: 'Movie title parameter',
     params: {
         type: 'object',
@@ -157,7 +157,7 @@ const movieTitleParamSchema = {
 
 const movieTitleQueryParam = {
     description: 'Query movie by title',
-    tags: ['movie'],
+    tags: ['Movie'],
     summary: 'Query movie by title',
     querystring: {
         type: 'object',
@@ -214,7 +214,7 @@ const movieTitleQueryParam = {
 
 const movieSchemaUpdate = {
     description: 'Update movie details',
-    tags: ['movie'],
+    tags: ['Movie'],
     summary: 'Update movie',
     params: {
         type: 'object',
@@ -281,7 +281,7 @@ const movieSchemaUpdate = {
 
 const movieSchemaPost = {
     description: 'Create a new movie',
-    tags: ['movie'],
+    tags: ['Movie'],
     summary: 'Create movie',
     body: {
         type: 'object',
@@ -335,7 +335,7 @@ const movieSchemaPost = {
 
 const movieSchemaPut = {
     description: 'Update a movie',
-    tags: ['movie'],
+    tags: ['Movie'],
     summary: 'Update movie',
     params: {
         type: 'object',
