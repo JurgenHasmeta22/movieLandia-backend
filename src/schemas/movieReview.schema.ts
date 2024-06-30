@@ -1,6 +1,6 @@
 export const movieReviewSchema = {
     description: 'Create or update a movie review',
-    tags: ['review', 'movie'],
+    tags: ['User'],
     summary: 'Create or update movie review',
     body: {
         type: 'object',

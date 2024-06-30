@@ -1,3 +1,4 @@
+// #region "Imports"
 import fastify from 'fastify';
 import fastifyCors from '@fastify/cors';
 import { PrismaClient } from '@prisma/client';
@@ -16,32 +17,18 @@ import fastifySession from '@fastify/session';
 import fastifyFlash from '@fastify/flash';
 import fastifyCookie from '@fastify/cookie';
 import ejs from 'ejs';
+// #endregion
 
 export const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
 });
-
 const server = fastify({ logger: true });
 
 server.register(fastifyCors);
 server.register(require('@fastify/formbody'));
 
+// #region "Swagger config"
 server.register(require('@fastify/swagger'), {
-    swagger: {
-        info: {
-            title: 'Fastify API',
-            description: 'API documentation with Swagger',
-            version: '0.1.0',
-        },
-        host: 'localhost:4000',
-        schemes: ['http'],
-        consumes: ['application/json'],
-        produces: ['application/json'],
-    },
-});
-
-server.register(require('@fastify/swagger-ui'), {
-    routePrefix: '/documentation',
     swagger: {
         info: {
             title: 'Movies API',
@@ -50,11 +37,14 @@ server.register(require('@fastify/swagger-ui'), {
         },
         host: 'localhost:4000',
         schemes: ['http'],
-        consumes: ['application/json'],
-        produces: ['application/json'],
+        consumes: ['application/json, multipart/form-data'],
+        produces: ['application/json, text/html'],
     },
+});
+server.register(require('@fastify/swagger-ui'), {
+    routePrefix: '/api-docs',
     uiConfig: {
-        docExpansion: 'full',
+        docExpansion: 'none',
         deepLinking: false,
     },
     staticCSP: true,
@@ -62,7 +52,9 @@ server.register(require('@fastify/swagger-ui'), {
     transformSpecification: (swaggerObject: any) => swaggerObject,
     transformSpecificationClone: true,
 });
+// #endregion
 
+// #region "Views, public, cookie, sessions config, flash"
 server.register(fastifyStatic, {
     root: path.join(__dirname, 'public'),
 });
@@ -81,19 +73,17 @@ server.register(fastifySession, {
     cookie: { secure: false },
 });
 server.register(fastifyFlash);
+// #endregion
 
+// #region "Routes"
 server.register(viewsRoutes);
 server.register(authRoutes);
 server.register(movieRoutes);
-// server.register(serieRoutes);
-// server.register(genreRoutes);
-// server.register(episodeRoutes);
-// server.register(userRoutes);
-
-server.setErrorHandler((error, request, reply) => {
-    server.log.error(error);
-    reply.status(500).send({ error: 'Internal Server Error' });
-});
+server.register(serieRoutes);
+server.register(genreRoutes);
+server.register(episodeRoutes);
+server.register(userRoutes);
+// #endregion
 
 const start = async () => {
     try {

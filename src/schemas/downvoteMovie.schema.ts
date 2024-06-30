@@ -1,6 +1,6 @@
 const downvoteMovieSchema = {
     description: 'Downvote a movie review',
-    tags: ['movie', 'review', 'vote'],
+    tags: ['User'],
     summary: 'Downvote a movie review',
     body: {
         type: 'object',

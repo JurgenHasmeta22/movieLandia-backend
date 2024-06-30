@@ -6,59 +6,44 @@ import {
     serieQuerySchema,
     serieIdParamSchema,
     serieTitleParamSchema,
+    serieSchemaPut,
 } from '../schemas/serie.schema';
 import { seasonSerieSchema } from '../schemas/seasonSerie.schema';
 import { FastifyPluginAsync } from 'fastify';
 
 const serieRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getSeries', {
-        schema: {
-            querystring: serieQuerySchema,
-        },
+        schema: serieQuerySchema,
         handler: serieController.getSeries,
     });
 
     fastify.get('/getSerieById/:id', {
-        schema: {
-            params: serieIdParamSchema,
-        },
+        schema: serieIdParamSchema,
         handler: serieController.getSerieById,
     });
 
     fastify.get('/getSerieByTitle/:title', {
-        schema: {
-            params: serieTitleParamSchema,
-        },
+        schema: serieTitleParamSchema,
         handler: serieController.getSerieByTitle,
     });
 
     fastify.delete('/deleteSerieById/:id', {
-        schema: {
-            params: serieIdParamSchema,
-        },
+        schema: serieIdParamSchema,
         handler: serieController.deleteSerieById,
     });
 
     fastify.patch('/updateSerieById/:id', {
-        schema: {
-            params: serieIdParamSchema,
-            body: serieSchemaUpdate,
-        },
+        schema: serieSchemaUpdate,
         handler: serieController.updateSerieById,
     });
 
     fastify.put('/updateSerieById/:id', {
-        schema: {
-            params: serieIdParamSchema,
-            body: serieSchemaPost,
-        },
+        schema: serieSchemaPut,
         handler: serieController.updateSerieById,
     });
 
     fastify.post('/addSerie', {
-        schema: {
-            body: serieSchemaPost,
-        },
+        schema: serieSchemaPost,
         handler: serieController.addSerie,
     });
 
@@ -67,9 +52,7 @@ const serieRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getRelatedSeries', serieController.getRelatedSeries);
 
     fastify.post('/addSeasonToSerie', {
-        schema: {
-            body: seasonSerieSchema,
-        },
+        schema: seasonSerieSchema,
         handler: serieController.addSeasonToSerie,
     });
 };
