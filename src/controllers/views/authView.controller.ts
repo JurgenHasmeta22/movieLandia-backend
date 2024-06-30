@@ -1,5 +1,5 @@
-import fastify from 'fastify';
 import authModel from '../../models/auth.model';
+import { createToken } from '../../utils/authUtils';
 
 const authViewController = {
     async loginView(request: any, reply: any) {
@@ -23,8 +23,7 @@ const authViewController = {
 
             if (user) {
                 request.session.user = user;
-                // @ts-ignore
-                request.session.token = fastify.createToken(user.id);
+                request.session.token = createToken(user.id);
                 const redirectTo = request.session.lastPage === '/login' ? '/' : request.session.lastPage || '/';
                 return reply.redirect(redirectTo);
             } else {
@@ -58,8 +57,7 @@ const authViewController = {
 
             if (user) {
                 request.session.user = user;
-                //@ts-ignore
-                request.session.token = fastify.createToken(user.id);
+                request.session.token = createToken(user.id);
                 const redirectTo = request.session.lastPage === '/register' ? '/' : request.session.lastPage || '/';
                 return reply.redirect(redirectTo);
             } else {

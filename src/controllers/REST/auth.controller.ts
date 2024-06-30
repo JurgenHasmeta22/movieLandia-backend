@@ -1,7 +1,8 @@
-import fastify, { FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import authModel from '../../models/auth.model';
 import { User } from '@prisma/client';
 import HttpStatusCode from '../../utils/httpStatusCodes';
+import { createToken } from '../../utils/authUtils';
 
 const authController = {
     async signUp(
@@ -14,8 +15,7 @@ const authController = {
             const user: User | null = await authModel.signUp({ email, password, userName });
 
             if (user) {
-                // @ts-ignore
-                const token = await fastify.createToken(user.id);
+                const token = createToken(user.id);
                 reply.status(HttpStatusCode.OK).send({ user, token });
             } else {
                 reply.status(HttpStatusCode.Conflict).send({ error: 'User already exists' });
@@ -32,8 +32,7 @@ const authController = {
             const user: User | null = await authModel.login(email, password);
 
             if (user) {
-                // @ts-ignore
-                const token = await fastify.createToken(user.id);
+                const token = createToken(user.id);
                 reply.status(HttpStatusCode.OK).send({ user, token });
             } else {
                 reply.status(HttpStatusCode.BadRequest).send({ error: 'Credentials are wrong' });
