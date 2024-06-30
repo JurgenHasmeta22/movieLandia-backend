@@ -39,7 +39,7 @@ const genreController = {
                 filterValue: filterValue !== undefined ? Number(filterValue) : undefined,
                 filterNameString: filterName!,
                 filterOperatorString: filterOperator!,
-            });
+            }); 
 
             if (genres) {
                 reply.status(HttpStatusCode.OK).send(genres);

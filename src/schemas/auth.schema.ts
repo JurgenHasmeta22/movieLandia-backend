@@ -22,31 +22,31 @@ const registerSchema = {
             },
         },
     },
-    response: {
-        201: {
-            description: 'User registered successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'string', description: 'User ID' },
-                email: { type: 'string', description: 'User email address' },
-                userName: { type: 'string', description: 'Username' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     201: {
+    //         description: 'User registered successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'string', description: 'User ID' },
+    //             email: { type: 'string', description: 'User email address' },
+    //             userName: { type: 'string', description: 'Username' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const loginSchema = {
@@ -67,36 +67,36 @@ const loginSchema = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'User logged in successfully',
-            type: 'object',
-            properties: {
-                token: { type: 'string', description: 'JWT token' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        401: {
-            description: 'Unauthorized',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'User logged in successfully',
+    //         type: 'object',
+    //         properties: {
+    //             token: { type: 'string', description: 'JWT token' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     401: {
+    //         description: 'Unauthorized',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 export { registerSchema, loginSchema };

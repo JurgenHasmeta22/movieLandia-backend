@@ -11,29 +11,29 @@ const episodeIdParamSchema = {
         },
         required: ['id'],
     },
-    response: {
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const episodeTitleParamSchema = {
@@ -47,29 +47,29 @@ const episodeTitleParamSchema = {
         },
         required: ['title'],
     },
-    response: {
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const episodeQuerySchema = {
@@ -105,37 +105,37 @@ const episodeQuerySchema = {
             },
         },
     },
-    response: {
-        200: {
-            description: 'Query executed successfully',
-            type: 'array',
-            items: {
-                type: 'object',
-                properties: {
-                    id: { type: 'integer', description: 'Episode ID' },
-                    title: { type: 'string', description: 'Episode title' },
-                    photoSrc: { type: 'string', description: 'Photo source URL' },
-                    videoSrc: { type: 'string', description: 'Video source URL' },
-                    description: { type: 'string', description: 'Episode description' },
-                    serieId: { type: 'integer', description: 'Associated serie ID' },
-                },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'Episode ID' },
+    //                 title: { type: 'string', description: 'Episode title' },
+    //                 photoSrc: { type: 'string', description: 'Photo source URL' },
+    //                 videoSrc: { type: 'string', description: 'Video source URL' },
+    //                 description: { type: 'string', description: 'Episode description' },
+    //                 serieId: { type: 'integer', description: 'Associated serie ID' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const episodeSchemaUpdate = {
@@ -159,41 +159,41 @@ const episodeSchemaUpdate = {
             serieId: { type: 'number', description: 'Associated serie ID' },
         },
     },
-    response: {
-        200: {
-            description: 'Episode updated successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'Episode ID' },
-                title: { type: 'string', description: 'Episode title' },
-                photoSrc: { type: 'string', description: 'Photo source URL' },
-                videoSrc: { type: 'string', description: 'Video source URL' },
-                description: { type: 'string', description: 'Episode description' },
-                serieId: { type: 'integer', description: 'Associated serie ID' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        404: {
-            description: 'Not Found',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     200: {
+    //         description: 'Episode updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Episode ID' },
+    //             title: { type: 'string', description: 'Episode title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             videoSrc: { type: 'string', description: 'Video source URL' },
+    //             description: { type: 'string', description: 'Episode description' },
+    //             serieId: { type: 'integer', description: 'Associated serie ID' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const episodeSchemaPost = {
@@ -211,34 +211,34 @@ const episodeSchemaPost = {
             serieId: { type: 'number', description: 'Associated serie ID' },
         },
     },
-    response: {
-        201: {
-            description: 'Episode created successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'Episode ID' },
-                title: { type: 'string', description: 'Episode title' },
-                photoSrc: { type: 'string', description: 'Photo source URL' },
-                videoSrc: { type: 'string', description: 'Video source URL' },
-                description: { type: 'string', description: 'Episode description' },
-                serieId: { type: 'integer', description: 'Associated serie ID' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     201: {
+    //         description: 'Episode created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Episode ID' },
+    //             title: { type: 'string', description: 'Episode title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             videoSrc: { type: 'string', description: 'Video source URL' },
+    //             description: { type: 'string', description: 'Episode description' },
+    //             serieId: { type: 'integer', description: 'Associated serie ID' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 const episodeSchemaPut = {
@@ -263,34 +263,34 @@ const episodeSchemaPut = {
             serieId: { type: 'number', description: 'Associated serie ID' },
         },
     },
-    response: {
-        201: {
-            description: 'Episode created successfully',
-            type: 'object',
-            properties: {
-                id: { type: 'integer', description: 'Episode ID' },
-                title: { type: 'string', description: 'Episode title' },
-                photoSrc: { type: 'string', description: 'Photo source URL' },
-                videoSrc: { type: 'string', description: 'Video source URL' },
-                description: { type: 'string', description: 'Episode description' },
-                serieId: { type: 'integer', description: 'Associated serie ID' },
-            },
-        },
-        400: {
-            description: 'Bad Request',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-        500: {
-            description: 'Internal Server Error',
-            type: 'object',
-            properties: {
-                error: { type: 'string', description: 'Error message' },
-            },
-        },
-    },
+    // response: {
+    //     201: {
+    //         description: 'Episode created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Episode ID' },
+    //             title: { type: 'string', description: 'Episode title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             videoSrc: { type: 'string', description: 'Video source URL' },
+    //             description: { type: 'string', description: 'Episode description' },
+    //             serieId: { type: 'integer', description: 'Associated serie ID' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
 };
 
 export {
