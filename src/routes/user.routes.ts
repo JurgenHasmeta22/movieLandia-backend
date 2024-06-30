@@ -18,133 +18,128 @@ import { downvoteSerieSchema } from '../schemas/downvoteSerie.schema';
 
 const userRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/getUsers', {
-        schema: { querystring: userQuerySchema },
+        schema: userQuerySchema,
         handler: userController.getUsers,
     });
 
     fastify.get('/getUserById/:id', {
-        schema: { params: userIdParamSchema },
+        schema: userIdParamSchema,
         handler: userController.getUserById,
     });
 
     fastify.get('/getUserByTitle/:userName', {
-        schema: { params: userUserNameParamSchema },
+        schema: userUserNameParamSchema,
         handler: userController.getUserByTitle,
     });
 
     fastify.delete('/deleteUserById/:id', {
-        schema: { params: userIdParamSchema },
+        schema: userIdParamSchema,
         handler: userController.deleteUserById,
     });
 
     fastify.patch('/updateUserById/:id', {
-        schema: {
-            params: userIdParamSchema,
-            body: userSchemaPost,
-        },
+        schema: userSchemaPost,
+
         handler: userController.updateUserById,
     });
 
     fastify.put('/updateUserById/:id', {
-        schema: {
-            params: userIdParamSchema,
-            body: userSchemaUpdate,
-        },
+        schema: userSchemaUpdate,
         handler: userController.updateUserById,
     });
 
     fastify.get('/searchUsersByTitle', {
-        schema: { querystring: userQuerySchema },
+        schema: userQuerySchema,
         handler: userController.searchUsersByTitle,
     });
 
     fastify.post('/bookmarkMovie', {
-        schema: { body: userMovieFavoriteSchema },
+        schema: userMovieFavoriteSchema,
         handler: userController.bookmarkMovie,
     });
 
     fastify.post('/bookmarkSerie', {
-        schema: { body: userSerieFavoriteSchema },
+        schema: userSerieFavoriteSchema,
         handler: userController.bookmarkSerie,
     });
 
     fastify.post('/unBookmarkMovie', {
-        schema: { body: userMovieFavoriteSchema },
+        schema: userMovieFavoriteSchema,
         handler: userController.unBookmarkMovie,
     });
 
     fastify.post('/unBookmarkSerie', {
-        schema: { body: userSerieFavoriteSchema },
+        schema: userSerieFavoriteSchema,
         handler: userController.unBookmarkSerie,
     });
 
     fastify.post('/addReviewMovie', {
-        schema: { body: movieReviewSchema },
+        schema: movieReviewSchema,
         handler: userController.addReviewMovie,
     });
 
     fastify.post('/addReviewSerie', {
-        schema: { body: serieReviewSchema },
+        schema: serieReviewSchema,
         handler: userController.addReviewSerie,
     });
 
     fastify.post('/updateReviewMovie', {
-        schema: { body: movieReviewSchema },
+        schema: movieReviewSchema,
         handler: userController.updateReviewMovie,
     });
 
     fastify.post('/updateReviewSerie', {
-        schema: { body: serieReviewSchema },
+        schema: serieReviewSchema,
         handler: userController.updateReviewSerie,
     });
 
     fastify.post('/removeReviewMovie', {
-        schema: { body: movieReviewSchema },
+        schema: movieReviewSchema,
         handler: userController.removeReviewMovie,
     });
 
     fastify.post('/removeReviewSerie', {
-        schema: { body: serieReviewSchema },
+        schema: serieReviewSchema,
         handler: userController.removeReviewSerie,
     });
 
     fastify.post('/addUpvoteMovieReview', {
-        schema: { body: upvoteMovieSchema },
+        schema: upvoteMovieSchema,
         handler: userController.addUpvoteMovieReview,
     });
 
     fastify.post('/addUpvoteSerieReview', {
-        schema: { body: upvoteSerieSchema },
+        schema: upvoteSerieSchema,
         handler: userController.addUpvoteSerieReview,
     });
 
     fastify.post('/removeUpvoteMovieReview', {
-        schema: { body: upvoteMovieSchema },
+        schema: upvoteMovieSchema,
         handler: userController.removeUpvoteMovieReview,
     });
 
     fastify.post('/removeUpvoteSerieReview', {
-        schema: { body: upvoteSerieSchema },
+        schema: upvoteSerieSchema,
         handler: userController.removeUpvoteSerieReview,
     });
 
     fastify.post('/addDownvoteMovieReview', {
-        schema: { body: downvoteMovieSchema },
+        schema: downvoteMovieSchema,
         handler: userController.addDownvoteMovieReview,
     });
 
     fastify.post('/addDownvoteSerieReview', {
-        schema: { body: downvoteSerieSchema },
+        schema: downvoteSerieSchema,
         handler: userController.addDownvoteSerieReview,
     });
 
     fastify.post('/removeDownvoteMovieReview', {
-        schema: { body: downvoteMovieSchema },
+        schema: downvoteMovieSchema,
         handler: userController.removeDownvoteMovieReview,
     });
 
     fastify.post('/removeDownvoteSerieReview', {
-        schema: { body: downvoteSerieSchema },
+        schema: downvoteSerieSchema,
         handler: userController.removeDownvoteSerieReview,
     });
 };
