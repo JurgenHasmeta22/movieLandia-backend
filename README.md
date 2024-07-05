@@ -1,8 +1,6 @@
 # MovieLandia Backend
 
-## Description
-
-MovieLandia Backend is a REST API for managing movies and related entities such as series, genres, and episodes. Built using Fastify for a fast and efficient server, with EJS for server-side rendering.
+MovieLandia Backend is a REST API and also acts as MVC with EJS Template engine, for managing movies and related entities such as series, genres, and episodes. Built using Fastify for a fast and efficient server, with EJS for server-side rendering.
 
 ## Features
 
