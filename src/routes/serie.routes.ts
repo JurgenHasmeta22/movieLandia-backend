@@ -1,27 +1,73 @@
-import express from 'express';
-import serieController from '../controllers/serie.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
+import fp from 'fastify-plugin';
+import serieController from '../controllers/REST/serie.controller';
 import {
     serieSchemaUpdate,
     serieSchemaPost,
     serieQuerySchema,
     serieIdParamSchema,
     serieTitleParamSchema,
+    serieSchemaPut,
 } from '../schemas/serie.schema';
 import { seasonSerieSchema } from '../schemas/seasonSerie.schema';
+import { FastifyPluginAsync } from 'fastify';
+import { latestMoviesSchema } from '../schemas/latestMovies.schema';
+import { latestSeriesSchema } from '../schemas/latestSeries.schema';
 
-const router = express.Router();
+const serieRoutes: FastifyPluginAsync = async (fastify) => {
+    fastify.get('/getSeries', {
+        schema: serieQuerySchema,
+        handler: serieController.getSeries,
+    });
 
-router.get('/getSeries', serieQuerySchema, validateMiddleware, serieController.getSeries);
-router.get('/getSerieById/:id', serieIdParamSchema, validateMiddleware, serieController.getSerieById);
-router.get('/getSerieByTitle/:title', serieTitleParamSchema, validateMiddleware, serieController.getSerieByTitle);
-router.delete('/deleteSerieById/:id', serieIdParamSchema, validateMiddleware, serieController.deleteSerieById);
-router.patch('/updateSerieById/:id', serieIdParamSchema, serieSchemaUpdate, validateMiddleware, serieController.updateSerieById);
-router.put('/updateSerieById/:id', serieIdParamSchema, serieSchemaPost, validateMiddleware, serieController.updateSerieById);
-router.post('/addSerie', serieSchemaPost, validateMiddleware, serieController.addSerie);
-router.get('/searchSeriesByTitle', serieController.searchSeriesByTitle);
-router.get('/getLatestSeries', serieController.getLatestSeries);
-router.get('/getRelatedSeries', serieController.getRelatedSeries);
-router.post('/addSeasonToSerie', seasonSerieSchema, validateMiddleware, serieController.addSeasonToSerie);
+    fastify.get('/getSerieById/:id', {
+        schema: serieIdParamSchema,
+        handler: serieController.getSerieById,
+    });
 
-export default router;
+    fastify.get('/getSerieByTitle/:title', {
+        schema: serieTitleParamSchema,
+        handler: serieController.getSerieByTitle,
+    });
+
+    fastify.delete('/deleteSerieById/:id', {
+        schema: serieIdParamSchema,
+        handler: serieController.deleteSerieById,
+    });
+
+    fastify.patch('/updateSerieById/:id', {
+        schema: serieSchemaUpdate,
+        handler: serieController.updateSerieById,
+    });
+
+    fastify.put('/updateSerieById/:id', {
+        schema: serieSchemaPut,
+        handler: serieController.updateSerieById,
+    });
+
+    fastify.post('/addSerie', {
+        schema: serieSchemaPost,
+        handler: serieController.addSerie,
+    });
+
+    fastify.get('/searchSeriesByTitle', {
+        schema: serieTitleParamSchema,
+        handler: serieController.searchSeriesByTitle,
+    });
+
+    fastify.get('/getLatestSeries', {
+        schema: latestSeriesSchema,
+        handler: serieController.getLatestSeries,
+    });
+
+    fastify.get('/getRelatedSeries', {
+        schema: serieTitleParamSchema,
+        handler: serieController.getRelatedSeries,
+    });
+
+    fastify.post('/addSeasonToSerie', {
+        schema: seasonSerieSchema,
+        handler: serieController.addSeasonToSerie,
+    });
+};
+
+export default fp(serieRoutes);

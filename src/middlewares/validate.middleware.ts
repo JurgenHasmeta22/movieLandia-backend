@@ -1,13 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
-import { validationResult } from 'express-validator';
-import HttpStatusCode from '../utils/httpStatusCodes';
+import { FastifyInstance, FastifyRequest, FastifyReply, RouteOptions } from 'fastify';
 
-export function validateMiddleware(req: Request, res: Response, next: NextFunction) {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(HttpStatusCode.BadRequest).json({ errors: errors.array() });
+async function validateMiddleware(request: any, reply: FastifyReply) {
+    if (!request.body || !request.body.userName || !request.body.email || !request.body.password) {
+        reply.status(400).send({ error: 'Validation failed', message: 'Missing required fields' });
+        return;
     }
-
-    next();
 }
+
+export default validateMiddleware;

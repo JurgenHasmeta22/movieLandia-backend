@@ -1,46 +1,346 @@
-import { body, param, query } from 'express-validator';
-
 const allowedSortByProperties = ['userName', 'email'];
 
-const userIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid user ID format')];
+const userIdParamSchema = {
+    description: 'Parameters for user ID',
+    tags: ['User'],
+    summary: 'User ID parameter',
+    params: {
+        type: 'object',
+        properties: {
+            id: {
+                type: 'integer',
+                minimum: 1,
+                description: 'User ID',
+            },
+        },
+        required: ['id'],
+    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-const userUserNameParamSchema = [
-    param('userName')
-        .isString()
-        .trim()
-        .matches(/^[a-zA-Z\s]+$/)
-        .withMessage('Invalid user userName format'),
-];
+const userUserNameParamSchema = {
+    description: 'Parameters for username',
+    tags: ['User'],
+    summary: 'Username parameter',
+    params: {
+        type: 'object',
+        properties: {
+            userName: {
+                type: 'string',
+                pattern: '^[a-zA-Z\\s]+$',
+                description: 'Username of the user',
+            },
+        },
+        required: ['userName'],
+    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-const userQuerySchema = [
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const userQuerySchema = {
+    description: 'Query users',
+    tags: ['User'],
+    summary: 'Query users',
+    querystring: {
+        type: 'object',
+        properties: {
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByProperties,
+                description: 'Field to sort by',
+            },
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+                description: 'Sort order (ascending or descending)',
+            },
+            page: {
+                type: 'integer',
+                minimum: 1,
+                description: 'Page number',
+            },
+            pageSize: {
+                type: 'integer',
+                minimum: 1,
+                maximum: 100,
+                description: 'Number of items per page',
+            },
+            userName: {
+                type: 'string',
+                description: 'Filter by user name',
+            },
+            filterValue: {
+                type: 'string',
+                description: 'Filter value for specified filter name',
+            },
+            filterName: {
+                type: 'string',
+                enum: ['userName', 'id'],
+                description: 'Filter name (either "userName" or "id")',
+            },
+            filterOperator: {
+                type: 'string',
+                enum: ['equals', 'contains', 'startsWith', 'endsWith'],
+                description: 'Filter operator',
+            },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'User ID' },
+    //                 userName: { type: 'string', description: 'Username of the user' },
+    //                 email: { type: 'string', format: 'email', description: 'Email address of the user' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            if (!allowedSortByProperties.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const userSchemaUpdate = {
+    description: 'Update user details',
+    tags: ['User'],
+    summary: 'Update user',
+    params: {
+        type: 'object',
+        properties: {
+            id: {
+                type: 'integer',
+                minimum: 1,
+                description: 'User ID',
+            },
+        },
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        properties: {
+            userName: {
+                type: 'string',
+                description: 'New username for the user',
+            },
+            email: {
+                type: 'string',
+                format: 'email',
+                description: 'New email address for the user',
+            },
+            password: {
+                type: 'string',
+                description: 'New password for the user',
+            },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'User updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'User ID' },
+    //             userName: { type: 'string', description: 'Username of the user' },
+    //             email: { type: 'string', format: 'email', description: 'Email address of the user' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            return true;
-        }),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('pageSize').optional().isInt({ min: 1, max: 100 }).withMessage('Invalid pageSize value'),
-    query('title').optional().isString().withMessage('Title must be a string'),
-    query('filterValue').optional().isString().withMessage('Filter value must be a string'),
-    query('filterName').optional().isIn(['name', 'id']).withMessage('Invalid filterName value'),
-    query('filterOperator')
-        .optional()
-        .isIn(['equals', 'contains', 'startsWith', 'endsWith'])
-        .withMessage('Invalid filterOperator value'),
-];
+const userSchemaPost = {
+    description: 'Create a new user',
+    tags: ['User'],
+    summary: 'Create user',
+    body: {
+        type: 'object',
+        required: ['userName', 'email', 'password'],
+        properties: {
+            userName: {
+                type: 'string',
+                description: 'Username for the new user',
+            },
+            email: {
+                type: 'string',
+                format: 'email',
+                description: 'Email address for the new user',
+            },
+            password: {
+                type: 'string',
+                description: 'Password for the new user',
+            },
+        },
+    },
+    // response: {
+    //     201: {
+    //         description: 'User created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'User ID' },
+    //             userName: { type: 'string', description: 'Username of the user' },
+    //             email: { type: 'string', format: 'email', description: 'Email address of the user' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-const userSchemaUpdate = [
-    body('userName').optional().isString(),
-    body('email').optional().isString().isEmail(),
-    body('password').optional().isString(),
-];
-const userSchemaPost = [body('userName').isString(), body('email').isString().isEmail(), body('password').isString()];
+const userSchemaPut = {
+    description: 'Update a user',
+    tags: ['User'],
+    summary: 'Update user',
+    params: {
+        type: 'object',
+        properties: {
+            id: {
+                type: 'integer',
+                minimum: 1,
+                description: 'User ID',
+            },
+        },
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        required: ['userName', 'email', 'password'],
+        properties: {
+            userName: {
+                type: 'string',
+                description: 'Username of the user',
+            },
+            email: {
+                type: 'string',
+                format: 'email',
+                description: 'Email address of the user',
+            },
+            password: {
+                type: 'string',
+                description: 'Password for the user',
+            },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'User updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'User ID' },
+    //             userName: { type: 'string', description: 'Username of the user' },
+    //             email: { type: 'string', format: 'email', description: 'Email address of the user' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-export { userSchemaPost, userSchemaUpdate, userQuerySchema, userIdParamSchema, userUserNameParamSchema };
+export { userSchemaPost, userSchemaUpdate, userQuerySchema, userIdParamSchema, userUserNameParamSchema, userSchemaPut };

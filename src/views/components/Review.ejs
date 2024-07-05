@@ -1,0 +1,45 @@
+<article class="bg-gray-900 text-white p-4">
+  <div class="max-w-2xl mx-auto bg-gray-800 rounded-lg py-6 px-10 space-y-6">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <div class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center">
+          <i class="fas fa-user text-2xl"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-semibold"><%= data.user.userName %></h2>
+        </div>
+      </div>
+      <div class="text-gray-400 text-right">
+        <p><%= new Date(data.createdAt).toLocaleDateString() %> <%= new Date(data.createdAt).toLocaleTimeString() %></p>
+      </div>
+    </div>
+    <p><%= data.content %></p>
+    <p class="text-green-500 font-bold"><%= data.feedback %></p>
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-6">
+        <div class="flex items-center">
+          <i class="fas fa-thumbs-up text-gray-400"></i>
+          <span class="pl-1 text-gray-400"><%= data.upvotes.length %></span>
+        </div>
+        <div class="flex items-center">
+          <i class="fas fa-thumbs-down text-gray-400"></i>
+          <span class="pl-1 text-gray-400"><%= data.downvotes.length %></span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 pl-4">
+        <span class="text-xl font-semibold"><%= data.rating %></span>
+        <div class="flex space-x-1">
+          <% for (let i = 1; i <= 10; i++) { %>
+          <% if (i <= data.rating) { %>
+          <i class="fas fa-star text-yellow-500"></i>
+          <% } else if (i === Math.ceil(data.rating) && data.rating % 1 !== 0) { %>
+          <i class="fas fa-star-half-alt text-yellow-500"></i>
+          <% } else { %>
+          <i class="far fa-star text-yellow-500"></i>
+          <% } %>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
