@@ -1,35 +1,55 @@
-import express from 'express';
-import episodeController from '../controllers/episode.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
+import fp from 'fastify-plugin';
+import episodeController from '../controllers/REST/episode.controller';
 import {
     episodeSchemaUpdate,
     episodeSchemaPost,
     episodeQuerySchema,
     episodeIdParamSchema,
     episodeTitleParamSchema,
+    episodeSchemaPut,
 } from '../schemas/episode.schema';
+import { FastifyPluginAsync } from 'fastify';
 
-const router = express.Router();
+const episodeRoutes: FastifyPluginAsync = async (fastify) => {
+    fastify.get('/getEpisodes', {
+        schema: episodeQuerySchema,
+        handler: episodeController.getEpisodes,
+    });
 
-router.get('/getEpisodes', episodeQuerySchema, validateMiddleware, episodeController.getEpisodes);
-router.get('/getEpisodeById/:id', episodeIdParamSchema, validateMiddleware, episodeController.getEpisodeById);
-router.get('/getEpisodeByTitle/:title', episodeTitleParamSchema, validateMiddleware, episodeController.getEpisodeByTitle);
-router.delete('/deleteEpisodeById/:id', episodeIdParamSchema, validateMiddleware, episodeController.deleteEpisodeById);
-router.patch(
-    '/updateEpisodeById/:id',
-    episodeIdParamSchema,
-    episodeSchemaUpdate,
-    validateMiddleware,
-    episodeController.updateEpisodeById,
-);
-router.put(
-    '/updateEpisodeById/:id',
-    episodeIdParamSchema,
-    episodeSchemaPost,
-    validateMiddleware,
-    episodeController.updateEpisodeById,
-);
-router.post('/addEpisode', episodeSchemaPost, validateMiddleware, episodeController.addEpisode);
-router.get('/searchEpisodesByTitle', episodeController.searchEpisodesByTitle);
+    fastify.get('/getEpisodeById/:id', {
+        schema: episodeIdParamSchema,
+        handler: episodeController.getEpisodeById,
+    });
 
-export default router;
+    fastify.get('/getEpisodeByTitle/:title', {
+        schema: episodeTitleParamSchema,
+        handler: episodeController.getEpisodeByTitle,
+    });
+
+    fastify.delete('/deleteEpisodeById/:id', {
+        schema: episodeIdParamSchema,
+        handler: episodeController.deleteEpisodeById,
+    });
+
+    fastify.patch('/updateEpisodeById/:id', {
+        schema: episodeSchemaUpdate,
+        handler: episodeController.updateEpisodeById,
+    });
+
+    fastify.put('/updateEpisodeById/:id', {
+        schema: episodeSchemaPut,
+        handler: episodeController.updateEpisodeById,
+    });
+
+    fastify.post('/addEpisode', {
+        schema: episodeSchemaPost,
+        handler: episodeController.addEpisode,
+    });
+
+    fastify.get('/searchEpisodesByTitle', {
+        schema: episodeTitleParamSchema,
+        handler: episodeController.searchEpisodesByTitle,
+    });
+};
+
+export default fp(episodeRoutes);

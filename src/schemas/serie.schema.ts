@@ -1,69 +1,390 @@
-import { body, param, query } from 'express-validator';
-
-const allowedSortByProperties = ['id', 'photoSrc', 'releaseYear', 'title', 'ratingImdb'];
+const allowedSortByProperties = ['id', 'title', 'photoSrc', 'releaseYear', 'ratingImdb'];
 const allowedSortByPropertiesDetails = ['createdAt', 'rating'];
 
-const serieQuerySchema = [
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const serieQuerySchema = {
+    description: 'Query series',
+    tags: ['Serie'],
+    summary: 'Query series',
+    querystring: {
+        type: 'object',
+        properties: {
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByProperties,
+                description: 'Field to sort by',
+            },
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+                description: 'Sort order (ascending or descending)',
+            },
+            page: {
+                type: 'integer',
+                minimum: 1,
+                description: 'Page number for pagination',
+            },
+            pageSize: {
+                type: 'integer',
+                minimum: 1,
+                maximum: 100,
+                description: 'Number of items per page',
+            },
+            title: {
+                type: 'string',
+                description: 'Filter by title (exact match)',
+            },
+            filterValue: {
+                type: 'string',
+                description: 'Filter value (for dynamic filtering)',
+            },
+            filterName: {
+                type: 'string',
+                enum: ['title', 'releaseYear'],
+                description: 'Name of the field to filter',
+            },
+            filterOperator: {
+                type: 'string',
+                enum: ['equals', 'contains', 'startsWith', 'endsWith'],
+                description: 'Filter operator for textual filters',
+            },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'Series ID' },
+    //                 title: { type: 'string', description: 'Series title' },
+    //                 photoSrc: { type: 'string', description: 'Photo source URL' },
+    //                 releaseYear: { type: 'integer', description: 'Release year' },
+    //                 ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            if (!allowedSortByProperties.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const serieIdParamSchema = {
+    description: 'Series ID parameter',
+    tags: ['Serie'],
+    summary: 'Series ID parameter',
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1, description: 'Series ID' },
+        },
+        required: ['id'],
+    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            return true;
-        }),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('pageSize').optional().isInt({ min: 1, max: 100 }).withMessage('Invalid pageSize value'),
-    query('title').optional().isString().withMessage('Title must be a string'),
-    query('filterValue').optional().isString().withMessage('Filter value must be a string'),
-    query('filterName').optional().isIn(['title', 'releaseYear']).withMessage('Invalid filterName value'),
-    query('filterOperator')
-        .optional()
-        .isIn(['equals', 'contains', 'startsWith', 'endsWith'])
-        .withMessage('Invalid filterOperator value'),
-];
+const serieTitleParamSchema = {
+    description: 'Series title parameter',
+    tags: ['Serie'],
+    summary: 'Series title parameter',
+    params: {
+        type: 'object',
+        properties: {
+            title: {
+                type: 'string',
+                pattern: '^(?!\\d+$)[\\w\\s]*$',
+                description: 'Series title',
+            },
+        },
+        required: ['title'],
+    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-const serieIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid serie ID format')];
+const serieTitleQuerySchema = {
+    description: 'Query series by title',
+    tags: ['Serie'],
+    summary: 'Query series by title',
+    querystring: {
+        type: 'object',
+        properties: {
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+                description: 'Sort order for titles (ascending or descending)',
+            },
+            page: {
+                type: 'integer',
+                minimum: 1,
+                description: 'Page number for pagination of titles',
+            },
+            upvotesPage: {
+                type: 'integer',
+                minimum: 1,
+                description: 'Page number for upvoted titles',
+            },
+            downvotesPage: {
+                type: 'integer',
+                minimum: 1,
+                description: 'Page number for downvoted titles',
+            },
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByPropertiesDetails,
+                description: 'Field to sort titles by',
+            },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'Series ID' },
+    //                 title: { type: 'string', description: 'Series title' },
+    //                 photoSrc: { type: 'string', description: 'Photo source URL' },
+    //                 releaseYear: { type: 'integer', description: 'Release year' },
+    //                 ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-const serieTitleParamSchema = [
-    param('title')
-        .isString()
-        // .trim()
-        // .matches(/^[a-zA-Z\s]+$/)
-        .withMessage('Invalid serie title format'),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('upvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid upvotesPage value'),
-    query('downvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid downvotesPage value'),
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const serieSchemaUpdate = {
+    description: 'Update series details',
+    tags: ['Serie'],
+    summary: 'Update series',
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1, description: 'Series ID' },
+        },
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        properties: {
+            title: { type: 'string', description: 'Updated title of the series' },
+            photoSrc: { type: 'string', description: 'Updated photo URL of the series' },
+            releaseYear: { type: 'integer', minimum: 1900, description: 'Updated release year of the series' },
+            ratingImdb: { type: 'number', minimum: 0, description: 'Updated IMDb rating of the series' },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'Series updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Series ID' },
+    //             title: { type: 'string', description: 'Series title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            if (!allowedSortByPropertiesDetails.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const serieSchemaPost = {
+    description: 'Create a new series',
+    tags: ['Serie'],
+    summary: 'Create series',
+    body: {
+        type: 'object',
+        required: ['title', 'photoSrc', 'releaseYear', 'ratingImdb'],
+        properties: {
+            title: { type: 'string', description: 'Title of the new series' },
+            photoSrc: { type: 'string', description: 'Photo URL of the new series' },
+            releaseYear: { type: 'integer', minimum: 1900, description: 'Release year of the new series' },
+            ratingImdb: { type: 'number', minimum: 0, maximum: 10, description: 'IMDb rating of the new series' },
+        },
+    },
+    // response: {
+    //     201: {
+    //         description: 'Series created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Series ID' },
+    //             title: { type: 'string', description: 'Series title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            return true;
-        }),
-];
+const serieSchemaPut = {
+    description: 'Update a series',
+    tags: ['Serie'],
+    summary: 'Update series',
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1, description: 'Series ID' },
+        },
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        required: ['title', 'photoSrc', 'releaseYear', 'ratingImdb'],
+        properties: {
+            title: { type: 'string', description: 'Series title' },
+            photoSrc: { type: 'string', description: 'Photo source URL' },
+            releaseYear: { type: 'integer', minimum: 1900, description: 'Release year' },
+            ratingImdb: { type: 'number', minimum: 0, maximum: 10, description: 'IMDB rating' },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'Series updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Series ID' },
+    //             title: { type: 'string', description: 'Series title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-const serieSchemaUpdate = [
-    body('title').optional().isString(),
-    body('photoSrc').optional().isString(),
-    body('releaseYear').optional().isNumeric(),
-    body('ratingImdb').optional().isNumeric(),
-];
-
-const serieSchemaPost = [
-    body('title').isString(),
-    body('photoSrc').isString(),
-    body('releaseYear').isNumeric(),
-    body('ratingImdb').isNumeric(),
-];
-
-export { serieSchemaPost, serieSchemaUpdate, serieQuerySchema, serieIdParamSchema, serieTitleParamSchema };
+export {
+    serieTitleQuerySchema,
+    serieSchemaPost,
+    serieSchemaUpdate,
+    serieQuerySchema,
+    serieIdParamSchema,
+    serieTitleParamSchema,
+    serieSchemaPut,
+};

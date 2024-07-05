@@ -1,5 +1,3 @@
-import { body, param, query } from 'express-validator';
-
 const allowedSortByProperties = [
     'id',
     'title',
@@ -13,73 +11,395 @@ const allowedSortByProperties = [
 
 const allowedSortByPropertiesDetails = ['createdAt', 'rating'];
 
-const movieQuerySchema = [
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const movieQuerySchema = {
+    description: 'Query movies',
+    tags: ['Movie'],
+    summary: 'Query movies',
+    querystring: {
+        type: 'object',
+        properties: {
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByProperties,
+                description: 'Property to sort by',
+            },
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+                description: 'Sort order',
+            },
+            page: { type: 'integer', minimum: 1, description: 'Page number' },
+            pageSize: { type: 'integer', minimum: 1, maximum: 100, description: 'Number of items per page' },
+            title: { type: 'string', description: 'Movie title filter' },
+            filterValue: { type: 'string', description: 'Filter value' },
+            filterName: {
+                type: 'string',
+                enum: ['title', 'releaseYear'],
+                description: 'Filter name',
+            },
+            filterOperator: {
+                type: 'string',
+                enum: ['equals', 'contains', 'startsWith', 'endsWith'],
+                description: 'Filter operator',
+            },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'Movie ID' },
+    //                 title: { type: 'string', description: 'Movie title' },
+    //                 photoSrc: { type: 'string', description: 'Photo source URL' },
+    //                 trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //                 duration: { type: 'string', description: 'Duration of the movie' },
+    //                 ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //                 releaseYear: { type: 'integer', description: 'Release year' },
+    //                 description: { type: 'string', description: 'Movie description' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            if (!allowedSortByProperties.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const movieIdParamSchema = {
+    description: 'Movie ID parameter',
+    tags: ['Movie'],
+    summary: 'Movie ID parameter',
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1, description: 'Movie ID' },
+        },
+        required: ['id'],
+    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            return true;
-        }),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('pageSize').optional().isInt({ min: 1, max: 100 }).withMessage('Invalid pageSize value'),
-    query('title').optional().isString().withMessage('Title must be a string'),
-    query('filterValue').optional().isString().withMessage('Filter value must be a string'),
-    query('filterName').optional().isIn(['title', 'releaseYear']).withMessage('Invalid filterName value'),
-    query('filterOperator')
-        .optional()
-        .isIn(['equals', 'contains', 'startsWith', 'endsWith'])
-        .withMessage('Invalid filterOperator value'),
-];
+const movieTitleParamSchema = {
+    description: 'Movie title parameter',
+    tags: ['Movie'],
+    summary: 'Movie title parameter',
+    params: {
+        type: 'object',
+        properties: {
+            title: {
+                type: 'string',
+                pattern: '^(?!\\d+$)[\\w\\s]*$',
+                description: 'Movie title',
+            },
+        },
+        required: ['title'],
+    },
+    // response: {
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-const movieIdParamSchema = [param('id').isInt({ min: 1 }).withMessage('Invalid movie ID format')];
+const movieTitleQueryParam = {
+    description: 'Query movie by title',
+    tags: ['Movie'],
+    summary: 'Query movie by title',
+    querystring: {
+        type: 'object',
+        properties: {
+            ascOrDesc: {
+                type: 'string',
+                enum: ['asc', 'desc'],
+                description: 'Sort order',
+            },
+            page: { type: 'integer', minimum: 1, description: 'Page number' },
+            upvotesPage: { type: 'integer', minimum: 1, description: 'Upvotes page number' },
+            downvotesPage: { type: 'integer', minimum: 1, description: 'Downvotes page number' },
+            sortBy: {
+                type: 'string',
+                enum: allowedSortByPropertiesDetails,
+                description: 'Property to sort by',
+            },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'Query executed successfully',
+    //         type: 'array',
+    //         items: {
+    //             type: 'object',
+    //             properties: {
+    //                 id: { type: 'integer', description: 'Movie ID' },
+    //                 title: { type: 'string', description: 'Movie title' },
+    //                 photoSrc: { type: 'string', description: 'Photo source URL' },
+    //                 trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //                 duration: { type: 'string', description: 'Duration of the movie' },
+    //                 ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //                 releaseYear: { type: 'integer', description: 'Release year' },
+    //                 description: { type: 'string', description: 'Movie description' },
+    //             },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-const movieTitleParamSchema = [
-    param('title')
-        .isString()
-        // .trim()
-        // .matches(/^[a-zA-Z\s]+$/)
-        .withMessage('Invalid movie title format'),
-    query('ascOrDesc').optional().isIn(['asc', 'desc']).withMessage('Invalid ascOrDesc value'),
-    query('page').optional().isInt({ min: 1 }).withMessage('Invalid page value'),
-    query('upvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid upvotesPage value'),
-    query('downvotesPage').optional().isInt({ min: 1 }).withMessage('Invalid downvotesPage value'),
-    query('sortBy')
-        .optional()
-        .custom((value) => {
-            if (!value) return true;
+const movieSchemaUpdate = {
+    description: 'Update movie details',
+    tags: ['Movie'],
+    summary: 'Update movie',
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1, description: 'Movie ID' },
+        },
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        properties: {
+            title: { type: 'string', description: 'Movie title' },
+            photoSrc: { type: 'string', description: 'Photo source URL' },
+            trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+            duration: { type: 'string', minLength: 1, maxLength: 10, description: 'Duration of the movie' },
+            ratingImdb: { type: 'number', minimum: 0, maximum: 10, description: 'IMDB rating' },
+            releaseYear: {
+                type: 'integer',
+                minimum: 1900,
+                maximum: new Date().getFullYear(),
+                description: 'Release year',
+            },
+            description: { type: 'string', minLength: 10, maxLength: 200, description: 'Movie description' },
+        },
+    },
+    // response: {
+    //     200: {
+    //         description: 'Movie updated successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Movie ID' },
+    //             title: { type: 'string', description: 'Movie title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //             duration: { type: 'string', description: 'Duration of the movie' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             description: { type: 'string', description: 'Movie description' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     404: {
+    //         description: 'Not Found',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            if (!allowedSortByPropertiesDetails.includes(value)) {
-                throw new Error('Invalid sortBy value');
-            }
+const movieSchemaPost = {
+    description: 'Create a new movie',
+    tags: ['Movie'],
+    summary: 'Create movie',
+    body: {
+        type: 'object',
+        required: ['title', 'photoSrc', 'trailerSrc', 'duration', 'ratingImdb', 'releaseYear', 'description'],
+        properties: {
+            title: { type: 'string', description: 'Movie title' },
+            photoSrc: { type: 'string', description: 'Photo source URL' },
+            trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+            duration: { type: 'string', minLength: 1, maxLength: 10, description: 'Duration of the movie' },
+            ratingImdb: { type: 'number', minimum: 0, maximum: 10, description: 'IMDB rating' },
+            releaseYear: {
+                type: 'integer',
+                minimum: 1900,
+                maximum: new Date().getFullYear(),
+                description: 'Release year',
+            },
+            description: { type: 'string', minLength: 10, maxLength: 200, description: 'Movie description' },
+        },
+    },
+    // response: {
+    //     201: {
+    //         description: 'Movie created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Movie ID' },
+    //             title: { type: 'string', description: 'Movie title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //             duration: { type: 'string', description: 'Duration of the movie' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             description: { type: 'string', description: 'Movie description' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-            return true;
-        }),
-];
+const movieSchemaPut = {
+    description: 'Update a movie',
+    tags: ['Movie'],
+    summary: 'Update movie',
+    params: {
+        type: 'object',
+        properties: {
+            id: { type: 'integer', minimum: 1, description: 'Movie ID' },
+        },
+        required: ['id'],
+    },
+    body: {
+        type: 'object',
+        required: ['title', 'photoSrc', 'trailerSrc', 'duration', 'ratingImdb', 'releaseYear', 'description'],
+        properties: {
+            title: { type: 'string', description: 'Movie title' },
+            photoSrc: { type: 'string', description: 'Photo source URL' },
+            trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+            duration: { type: 'string', minLength: 1, maxLength: 10, description: 'Duration of the movie' },
+            ratingImdb: { type: 'number', minimum: 0, maximum: 10, description: 'IMDB rating' },
+            releaseYear: {
+                type: 'integer',
+                minimum: 1900,
+                maximum: new Date().getFullYear(),
+                description: 'Release year',
+            },
+            description: { type: 'string', minLength: 10, maxLength: 200, description: 'Movie description' },
+        },
+    },
+    // response: {
+    //     201: {
+    //         description: 'Movie created successfully',
+    //         type: 'object',
+    //         properties: {
+    //             id: { type: 'integer', description: 'Movie ID' },
+    //             title: { type: 'string', description: 'Movie title' },
+    //             photoSrc: { type: 'string', description: 'Photo source URL' },
+    //             trailerSrc: { type: 'string', format: 'uri', description: 'Trailer source URL' },
+    //             duration: { type: 'string', description: 'Duration of the movie' },
+    //             ratingImdb: { type: 'number', description: 'IMDB rating' },
+    //             releaseYear: { type: 'integer', description: 'Release year' },
+    //             description: { type: 'string', description: 'Movie description' },
+    //         },
+    //     },
+    //     400: {
+    //         description: 'Bad Request',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    //     500: {
+    //         description: 'Internal Server Error',
+    //         type: 'object',
+    //         properties: {
+    //             error: { type: 'string', description: 'Error message' },
+    //         },
+    //     },
+    // },
+};
 
-const movieSchemaUpdate = [
-    body('title').optional().isString(),
-    body('photoSrc').optional().isString(),
-    body('trailerSrc').optional().isURL(),
-    body('duration').optional().isString().isLength({ min: 1, max: 10 }),
-    body('ratingImdb').optional().isFloat({ min: 0, max: 10 }),
-    body('releaseYear').optional().isInt({ min: 1900, max: new Date().getFullYear() }),
-    body('description').optional().isString().isLength({ min: 10, max: 200 }),
-];
-
-const movieSchemaPost = [
-    body('title').isString(),
-    body('photoSrc').isString(),
-    body('trailerSrc').isURL(),
-    body('duration').isString().isLength({ min: 1, max: 10 }),
-    body('ratingImdb').isFloat({ min: 0, max: 10 }),
-    body('releaseYear').isInt({ min: 1900, max: new Date().getFullYear() }),
-    body('description').isString().isLength({ min: 10, max: 200 }),
-];
-
-export { movieSchemaPost, movieSchemaUpdate, movieQuerySchema, movieIdParamSchema, movieTitleParamSchema };
+export {
+    movieTitleQueryParam,
+    movieSchemaPost,
+    movieSchemaUpdate,
+    movieQuerySchema,
+    movieIdParamSchema,
+    movieTitleParamSchema,
+    movieSchemaPut,
+};

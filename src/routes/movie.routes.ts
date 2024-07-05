@@ -1,37 +1,66 @@
-import express from 'express';
-import movieController from '../controllers/movie.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
+import fp from 'fastify-plugin';
+import movieController from '../controllers/REST/movie.controller';
 import {
     movieSchemaUpdate,
     movieSchemaPost,
     movieQuerySchema,
     movieIdParamSchema,
     movieTitleParamSchema,
+    movieSchemaPut,
 } from '../schemas/movie.schema';
+import { FastifyPluginAsync } from 'fastify';
+import { latestMoviesSchema } from '../schemas/latestMovies.schema';
 
-const router = express.Router();
+const movieRoutes: FastifyPluginAsync = async (fastify) => {
+    fastify.get('/getMovies', {
+        schema: movieQuerySchema,
+        handler: movieController.getMovies,
+    });
 
-router.get('/getMovies', movieQuerySchema, validateMiddleware, movieController.getMovies);
-router.get('/getMovieById/:id', movieIdParamSchema, validateMiddleware, movieController.getMovieById);
-router.get('/getMovieByTitle/:title', movieTitleParamSchema, validateMiddleware, movieController.getMovieByTitle);
-router.delete('/deleteMovieById/:id', movieIdParamSchema, validateMiddleware, movieController.deleteMovieById);
-router.patch(
-    '/updateMovieById/:id',
-    movieIdParamSchema,
-    movieSchemaUpdate,
-    validateMiddleware,
-    movieController.updateMovieById,
-);
-router.put(
-    '/updateMovieById/:id',
-    movieIdParamSchema,
-    movieSchemaPost,
-    validateMiddleware,
-    movieController.updateMovieById,
-);
-router.post('/addMovie', movieSchemaPost, validateMiddleware, movieController.addMovie);
-router.get('/searchMoviesByTitle', movieController.searchMoviesByTitle);
-router.get('/getLatestMovies', movieController.getLatestMovies);
-router.get('/getRelatedMovies', movieController.getRelatedMovies);
+    fastify.get('/getMovieById/:id', {
+        schema: movieIdParamSchema,
+        handler: movieController.getMovieById,
+    });
 
-export default router;
+    fastify.get('/getMovieByTitle/:title', {
+        schema: movieTitleParamSchema,
+        handler: movieController.getMovieByTitle,
+    });
+
+    fastify.delete('/deleteMovieById/:id', {
+        schema: movieIdParamSchema,
+        handler: movieController.deleteMovieById,
+    });
+
+    fastify.patch('/updateMovieById/:id', {
+        schema: movieSchemaUpdate,
+        handler: movieController.updateMovieById,
+    });
+
+    fastify.put('/updateMovieById/:id', {
+        schema: movieSchemaPut,
+        handler: movieController.updateMovieById,
+    });
+
+    fastify.post('/addMovie', {
+        schema: movieSchemaPost,
+        handler: movieController.addMovie,
+    });
+
+    fastify.get('/searchMoviesByTitle', {
+        schema: movieTitleParamSchema,
+        handler: movieController.searchMoviesByTitle,
+    });
+
+    fastify.get('/getRelatedMovies', {
+        schema: movieTitleParamSchema,
+        handler: movieController.getRelatedMovies,
+    });
+    
+    fastify.get('/getLatestMovies', {
+        schema: latestMoviesSchema,
+        handler: movieController.getLatestMovies,
+    });
+};
+
+export default fp(movieRoutes);

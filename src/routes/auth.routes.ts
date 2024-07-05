@@ -1,13 +1,25 @@
-import express from 'express';
-import authController from '../controllers/auth.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
+import fp from 'fastify-plugin';
+import authController from '../controllers/REST/auth.controller';
 import { loginSchema, registerSchema } from '../schemas/auth.schema';
-import { authMiddleware } from '../middlewares/auth.middleware';
+import { FastifyPluginAsync } from 'fastify';
+import { validateSchema } from '../schemas/validate.schema';
 
-const router = express.Router();
+const authRoutes: FastifyPluginAsync = async (fastify) => {
+    fastify.post('/registerUser', {
+        schema: registerSchema,
+        handler: authController.signUp,
+    });
 
-router.post('/register', registerSchema, validateMiddleware, authController.signUp);
-router.post('/login', loginSchema, validateMiddleware, authController.login);
-router.get('/validateUser', authMiddleware, authController.validate);
+    fastify.post('/loginUser', {
+        schema: loginSchema,
+        handler: authController.login,
+    });
 
-export default router;
+    fastify.get('/validateUser', {
+        schema: validateSchema,
+        // preHandler: validateMiddleware,
+        handler: authController.validate,
+    });
+};
+
+export default fp(authRoutes);

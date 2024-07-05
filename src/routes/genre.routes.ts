@@ -1,23 +1,52 @@
-import express from 'express';
-import genreController from '../controllers/genre.controller';
-import { validateMiddleware } from '../middlewares/validate.middleware';
+import fp from 'fastify-plugin';
+import genreController from '../controllers/REST/genre.controller';
 import {
     genreSchemaPost,
     genreSchemaUpdate,
     genreQuerySchema,
     genreIdParamSchema,
     genreNameParamSchema,
+    genreSchemaPut,
 } from '../schemas/genre.schema';
+import { FastifyPluginAsync } from 'fastify';
 
-const router = express.Router();
+const genreRoutes: FastifyPluginAsync = async (fastify) => {
+    fastify.get('/getGenres', {
+        schema: genreQuerySchema,
+        handler: genreController.getGenres,
+    });
 
-router.get('/getGenres', genreQuerySchema, validateMiddleware, genreController.getGenres);
-router.get('/getGenreById/:id', genreIdParamSchema, validateMiddleware, genreController.getGenreById);
-router.get('/getGenreByName/:name', genreNameParamSchema, validateMiddleware, genreController.getGenreByName);
-router.delete('/deleteGenreById/:id', genreIdParamSchema, validateMiddleware, genreController.deleteGenreById);
-router.put('/updateGenreById/:id', genreIdParamSchema, genreSchemaPost, validateMiddleware, genreController.updateGenreById);
-router.patch('/updateGenreById/:id', genreIdParamSchema, genreSchemaUpdate, validateMiddleware, genreController.updateGenreById);
-router.post('/addGenre', genreSchemaPost, validateMiddleware, genreController.addGenre);
-router.get('/searchGenresByTitle', genreController.searchGenresByName);
+    fastify.get('/getGenreById/:id', {
+        schema: genreIdParamSchema,
+        handler: genreController.getGenreById,
+    });
 
-export default router;
+    fastify.get('/getGenreByName/:name', {
+        schema: genreNameParamSchema,
+        handler: genreController.getGenreByName,
+    });
+
+    fastify.delete('/deleteGenreById/:id', {
+        schema: genreIdParamSchema,
+        handler: genreController.deleteGenreById,
+    });
+
+    fastify.put('/updateGenreById/:id', {
+        schema: genreSchemaPut,
+        handler: genreController.updateGenreById,
+    });
+
+    fastify.patch('/updateGenreById/:id', {
+        schema: genreSchemaUpdate,
+        handler: genreController.updateGenreById,
+    });
+
+    fastify.post('/addGenre', {
+        schema: genreSchemaPost,
+        handler: genreController.addGenre,
+    });
+
+    fastify.get('/searchGenresByTitle', { schema: genreNameParamSchema, handler: genreController.searchGenresByName });
+};
+
+export default fp(genreRoutes);
