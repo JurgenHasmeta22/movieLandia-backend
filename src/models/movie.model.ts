@@ -1,5 +1,5 @@
 import { Genre, Movie, Prisma } from '@prisma/client';
-import { prisma } from '../app/app';
+import { prisma } from '../app';
 
 interface MovieModelParams {
     sortBy: string;

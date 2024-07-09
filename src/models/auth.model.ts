@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { prisma } from '../app/app';
+import { prisma } from '../app';
 import { User } from '@prisma/client';
 
 const authModel = {

@@ -1,4 +1,4 @@
-import { prisma } from '../app/app';
+import { prisma } from '../app';
 import { Genre, Prisma } from '@prisma/client';
 
 interface GetGenresParams {

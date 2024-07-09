@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "description": "REST API for a movies and similar things",
     "scripts": {
-        "startDev": "nodemon src/app/app.ts",
-        "start": "tsx src/app/app.ts",
+        "startDev": "nodemon src/app.ts",
+        "start": "tsx src/app.ts",
         "build": "tsx prisma/seed.ts && prisma migrate dev",
         "tailwind:css": "npx tailwindcss -i ./public/styles/tailwind.css -o ./public/styles/style.css --watch",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json,prisma}\""

@@ -1,5 +1,5 @@
 import { Prisma, User } from '@prisma/client';
-import { prisma } from '../app/app';
+import { prisma } from '../app';
 
 interface UserModelParams {
     sortBy: string;

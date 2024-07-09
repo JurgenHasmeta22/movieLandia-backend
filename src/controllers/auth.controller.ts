@@ -23,7 +23,6 @@ const authController = {
             if (user) {
                 req.session.user = user;
                 req.session.token = createToken(user.id);
-
                 const redirectTo = req.session.lastPage === '/login' ? '/' : req.session.lastPage || '/';
                 res.redirect(redirectTo);
             } else {
@@ -57,7 +56,6 @@ const authController = {
             if (user) {
                 req.session.user = user;
                 req.session.token = createToken(user.id);
-
                 const redirectTo = req.session.lastPage === '/register' ? '/' : req.session.lastPage || '/';
                 res.redirect(redirectTo);
             } else {
