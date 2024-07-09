@@ -1,5 +1,5 @@
 import { Episode, Prisma } from '@prisma/client';
-import { prisma } from '../app';
+import { prisma } from '../app/app';
 
 interface EpisodeModelParams {
     sortBy: string;
