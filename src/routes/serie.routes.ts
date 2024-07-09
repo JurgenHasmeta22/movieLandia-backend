@@ -8,7 +8,6 @@ import {
     serieIdParamSchema,
     serieTitleParamSchema,
 } from '../schemas/serie.schema';
-import { seasonSerieSchema } from '../schemas/seasonSerie.schema';
 
 const router = express.Router();
 
@@ -22,6 +21,5 @@ router.post('/addSerie', serieSchemaPost, validateMiddleware, serieController.ad
 router.get('/searchSeriesByTitle', serieController.searchSeriesByTitle);
 router.get('/getLatestSeries', serieController.getLatestSeries);
 router.get('/getRelatedSeries', serieController.getRelatedSeries);
-router.post('/addSeasonToSerie', seasonSerieSchema, validateMiddleware, serieController.addSeasonToSerie);
 
 export default router;
