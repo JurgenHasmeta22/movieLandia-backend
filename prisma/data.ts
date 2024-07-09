@@ -41,7 +41,7 @@ export const movies = [
         ratingImdb: 7.4,
         description:
             'Matilde, Cencio, Fulvio, and Mario are united when World War II strikes Rome. Israel, their circus owner, disappears in an attempt to find a place abroad for all of them.',
-        photoSrc: 'http://localhost:4000/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg',
     },
@@ -54,7 +54,7 @@ export const movies = [
         ratingImdb: 6.5,
         description:
             'Through their shared grief and connection to music, an orphaned girl bonds with her emotionally distant, successful violinist uncle.',
-        photoSrc: 'http://localhost:4000/images/movies/fathersviolin.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/fathersviolin.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/fathersviolin.jpg',
     },
     {
@@ -66,7 +66,7 @@ export const movies = [
         ratingImdb: 8.1,
         description:
             'A young businessman faces a lawyer in an attempt to prove his innocence for the murder of his girlfriend.',
-        photoSrc: 'http://localhost:4000/images/movies/8c9fce3c0ffa46576423d44b525447edc25f1396.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/8c9fce3c0ffa46576423d44b525447edc25f1396.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/8c9fce3c0ffa46576423d44b525447edc25f1396.jpg',
     },
@@ -79,7 +79,7 @@ export const movies = [
         ratingImdb: 6.7,
         description:
             "Ex-con Boun is the new force on the underground street fighting scene in Los Angeles. When he defeats the reigning champion, the local gangster boss wants to enlist Boun in a series of high-stakes international matches. Boun's refusal sets off an explosive showdown between two powerful enemies risking everything.",
-        photoSrc: 'http://localhost:4000/images/movies/5254_1_ladsfgfdgdfgdfgfdgfdgrge.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/5254_1_ladsfgfdgdfgdfgfdgfdgrge.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/5254_1_ladsfgfdgdfgdfgfdgfdgrge.jpg',
     },
@@ -92,7 +92,7 @@ export const movies = [
         ratingImdb: 8.7,
         description:
             'Peter Parker is unmasked and no longer able to separate his normal life from the high stakes of being a Super Hero. When he seeks help from Doctor Strange, the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.',
-        photoSrc: 'http://localhost:4000/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg',
     },
@@ -105,7 +105,7 @@ export const movies = [
         ratingImdb: 6.6,
         description:
             "After his father's death, the responsibility to care for the family falls on Will's shoulders. He enters a dog race that requires long hours of racing and a steely will to win.",
-        photoSrc: 'http://localhost:4000/images/movies/6Ujbtp0NklUoQ67s32HyW6R5540.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/6Ujbtp0NklUoQ67s32HyW6R5540.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/6Ujbtp0NklUoQ67s32HyW6R5540.jpg',
     },
@@ -118,7 +118,7 @@ export const movies = [
         ratingImdb: 0,
         description:
             'A former marine is hired by a defense contractor to travel to Panama to complete an arms deal. During the process, he becomes involved in the U.S. invasion of Panama and learns an important lesson about the true nature of political power.',
-        photoSrc: 'http://localhost:4000/images/movies/82I3tDsGDTMy7lHar84Gz0jUuyW.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/82I3tDsGDTMy7lHar84Gz0jUuyW.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/82I3tDsGDTMy7lHar84Gz0jUuyW.jpg',
     },
@@ -131,7 +131,7 @@ export const movies = [
         ratingImdb: 6.8,
         description:
             "The Eternals are a team of ancient aliens who have been living on Earth in secret for thousands of years. When an unexpected tragedy forces them out of the shadows, they must reunite against mankind's oldest enemy.",
-        photoSrc: 'http://localhost:4000/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg',
     },
@@ -144,7 +144,7 @@ export const movies = [
         ratingImdb: 6,
         description:
             'Asim Noyan deceives people with his lies and games. Asim Noyan and his gang, whom no one else has been able to capture, get involved in another scam.',
-        photoSrc: 'http://localhost:4000/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg',
     },
@@ -157,7 +157,7 @@ export const movies = [
         ratingImdb: 6.8,
         description:
             'A Canadian doctor finds her sympathies severely tested while working in the conflict-ravaged Palestinian territories.',
-        photoSrc: 'http://localhost:4000/images/movies/9BCd5LdVHQmWqEnDTJ5Ut8idstP-1.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/9BCd5LdVHQmWqEnDTJ5Ut8idstP-1.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/9BCd5LdVHQmWqEnDTJ5Ut8idstP-1.jpg',
     },
@@ -170,7 +170,7 @@ export const movies = [
         ratingImdb: 6.6,
         description:
             'Hathaway Noa becomes part of a terrorist organization called Mufti that organizes an attack on Earth Federation ministers.',
-        photoSrc: 'http://localhost:4000/images/movies/6gw8onh4FKsruBA7Oouv01EFxzn-1.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/6gw8onh4FKsruBA7Oouv01EFxzn-1.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/6gw8onh4FKsruBA7Oouv01EFxzn-1.jpg',
     },
@@ -183,7 +183,7 @@ export const movies = [
         ratingImdb: 7.3,
         description:
             'Pursuing his dream to join an elite K-9 unit, a state trooper partners with a smart but unruly shelter dog named Ruby.',
-        photoSrc: 'http://localhost:4000/images/movies/ruby.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/ruby.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/ruby.jpg',
     },
     {
@@ -195,7 +195,7 @@ export const movies = [
         ratingImdb: 6.4,
         description:
             'When an isolated forester finds a mute little girl wandering alone in the woods, he must protect her from the evil forces determined to end her life.',
-        photoSrc: 'http://localhost:4000/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg',
     },
@@ -208,7 +208,7 @@ export const movies = [
         ratingImdb: 5.6,
         description:
             'A weekend getaway to Croatia goes awry when a woman is accused of murdering her best friend. As she attempts to clear her name and uncover the truth, her efforts reveal a painful secret.',
-        photoSrc: 'http://localhost:4000/images/movies/6MS0QEl7UK2gdFFbHfNwuYlsq4H.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/6MS0QEl7UK2gdFFbHfNwuYlsq4H.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/6MS0QEl7UK2gdFFbHfNwuYlsq4H.jpg',
     },
@@ -221,7 +221,7 @@ export const movies = [
         ratingImdb: 5.7,
         description:
             'In a post-apocalyptic world, six soldiers on a covert mission must transport a mysterious package across a frozen archipelago.',
-        photoSrc: 'http://localhost:4000/images/movies/blackcrab.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/blackcrab.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/blackcrab.jpg',
     },
     {
@@ -232,7 +232,7 @@ export const movies = [
         releaseYear: 2010,
         ratingImdb: 5.8,
         description: 'A man who escorts wealthy women in Manhattan takes a young man under his wing.',
-        photoSrc: 'http://localhost:4000/images/movies/7RhiXoCm6yEflHQvYtoLeAkDhaU.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/7RhiXoCm6yEflHQvYtoLeAkDhaU.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/7RhiXoCm6yEflHQvYtoLeAkDhaU.jpg',
     },
@@ -245,7 +245,7 @@ export const movies = [
         ratingImdb: 7.8,
         description:
             "Fearless Nepali mountaineer Nirmal Purja embarks on a seemingly impossible quest to summit all 14 of the world's 8,000-meter peaks in seven months.",
-        photoSrc: 'http://localhost:4000/images/movies/beyondpossible.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/beyondpossible.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/beyondpossible.jpg',
     },
     {
@@ -257,7 +257,7 @@ export const movies = [
         ratingImdb: 7,
         description:
             "During the long days of the polar summer, a group of children reveal their dark and mysterious powers while the adults aren't watching. This playtime takes a dangerous turn.",
-        photoSrc: 'http://localhost:4000/images/movies/4hIptu4Yre7pIUhFa7GBZlfDTPW.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/4hIptu4Yre7pIUhFa7GBZlfDTPW.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/4hIptu4Yre7pIUhFa7GBZlfDTPW.jpg',
     },
@@ -270,7 +270,7 @@ export const movies = [
         ratingImdb: 6.1,
         description:
             'A 15-year-old boy steals a bag of drug money and runs off with the girl he loves. As her violent and corrupt police officer father hunts them down, they embark on a journey that will change their lives forever.',
-        photoSrc: 'http://localhost:4000/images/movies/AlowOYyprAAq85PPtE9LvoiYT1b.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/AlowOYyprAAq85PPtE9LvoiYT1b.jpg',
         photoSrcProd:
             'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/AlowOYyprAAq85PPtE9LvoiYT1b.jpg',
     },
@@ -285,7 +285,7 @@ export const series = [
             'Rebelde follows the lives of students at Elite Way School, a prestigious private school in Mexico City.',
         releaseYear: 2022,
         ratingImdb: 6.3,
-        photoSrc: 'http://localhost:4000/images/series/rebelde.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/rebelde.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/rebelde.jpg',
     },
     {
@@ -296,7 +296,7 @@ export const series = [
             'Snowfall is an American television series created by John Singleton, Eric Amadio, and Dave Andron. The series is set in the early 1980s in Los Angeles and examines the early days of the crack cocaine epidemic and its impact.',
         releaseYear: 2017,
         ratingImdb: 8.2,
-        photoSrc: 'http://localhost:4000/images/series/snowfall.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/snowfall.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/snowfall.jpg',
     },
     {
@@ -307,7 +307,7 @@ export const series = [
             'Man vs Bee is a documentary series that explores the confrontation between plants and bees in our world.',
         releaseYear: 2022,
         ratingImdb: 6.8,
-        photoSrc: 'http://localhost:4000/images/series/manbee.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/manbee.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/manbee.jpg',
     },
     {
@@ -318,7 +318,7 @@ export const series = [
             'Moonknight follows the adventures of Marc Spector, a former military man who gains powers from a mythological being.',
         releaseYear: 2022,
         ratingImdb: 7.4,
-        photoSrc: 'http://localhost:4000/images/series/moonknight.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/moonknight.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/moonknight.jpg',
     },
     {
@@ -329,7 +329,7 @@ export const series = [
             'Peacemaker is an American television series created by James Gunn for the DC Universe and HBO Max.',
         releaseYear: 2022,
         ratingImdb: 8.3,
-        photoSrc: 'http://localhost:4000/images/series/peacemaker.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/peacemaker.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/peacemaker.jpg',
     },
     {
@@ -340,7 +340,7 @@ export const series = [
             'Top Boy is a British television series created by Ronan Bennet. The series follows the lives of teenagers and those involved in drug trafficking in a poor neighborhood in London.',
         releaseYear: 2011,
         ratingImdb: 8.4,
-        photoSrc: 'http://localhost:4000/images/series/topboy.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/topboy.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/topboy.jpg',
     },
     {
@@ -351,7 +351,7 @@ export const series = [
             'Ganglands is a French crime series based on the true story of a family running an organized crime gang in Paris.',
         releaseYear: 2021,
         ratingImdb: 7.0,
-        photoSrc: 'http://localhost:4000/images/series/ganglands.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/ganglands.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/ganglands.jpg',
     },
     {
@@ -362,7 +362,7 @@ export const series = [
             'Ozark is an American drama series that follows the life of a family that develops a large money-laundering business in the Ozark Mountains in Missouri.',
         releaseYear: 2017,
         ratingImdb: 8.5,
-        photoSrc: 'http://localhost:4000/images/series/ozark.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/ozark.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/ozark.jpg',
     },
     {
@@ -373,7 +373,7 @@ export const series = [
             'Resident Alien is an American sci-fi comedy series that follows an extraterrestrial trying to escape his secret identity by living as a doctor in a small American town.',
         releaseYear: 2021,
         ratingImdb: 8.1,
-        photoSrc: 'http://localhost:4000/images/series/alien.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/alien.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/alien.jpg',
     },
     {
@@ -384,7 +384,7 @@ export const series = [
             'Bridgerton is a British-American historical drama series created by Chris Van Dusen and produced by Shonda Rhimes. The series follows the lives of the Bridgerton family in London from 1813-1827.',
         releaseYear: 2020,
         ratingImdb: 7.3,
-        photoSrc: 'http://localhost:4000/images/series/bridgerton.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/bridgerton.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/bridgerton.jpg',
     },
     {
@@ -395,7 +395,7 @@ export const series = [
             'Superman & Lois is an American superhero television series based on the DC Comics characters Superman and Lois Lane. The series follows the lives of Superman and Lois Lane after their marriage, facing challenges in both their personal lives and their profession as superheroes.',
         releaseYear: 2021,
         ratingImdb: 7.8,
-        photoSrc: 'http://localhost:4000/images/series/superman.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/superman.jpg',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/superman.jpg',
     },
     {
@@ -406,7 +406,7 @@ export const series = [
             'Attack on Titan is a Japanese anime series based on the manga of the same name written by Hajime Isayama. The series follows the story of a world where human civilization is threatened by giant creatures known as Titans.',
         releaseYear: 2013,
         ratingImdb: 9.0,
-        photoSrc: 'http://localhost:4000/images/series/aot.png',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/aot.png',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/aot.png',
     },
     {
@@ -417,7 +417,7 @@ export const series = [
             'Kengan Ashura is a Japanese anime series based on the manga of the same name written by Yabako Sandrovich. The series follows the story of Tokita Ohma, a young fighter involved in a combat tournament called Kengan to dominate the business of firms.',
         releaseYear: 2019,
         ratingImdb: 8.0,
-        photoSrc: 'http://localhost:4000/images/series/baki.png',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/baki.png',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/baki.png',
     },
     {
@@ -428,7 +428,7 @@ export const series = [
             'Elite is a Spanish series created by Carlos Montero and Darío Madrona. The series follows the lives of students at a high-end private school in Spain, where tragic events and various secrets come to light.',
         releaseYear: 2018,
         ratingImdb: 7.4,
-        photoSrc: 'http://localhost:4000/images/series/elite.png',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/elite.png',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/elite.png',
     },
     {
@@ -439,7 +439,7 @@ export const series = [
             'The Flash is an American superhero television series created by Greg Berlanti, Andrew Kreisberg, and Geoff Johns, based on the DC Comics character of the same name. The series follows the adventures of Barry Allen, a forensic scientist who gains the ability to move at incredible speeds after a lab accident.',
         releaseYear: 2014,
         ratingImdb: 7.6,
-        photoSrc: 'http://localhost:4000/images/series/flash.png',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/flash.png',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/flash.png',
     },
     {
@@ -450,7 +450,7 @@ export const series = [
             'Power Book IV: Force is an American drama series created by Courtney A. Kemp for Starz. The series follows the life of Tommy Egan, a character first introduced in the series "Power", as he becomes involved in the world of organized crime in Chicago.',
         releaseYear: 2022,
         ratingImdb: 8.1,
-        photoSrc: 'http://localhost:4000/images/series/force.png',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/force.png',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/force.png',
     },
     {
@@ -461,7 +461,7 @@ export const series = [
             'Halo is an American sci-fi television series created by Kyle Killen and Steven Kane. Based on the popular "Halo" video game by Microsoft Studios, the series follows the adventures of Master Chief, a super-soldier called upon to protect a harsh world from the threat of an alien alliance known as the Covenant.',
         releaseYear: 2022,
         ratingImdb: 7.0,
-        photoSrc: 'http://localhost:4000/images/series/halo.png',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/halo.png',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/halo.png',
     },
     {
@@ -472,7 +472,7 @@ export const series = [
             'The Last Kingdom is a British historical series created by Stephen Butchard. Based on the "Saxon Stories" novels by Bernard Cornwell, the series follows the adventures of Uhtred Ragnarson, a Saxon boy who attempts to defend and reclaim his territory in Middle Britain in the 9th century.',
         releaseYear: 2015,
         ratingImdb: 8.5,
-        photoSrc: 'http://localhost:4000/images/series/thelastkingdom.png',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/thelastkingdom.png',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/thelastkingdom.png',
     },
     {
@@ -483,7 +483,7 @@ export const series = [
             'Knightfall is an American historical drama series created by Don Handfield and Richard Rayner for the History Channel. The series follows the rise and fall of the Knights Templar, beginning with its foundation in post-war Selma, Alabama, in 1865, to its suppression in 1871.',
         releaseYear: 2017,
         ratingImdb: 6.7,
-        photoSrc: 'http://localhost:4000/images/series/knightfall.png',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/series/knightfall.png',
         photoSrcProd: 'https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/knightfall.png',
     },
 ];
@@ -615,7 +615,7 @@ export const serieGenres = [
 //         title: "Snowfall Sezoni 1 Episodi 1",
 //         description:
 //             "Sipërmarrësi i rrugës nga qendra jugore Franklin Saint bën një hap në lojën e kokainës. Oficeri i pakënaqur i CIA-s, Teddy McDonald, bën aleancë me një ushtar Contra. Mundësi Luchador, Gustavo El Oso Zapata hyn në një familje karteli meksikan.'.",
-//         photoSrc: "http://localhost:4000/images/rsz_fistful_of_vengeance.png",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/rsz_fistful_of_vengeance.png",
 //         videoSrc: "//vidmoly.net/embed-09lyu1ioabwf.html",
 //         seasonId: 1,
 //     },
@@ -624,7 +624,7 @@ export const serieGenres = [
 //         title: "Snowfall Sezoni 1 Episodi 2",
 //         description:
 //             "Franklin vazhdon punën e tij korrier për Avi-n. Takimi i parë i Tedit me Avin nuk pritet. Gustavo mëson se nga kush vodhi - dhe përfundoi duke u vrarë në një pushtim në shtëpi..",
-//         photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/series/snowfall.jpg",
 //         videoSrc: "//vidmoly.net/embed-09lyu1ioabwf.html",
 //         seasonId: 1,
 //     },
@@ -633,7 +633,7 @@ export const serieGenres = [
 //         title: "Origin Sezoni 1 Episodi 1",
 //         description:
 //             "Kai Jin, një kuzhinier i ri në San Francisko, ngatërrohet me ndjekjen e Triadës Kineze për fuqitë e lashta vdekjeprurëse të njohura si 'Wu Xing'.",
-//         photoSrc: "http://localhost:4000/images/rsz_fistful_of_vengeance.png",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/rsz_fistful_of_vengeance.png",
 //         videoSrc: "//vidmoly.net/embed-09lyu1ioabwf.html",
 //         seasonId: 1,
 //     },
@@ -643,7 +643,7 @@ export const serieGenres = [
 //     {
 //         id: 1,
 //         title: "Rebelde - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/rebelde.jpg",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/series/rebelde.jpg",
 //         releaseYear: 2022,
 //         ratingImdb: 6.5,
 //         serieId: 1,
@@ -651,7 +651,7 @@ export const serieGenres = [
 //     {
 //         id: 2,
 //         title: "Snowfall - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/series/snowfall.jpg",
 //         releaseYear: 2017,
 //         ratingImdb: 8.0,
 //         serieId: 2,
@@ -659,7 +659,7 @@ export const serieGenres = [
 //     {
 //         id: 3,
 //         title: "Man vs Bee - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/manbee.jpg",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/series/manbee.jpg",
 //         releaseYear: 2022,
 //         ratingImdb: 7.5,
 //         serieId: 3,
@@ -667,7 +667,7 @@ export const serieGenres = [
 //     {
 //         id: 4,
 //         title: "Moonknight - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/moonknight.jpg",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/series/moonknight.jpg",
 //         releaseYear: 2022,
 //         ratingImdb: 9.0,
 //         serieId: 4,
@@ -675,7 +675,7 @@ export const serieGenres = [
 //     {
 //         id: 5,
 //         title: "Peacemaker - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/peacemaker.jpg",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/series/peacemaker.jpg",
 //         releaseYear: 2022,
 //         ratingImdb: 7.5,
 //         serieId: 5,
@@ -683,7 +683,7 @@ export const serieGenres = [
 //     {
 //         id: 6,
 //         title: "Snowfall - Season 2",
-//         photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/series/snowfall.jpg",
 //         releaseYear: 2021,
 //         ratingImdb: 7.8,
 //         serieId: 2,
@@ -691,7 +691,7 @@ export const serieGenres = [
 //     {
 //         id: 7,
 //         title: "Moonknight - Season 2",
-//         photoSrc: "http://localhost:4000/images/series/moonknight.jpg",
+//         photoSrc: "https://movielandia-backend-2d0r.onrender.com/images/series/moonknight.jpg",
 //         releaseYear: 2021,
 //         ratingImdb: 8.2,
 //         serieId: 4,
