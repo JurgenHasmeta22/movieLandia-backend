@@ -1,8 +1,8 @@
-import genreModel from '../../models/genre.model';
-import serieModel from '../../models/serie.model';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import genreModel from '../models/genre.model';
+import serieModel from '../models/serie.model';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
-const serieViewController = {
+const serieController = {
     async seriesView(req: any, res: any) {
         try {
             const { seriesSortBy, seriesAscOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } =
@@ -104,4 +104,4 @@ const serieViewController = {
     },
 };
 
-export default serieViewController;
+export default serieController;

@@ -2,12 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import { options } from './utils/swagger';
-import movieRoutes from './routes/movie.routes';
-import episodeRoutes from './routes/episode.routes';
-import genreRoutes from './routes/genre.routes';
-import serieRoutes from './routes/serie.routes';
-import userRoutes from './routes/user.routes';
-import authRoutes from './routes/auth.routes';
 import viewsRoutes from './routes/views.routes';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
@@ -43,14 +37,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(expressLayouts);
 app.set('layout', 'layouts/MainLayout.ejs');
-app.use(viewsRoutes);
 
-app.use(authRoutes);
-app.use(movieRoutes);
-app.use(serieRoutes);
-app.use(genreRoutes);
-app.use(episodeRoutes);
-app.use(userRoutes);
+app.use(viewsRoutes);
 
 app.listen(4000, () => {
     console.log(`Server up: http://localhost:4000`);

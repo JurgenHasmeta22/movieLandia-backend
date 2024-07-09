@@ -1,7 +1,7 @@
-import authModel from '../../models/auth.model';
-import { createToken } from '../../utils/authUtils';
+import authModel from '../models/auth.model';
+import { createToken } from '../utils/authUtils';
 
-const authViewController = {
+const authController = {
     async loginView(req: any, res: any) {
         const error = req.flash('error');
         res.render('pages/Login', {
@@ -77,4 +77,4 @@ const authViewController = {
     },
 };
 
-export default authViewController;
+export default authController;

@@ -1,7 +1,7 @@
-import genreModel from '../../models/genre.model';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import genreModel from '../models/genre.model';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
-const genreViewController = {
+const genreController = {
     async genresView(req: any, res: any) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
 
@@ -109,4 +109,4 @@ const genreViewController = {
     },
 };
 
-export default genreViewController;
+export default genreController;

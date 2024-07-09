@@ -1,9 +1,9 @@
-import genreModel from '../../models/genre.model';
-import movieModel from '../../models/movie.model';
-import serieModel from '../../models/serie.model';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import genreModel from '../models/genre.model';
+import movieModel from '../models/movie.model';
+import serieModel from '../models/serie.model';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
-const searchViewController = {
+const searchController = {
     async searchView(req: any, res: any) {
         const { pageMovies, pageSeries, moviesSortBy, moviesAscOrDesc, seriesSortBy, seriesAscOrDesc, title } =
             req.query;
@@ -62,4 +62,4 @@ const searchViewController = {
     },
 };
 
-export default searchViewController;
+export default searchController;

@@ -1,7 +1,7 @@
-import movieModel from '../../models/movie.model';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import movieModel from '../models/movie.model';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
-const movieViewController = {
+const movieController = {
     async moviesView(req: any, res: any) {
         try {
             const { moviesAscOrDesc, moviesSortBy, page, pageSize, title, filterValue, filterName, filterOperator } =
@@ -103,4 +103,4 @@ const movieViewController = {
     },
 };
 
-export default movieViewController;
+export default movieController;
