@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import authModel from '../../models/auth.model';
-import { createToken } from '../../utils/authUtils';
+import authModel from '../models/auth.model';
+import { createToken } from '../utils/authUtils';
 import { User } from '@prisma/client';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
 interface CustomRequest extends Request {
     user?: User;

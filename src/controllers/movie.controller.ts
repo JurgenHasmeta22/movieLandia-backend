@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import movieModel from '../../models/movie.model';
+import movieModel from '../models/movie.model';
 import { Movie } from '@prisma/client';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
 const movieController = {
     async getMovies(req: Request, res: Response) {

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import episodeModel from '../../models/episode.model';
+import episodeModel from '../models/episode.model';
 import { Episode } from '@prisma/client';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
 const episodeController = {
     async getEpisodes(req: Request, res: Response) {

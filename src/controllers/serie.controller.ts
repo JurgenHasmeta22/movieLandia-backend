@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import serieModel from '../../models/serie.model';
+import serieModel from '../models/serie.model';
 import { Serie } from '@prisma/client';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
 const serieController = {
     async getSeries(req: Request, res: Response) {
@@ -190,21 +190,6 @@ const serieController = {
                 res.status(HttpStatusCode.OK).send(series);
             } else {
                 res.status(HttpStatusCode.NotFound).send({ error: 'Series not found' });
-            }
-        } catch (err) {
-            res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
-        }
-    },
-    async addSeasonToSerie(req: Request, res: Response) {
-        const { serieId, seasonId } = req.body;
-
-        try {
-            const updatedSerie = await serieModel.addSeasonToSerie(seasonId, serieId);
-
-            if (updatedSerie) {
-                res.status(HttpStatusCode.OK).send(updatedSerie);
-            } else {
-                res.status(HttpStatusCode.Conflict).send({ error: 'Serie with new season not updated' });
             }
         } catch (err) {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });

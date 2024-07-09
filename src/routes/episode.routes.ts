@@ -1,5 +1,5 @@
 import express from 'express';
-import episodeController from '../controllers/REST/episode.controller';
+import episodeController from '../controllers/episode.controller';
 import { validateMiddleware } from '../middlewares/validate.middleware';
 import {
     episodeSchemaUpdate,

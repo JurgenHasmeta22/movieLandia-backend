@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import userModel from '../../models/user.model';
+import userModel from '../models/user.model';
 import { User } from '@prisma/client';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
 const userController = {
     // #region "CRUD"

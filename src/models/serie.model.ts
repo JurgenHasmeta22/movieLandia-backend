@@ -1,4 +1,4 @@
-import { Season, Serie, Prisma } from '@prisma/client';
+import { Serie, Prisma } from '@prisma/client';
 import { prisma } from '../app';
 
 interface SerieModelParams {
@@ -439,31 +439,6 @@ const serieModel = {
 
         if (series) {
             return { rows: seriesFinal, count };
-        } else {
-            return null;
-        }
-    },
-    async addSeasonToSerie(serieId: number, seasonId: number): Promise<Serie | null> {
-        const season: Season | null = await prisma.season.findUnique({
-            where: { id: Number(seasonId) },
-        });
-
-        if (season) {
-            await prisma.season.update({
-                where: { id: Number(seasonId) },
-                data: { serie: { connect: { id: serieId } } },
-            });
-
-            const serie = await prisma.serie.findUnique({
-                where: { id: serieId },
-                include: { genres: { select: { genre: true } } },
-            });
-
-            if (serie) {
-                return serie;
-            } else {
-                return null;
-            }
         } else {
             return null;
         }

@@ -42,7 +42,6 @@ const episodeModel = {
 
         const episodes = await prisma.episode.findMany({
             where: filters,
-            include: { season: true },
             orderBy: orderByObject,
             skip,
             take,
@@ -57,7 +56,6 @@ const episodeModel = {
     async getEpisodeById(episodeId: number): Promise<Episode | null> {
         const result = await prisma.episode.findFirst({
             where: { id: episodeId },
-            include: { season: true },
         });
 
         if (result) {
@@ -69,7 +67,6 @@ const episodeModel = {
     async getEpisodeByTitle(title: string): Promise<Episode | null> {
         const result = await prisma.episode.findFirst({
             where: { title },
-            include: { season: true },
         });
 
         if (result) {
@@ -87,7 +84,6 @@ const episodeModel = {
             const episodeUpdated = await prisma.episode.update({
                 where: { id: Number(id) },
                 data: episodeParam,
-                include: { season: true },
             });
 
             if (episodeUpdated) {
@@ -100,17 +96,16 @@ const episodeModel = {
         }
     },
     async addEpisode(episodeParam: Episode): Promise<Episode | null> {
-        const existingSeason = await prisma.season.findUnique({
+        const existingEpisode = await prisma.episode.findUnique({
             where: { id: episodeParam.seasonId },
         });
 
-        if (existingSeason) {
+        if (existingEpisode) {
             const episodeCreated = await prisma.episode.create({
                 data: {
                     ...episodeParam,
-                    season: { connect: { id: existingSeason.id } },
+                    season: { connect: { id: existingEpisode.id } },
                 } as Prisma.EpisodeCreateInput,
-                include: { season: true },
             });
 
             if (episodeCreated) {
@@ -146,7 +141,6 @@ const episodeModel = {
             where: {
                 title: { contains: title },
             },
-            include: { season: true },
             skip: page ? (page - 1) * 20 : 0,
             take: 20,
         };

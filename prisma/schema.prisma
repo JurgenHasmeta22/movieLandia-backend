@@ -23,32 +23,32 @@ generator dbml {
 
 // #region "User relationships"
 model User {
-  id              Int                 @id @default(autoincrement())
-  userName        String
-  email           String              @unique
-  password        String
-  role            String              @default("User")
-  favMovies       UserMovieFavorite[]
-  favSeries       UserSerieFavorite[]
+  id               Int                   @id @default(autoincrement())
+  userName         String
+  email            String                @unique
+  password         String
+  role             String                @default("User")
+  favMovies        UserMovieFavorite[]
+  favSeries        UserSerieFavorite[]
   // favGenres        UserGenreFavorite[]
   // favSeasons       UserSeasonFavorite[]
-  // favEpisodes      UserEpisodeFavorite[]
-  ratingsInMovie  UserMovieRating[]
-  ratingsInSerie  UserSerieRating[]
+  favEpisodes      UserEpisodeFavorite[]
+  ratingsInMovie   UserMovieRating[]
+  ratingsInSerie   UserSerieRating[]
   // ratingsInSeason  UserSeasonRating[]
-  // ratingsInEpisode UserEpisodeRating[]
+  ratingsInEpisode UserEpisodeRating[]
   // ratingsInGenre   UserGenreRating[]
-  movieReviews    MovieReview[]
-  serieReviews    SerieReview[]
+  movieReviews     MovieReview[]
+  serieReviews     SerieReview[]
   // followers        UserFollow[]          @relation("Followers")
   // following        UserFollow[]          @relation("Following")
   // chats            UserChat[]
   // messagesSent     Message[]             @relation("Sender")
   // messagesReceived Message[]             @relation("Reciever")
-  upvotedMovies   UpvoteMovie[]
-  downvotedMovies DownvoteMovie[]
-  upvotedSeries   UpvoteSerie[]
-  downvotedSeries DownvoteSerie[]
+  upvotedMovies    UpvoteMovie[]
+  downvotedMovies  DownvoteMovie[]
+  upvotedSeries    UpvoteSerie[]
+  downvotedSeries  DownvoteSerie[]
 }
 
 // model UserFollow {
@@ -95,14 +95,14 @@ model UserSerieRating {
 //   season   Season @relation(fields: [seasonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 // }
 
-// model UserEpisodeRating {
-//   id        Int     @id @default(autoincrement())
-//   rating    Float
-//   userId    Int
-//   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   episodeId Int
-//   episode   Episode @relation(fields: [episodeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-// }
+model UserEpisodeRating {
+  id        Int     @id @default(autoincrement())
+  rating    Float
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  episodeId Int
+  episode   Episode @relation(fields: [episodeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
 
 // model UserGenreRating {
 //   id      Int   @id @default(autoincrement())
@@ -137,13 +137,13 @@ model UserSerieFavorite {
   serie   Serie @relation(fields: [serieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-// model UserEpisodeFavorite {
-//   id        Int     @id @default(autoincrement())
-//   userId    Int
-//   episodeId Int
-//   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   episode   Episode @relation(fields: [episodeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-// }
+model UserEpisodeFavorite {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  episodeId Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  episode   Episode @relation(fields: [episodeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
 
 // model UserSeasonFavorite {
 //   id       Int    @id @default(autoincrement())
@@ -345,16 +345,15 @@ model Serie {
 //   usersWhoRatedIt      UserSeasonRating[]
 // }
 
-// model Episode {
-//   id                   Int                   @id @default(autoincrement())
-//   title                String                @default("")
-//   photoSrc             String                @default("")
-//   videoSrc             String                @default("")
-//   description          String                @default("")
-//   seasonId             Int
-//   season               Season                @relation(fields: [seasonId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-//   usersWhoBookmarkedIt UserEpisodeFavorite[]
-//   usersWhoRatedIt      UserEpisodeRating[]
-// }
+model Episode {
+  id                   Int                   @id @default(autoincrement())
+  title                String                @default("")
+  photoSrc             String                @default("")
+  videoSrc             String                @default("")
+  description          String                @default("")
+  seasonId             Int
+  usersWhoBookmarkedIt UserEpisodeFavorite[]
+  usersWhoRatedIt      UserEpisodeRating[]
+}
 
 // #endregion

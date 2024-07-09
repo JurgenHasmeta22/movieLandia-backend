@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import genreModel from '../../models/genre.model';
+import genreModel from '../models/genre.model';
 import { Genre } from '@prisma/client';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
 const genreController = {
     async getGenres(req: Request, res: Response) {
