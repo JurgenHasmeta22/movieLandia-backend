@@ -1,11 +1,10 @@
 # MovieLandia Backend
 
-MovieLandia Backend is a REST API also acts as an MVC with EJS Templates for managing movies and related entities such as series, genres, and episodes. Built using Fastify for a fast and efficient server, with EJS for server-side rendering.
+MovieLandia Backend is a REST API for managing movies and related entities such as series, genres, and episodes. Built using Fastify for a fast and efficient server, with EJS for server-side rendering.
 
 ## Features
 
 -   Fastify-based server for high performance
--   EJS for server-side rendering
 -   Prisma ORM for database interactions
 -   JWT authentication
 -   Swagger for API documentation
@@ -98,7 +97,6 @@ Swagger documentation is available at `http://localhost:4000/api-docs` once the 
 
 -   **`npm run dev`**: Starts the development server with nodemon.
 -   **`npm run start`**: Starts the server without nodemon.
--   **`npm run tailwind:css`**: Compiles Tailwind CSS.
 -   **`npm run pretty`**: Formats the code using Prettier.
 
 ```
