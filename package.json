@@ -4,8 +4,8 @@
     "description": "REST API for a movies and similar things",
     "scripts": {
         "startDev": "nodemon src/app.ts",
-        "start": "tsx src/app.ts",
-        "build": "tsx prisma/seed.ts && prisma migrate dev",
+        "start": "ts-node src/app.ts",
+        "build": "prisma migrate dev && ts-node prisma/seed.ts",
         "tailwind:css": "npx tailwindcss -i ./public/styles/tailwind.css -o ./public/styles/style.css --watch",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json,prisma}\""
     },
@@ -25,7 +25,6 @@
         "express": "^4.19.2",
         "express-ejs-layouts": "^2.5.1",
         "express-session": "^1.18.0",
-        "express-validator": "^7.1.0",
         "jsonwebtoken": "^9.0.2",
         "node-fetch": "^3.3.2",
         "nodemon": "^3.1.3",
