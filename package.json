@@ -4,7 +4,7 @@
     "description": "REST API for a movies and similar things",
     "scripts": {
         "startDev": "nodemon src/app.ts",
-        "start": "ts-node src/app.ts",
+        "start": "prisma migrate dev && ts-node prisma/seed.ts && ts-node src/app.ts",
         "build": "prisma migrate dev && ts-node prisma/seed.ts",
         "tailwind:css": "npx tailwindcss -i ./public/styles/tailwind.css -o ./public/styles/style.css --watch",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json,prisma}\""
