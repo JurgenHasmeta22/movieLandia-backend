@@ -35,6 +35,7 @@ const authModel = {
             }
         }
     },
+
     async login(email: string, password: string): Promise<User | null> {
         const user: User | null = await prisma.user.findUnique({
             where: { email },

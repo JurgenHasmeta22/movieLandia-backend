@@ -7,7 +7,7 @@ import {
     movieQuerySchema,
     movieIdParamSchema,
     movieTitleParamSchema,
-} from '../schemas/movie.schema';
+} from '../schemas/movie/movie.schema';
 
 const router = express.Router();
 

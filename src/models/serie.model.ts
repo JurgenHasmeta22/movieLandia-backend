@@ -93,6 +93,7 @@ const serieModel = {
             return null;
         }
     },
+
     async getSerieById(serieId: number): Promise<Serie | null> {
         const result = await prisma.serie.findFirst({
             where: { id: serieId },
@@ -105,6 +106,7 @@ const serieModel = {
             return null;
         }
     },
+
     async getSerieByTitle(title: string, queryParams: any): Promise<Serie | any | null> {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = queryParams;
         const skip = page ? (page - 1) * 5 : 0;
@@ -207,6 +209,7 @@ const serieModel = {
             return null;
         }
     },
+
     async getLatestSeries(): Promise<Serie[] | null> {
         const seriesWithGenres = await prisma.serie.findMany({
             orderBy: {
@@ -259,6 +262,7 @@ const serieModel = {
             return null;
         }
     },
+
     async getRelatedSeries(title: string): Promise<Serie[] | null> {
         const serie = await prisma.serie.findFirst({
             where: { title },
@@ -323,6 +327,7 @@ const serieModel = {
 
         return series.length > 0 ? series : null;
     },
+
     async updateSerieById(serieParam: Prisma.SerieUpdateInput, id: string): Promise<Serie | null> {
         const serie: Serie | null = await prisma.serie.findUnique({
             where: { id: Number(id) },
@@ -344,6 +349,7 @@ const serieModel = {
             return null;
         }
     },
+
     async addSerie(serieParam: Prisma.SerieCreateInput): Promise<Serie | null> {
         const serieCreated = await prisma.serie.create({
             data: serieParam,
@@ -356,6 +362,7 @@ const serieModel = {
             return null;
         }
     },
+
     async deleteSerieById(id: number): Promise<string | null> {
         const serie: Serie | null = await prisma.serie.findUnique({
             where: { id },
@@ -375,6 +382,7 @@ const serieModel = {
             return null;
         }
     },
+
     async searchSeriesByTitle(title: string, queryParams: any): Promise<any | null> {
         const { page, ascOrDesc, sortBy } = queryParams;
         const orderByObject: any = {};

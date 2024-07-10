@@ -2445,7 +2445,7 @@ export const options = {
                     },
                 },
             },
-            'addEpisode': {
+            addEpisode: {
                 post: {
                     summary: 'Add a new episode',
                     tags: ['Episodes'],

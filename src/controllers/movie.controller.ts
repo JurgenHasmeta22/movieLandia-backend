@@ -28,6 +28,7 @@ const movieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getMovieById(req: Request, res: Response) {
         const movieId = Number(req.params.id);
 
@@ -43,6 +44,7 @@ const movieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getMovieByTitle(req: Request, res: Response) {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
@@ -86,6 +88,7 @@ const movieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getLatestMovies(req: Request, res: Response) {
         try {
             const latestMovies = await movieModel.getLatestMovies();
@@ -99,6 +102,7 @@ const movieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getRelatedMovies(req: Request, res: Response) {
         const { title } = req.query;
         const titleFormatted =
@@ -120,6 +124,7 @@ const movieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async updateMovieById(req: Request, res: Response) {
         const movieBodyParams = req.body;
         const { id } = req.params;
@@ -136,6 +141,7 @@ const movieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async addMovie(req: Request, res: Response) {
         const movieBodyParams = req.body;
 
@@ -151,6 +157,7 @@ const movieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async deleteMovieById(req: Request, res: Response) {
         const idParam = Number(req.params.id);
 
@@ -168,6 +175,7 @@ const movieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async searchMoviesByTitle(req: Request, res: Response) {
         const { page, ascOrDesc, sortBy, title } = req.query;
 

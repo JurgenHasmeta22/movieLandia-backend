@@ -53,6 +53,7 @@ const episodeModel = {
             return null;
         }
     },
+
     async getEpisodeById(episodeId: number): Promise<Episode | null> {
         const result = await prisma.episode.findFirst({
             where: { id: episodeId },
@@ -64,6 +65,7 @@ const episodeModel = {
             return null;
         }
     },
+
     async getEpisodeByTitle(title: string): Promise<Episode | null> {
         const result = await prisma.episode.findFirst({
             where: { title },
@@ -75,6 +77,7 @@ const episodeModel = {
             return null;
         }
     },
+
     async updateEpisodeById(episodeParam: Prisma.EpisodeUpdateInput, id: string): Promise<Episode | null> {
         const episode: Episode | null = await prisma.episode.findUnique({
             where: { id: Number(id) },
@@ -95,6 +98,7 @@ const episodeModel = {
             return null;
         }
     },
+
     async addEpisode(episodeParam: Episode): Promise<Episode | null> {
         const existingEpisode = await prisma.episode.findUnique({
             where: { id: episodeParam.seasonId },
@@ -117,6 +121,7 @@ const episodeModel = {
             return null;
         }
     },
+
     async deleteEpisodeById(id: number): Promise<string | null> {
         const episode: Episode | null = await prisma.episode.findUnique({
             where: { id },
@@ -136,6 +141,7 @@ const episodeModel = {
             return null;
         }
     },
+
     async searchEpisodesByTitle(title: string, page: number): Promise<Episode[] | null> {
         const query = {
             where: {

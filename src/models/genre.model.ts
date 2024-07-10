@@ -56,6 +56,7 @@ const genreModel = {
             return null;
         }
     },
+
     async getGenreById(id: number): Promise<Genre | null> {
         const result = await prisma.genre.findUnique({
             where: {
@@ -76,6 +77,7 @@ const genreModel = {
             return null;
         }
     },
+
     async getGenreByName(
         nameGenre: string,
         {
@@ -245,6 +247,7 @@ const genreModel = {
             return null;
         }
     },
+
     async addGenre(genreData: Prisma.GenreCreateInput): Promise<Genre | null> {
         const result = await prisma.genre.create({
             data: genreData,
@@ -263,6 +266,7 @@ const genreModel = {
             return null;
         }
     },
+
     async updateGenreById(genreData: Prisma.GenreUpdateInput, id: string): Promise<Genre | null> {
         const result = await prisma.genre.update({
             where: {
@@ -284,6 +288,7 @@ const genreModel = {
             return null;
         }
     },
+
     async deleteGenreById(id: number): Promise<string | null> {
         try {
             const result = await prisma.genre.delete({
@@ -301,6 +306,7 @@ const genreModel = {
             throw new Error('Failed to delete genre');
         }
     },
+
     async searchGenresByName(name: string, page: number): Promise<Genre[] | null> {
         const perPage = 20;
         const skip = perPage * (page - 1);

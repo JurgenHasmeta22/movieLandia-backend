@@ -29,6 +29,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getUserById(req: Request, res: Response) {
         const userId = Number(req.params.id);
 
@@ -44,6 +45,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getUserByTitle(req: Request, res: Response) {
         const title = req.params.title
             .split('')
@@ -61,6 +63,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async updateUserById(req: Request, res: Response) {
         const userBodyParams = req.body;
         const { id } = req.params;
@@ -77,6 +80,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async deleteUserById(req: Request, res: Response) {
         const idParam = Number(req.params.id);
 
@@ -94,6 +98,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async searchUsersByTitle(req: Request, res: Response) {
         const { title, page } = req.query;
 
@@ -127,6 +132,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async bookmarkMovie(req: Request, res: Response) {
         const { movieId, userId } = req.body;
 
@@ -158,6 +164,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async unBookmarkSerie(req: Request, res: Response) {
         const { serieId, userId } = req.body;
 
@@ -198,6 +205,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async addReviewSerie(req: Request, res: Response) {
         const { content, rating, userId, serieId } = req.body;
         const createdAt = new Date();
@@ -243,6 +251,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async updateReviewSerie(req: Request, res: Response) {
         const { content, rating, userId, serieId } = req.body;
         const updatedAt = new Date();
@@ -284,6 +293,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async removeReviewSerie(req: Request, res: Response) {
         const { userId, serieId } = req.body;
 
@@ -324,6 +334,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async addUpvoteSerieReview(req: Request, res: Response) {
         const { userId, serieId, serieReviewId } = req.body;
 
@@ -363,6 +374,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async removeUpvoteSerieReview(req: Request, res: Response) {
         const { userId, serieId, serieReviewId } = req.body;
 
@@ -402,6 +414,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async addDownvoteSerieReview(req: Request, res: Response) {
         const { userId, serieId, serieReviewId } = req.body;
 
@@ -441,6 +454,7 @@ const userController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async removeDownvoteSerieReview(req: Request, res: Response) {
         const { userId, serieId, serieReviewId } = req.body;
 

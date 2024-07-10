@@ -28,6 +28,7 @@ const episodeController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getEpisodeById(req: Request, res: Response) {
         const episodeId = Number(req.params.id);
 
@@ -43,6 +44,7 @@ const episodeController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getEpisodeByTitle(req: Request, res: Response) {
         const title = req.params.title
             .split('')
@@ -60,6 +62,7 @@ const episodeController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async updateEpisodeById(req: Request, res: Response) {
         const episodeBodyParams = req.body;
         const { id } = req.params;
@@ -76,6 +79,7 @@ const episodeController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async addEpisode(req: Request, res: Response) {
         const episodeBodyParams = req.body;
 
@@ -91,6 +95,7 @@ const episodeController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async deleteEpisodeById(req: Request, res: Response) {
         const idParam = Number(req.params.id);
 
@@ -108,6 +113,7 @@ const episodeController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async searchEpisodesByTitle(req: Request, res: Response) {
         const { title, page } = req.query;
 

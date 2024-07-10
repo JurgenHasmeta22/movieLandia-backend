@@ -28,6 +28,7 @@ const serieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getSerieById(req: Request, res: Response) {
         const serieId = Number(req.params.id);
 
@@ -43,6 +44,7 @@ const serieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getSerieByTitle(req: Request, res: Response) {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
@@ -86,6 +88,7 @@ const serieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getLatestSeries(req: Request, res: Response) {
         try {
             const latestSeries = await serieModel.getLatestSeries();
@@ -99,6 +102,7 @@ const serieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getRelatedSeries(req: Request, res: Response) {
         const { title } = req.query;
         const titleFormatted =
@@ -120,6 +124,7 @@ const serieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async updateSerieById(req: Request, res: Response) {
         const serieBodyParams = req.body;
         const { id } = req.params;
@@ -136,6 +141,7 @@ const serieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async addSerie(req: Request, res: Response) {
         const serieBodyParams = req.body;
 
@@ -151,6 +157,7 @@ const serieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async deleteSerieById(req: Request, res: Response) {
         const idParam = Number(req.params.id);
 
@@ -168,9 +175,9 @@ const serieController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async searchSeriesByTitle(req: Request, res: Response) {
         const { page, ascOrDesc, sortBy, title } = req.query;
-
         const queryParams: any = {
             page: Number(page),
         };

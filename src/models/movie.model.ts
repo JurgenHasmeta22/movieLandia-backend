@@ -1,4 +1,4 @@
-import { Genre, Movie, Prisma } from '@prisma/client';
+import { Movie, Prisma } from '@prisma/client';
 import { prisma } from '../app';
 
 interface MovieModelParams {
@@ -93,6 +93,7 @@ const movieModel = {
             return null;
         }
     },
+
     async getMovieById(movieId: number): Promise<Movie | null> {
         const result = await prisma.movie.findFirst({
             where: { id: movieId },
@@ -105,6 +106,7 @@ const movieModel = {
             return null;
         }
     },
+
     async getMovieByTitle(title: string, queryParams: any): Promise<Movie | any | null> {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = queryParams;
         const skip = page ? (page - 1) * 5 : 0;
@@ -207,6 +209,7 @@ const movieModel = {
             return null;
         }
     },
+
     async getLatestMovies(): Promise<Movie[] | null> {
         const moviesWithGenres = await prisma.movie.findMany({
             orderBy: {
@@ -259,6 +262,7 @@ const movieModel = {
             return null;
         }
     },
+
     async getRelatedMovies(title: string): Promise<Movie[] | null> {
         const movie = await prisma.movie.findFirst({
             where: { title },
@@ -323,6 +327,7 @@ const movieModel = {
 
         return movies.length > 0 ? movies : null;
     },
+
     async updateMovieById(movieParam: Prisma.MovieUpdateInput, id: string): Promise<Movie | null> {
         const movie: Movie | null = await prisma.movie.findUnique({
             where: { id: Number(id) },
@@ -344,6 +349,7 @@ const movieModel = {
             return null;
         }
     },
+
     async addMovie(movieParam: Prisma.MovieCreateInput): Promise<Movie | null> {
         const movieCreated = await prisma.movie.create({
             data: movieParam,
@@ -356,6 +362,7 @@ const movieModel = {
             return null;
         }
     },
+
     async deleteMovieById(id: number): Promise<string | null> {
         const movie: Movie | null = await prisma.movie.findUnique({
             where: { id },
@@ -375,6 +382,7 @@ const movieModel = {
             return null;
         }
     },
+
     async searchMoviesByTitle(title: string, queryParams: any): Promise<any | null> {
         const { page, ascOrDesc, sortBy } = queryParams;
         const orderByObject: any = {};

@@ -7,22 +7,21 @@ import {
     userQuerySchema,
     userIdParamSchema,
     userUserNameParamSchema,
-} from '../schemas/user.schema';
+} from '../schemas/user/user.schema';
+import { authMiddleware } from '../middlewares/auth.middleware';
 
-// import { authMiddleware } from '../middlewares/auth.middleware';
-
-import { userMovieFavoriteSchema } from '../schemas/userMovieFavorite.schema';
-import { userSerieFavoriteSchema } from '../schemas/userSerie.schema';
-import { movieReviewSchema } from '../schemas/movieReview.schema';
-import { serieReviewSchema } from '../schemas/serieReview.schema';
-import { upvoteMovieSchema } from '../schemas/upvoteMovie.schema';
-import { upvoteSerieSchema } from '../schemas/upvoteSerie.schema';
-import { downvoteMovieSchema } from '../schemas/downvoteMovie.schema';
-import { downvoteSerieSchema } from '../schemas/downvoteSerie.schema';
+import { userMovieFavoriteSchema } from '../schemas/user/userMovieFavorite.schema';
+import { userSerieFavoriteSchema } from '../schemas/user/userSerie.schema';
+import { movieReviewSchema } from '../schemas/movie/movieReview.schema';
+import { serieReviewSchema } from '../schemas/serie/serieReview.schema';
+import { upvoteMovieSchema } from '../schemas/movie/upvoteMovie.schema';
+import { upvoteSerieSchema } from '../schemas/serie/upvoteSerie.schema';
+import { downvoteMovieSchema } from '../schemas/movie/downvoteMovie.schema';
+import { downvoteSerieSchema } from '../schemas/serie/downvoteSerie.schema';
 
 const router = express.Router();
 
-// router.use(authMiddleware);
+router.use(authMiddleware);
 
 // #region "CRUD Routes"
 router.get('/getUsers', userQuerySchema, validateMiddleware, userController.getUsers);

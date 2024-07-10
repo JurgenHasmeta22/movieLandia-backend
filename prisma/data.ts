@@ -41,8 +41,7 @@ export const movies = [
         ratingImdb: 7.4,
         description:
             'Matilde, Cencio, Fulvio, and Mario are united when World War II strikes Rome. Israel, their circus owner, disappears in an attempt to find a place abroad for all of them.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg',
     },
     {
         id: 2,
@@ -76,8 +75,7 @@ export const movies = [
         ratingImdb: 6.7,
         description:
             "Ex-con Boun is the new force on the underground street fighting scene in Los Angeles. When he defeats the reigning champion, the local gangster boss wants to enlist Boun in a series of high-stakes international matches. Boun's refusal sets off an explosive showdown between two powerful enemies risking everything.",
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/5254_1_ladsfgfdgdfgdfgfdgfdgrge.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/5254_1_ladsfgfdgdfgdfgfdgfdgrge.jpg',
     },
     {
         id: 5,
@@ -88,8 +86,7 @@ export const movies = [
         ratingImdb: 8.7,
         description:
             'Peter Parker is unmasked and no longer able to separate his normal life from the high stakes of being a Super Hero. When he seeks help from Doctor Strange, the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg',
     },
     {
         id: 6,
@@ -100,8 +97,7 @@ export const movies = [
         ratingImdb: 6.6,
         description:
             "After his father's death, the responsibility to care for the family falls on Will's shoulders. He enters a dog race that requires long hours of racing and a steely will to win.",
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/6Ujbtp0NklUoQ67s32HyW6R5540.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/6Ujbtp0NklUoQ67s32HyW6R5540.jpg',
     },
     {
         id: 7,
@@ -112,8 +108,7 @@ export const movies = [
         ratingImdb: 0,
         description:
             'A former marine is hired by a defense contractor to travel to Panama to complete an arms deal. During the process, he becomes involved in the U.S. invasion of Panama and learns an important lesson about the true nature of political power.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/82I3tDsGDTMy7lHar84Gz0jUuyW.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/82I3tDsGDTMy7lHar84Gz0jUuyW.jpg',
     },
     {
         id: 8,
@@ -124,8 +119,7 @@ export const movies = [
         ratingImdb: 6.8,
         description:
             "The Eternals are a team of ancient aliens who have been living on Earth in secret for thousands of years. When an unexpected tragedy forces them out of the shadows, they must reunite against mankind's oldest enemy.",
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg',
     },
     {
         id: 9,
@@ -136,8 +130,7 @@ export const movies = [
         ratingImdb: 6,
         description:
             'Asim Noyan deceives people with his lies and games. Asim Noyan and his gang, whom no one else has been able to capture, get involved in another scam.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg',
     },
     {
         id: 10,
@@ -148,8 +141,7 @@ export const movies = [
         ratingImdb: 6.8,
         description:
             'A Canadian doctor finds her sympathies severely tested while working in the conflict-ravaged Palestinian territories.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/9BCd5LdVHQmWqEnDTJ5Ut8idstP-1.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/9BCd5LdVHQmWqEnDTJ5Ut8idstP-1.jpg',
     },
     {
         id: 11,
@@ -160,8 +152,7 @@ export const movies = [
         ratingImdb: 6.6,
         description:
             'Hathaway Noa becomes part of a terrorist organization called Mufti that organizes an attack on Earth Federation ministers.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/6gw8onh4FKsruBA7Oouv01EFxzn-1.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/6gw8onh4FKsruBA7Oouv01EFxzn-1.jpg',
     },
     {
         id: 12,
@@ -183,8 +174,7 @@ export const movies = [
         ratingImdb: 6.4,
         description:
             'When an isolated forester finds a mute little girl wandering alone in the woods, he must protect her from the evil forces determined to end her life.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg',
     },
     {
         id: 14,
@@ -195,8 +185,7 @@ export const movies = [
         ratingImdb: 5.6,
         description:
             'A weekend getaway to Croatia goes awry when a woman is accused of murdering her best friend. As she attempts to clear her name and uncover the truth, her efforts reveal a painful secret.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/6MS0QEl7UK2gdFFbHfNwuYlsq4H.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/6MS0QEl7UK2gdFFbHfNwuYlsq4H.jpg',
     },
     {
         id: 15,
@@ -217,8 +206,7 @@ export const movies = [
         releaseYear: 2010,
         ratingImdb: 5.8,
         description: 'A man who escorts wealthy women in Manhattan takes a young man under his wing.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/7RhiXoCm6yEflHQvYtoLeAkDhaU.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/7RhiXoCm6yEflHQvYtoLeAkDhaU.jpg',
     },
     {
         id: 17,
@@ -240,8 +228,7 @@ export const movies = [
         ratingImdb: 7,
         description:
             "During the long days of the polar summer, a group of children reveal their dark and mysterious powers while the adults aren't watching. This playtime takes a dangerous turn.",
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/4hIptu4Yre7pIUhFa7GBZlfDTPW.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/4hIptu4Yre7pIUhFa7GBZlfDTPW.jpg',
     },
     {
         id: 19,
@@ -252,8 +239,7 @@ export const movies = [
         ratingImdb: 6.1,
         description:
             'A 15-year-old boy steals a bag of drug money and runs off with the girl he loves. As her violent and corrupt police officer father hunts them down, they embark on a journey that will change their lives forever.',
-        photoSrc:
-            'https://movielandia-backend-2d0r.onrender.com/images/movies/AlowOYyprAAq85PPtE9LvoiYT1b.jpg',
+        photoSrc: 'https://movielandia-backend-2d0r.onrender.com/images/movies/AlowOYyprAAq85PPtE9LvoiYT1b.jpg',
     },
 ];
 

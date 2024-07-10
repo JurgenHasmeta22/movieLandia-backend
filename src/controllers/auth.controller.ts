@@ -24,6 +24,7 @@ const authController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async login(req: Request, res: Response) {
         const { email, password } = req.body;
 
@@ -39,6 +40,7 @@ const authController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async validate(req: CustomRequest, res: Response) {
         try {
             if (req.user) {

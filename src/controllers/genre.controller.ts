@@ -28,6 +28,7 @@ const genreController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getGenreById(req: Request, res: Response) {
         const genreId = Number(req.params.id);
 
@@ -43,6 +44,7 @@ const genreController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async getGenreByName(req: Request, res: Response) {
         const nameGenre = req.params.name
             .split('')
@@ -73,6 +75,7 @@ const genreController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async addGenre(req: Request, res: Response) {
         const genreBodyParams = req.body;
 
@@ -88,6 +91,7 @@ const genreController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async updateGenreById(req: Request, res: Response) {
         const genreBodyParams = req.body;
         const { id } = req.params;
@@ -104,6 +108,7 @@ const genreController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async deleteGenreById(req: Request, res: Response) {
         const idParam = Number(req.params.id);
 
@@ -121,6 +126,7 @@ const genreController = {
             res.status(HttpStatusCode.BadRequest).send({ error: (err as Error).message });
         }
     },
+
     async searchGenresByName(req: Request, res: Response) {
         const { name, page } = req.query;
 

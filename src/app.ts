@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
-import { options } from './utils/swagger';
+import { options } from './utils/swagger/swagger';
 import movieRoutes from './routes/movie.routes';
 import episodeRoutes from './routes/episode.routes';
 import genreRoutes from './routes/genre.routes';

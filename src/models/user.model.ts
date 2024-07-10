@@ -56,6 +56,7 @@ const userModel = {
             return null;
         }
     },
+
     async getUserById(userId: number): Promise<User | null> {
         const result = await prisma.user.findUnique({
             where: { id: userId },
@@ -67,6 +68,7 @@ const userModel = {
             return null;
         }
     },
+
     async getUserByUsername(username: string): Promise<User | null> {
         const result = await prisma.user.findFirst({
             where: { userName: username },
@@ -78,6 +80,7 @@ const userModel = {
             return null;
         }
     },
+
     async updateUserById(userParam: Prisma.UserUpdateInput, id: string): Promise<User | null> {
         const result = await prisma.user.update({
             where: { id: Number(id) },
@@ -90,6 +93,7 @@ const userModel = {
             return null;
         }
     },
+
     async deleteUserById(id: number): Promise<string | null> {
         const user = await prisma.user.findUnique({
             where: { id },
@@ -104,6 +108,7 @@ const userModel = {
             return null;
         }
     },
+
     async searchUsersByUsername(username: string, page: number): Promise<User[] | null> {
         const result = await prisma.user.findMany({
             where: {
@@ -157,6 +162,7 @@ const userModel = {
             return null;
         }
     },
+
     async addFavoriteMovieToUser(userId: number, movieId: number): Promise<User | null> {
         const existingFavorite = await prisma.userMovieFavorite.findFirst({
             where: {
@@ -192,6 +198,7 @@ const userModel = {
             return null;
         }
     },
+
     async removeFavoriteMovieToUser(userId: number, movieId: number): Promise<User | null> {
         const existingFavorite = await prisma.userMovieFavorite.findFirst({
             where: {
@@ -227,6 +234,7 @@ const userModel = {
             return null;
         }
     },
+
     async removeFavoriteSerieToUser(userId: number, serieId: number): Promise<User | null> {
         const existingFavorite = await prisma.userSerieFavorite.findFirst({
             where: {
@@ -310,6 +318,7 @@ const userModel = {
             return null;
         }
     },
+
     async addReviewSerie({ content, createdAt, rating, userId, serieId }: any): Promise<any> {
         const existingReview = await prisma.serieReview.findFirst({
             where: {
@@ -355,6 +364,7 @@ const userModel = {
             return null;
         }
     },
+
     async updateReviewMovie({ content, updatedAt, rating, userId, movieId }: any): Promise<any> {
         const existingReview = await prisma.movieReview.findFirst({
             where: {
@@ -403,6 +413,7 @@ const userModel = {
             return null;
         }
     },
+
     async updateReviewSerie({ content, updatedAt, rating, userId, serieId }: any): Promise<any> {
         const existingReview = await prisma.serieReview.findFirst({
             where: {
@@ -451,6 +462,7 @@ const userModel = {
             return null;
         }
     },
+
     async removeReviewMovie({ userId, movieId }: any): Promise<any> {
         const existingReview = await prisma.movieReview.findFirst({
             where: {
@@ -490,6 +502,7 @@ const userModel = {
             return null;
         }
     },
+
     async removeReviewSerie({ userId, serieId }: any): Promise<any> {
         const existingReview = await prisma.serieReview.findFirst({
             where: {
@@ -557,6 +570,7 @@ const userModel = {
             return null;
         }
     },
+
     async addUpvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
         const existingUpvoteSerieReview = await prisma.upvoteSerie.findFirst({
             where: {
@@ -604,6 +618,7 @@ const userModel = {
             return null;
         }
     },
+
     async removeUpvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
         const existingUpvote = await prisma.upvoteSerie.findFirst({
             where: {
@@ -651,6 +666,7 @@ const userModel = {
             return null;
         }
     },
+
     async addDownvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
         const existingDownvoteSerieReview = await prisma.downvoteSerie.findFirst({
             where: {
@@ -698,6 +714,7 @@ const userModel = {
             return null;
         }
     },
+
     async removeDownvoteSerieReview({ userId, serieId, serieReviewId }: any): Promise<any> {
         const existingDownvote = await prisma.downvoteSerie.findFirst({
             where: {
