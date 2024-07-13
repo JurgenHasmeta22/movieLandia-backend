@@ -93,7 +93,7 @@ const serieController = {
                     description: `${serie.description}`,
                     user: req.session.user,
                     titleTerm: '',
-                    reviews
+                    reviews,
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Serie not found' });

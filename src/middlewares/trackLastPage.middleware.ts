@@ -4,6 +4,6 @@ export function trackLastPageMiddleware(req: any, res: Response, next: NextFunct
     if (req.session) {
         req.session.lastPage = req.originalUrl;
     }
-    
+
     next();
 }

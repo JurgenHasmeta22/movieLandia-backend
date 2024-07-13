@@ -92,7 +92,7 @@ const movieController = {
                     description: `${movie.description}`,
                     user: req.session.user,
                     titleTerm: '',
-                    reviews
+                    reviews,
                 });
             } else {
                 res.status(HttpStatusCode.BadRequest).send({ error: 'Movie not found' });
