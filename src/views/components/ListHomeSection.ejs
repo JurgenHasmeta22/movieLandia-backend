@@ -1,0 +1,23 @@
+<section class="relative flex flex-col space-y-3">
+    <div class="flex justify-between items-center mx-1 pl-12 pr-12">
+        <h2 class="font-bold text-2xl text-yellow-50">Trending <%= type === 'serie' ? 'Series' : type === 'movie' ? 'Movies' : 'Genres' %></h2>
+        <a href="/<%= type === 'serie' ? 'series' : type === 'movie' ? 'movies' : 'genres' %>/<%= type === 'genre' ? data.name : data.title %>" class="font-black text-blue-500 text-sm no-underline">
+            Explore All <%= type === 'serie' ? 'Series' : type === 'movie' ? 'Movies' : 'Genres' %>
+        </a>
+    </div>
+    <div class="flex flex-wrap justify-center items-center space-x-4 space-y-4">
+        <% if (type === "genre") { %>
+            <% data.forEach((genre) => { %>
+                <%- include('../components/GenreItem', { data: genre }) %>
+            <% }); %>
+        <% } else if (type === "movie") { %>
+            <% data.forEach((movie) => { %>
+                <%- include('../components/CardItem', { data: movie, type: "movie" }) %>
+            <% }); %>
+        <% } else if (type === "serie") { %>
+            <% data.forEach((serie) => { %>
+                <%- include('../components/CardItem', { data: serie, type: "serie" }) %>
+            <% }); %>
+        <% } %>
+    </div>
+</section>

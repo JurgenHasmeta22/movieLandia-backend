@@ -1,9 +1,9 @@
 <section class="relative flex justify-center items-center pt-36 pb-20">
   <div class="absolute top-0 left-0 right-0 bottom-0 bg-cover bg-center -z-10" style="background-image: url('/images/backgrounds/netflix.png'); filter: blur(2px) opacity(1)"></div>
   <div class="relative z-10 px-20 py-16 rounded-lg bg-gray-50 shadow-lg">
-    @if(error && error.length > 0)
-    <div class="mb-4 text-gray-900">{{ error[0] }}</div>
-    @endif
+    <% if (error && error.length > 0) { %>
+    <div class="mb-4 text-gray-900"><%= error[0] %></div>
+    <% } %>
     <form action="/login" method="POST" x-data="loginForm()" @submit.prevent="validateForm">
       <div class="flex flex-col space-y-2">
         <h2 class="text-2xl font-bold">Sign In</h2>

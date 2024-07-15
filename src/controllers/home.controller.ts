@@ -41,7 +41,7 @@ const homeController = {
         });
 
         if (moviesData && seriesData && genresData) {
-            res.render('pages/client/home/Home', {
+            res.render('pages/Home/Home', {
                 data: {
                     genres: genresData.rows.slice(0, 5),
                     movies: moviesData.movies.slice(0, 5),

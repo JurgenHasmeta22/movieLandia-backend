@@ -23,7 +23,7 @@ const movieController = {
             const currentPageMovies = page ? page : 1;
 
             if (moviesData && latestMovies) {
-                res.render('pages/client/Movies', {
+                res.render('pages/Movies', {
                     movies: moviesData.movies,
                     pageCountMovies,
                     currentPageMovies,

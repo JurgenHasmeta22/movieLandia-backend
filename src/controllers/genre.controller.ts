@@ -18,7 +18,7 @@ const genreController = {
             });
 
             if (genresData) {
-                res.render('pages/client/Genres', {
+                res.render('pages/Genres', {
                     genres: genresData.rows,
                     title: 'Choose your favorite Genre among many to choose',
                     canonical: `genres`,
@@ -85,7 +85,7 @@ const genreController = {
             const currentPageMovies = pageMovies ? pageMovies : 1;
             const currentPageSeries = pageSeries ? pageSeries : 1;
 
-            res.render('pages/client/Genre', {
+            res.render('pages/Genre', {
                 moviesByGenre: genreDataMovies.movies,
                 seriesByGenre: genreDataSeries.series,
                 currentPageMovies,

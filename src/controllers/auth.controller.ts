@@ -4,7 +4,7 @@ import { createToken } from '../utils/authUtils';
 const authController = {
     async loginView(req: any, res: any) {
         const error = req.flash('error');
-        res.render('pages/auth/Login', {
+        res.render('pages/Login', {
             title: 'Login',
             description: 'Login Page',
             canonical: 'login',
@@ -37,7 +37,7 @@ const authController = {
 
     async registerView(req: any, res: any) {
         const error = req.flash('error');
-        res.render('pages/auth/Register', {
+        res.render('pages/Register', {
             title: 'Register',
             description: 'Register Page',
             canonical: 'register',

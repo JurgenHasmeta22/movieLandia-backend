@@ -24,7 +24,7 @@ const serieController = {
             const currentPageSeries = page ? page : 1;
 
             if (seriesData && latestSeries) {
-                res.render('pages/client/Series', {
+                res.render('pages/Series', {
                     series: seriesData.rows,
                     pageCountSeries,
                     currentPageSeries,
@@ -84,7 +84,7 @@ const serieController = {
             const reviews = serie?.reviews;
 
             if (serie) {
-                res.render('pages/client/Serie', {
+                res.render('pages/Serie', {
                     serie,
                     latestSeries: latestSeries?.slice(0, 5),
                     relatedSeries,

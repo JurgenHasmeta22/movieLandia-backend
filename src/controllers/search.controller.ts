@@ -39,7 +39,7 @@ const searchController = {
             const currentPageMovies = pageMovies ? Number(pageMovies) : 1;
             const currentPageSeries = pageSeries ? Number(pageSeries) : 1;
 
-            res.render('pages/client/Search', {
+            res.render('pages/Search', {
                 movies: moviesData.movies,
                 series: seriesData.rows,
                 pageCountMovies,
