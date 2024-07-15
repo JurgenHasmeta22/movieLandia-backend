@@ -4,6 +4,7 @@
     "description": "MVC web app for movies and similar things",
     "scripts": {
         "start": "tsx src/app.ts",
+        "startProd": "prisma migrate dev && tsx src/seed.ts && tsx src/app.ts",
         "dev": "tsx watch src/app.ts",
         "tailwind:css": "npx tailwindcss -i ./public/styles/tailwind.css -o ./public/styles/style.css --watch",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json,prisma}\""
