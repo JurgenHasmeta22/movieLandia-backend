@@ -1,5 +1,5 @@
 <div>
-  <select id="<%= selectId %>" x-data="sortHandler('<%= selectId %>', '<%= paginationType %>', '<%= sortBy %>', '<%= ascOrDesc %>')" x-init="setSelected()" @change="updateSort($event)" class="bg-gray-700 text-white rounded px-3 py-2">
+  <select id="{{ selectId }}" x-data="sortHandler('{{ selectId }}', '{{ paginationType }}', '{{ sortBy }}', '{{ ascOrDesc }}')" x-init="setSelected()" @change="updateSort($event)" class="bg-gray-700 text-white rounded px-3 py-2">
     <option value="">None</option>
     <option value="ratingImdbAsc">Imdb rating (Asc)</option>
     <option value="ratingImdbDesc">Imdb rating (Desc)</option>
@@ -13,6 +13,7 @@
     return {
       setSelected() {
         const sortValue = initialSortBy && initialAscOrDesc ? `${initialSortBy}${initialAscOrDesc.charAt(0).toUpperCase() + initialAscOrDesc.slice(1)}` : '';
+        
         if (sortValue) {
           document.getElementById(selectId).value = sortValue;
         }

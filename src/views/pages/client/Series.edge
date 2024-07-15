@@ -1,0 +1,24 @@
+<div class="mx-auto flex flex-col justify-start gap-y-20 bg-gray-900 text-white pt-32 pb-20">
+  <section>
+    <div class="flex flex-row justify-between  pl-16 pr-16">
+      <h1 class="text-4xl font-bold pb-8 text-white">Series</h1>
+      @!component('components/features/SortSelect', { selectId: 'seriesSortSelect', paginationType: 'series', sortBy: seriesSortBy, ascOrDesc: seriesAscOrDesc })
+    </div>
+    <div class="flex flex-wrap gap-6 justify-center">
+      @each(serie in series)
+        @!component('components/ui/CardItem', { data: serie, type: 'serie' })
+      @end
+    </div>
+    <div class="pt-12">
+      @!component('components/features/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries, paginationType: "none" })
+    </div>
+  </section>
+  <section>
+    <h1 class="text-4xl font-bold pl-16 pb-12 text-white">Latest Series</h1>
+    <div class="flex flex-wrap gap-6 justify-center">
+      @each(latestSerie in latestSeries)
+        @!component('components/ui/CardItem', { data: latestSerie, type: 'serie' })
+      @end
+    </div>
+  </section>
+</div>

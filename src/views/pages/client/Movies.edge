@@ -1,0 +1,33 @@
+<div class="mx-auto flex flex-col justify-start gap-y-20 bg-gray-900 text-white pt-32 pb-20">
+  <section>
+    <div class="flex flex-row justify-between pl-16 pr-16">
+      <h1 class="text-4xl font-bold pb-8 text-white">Movies</h1>
+      @!component('components/features/SortSelect', { 
+        selectId: 'moviesSortSelect', 
+        paginationType: 'movies', 
+        sortBy: moviesSortBy, 
+        ascOrDesc: moviesAscOrDesc 
+      })
+    </div>
+    <div class="flex flex-wrap gap-6 justify-center">
+      @each(movie in movies)
+        @!component('components/ui/CardItem', { data: movie, type: 'movie' })
+      @end
+    </div>
+    <div class="pt-12">
+      @!component('components/features/Pagination', { 
+        currentPage: currentPageMovies, 
+        pageCount: pageCountMovies, 
+        paginationType: "none" 
+      })
+    </div>
+  </section>
+  <section>
+    <h1 class="text-4xl font-bold pb-8 text-white pl-16">Latest Movies</h1>
+    <div class="flex flex-wrap gap-6 justify-center">
+      @each(latestMovie in latestMovies)
+        @!component('components/ui/CardItem', { data: latestMovie, type: 'movie' })
+      @end
+    </div>
+  </section>
+</div>

@@ -1,0 +1,46 @@
+<div class="container mx-auto py-32 pb-20 flex flex-col gap-y-10 bg-gray-900 text-white">
+  <section class="mb-10">
+    <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
+      <h2 class="text-2xl font-bold">Movies</h2>
+      <div class="flex items-center">
+        @!component('components/features/SortSelect', { selectId: 'moviesSortSelect', paginationType: 'movies', sortBy: moviesSortBy, ascOrDesc: moviesAscOrDesc })
+      </div>
+    </div>
+    @if(movies && movies.length !== 0)
+      <div class="flex flex-wrap gap-6 justify-center">
+        @each(movie in movies)
+          @!component('components/ui/CardItem', { data: movie, type: 'movie' })
+        @end
+      </div>
+      <div class="pt-12">
+        @!component('components/features/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, paginationType: "movie" })
+      </div>
+    @else
+      <div class="flex items-center justify-center h-64">
+        <h1 class="text-xl text-center">No search result, no movie found with that criteria.</h1>
+      </div>
+    @end
+  </section>
+  <section>
+    <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
+      <h2 class="text-2xl font-bold">Series</h2>
+      <div class="flex items-center">
+        @!component('components/features/SortSelect', { selectId: 'seriesSortSelect', paginationType: 'series', sortBy: seriesSortBy, ascOrDesc: seriesAscOrDesc })
+      </div>
+    </div>
+    @if(series && series.length !== 0)
+      <div class="flex flex-wrap gap-6 justify-center">
+        @each(serie in series)
+          @!component('components/ui/CardItem', { data: serie, type: 'serie' })
+        @end
+      </div>
+      <div class="pt-12">
+        @!component('components/features/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries, paginationType: "serie" })
+      </div>
+    @else
+      <div class="flex items-center justify-center h-64">
+        <h1 class="text-xl text-center">No search result, no series found with that criteria.</h1>
+      </div>
+    @end
+  </section>
+</div>

@@ -1,0 +1,52 @@
+<div class="container mx-auto py-6 bg-gray-900 pt-32 pb-20 text-white">
+  <section class="mb-10">
+    @if(moviesByGenre.length !== 0)
+      <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
+        <div>
+          <h2 class="text-2xl font-bold">Movies of genre {{ nameGenre }}</h2>
+          <hr class="border-b-2 border-primary mt-1">
+        </div>
+        <div>
+          @!component('components/features/SortSelect', { selectId: 'moviesSortSelect', paginationType: 'movies', sortBy: moviesSortBy, ascOrDesc: moviesAscOrDesc })
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-6 justify-center">
+        @each(movie in moviesByGenre)
+          @!component('components/ui/CardItem', { data: movie, type: 'movie' })
+        @end
+      </div>
+      <div class="pt-12">
+        @!component('components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, paginationType: "movie" })
+      </div>
+    @else
+      <div class="flex items-center justify-center h-64">
+        <h1 class="text-xl text-center">No movie found with this genre.</h1>
+      </div>
+    @end
+  </section>
+  <section>
+    @if(seriesByGenre.length !== 0)
+      <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
+        <div>
+          <h2 class="text-2xl font-bold">Series of genre {{ nameGenre }}</h2>
+          <hr class="border-b-2 border-primary mt-1">
+        </div>
+        <div>
+          @!component('components/features/SortSelect', { selectId: 'seriesSortSelect', paginationType: 'series', sortBy: seriesSortBy, ascOrDesc: seriesAscOrDesc })
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-6 justify-center">
+        @each(serie in seriesByGenre)
+          @!component('components/ui/CardItem', { data: serie, type: 'serie' })
+        @end
+      </div>
+      <div class="pt-12">
+        @!component('components/features/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries, paginationType: "serie" })
+      </div>
+    @else
+      <div class="flex items-center justify-center h-64">
+        <h1 class="text-xl text-center">No series found with this genre.</h1>
+      </div>
+    @end
+  </section>
+</div>
