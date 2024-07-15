@@ -3,17 +3,17 @@
     <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
       <h2 class="text-2xl font-bold">Movies</h2>
       <div class="flex items-center">
-        <%- include('../components/SortSelect.ejs', { selectId: 'moviesSortSelect', paginationType: 'movies', sortBy: moviesSortBy, ascOrDesc: moviesAscOrDesc }) %>
+        <%- include('../../components/features/SortSelect.ejs', { selectId: 'moviesSortSelect', paginationType: 'movies', sortBy: moviesSortBy, ascOrDesc: moviesAscOrDesc }) %>
       </div>
     </div>
     <% if (movies && movies.length !== 0) { %>
     <div class="flex flex-wrap gap-6 justify-center">
       <% movies.forEach((movie) => { %>
-      <%- include('../components/CardItem', { data: movie, type: 'movie' }) %>
+      <%- include('../../components/ui/CardItem', { data: movie, type: 'movie' }) %>
       <% }); %>
     </div>
     <div class="pt-12">
-      <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, paginationType: "movie" }) %>
+      <%- include('../../components/features/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, paginationType: "movie" }) %>
     </div>
     <% } else { %>
     <div class="flex items-center justify-center h-64">
@@ -25,17 +25,17 @@
     <div class="flex justify-between items-center mx-1 mb-4 pl-12 pr-12">
       <h2 class="text-2xl font-bold">Series</h2>
       <div class="flex items-center">
-        <%- include('../components/SortSelect.ejs', { selectId: 'seriesSortSelect', paginationType: 'series', sortBy: seriesSortBy, ascOrDesc: seriesAscOrDesc }) %>
+        <%- include('../../components/features/SortSelect.ejs', { selectId: 'seriesSortSelect', paginationType: 'series', sortBy: seriesSortBy, ascOrDesc: seriesAscOrDesc }) %>
       </div>
     </div>
     <% if (series && series.length !== 0) { %>
     <div class="flex flex-wrap gap-6 justify-center">
       <% series.forEach((serie) => { %>
-      <%- include('../components/CardItem', { data: serie, type: 'serie' }) %>
+      <%- include('../../components/ui/CardItem', { data: serie, type: 'serie' }) %>
       <% }); %>
     </div>
     <div class="pt-12">
-      <%- include('../components/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries, paginationType: "serie" }) %>
+      <%- include('../../components/features/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries, paginationType: "serie" }) %>
     </div>
     <% } else { %>
     <div class="flex items-center justify-center h-64">

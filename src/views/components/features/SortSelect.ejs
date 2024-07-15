@@ -13,6 +13,7 @@
     return {
       setSelected() {
         const sortValue = initialSortBy && initialAscOrDesc ? `${initialSortBy}${initialAscOrDesc.charAt(0).toUpperCase() + initialAscOrDesc.slice(1)}` : '';
+        
         if (sortValue) {
           document.getElementById(selectId).value = sortValue;
         }

@@ -1,10 +1,9 @@
-import genreModel from '../models/genre.model';
 import movieModel from '../models/movie.model';
 import serieModel from '../models/serie.model';
 import HttpStatusCode from '../utils/httpStatusCodes';
 
 const searchController = {
-    async searchView(req: any, res: any) {
+    async searchPage(req: any, res: any) {
         const { pageMovies, pageSeries, moviesSortBy, moviesAscOrDesc, seriesSortBy, seriesAscOrDesc, title } =
             req.query;
 
@@ -39,7 +38,7 @@ const searchController = {
             const currentPageMovies = pageMovies ? Number(pageMovies) : 1;
             const currentPageSeries = pageSeries ? Number(pageSeries) : 1;
 
-            res.render('pages/Search', {
+            res.render('pages/client/Search', {
                 movies: moviesData.movies,
                 series: seriesData.rows,
                 pageCountMovies,

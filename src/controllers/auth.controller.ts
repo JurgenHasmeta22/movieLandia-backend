@@ -2,12 +2,26 @@ import authModel from '../models/auth.model';
 import { createToken } from '../utils/authUtils';
 
 const authController = {
-    async loginView(req: any, res: any) {
+    async loginPage(req: any, res: any) {
         const error = req.flash('error');
-        res.render('pages/Login', {
+
+        res.render('pages/auth/Login', {
             title: 'Login',
             description: 'Login Page',
             canonical: 'login',
+            error,
+            user: req.session.user,
+            titleTerm: '',
+        });
+    },
+
+    async registerPage(req: any, res: any) {
+        const error = req.flash('error');
+
+        res.render('pages/auth/Register', {
+            title: 'Register',
+            description: 'Register Page',
+            canonical: 'register',
             error,
             user: req.session.user,
             titleTerm: '',
@@ -33,18 +47,6 @@ const authController = {
             req.flash('error', err.message);
             res.redirect('/login');
         }
-    },
-
-    async registerView(req: any, res: any) {
-        const error = req.flash('error');
-        res.render('pages/Register', {
-            title: 'Register',
-            description: 'Register Page',
-            canonical: 'register',
-            error,
-            user: req.session.user,
-            titleTerm: '',
-        });
     },
 
     async registerPost(req: any, res: any) {

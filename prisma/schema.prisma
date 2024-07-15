@@ -18,7 +18,6 @@ datasource db {
 generator dbml {
   provider = "prisma-dbml-generator"
 }
-
 // #endregion
 
 // #region "User relationships"

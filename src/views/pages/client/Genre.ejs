@@ -7,16 +7,16 @@
         <hr class="border-b-2 border-primary mt-1">
       </div>
       <div>
-        <%- include('../components/SortSelect.ejs', { selectId: 'moviesSortSelect', paginationType: 'movies', sortBy: moviesSortBy, ascOrDesc: moviesAscOrDesc }) %>
+        <%- include('../../components/features/SortSelect.ejs', { selectId: 'moviesSortSelect', paginationType: 'movies', sortBy: moviesSortBy, ascOrDesc: moviesAscOrDesc }) %>
       </div>
     </div>
     <div class="flex flex-wrap gap-6 justify-center">
       <% moviesByGenre.forEach(function(movie, index) { %>
-      <%- include('../components/CardItem', { data: movie, type: 'movie' }) %>
+      <%- include('../../components/ui/CardItem', { data: movie, type: 'movie' }) %>
       <% }); %>
     </div>
     <div class="pt-12">
-      <%- include('../components/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, paginationType: "movie" }) %>
+      <%- include('../../components/features/Pagination', { currentPage: currentPageMovies, pageCount: pageCountMovies, paginationType: "movie" }) %>
     </div>
     <% } else { %>
     <div class="flex items-center justify-center h-64">
@@ -32,16 +32,16 @@
         <hr class="border-b-2 border-primary mt-1">
       </div>
       <div>
-        <%- include('../components/SortSelect.ejs', { selectId: 'seriesSortSelect', paginationType: 'series', sortBy: seriesSortBy, ascOrDesc: seriesAscOrDesc }) %>
+        <%- include('../../components/features/SortSelect.ejs', { selectId: 'seriesSortSelect', paginationType: 'series', sortBy: seriesSortBy, ascOrDesc: seriesAscOrDesc }) %>
       </div>
     </div>
     <div class="flex flex-wrap gap-6 justify-center">
       <% seriesByGenre.forEach(function(serie, index) { %>
-      <%- include('../components/CardItem', { data: serie, type: 'serie' }) %>
+      <%- include('../../components/ui/CardItem', { data: serie, type: 'serie' }) %>
       <% }); %>
     </div>
     <div class="pt-12">
-      <%- include('../components/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries, paginationType: "serie" }) %>
+      <%- include('../../components/features/Pagination', { currentPage: currentPageSeries, pageCount: pageCountSeries, paginationType: "serie" }) %>
     </div>
     <% } else { %>
     <div class="flex items-center justify-center h-64">

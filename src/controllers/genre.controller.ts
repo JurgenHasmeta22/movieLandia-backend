@@ -2,7 +2,7 @@ import genreModel from '../models/genre.model';
 import HttpStatusCode from '../utils/httpStatusCodes';
 
 const genreController = {
-    async genresView(req: any, res: any) {
+    async genresPage(req: any, res: any) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
 
         try {
@@ -18,7 +18,7 @@ const genreController = {
             });
 
             if (genresData) {
-                res.render('pages/Genres', {
+                res.render('pages/client/Genres', {
                     genres: genresData.rows,
                     title: 'Choose your favorite Genre among many to choose',
                     canonical: `genres`,
@@ -35,7 +35,7 @@ const genreController = {
         }
     },
 
-    async genreView(req: any, res: any) {
+    async genrePage(req: any, res: any) {
         const nameGenre = req.params.name
             .split('')
             .map((char: string) => (char === '-' ? ' ' : char))
@@ -85,7 +85,7 @@ const genreController = {
             const currentPageMovies = pageMovies ? pageMovies : 1;
             const currentPageSeries = pageSeries ? pageSeries : 1;
 
-            res.render('pages/Genre', {
+            res.render('pages/client/Genre', {
                 moviesByGenre: genreDataMovies.movies,
                 seriesByGenre: genreDataSeries.series,
                 currentPageMovies,

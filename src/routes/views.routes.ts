@@ -9,20 +9,20 @@ import { trackLastPageMiddleware } from '../middlewares/trackLastPage.middleware
 
 const router = express.Router();
 
-router.get('/', homeController.homeView);
+router.get('/', homeController.homePage);
 
-router.get('/login', authController.loginView);
+router.get('/login', authController.loginPage);
 router.post('/login', trackLastPageMiddleware, authController.loginPost);
-router.get('/register', authController.registerView);
+router.get('/register', authController.registerPage);
 router.post('/register', authController.registerPost);
 router.post('/logout', authController.logout);
 
-router.get('/search', searchController.searchView);
-router.get('/genres', genreController.genresView);
-router.get('/genres/:name', genreController.genreView);
-router.get('/movies', movieController.moviesView);
-router.get('/movies/:title', movieController.movieView);
-router.get('/series', serieController.seriesView);
-router.get('/series/:title', serieController.serieView);
+router.get('/search', searchController.searchPage);
+router.get('/genres', genreController.genresPage);
+router.get('/genres/:name', genreController.genrePage);
+router.get('/movies', movieController.moviesPage);
+router.get('/movies/:title', movieController.moviePage);
+router.get('/series', serieController.seriesPage);
+router.get('/series/:title', serieController.seriePage);
 
 export default router;

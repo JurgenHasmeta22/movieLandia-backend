@@ -3,7 +3,7 @@
         <h2 class="mt-4 text-2xl font-bold">Choose your favorite Genre</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 mb-6">
                 <% genres.forEach((genre) => { %>
-                    <%- include('../components/GenreItem', { data: genre }) %>
+                    <%- include('../../components/ui/GenreItem', { data: genre }) %>
                 <% }); %>
             </div>
     </section>

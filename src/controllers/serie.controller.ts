@@ -1,9 +1,8 @@
-import genreModel from '../models/genre.model';
 import serieModel from '../models/serie.model';
 import HttpStatusCode from '../utils/httpStatusCodes';
 
 const serieController = {
-    async seriesView(req: any, res: any) {
+    async seriesPage(req: any, res: any) {
         try {
             const { seriesSortBy, seriesAscOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } =
                 req.query;
@@ -24,7 +23,7 @@ const serieController = {
             const currentPageSeries = page ? page : 1;
 
             if (seriesData && latestSeries) {
-                res.render('pages/Series', {
+                res.render('pages/client/Series', {
                     series: seriesData.rows,
                     pageCountSeries,
                     currentPageSeries,
@@ -46,7 +45,7 @@ const serieController = {
         }
     },
 
-    async serieView(req: any, res: any) {
+    async seriePage(req: any, res: any) {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
             .split('')
@@ -84,7 +83,7 @@ const serieController = {
             const reviews = serie?.reviews;
 
             if (serie) {
-                res.render('pages/Serie', {
+                res.render('pages/client/Serie', {
                     serie,
                     latestSeries: latestSeries?.slice(0, 5),
                     relatedSeries,

@@ -4,7 +4,7 @@ import serieModel from '../models/serie.model';
 import HttpStatusCode from '../utils/httpStatusCodes';
 
 const homeController = {
-    async homeView(req: any, res: any) {
+    async homePage(req: any, res: any) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator, title } = req.query;
 
         const moviesData = await movieModel.getMovies({
@@ -41,7 +41,7 @@ const homeController = {
         });
 
         if (moviesData && seriesData && genresData) {
-            res.render('pages/Home/Home', {
+            res.render('pages/client/Home/Home', {
                 data: {
                     genres: genresData.rows.slice(0, 5),
                     movies: moviesData.movies.slice(0, 5),

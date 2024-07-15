@@ -2,7 +2,7 @@ import movieModel from '../models/movie.model';
 import HttpStatusCode from '../utils/httpStatusCodes';
 
 const movieController = {
-    async moviesView(req: any, res: any) {
+    async moviesPage(req: any, res: any) {
         try {
             const { moviesAscOrDesc, moviesSortBy, page, pageSize, title, filterValue, filterName, filterOperator } =
                 req.query;
@@ -23,7 +23,7 @@ const movieController = {
             const currentPageMovies = page ? page : 1;
 
             if (moviesData && latestMovies) {
-                res.render('pages/Movies', {
+                res.render('pages/client/Movies', {
                     movies: moviesData.movies,
                     pageCountMovies,
                     currentPageMovies,
@@ -45,7 +45,7 @@ const movieController = {
         }
     },
 
-    async movieView(req: any, res: any) {
+    async moviePage(req: any, res: any) {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
             .split('')
@@ -83,7 +83,7 @@ const movieController = {
             const reviews = movie?.reviews;
 
             if (movie) {
-                res.render('pages/Movie', {
+                res.render('pages/client/Movie', {
                     movie,
                     latestMovies: latestMovies?.slice(0, 5),
                     relatedMovies,

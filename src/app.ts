@@ -30,10 +30,11 @@ app.use(flash());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
 app.use(expressLayouts);
 app.set('layout', 'layouts/MainLayout.ejs');
-app.use(viewsRoutes);
 
+app.use(viewsRoutes);
 app.listen(4000, () => {
     console.log(`Server up: http://localhost:4000`);
 });

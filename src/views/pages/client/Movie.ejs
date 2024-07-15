@@ -43,7 +43,7 @@
     <h1 class="text-4xl font-bold pb-8 text-white text-center">Reviews</h1>
     <div class="flex flex-col flex-wrap gap-6 justify-center">
       <% reviews.forEach((review) => { %>
-      <%- include('../components/Review', { data: review, type: 'movie' }) %>
+      <%- include('../../components/features/Review', { data: review, type: 'movie' }) %>
       <% }); %>
     </div>
     <% } %>
@@ -52,7 +52,7 @@
     <h1 class="text-4xl font-bold pb-8 text-white">Latest Movies</h1>
     <div class="flex flex-wrap gap-6 justify-start">
       <% latestMovies && latestMovies.forEach((latestMovie) => { %>
-      <%- include('../components/CardItem', { data: latestMovie, type: 'movie' }) %>
+      <%- include('../../components/ui/CardItem', { data: latestMovie, type: 'movie' }) %>
       <% }); %>
     </div>
   </section>
@@ -61,7 +61,7 @@
     <div class="flex flex-wrap gap-6 justify-start">
       <% if (relatedMovies && relatedMovies.length > 0) { %>
       <% relatedMovies.forEach((relatedMovie) => { %>
-      <%- include('../components/CardItem', { data: relatedMovie, type: 'movie' }) %>
+      <%- include('../../components/ui/CardItem', { data: relatedMovie, type: 'movie' }) %>
       <% }); %>
       <% } else { %>
       <p>No related movies found.</p>
