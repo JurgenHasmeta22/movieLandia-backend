@@ -17,7 +17,6 @@ export const prisma = new PrismaClient({
 });
 
 const specs = swaggerJsDoc(options);
-
 export const app = express();
 
 app.use(cors());
@@ -26,7 +25,6 @@ app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(express.static('public'));
 
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
-
 app.use(authRoutes);
 app.use(movieRoutes);
 app.use(serieRoutes);

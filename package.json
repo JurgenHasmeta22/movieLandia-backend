@@ -5,7 +5,7 @@
     "scripts": {
         "startDev": "nodemon src/app.ts",
         "start": "ts-node src/app.ts",
-        "build": "prisma migrate dev && ts-node prisma/seed.ts",
+        "seed": "prisma migrate dev && ts-node prisma/seed/seed.ts",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json,prisma}\""
     },
     "keywords": [],
