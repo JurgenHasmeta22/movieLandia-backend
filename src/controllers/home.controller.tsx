@@ -1,10 +1,13 @@
+import Home from 'src/views/pages/client/Home/Home';
 import genreModel from '../models/genre.model';
 import movieModel from '../models/movie.model';
 import serieModel from '../models/serie.model';
 import HttpStatusCode from '../utils/httpStatusCodes';
+import MainLayout from 'src/views/layouts/MainLayout';
+import { Request, Response } from 'express';
 
 const homeController = {
-    async homePage(req: any, res: any) {
+    async homePage(req: Request, res: Response) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator, title } = req.query;
 
         const moviesData = await movieModel.getMovies({
@@ -40,19 +43,18 @@ const homeController = {
             filterOperatorString: filterOperator! as '>' | '=' | '<',
         });
 
+        const data = {
+            genres: genresData.rows.slice(0, 5),
+            movies: moviesData.movies.slice(0, 5),
+            series: seriesData.rows.slice(0, 5),
+        };
+
         if (moviesData && seriesData && genresData) {
-            res.render('pages/client/Home/Home', {
-                data: {
-                    genres: genresData.rows.slice(0, 5),
-                    movies: moviesData.movies.slice(0, 5),
-                    series: seriesData.rows.slice(0, 5),
-                },
-                title: 'Home',
-                canonical: ``,
-                description: 'Home Page',
-                user: req.session.user,
-                titleTerm: '',
-            });
+            res.send(
+                <MainLayout>
+                    <Home data={data} />
+                </MainLayout>,
+            );
         } else {
             res.status(HttpStatusCode.BadRequest).send({ error: 'Home not found' });
         }

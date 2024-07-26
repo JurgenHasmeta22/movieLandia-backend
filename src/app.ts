@@ -6,7 +6,6 @@ import path from 'path';
 import 'dotenv/config';
 import session from 'express-session';
 import flash from 'connect-flash';
-const expressLayouts = require('express-ejs-layouts');
 
 export const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
@@ -30,8 +29,6 @@ app.use(flash());
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(expressLayouts);
-app.set('layout', 'layouts/MainLayout.ejs');
 app.use(viewsRoutes);
 
 app.listen(4000, () => {

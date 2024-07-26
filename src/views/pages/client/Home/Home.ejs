@@ -1,8 +1,0 @@
-<%- include('./components/HomeHero') %>
-<div class="container mx-auto bg-gray-900 pt-12 pb-12">
-  <div class="flex flex-col space-y-20">
-    <%- include('../../../components/ui/ListHomeSection', { data: data.movies, type: "movie" }) %>
-    <%- include('../../../components/ui/ListHomeSection', { data: data.series, type: "serie" }) %>
-    <%- include('../../../components/ui/ListHomeSection', { data: data.genres, type: "genre" }) %>
-  </div>
-</div>
