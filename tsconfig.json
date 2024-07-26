@@ -12,7 +12,10 @@
         "declaration": true,
         "outDir": "./dist",
         "types": ["node"],
-        "typeRoots": ["node_modules/@types"]
+        "typeRoots": ["node_modules/@types"],
+        "jsx": "react-jsx",
+        "jsxImportSource": "@kitajs/html",
+        "plugins": [{ "name": "@kitajs/ts-html-plugin" }]
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]

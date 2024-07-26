@@ -7,3 +7,4 @@ node_modules
 /prisma/seed.ts
 /prisma/ERD.svg
 /prisma/dbml
+.vscode

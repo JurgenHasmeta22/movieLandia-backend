@@ -1,10 +1,10 @@
 {
     "name": "movielandia-backend",
     "version": "1.0.0",
-    "description": "REST API and MVC for MovieLandia24 WebApp",
+    "description": "MVC for MovieLandia24 WebApp",
     "scripts": {
-        "dev": "nodemon src/app.ts",
-        "start": "ts-node src/app.ts",
+        "start": "tsx src/app.ts",
+        "test": "xss-scan",
         "tailwind:css": "npx tailwindcss -i ./public/styles/tailwind.css -o ./public/styles/style.css --watch",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json,prisma}\""
     },
@@ -24,6 +24,8 @@
         "@fastify/swagger": "^8.14.0",
         "@fastify/swagger-ui": "^4.0.0",
         "@fastify/view": "^9.1.0",
+        "@kitajs/html": "^4.2.0",
+        "@kitajs/ts-html-plugin": "^4.0.2",
         "@prisma/client": "^5.15.0",
         "bcryptjs": "^2.4.3",
         "dotenv": "^16.4.5",
@@ -32,10 +34,8 @@
         "fastify-plugin": "^4.5.1",
         "jsonwebtoken": "^9.0.2",
         "node-fetch": "^3.3.2",
-        "nodemon": "^3.1.3",
         "prisma": "^5.15.0",
-        "swagger-jsdoc": "^6.2.8",
-        "tsx": "^4.16.2"
+        "swagger-jsdoc": "^6.2.8"
     },
     "devDependencies": {
         "@mermaid-js/mermaid-cli": "^10.9.1",
@@ -48,7 +48,7 @@
         "prisma-dbml-generator": "^0.12.0",
         "prisma-erd-generator": "^1.11.2",
         "tailwindcss": "^3.4.4",
-        "ts-node": "^10.9.2",
+        "tsx": "^4.16.2",
         "typescript": "^5.4.5"
     }
 }

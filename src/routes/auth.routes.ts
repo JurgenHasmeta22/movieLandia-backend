@@ -1,25 +1,28 @@
-import fp from 'fastify-plugin';
-import authController from '../controllers/REST/auth.controller';
-import { loginSchema, registerSchema } from '../schemas/auth.schema';
 import { FastifyPluginAsync } from 'fastify';
-import { validateSchema } from '../schemas/validate.schema';
+import authController from '../controllers/auth.controller';
+import trackLastPageMiddleware from '../middlewares/trackLastPage.middleware';
 
 const authRoutes: FastifyPluginAsync = async (fastify) => {
-    fastify.post('/registerUser', {
-        schema: registerSchema,
-        handler: authController.signUp,
+    fastify.get('/login', {
+        handler: authController.loginPageView,
     });
 
-    fastify.post('/loginUser', {
-        schema: loginSchema,
-        handler: authController.login,
+    fastify.post('/login', {
+        preHandler: trackLastPageMiddleware,
+        handler: authController.loginPost,
     });
 
-    fastify.get('/validateUser', {
-        schema: validateSchema,
-        // preHandler: validateMiddleware,
-        handler: authController.validate,
+    fastify.get('/register', {
+        handler: authController.registerPageView,
+    });
+
+    fastify.post('/register', {
+        handler: authController.registerPost,
+    });
+
+    fastify.post('/logout', {
+        handler: authController.logout,
     });
 };
 
-export default fp(authRoutes);
+export default authRoutes;

@@ -1,8 +1,8 @@
-import genreModel from '../../models/genre.model';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import genreModel from '../models/genre.model';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
-const genreViewController = {
-    async genresView(req: any, res: any) {
+const genreController = {
+    async genresPageView(req: any, res: any) {
         const { sortBy, ascOrDesc, page, pageSize, name, filterValue, filterName, filterOperator } = req.query;
 
         try {
@@ -35,7 +35,7 @@ const genreViewController = {
         }
     },
 
-    async genreView(req: any, res: any) {
+    async genrePageView(req: any, res: any) {
         const nameGenre = req.params.name
             .split('')
             .map((char: string) => (char === '-' ? ' ' : char))
@@ -109,4 +109,4 @@ const genreViewController = {
     },
 };
 
-export default genreViewController;
+export default genreController;

@@ -1,8 +1,8 @@
-import authModel from '../../models/auth.model';
-import { createToken } from '../../utils/authUtils';
+import authModel from '../models/auth.model';
+import { createToken } from '../utils/authUtils';
 
-const authViewController = {
-    async loginView(request: any, reply: any) {
+const authController = {
+    async loginPageView(request: any, reply: any) {
         const error = request.flash('error', 'Error in requesting the login page');
 
         return reply.render('pages/Login', {
@@ -36,7 +36,7 @@ const authViewController = {
         }
     },
 
-    async registerView(request: any, reply: any) {
+    async registerPageView(request: any, reply: any) {
         const error = request.flash('error', 'Error in requesting the register page');
 
         return reply.render('pages/Register', {
@@ -73,9 +73,8 @@ const authViewController = {
     async logout(request: any, reply: any) {
         delete request.session.user;
         delete request.session.token;
-
         return reply.redirect('/login');
     },
 };
 
-export default authViewController;
+export default authController;

@@ -1,9 +1,8 @@
-import genreModel from '../../models/genre.model';
-import serieModel from '../../models/serie.model';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import serieModel from '../models/serie.model';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
-const serieViewController = {
-    async seriesView(req: any, res: any) {
+const serieController = {
+    async seriesPageView(req: any, res: any) {
         try {
             const { seriesSortBy, seriesAscOrDesc, page, pageSize, title, filterValue, filterName, filterOperator } =
                 req.query;
@@ -46,7 +45,7 @@ const serieViewController = {
         }
     },
 
-    async serieView(req: any, res: any) {
+    async seriePageView(req: any, res: any) {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
             .split('')
@@ -104,4 +103,4 @@ const serieViewController = {
     },
 };
 
-export default serieViewController;
+export default serieController;

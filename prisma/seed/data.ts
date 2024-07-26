@@ -43,7 +43,7 @@ export const movies = [
             "Matilde, Cencio, Fulvio, and Mario are united when World War II strikes Rome. Israel, their circus owner, disappears in an attempt to find a place abroad for all of them.",
         photoSrc: "http://localhost:4000/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg",
     },
     {
         id: 2,
@@ -55,7 +55,7 @@ export const movies = [
         description:
             "Through their shared grief and connection to music, an orphaned girl bonds with her emotionally distant, successful violinist uncle.",
         photoSrc: "http://localhost:4000/images/movies/fathersviolin.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/fathersviolin.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/movies/fathersviolin.jpg",
     },
     {
         id: 3,
@@ -68,7 +68,7 @@ export const movies = [
             "A young businessman faces a lawyer in an attempt to prove his innocence for the murder of his girlfriend.",
         photoSrc: "http://localhost:4000/images/movies/8c9fce3c0ffa46576423d44b525447edc25f1396.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/8c9fce3c0ffa46576423d44b525447edc25f1396.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/8c9fce3c0ffa46576423d44b525447edc25f1396.jpg",
     },
     {
         id: 4,
@@ -81,7 +81,7 @@ export const movies = [
             "Ex-con Boun is the new force on the underground street fighting scene in Los Angeles. When he defeats the reigning champion, the local gangster boss wants to enlist Boun in a series of high-stakes international matches. Boun's refusal sets off an explosive showdown between two powerful enemies risking everything.",
         photoSrc: "http://localhost:4000/images/movies/5254_1_ladsfgfdgdfgdfgfdgfdgrge.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/5254_1_ladsfgfdgdfgdfgfdgfdgrge.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/5254_1_ladsfgfdgdfgdfgfdgfdgrge.jpg",
     },
     {
         id: 5,
@@ -94,7 +94,7 @@ export const movies = [
             "Peter Parker is unmasked and no longer able to separate his normal life from the high stakes of being a Super Hero. When he seeks help from Doctor Strange, the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
         photoSrc: "http://localhost:4000/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg",
     },
     {
         id: 6,
@@ -107,7 +107,7 @@ export const movies = [
             "After his father's death, the responsibility to care for the family falls on Will's shoulders. He enters a dog race that requires long hours of racing and a steely will to win.",
         photoSrc: "http://localhost:4000/images/movies/6Ujbtp0NklUoQ67s32HyW6R5540.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/6Ujbtp0NklUoQ67s32HyW6R5540.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/6Ujbtp0NklUoQ67s32HyW6R5540.jpg",
     },
     {
         id: 7,
@@ -120,7 +120,7 @@ export const movies = [
             "A former marine is hired by a defense contractor to travel to Panama to complete an arms deal. During the process, he becomes involved in the U.S. invasion of Panama and learns an important lesson about the true nature of political power.",
         photoSrc: "http://localhost:4000/images/movies/82I3tDsGDTMy7lHar84Gz0jUuyW.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/82I3tDsGDTMy7lHar84Gz0jUuyW.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/82I3tDsGDTMy7lHar84Gz0jUuyW.jpg",
     },
     {
         id: 8,
@@ -133,7 +133,7 @@ export const movies = [
             "The Eternals are a team of ancient aliens who have been living on Earth in secret for thousands of years. When an unexpected tragedy forces them out of the shadows, they must reunite against mankind's oldest enemy.",
         photoSrc: "http://localhost:4000/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg",
     },
     {
         id: 9,
@@ -146,7 +146,7 @@ export const movies = [
             "Asim Noyan deceives people with his lies and games. Asim Noyan and his gang, whom no one else has been able to capture, get involved in another scam.",
         photoSrc: "http://localhost:4000/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg",
     },
     {
         id: 10,
@@ -159,7 +159,7 @@ export const movies = [
             "A Canadian doctor finds her sympathies severely tested while working in the conflict-ravaged Palestinian territories.",
         photoSrc: "http://localhost:4000/images/movies/9BCd5LdVHQmWqEnDTJ5Ut8idstP-1.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/9BCd5LdVHQmWqEnDTJ5Ut8idstP-1.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/9BCd5LdVHQmWqEnDTJ5Ut8idstP-1.jpg",
     },
     {
         id: 11,
@@ -172,7 +172,7 @@ export const movies = [
             "Hathaway Noa becomes part of a terrorist organization called Mufti that organizes an attack on Earth Federation ministers.",
         photoSrc: "http://localhost:4000/images/movies/6gw8onh4FKsruBA7Oouv01EFxzn-1.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/6gw8onh4FKsruBA7Oouv01EFxzn-1.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/6gw8onh4FKsruBA7Oouv01EFxzn-1.jpg",
     },
     {
         id: 12,
@@ -184,7 +184,7 @@ export const movies = [
         description:
             "Pursuing his dream to join an elite K-9 unit, a state trooper partners with a smart but unruly shelter dog named Ruby.",
         photoSrc: "http://localhost:4000/images/movies/ruby.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/ruby.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/movies/ruby.jpg",
     },
     {
         id: 13,
@@ -197,7 +197,7 @@ export const movies = [
             "When an isolated forester finds a mute little girl wandering alone in the woods, he must protect her from the evil forces determined to end her life.",
         photoSrc: "http://localhost:4000/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg",
     },
     {
         id: 14,
@@ -210,7 +210,7 @@ export const movies = [
             "A weekend getaway to Croatia goes awry when a woman is accused of murdering her best friend. As she attempts to clear her name and uncover the truth, her efforts reveal a painful secret.",
         photoSrc: "http://localhost:4000/images/movies/6MS0QEl7UK2gdFFbHfNwuYlsq4H.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/6MS0QEl7UK2gdFFbHfNwuYlsq4H.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/6MS0QEl7UK2gdFFbHfNwuYlsq4H.jpg",
     },
     {
         id: 15,
@@ -222,7 +222,7 @@ export const movies = [
         description:
             "In a post-apocalyptic world, six soldiers on a covert mission must transport a mysterious package across a frozen archipelago.",
         photoSrc: "http://localhost:4000/images/movies/blackcrab.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/blackcrab.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/movies/blackcrab.jpg",
     },
     {
         id: 16,
@@ -234,7 +234,7 @@ export const movies = [
         description: "A man who escorts wealthy women in Manhattan takes a young man under his wing.",
         photoSrc: "http://localhost:4000/images/movies/7RhiXoCm6yEflHQvYtoLeAkDhaU.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/7RhiXoCm6yEflHQvYtoLeAkDhaU.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/7RhiXoCm6yEflHQvYtoLeAkDhaU.jpg",
     },
     {
         id: 17,
@@ -246,7 +246,7 @@ export const movies = [
         description:
             "Fearless Nepali mountaineer Nirmal Purja embarks on a seemingly impossible quest to summit all 14 of the world's 8,000-meter peaks in seven months.",
         photoSrc: "http://localhost:4000/images/movies/beyondpossible.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/beyondpossible.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/movies/beyondpossible.jpg",
     },
     {
         id: 18,
@@ -259,7 +259,7 @@ export const movies = [
             "During the long days of the polar summer, a group of children reveal their dark and mysterious powers while the adults aren't watching. This playtime takes a dangerous turn.",
         photoSrc: "http://localhost:4000/images/movies/4hIptu4Yre7pIUhFa7GBZlfDTPW.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/4hIptu4Yre7pIUhFa7GBZlfDTPW.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/4hIptu4Yre7pIUhFa7GBZlfDTPW.jpg",
     },
     {
         id: 19,
@@ -272,7 +272,7 @@ export const movies = [
             "A 15-year-old boy steals a bag of drug money and runs off with the girl he loves. As her violent and corrupt police officer father hunts them down, they embark on a journey that will change their lives forever.",
         photoSrc: "http://localhost:4000/images/movies/AlowOYyprAAq85PPtE9LvoiYT1b.jpg",
         photoSrcProd:
-            "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/movies/AlowOYyprAAq85PPtE9LvoiYT1b.jpg",
+            "https://movielandia-avenger22s-projects.vercel.app/images/movies/AlowOYyprAAq85PPtE9LvoiYT1b.jpg",
     },
 ];
 
@@ -286,7 +286,7 @@ export const series = [
         releaseYear: 2022,
         ratingImdb: 6.3,
         photoSrc: "http://localhost:4000/images/series/rebelde.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/rebelde.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/rebelde.jpg",
     },
     {
         id: 2,
@@ -297,7 +297,7 @@ export const series = [
         releaseYear: 2017,
         ratingImdb: 8.2,
         photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/snowfall.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/snowfall.jpg",
     },
     {
         id: 3,
@@ -308,7 +308,7 @@ export const series = [
         releaseYear: 2022,
         ratingImdb: 6.8,
         photoSrc: "http://localhost:4000/images/series/manbee.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/manbee.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/manbee.jpg",
     },
     {
         id: 4,
@@ -319,7 +319,7 @@ export const series = [
         releaseYear: 2022,
         ratingImdb: 7.4,
         photoSrc: "http://localhost:4000/images/series/moonknight.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/moonknight.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/moonknight.jpg",
     },
     {
         id: 5,
@@ -330,7 +330,7 @@ export const series = [
         releaseYear: 2022,
         ratingImdb: 8.3,
         photoSrc: "http://localhost:4000/images/series/peacemaker.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/peacemaker.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/peacemaker.jpg",
     },
     {
         id: 6,
@@ -341,7 +341,7 @@ export const series = [
         releaseYear: 2011,
         ratingImdb: 8.4,
         photoSrc: "http://localhost:4000/images/series/topboy.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/topboy.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/topboy.jpg",
     },
     {
         id: 7,
@@ -352,7 +352,7 @@ export const series = [
         releaseYear: 2021,
         ratingImdb: 7.0,
         photoSrc: "http://localhost:4000/images/series/ganglands.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/ganglands.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/ganglands.jpg",
     },
     {
         id: 8,
@@ -363,7 +363,7 @@ export const series = [
         releaseYear: 2017,
         ratingImdb: 8.5,
         photoSrc: "http://localhost:4000/images/series/ozark.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/ozark.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/ozark.jpg",
     },
     {
         id: 9,
@@ -374,7 +374,7 @@ export const series = [
         releaseYear: 2021,
         ratingImdb: 8.1,
         photoSrc: "http://localhost:4000/images/series/alien.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/alien.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/alien.jpg",
     },
     {
         id: 10,
@@ -385,7 +385,7 @@ export const series = [
         releaseYear: 2020,
         ratingImdb: 7.3,
         photoSrc: "http://localhost:4000/images/series/bridgerton.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/bridgerton.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/bridgerton.jpg",
     },
     {
         id: 11,
@@ -396,7 +396,7 @@ export const series = [
         releaseYear: 2021,
         ratingImdb: 7.8,
         photoSrc: "http://localhost:4000/images/series/superman.jpg",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/superman.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/superman.jpg",
     },
     {
         id: 12,
@@ -407,7 +407,7 @@ export const series = [
         releaseYear: 2013,
         ratingImdb: 9.0,
         photoSrc: "http://localhost:4000/images/series/aot.png",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/aot.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/aot.png",
     },
     {
         id: 13,
@@ -418,7 +418,7 @@ export const series = [
         releaseYear: 2019,
         ratingImdb: 8.0,
         photoSrc: "http://localhost:4000/images/series/baki.png",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/baki.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/baki.png",
     },
     {
         id: 14,
@@ -429,7 +429,7 @@ export const series = [
         releaseYear: 2018,
         ratingImdb: 7.4,
         photoSrc: "http://localhost:4000/images/series/elite.png",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/elite.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/elite.png",
     },
     {
         id: 15,
@@ -440,7 +440,7 @@ export const series = [
         releaseYear: 2014,
         ratingImdb: 7.6,
         photoSrc: "http://localhost:4000/images/series/flash.png",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/flash.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/flash.png",
     },
     {
         id: 16,
@@ -451,7 +451,7 @@ export const series = [
         releaseYear: 2022,
         ratingImdb: 8.1,
         photoSrc: "http://localhost:4000/images/series/force.png",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/force.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/force.png",
     },
     {
         id: 17,
@@ -462,7 +462,7 @@ export const series = [
         releaseYear: 2022,
         ratingImdb: 7.0,
         photoSrc: "http://localhost:4000/images/series/halo.png",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/halo.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/halo.png",
     },
     {
         id: 18,
@@ -473,7 +473,7 @@ export const series = [
         releaseYear: 2015,
         ratingImdb: 8.5,
         photoSrc: "http://localhost:4000/images/series/thelastkingdom.png",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/thelastkingdom.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/thelastkingdom.png",
     },
     {
         id: 19,
@@ -484,7 +484,7 @@ export const series = [
         releaseYear: 2017,
         ratingImdb: 6.7,
         photoSrc: "http://localhost:4000/images/series/knightfall.png",
-        photoSrcProd: "https://movielandia-fgyorwoem-avenger22s-projects.vercel.app/images/series/knightfall.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/knightfall.png",
     },
 ];
 
@@ -609,91 +609,98 @@ export const serieGenres = [
     { serieId: 19, genreId: 5 },
 ];
 
-// export const episodes = [
-//     {
-//         id: 1,
-//         title: "Snowfall Sezoni 1 Episodi 1",
-//         description:
-//             "Sipërmarrësi i rrugës nga qendra jugore Franklin Saint bën një hap në lojën e kokainës. Oficeri i pakënaqur i CIA-s, Teddy McDonald, bën aleancë me një ushtar Contra. Mundësi Luchador, Gustavo El Oso Zapata hyn në një familje karteli meksikan.'.",
-//         photoSrc: "http://localhost:4000/images/rsz_fistful_of_vengeance.png",
-//         videoSrc: "//vidmoly.net/embed-09lyu1ioabwf.html",
-//         seasonId: 1,
-//     },
-//     {
-//         id: 2,
-//         title: "Snowfall Sezoni 1 Episodi 2",
-//         description:
-//             "Franklin vazhdon punën e tij korrier për Avi-n. Takimi i parë i Tedit me Avin nuk pritet. Gustavo mëson se nga kush vodhi - dhe përfundoi duke u vrarë në një pushtim në shtëpi..",
-//         photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
-//         videoSrc: "//vidmoly.net/embed-09lyu1ioabwf.html",
-//         seasonId: 1,
-//     },
-//     {
-//         id: 3,
-//         title: "Origin Sezoni 1 Episodi 1",
-//         description:
-//             "Kai Jin, një kuzhinier i ri në San Francisko, ngatërrohet me ndjekjen e Triadës Kineze për fuqitë e lashta vdekjeprurëse të njohura si 'Wu Xing'.",
-//         photoSrc: "http://localhost:4000/images/rsz_fistful_of_vengeance.png",
-//         videoSrc: "//vidmoly.net/embed-09lyu1ioabwf.html",
-//         seasonId: 1,
-//     },
-// ];
+export const episodes = [
+    {
+        id: 1,
+        title: "Snowfall Sezoni 1 Episodi 1",
+        description:
+            "Sipërmarrësi i rrugës nga qendra jugore Franklin Saint bën një hap në lojën e kokainës. Oficeri i pakënaqur i CIA-s, Teddy McDonald, bën aleancë me një ushtar Contra. Mundësi Luchador, Gustavo El Oso Zapata hyn në një familje karteli meksikan.'.",
+        photoSrc: "http://localhost:4000/images/rsz_fistful_of_vengeance.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/rsz_fistful_of_vengeance.png",
+        seasonId: 1,
+    },
+    {
+        id: 2,
+        title: "Snowfall Sezoni 1 Episodi 2",
+        description:
+            "Franklin vazhdon punën e tij korrier për Avi-n. Takimi i parë i Tedit me Avin nuk pritet. Gustavo mëson se nga kush vodhi - dhe përfundoi duke u vrarë në një pushtim në shtëpi..",
+        photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/snowfall.jpg",
+        seasonId: 1,
+    },
+    {
+        id: 3,
+        title: "Origin Sezoni 1 Episodi 1",
+        description:
+            "Kai Jin, një kuzhinier i ri në San Francisko, ngatërrohet me ndjekjen e Triadës Kineze për fuqitë e lashta vdekjeprurëse të njohura si 'Wu Xing'.",
+        photoSrc: "http://localhost:4000/images/rsz_fistful_of_vengeance.png",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/rsz_fistful_of_vengeance.png",
+        seasonId: 1,
+    },
+];
 
-// export const seasons = [
-//     {
-//         id: 1,
-//         title: "Rebelde - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/rebelde.jpg",
-//         releaseYear: 2022,
-//         ratingImdb: 6.5,
-//         serieId: 1,
-//     },
-//     {
-//         id: 2,
-//         title: "Snowfall - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
-//         releaseYear: 2017,
-//         ratingImdb: 8.0,
-//         serieId: 2,
-//     },
-//     {
-//         id: 3,
-//         title: "Man vs Bee - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/manbee.jpg",
-//         releaseYear: 2022,
-//         ratingImdb: 7.5,
-//         serieId: 3,
-//     },
-//     {
-//         id: 4,
-//         title: "Moonknight - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/moonknight.jpg",
-//         releaseYear: 2022,
-//         ratingImdb: 9.0,
-//         serieId: 4,
-//     },
-//     {
-//         id: 5,
-//         title: "Peacemaker - Season 1",
-//         photoSrc: "http://localhost:4000/images/series/peacemaker.jpg",
-//         releaseYear: 2022,
-//         ratingImdb: 7.5,
-//         serieId: 5,
-//     },
-//     {
-//         id: 6,
-//         title: "Snowfall - Season 2",
-//         photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
-//         releaseYear: 2021,
-//         ratingImdb: 7.8,
-//         serieId: 2,
-//     },
-//     {
-//         id: 7,
-//         title: "Moonknight - Season 2",
-//         photoSrc: "http://localhost:4000/images/series/moonknight.jpg",
-//         releaseYear: 2021,
-//         ratingImdb: 8.2,
-//         serieId: 4,
-//     },
-// ];
+export const seasons = [
+    {
+        id: 1,
+        title: "Rebelde - Season 1",
+        photoSrc: "http://localhost:4000/images/series/rebelde.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/rebelde.jpg",
+        releaseYear: 2022,
+        ratingImdb: 6.5,
+        serieId: 1,
+    },
+    {
+        id: 2,
+        title: "Snowfall - Season 1",
+        photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/snowfall.jpg",
+        releaseYear: 2017,
+        ratingImdb: 8.0,
+        serieId: 2,
+    },
+    {
+        id: 3,
+        title: "Man vs Bee - Season 1",
+        photoSrc: "http://localhost:4000/images/series/manbee.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/manbee.jpg",
+        releaseYear: 2022,
+        ratingImdb: 7.5,
+        serieId: 3,
+    },
+    {
+        id: 4,
+        title: "Moonknight - Season 1",
+        photoSrc: "http://localhost:4000/images/series/moonknight.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/moonknight.jpg",
+        releaseYear: 2022,
+        ratingImdb: 9.0,
+        serieId: 4,
+    },
+    {
+        id: 5,
+        title: "Peacemaker - Season 1",
+        photoSrc: "http://localhost:4000/images/series/peacemaker.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/peacemaker.jpg",
+        releaseYear: 2022,
+        ratingImdb: 7.5,
+        serieId: 5,
+    },
+    {
+        id: 6,
+        title: "Snowfall - Season 2",
+        photoSrc: "http://localhost:4000/images/series/snowfall.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/snowfall.jpg",
+        releaseYear: 2021,
+        ratingImdb: 7.8,
+        serieId: 2,
+    },
+    {
+        id: 7,
+        title: "Moonknight - Season 2",
+        photoSrc: "http://localhost:4000/images/series/moonknight.jpg",
+        photoSrcProd: "https://movielandia-avenger22s-projects.vercel.app/images/series/moonknight.jpg",
+        releaseYear: 2021,
+        ratingImdb: 8.2,
+        serieId: 4,
+    },
+];

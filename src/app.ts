@@ -3,12 +3,9 @@ import fastify from 'fastify';
 import fastifyCors from '@fastify/cors';
 import { PrismaClient } from '@prisma/client';
 import movieRoutes from './routes/movie.routes';
-import episodeRoutes from './routes/episode.routes';
 import genreRoutes from './routes/genre.routes';
 import serieRoutes from './routes/serie.routes';
-import userRoutes from './routes/user.routes';
 import authRoutes from './routes/auth.routes';
-import viewsRoutes from './routes/views.routes';
 import fastifyStatic from '@fastify/static';
 import fastifyView from '@fastify/view';
 import path from 'path';
@@ -20,6 +17,7 @@ import ejs from 'ejs';
 // import fastifyJwt from '@fastify/jwt';
 // #endregion
 
+// #region "Fastify server config, prisma client, cors etc"
 export const prisma = new PrismaClient({
     log: ['query', 'info', 'warn', 'error'],
 });
@@ -28,6 +26,7 @@ const server = fastify({ logger: true });
 
 server.register(fastifyCors);
 server.register(require('@fastify/formbody'));
+// #endregion 
 
 // #region "Swagger config"
 server.register(require('@fastify/swagger'), {
@@ -72,27 +71,21 @@ server.register(fastifyView, {
 });
 
 server.register(fastifyCookie);
-
 server.register(fastifySession, {
     secret: process.env.MY_SECRET || 'defaultSecret',
     cookie: { secure: false },
 });
-
 // server.register(fastifyJwt, {
 //     secret: process.env.MY_SECRET || 'defaultSecret',
 // });
-
 server.register(fastifyFlash);
 // #endregion
 
 // #region "Routes"
-server.register(viewsRoutes);
 server.register(authRoutes);
 server.register(movieRoutes);
 server.register(serieRoutes);
 server.register(genreRoutes);
-server.register(episodeRoutes);
-server.register(userRoutes);
 // #endregion
 
 const start = async () => {

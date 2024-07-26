@@ -1,8 +1,8 @@
-import movieModel from '../../models/movie.model';
-import HttpStatusCode from '../../utils/httpStatusCodes';
+import movieModel from '../models/movie.model';
+import HttpStatusCode from '../utils/httpStatusCodes';
 
-const movieViewController = {
-    async moviesView(req: any, res: any) {
+const movieController = {
+    async moviesPageView(req: any, res: any) {
         try {
             const { moviesAscOrDesc, moviesSortBy, page, pageSize, title, filterValue, filterName, filterOperator } =
                 req.query;
@@ -45,7 +45,7 @@ const movieViewController = {
         }
     },
 
-    async movieView(req: any, res: any) {
+    async moviePageView(req: any, res: any) {
         const { page, ascOrDesc, sortBy, upvotesPage, downvotesPage, userId } = req.query;
         const title = req.params.title
             .split('')
@@ -103,4 +103,4 @@ const movieViewController = {
     },
 };
 
-export default movieViewController;
+export default movieController;
