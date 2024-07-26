@@ -4,7 +4,7 @@
     "description": "MVC for MovieLandia24 WebApp",
     "scripts": {
         "start": "tsx src/app.ts",
-        "seed": "tsx prisma/seed.ts",
+        "seed": "tsx prisma/seed/seed.ts",
         "test": "xss-scan",
         "tailwind:css": "npx tailwindcss -i ./public/styles/tailwind.css -o ./public/styles/style.css --watch",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json,prisma}\""
@@ -26,7 +26,6 @@
         "@fastify/swagger-ui": "^4.0.0",
         "@fastify/view": "^9.1.0",
         "@kitajs/html": "^4.2.0",
-        "@kitajs/ts-html-plugin": "^4.0.2",
         "@prisma/client": "^5.15.0",
         "bcryptjs": "^2.4.3",
         "dotenv": "^16.4.5",
@@ -39,6 +38,7 @@
         "swagger-jsdoc": "^6.2.8"
     },
     "devDependencies": {
+        "@kitajs/ts-html-plugin": "^4.0.2",
         "@mermaid-js/mermaid-cli": "^10.9.1",
         "@types/bcryptjs": "^2.4.6",
         "@types/ejs": "^3.1.5",

@@ -11,11 +11,10 @@
         "strictPropertyInitialization": false,
         "declaration": true,
         "outDir": "./dist",
-        "types": ["node"],
-        "typeRoots": ["node_modules/@types"],
+        "types": ["node", "@kitajs/html/htmx.d.ts", "@kitajs/html/alpine.d.ts"],
         "jsx": "react-jsx",
         "jsxImportSource": "@kitajs/html",
-        "plugins": [{ "name": "@kitajs/ts-html-plugin" }]
+        "plugins": [{ "name": "@kitajs/ts-html-plugin" }],
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules"]
